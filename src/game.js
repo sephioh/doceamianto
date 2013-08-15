@@ -54,7 +54,7 @@ window.onload = function() {
 		"src/entities/base/BaseEntity.js?v="+version+"",
 		];
 
-		    //when everything is loaded, run the main scene
+		    //when everything is loaded, run the level01 scene
 		    require(elements, function() {	   
 			    loadingText.destroy();
 			    if (gameContainer.scene != undefined) {

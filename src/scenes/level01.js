@@ -1,4 +1,4 @@
-Crafty.scene("main", function() {
+Crafty.scene("level01", function() {
 	
 	//MAP_HEIGHT = Crafty.DOM.window.height;//15*32;
 	//MAP_WIDTH = Crafty.DOM.window.width;//30*32;
@@ -13,7 +13,7 @@ Crafty.scene("main", function() {
  	//Crafty.background("rgb(0,0,0)");
 	//Crafty.box2D.init(0, 10, 32, true);
 	
-	//when everything is loaded, run the main scene
+	//when everything is loaded, run the level01 scene
 	require(elements, function() {
 		//var map = Crafty.e("TiledLevel"); //Creates an entity with the "TiledLevel" component.
 		//var tiledMap = map.tiledLevel("./scenery/dungeon.json", gameContainer.conf.get('renderType')); //Draw the level
