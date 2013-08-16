@@ -15,9 +15,9 @@ window.onload = function() {
 	};
     
     //start Crafty
-    Crafty.init(Crafty.DOM.window.width, Crafty.DOM.window.height); // Crafty.init(800,600);
+    Crafty.init(800, 600);
     Crafty.canvas.init();
-    Crafty.viewport.init(Crafty.DOM.window.width, Crafty.DOM.window.height);
+    Crafty.viewport.init(800,600);
     
     require([
 	    "src/sprites.js?v="+version+"",
