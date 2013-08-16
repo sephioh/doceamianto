@@ -10,8 +10,7 @@ Crafty.scene("level01", function() {
         //"src/interfaces/info.js",
 	];
 	
- 	//Crafty.background("rgb(0,0,0)");
-	//Crafty.box2D.init(0, 10, 32, true);
+ 	//Crafty.box2D.init(0, 10, 32, true);
 	
 	//when everything is loaded, run the level01 scene
 	require(elements, function() {
@@ -22,15 +21,37 @@ Crafty.scene("level01", function() {
 		sc['player'] = new Amianto();
 		sc['hearts'] = [];
 		sc['delimiters'] = [];
-		sc['hrtsDelay'] = Crafty.e("Delay");
+		sc['delays'] = Crafty.e("Delay");
+		sc['bckgrndFade'] = Crafty.e("2D, Color, Tween").attr({ x: 0, y: 0, w: 800, h: 600 });
 		
 		//<hearts' loop> 
-		var summoning = sc.hrtsDelay.delay(function() {
+		var summoning = sc.delays.delay(function() {
 			sc.hearts.push(new DarkHeart());  
 			sc.hearts.push(new RedHeart());
 		    sc.hearts.push(new DarkHeart());
 		},2000,-1);
 		//</hearts' loop>
+		
+		//<change background color>
+		var i = 0;
+		var backgroundChange = sc.delays.delay(function() {
+			switch(i) {
+				case 0: 
+					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFF00").tween({ alpha: 0.0 },50);
+					Crafty.background("#FFFFFF"); 
+					break;
+				case 1: 
+					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFFFF").tween({ alpha: 0.0 },50);
+					Crafty.background("#0000FF"); 
+					break;
+				case 2: 
+					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#0000FF").tween({ alpha: 0.0 },50);
+					Crafty.background("#FFFF00"); 
+			}
+			if(i++ > 2) 
+				i = 0; 
+		},10000,-1);
+		//</change background color>
 		
 		//<delimiters>
 		var delimitersMap = {
