@@ -37,16 +37,17 @@ Crafty.scene("level01", function() {
 		var backgroundChange = sc.delays.delay(function() {
 			switch(i) {
 				case 0: 
-					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFF00").tween({ alpha: 0.0 },200);
-					Crafty.background("#FFFFFF"); 
-					break;
-				case 1: 
 					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFFFF").tween({ alpha: 0.0 },200);
 					Crafty.background("#0000FF"); 
 					break;
-				case 2: 
+				case 1: 
 					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#0000FF").tween({ alpha: 0.0 },200);
 					Crafty.background("#FFFF00"); 
+					break;
+				case 2: 
+					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFF00").tween({ alpha: 0.0 },200);
+					Crafty.background("#FFFFFF"); 
+					break;
 			}
 			if(i++ > 2) 
 				i = 0; 
