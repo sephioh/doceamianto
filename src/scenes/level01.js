@@ -10,7 +10,7 @@ Crafty.scene("level01", function() {
         //"src/interfaces/info.js",
 	];
 	
- 	//Crafty.box2D.init(0, 10, 32, true);
+ 	Crafty.background("#FFFFFF"); 
 	
 	//when everything is loaded, run the level01 scene
 	require(elements, function() {
