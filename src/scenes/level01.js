@@ -16,7 +16,7 @@ Crafty.scene("level01", function() {
 		sc['hearts'] = [];
 		sc['delimiters'] = [];
 		sc['delays'] = Crafty.e("Delay");
-		sc['bckgrndFade'] = Crafty.e("2D, Canvas, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 1 });
+		sc['bckgrndFade'] = Crafty.e("2D, Canvas, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 0 }).rgb({ r:255, g: 255, b: 255 });
 		
 		//<hearts' loop> 
 		var summoning = sc.delays.delay(function() {
