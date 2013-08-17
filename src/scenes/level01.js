@@ -1,8 +1,5 @@
 Crafty.scene("level01", function() {
 	
-	//MAP_HEIGHT = Crafty.DOM.window.height;//15*32;
-	//MAP_WIDTH = Crafty.DOM.window.width;//30*32;
-	
 	var elements = [
         "src/entities/amianto.js",
 		"src/entities/darkheart.js",
@@ -14,15 +11,12 @@ Crafty.scene("level01", function() {
 	
 	//when everything is loaded, run the level01 scene
 	require(elements, function() {
-		//var map = Crafty.e("TiledLevel"); //Creates an entity with the "TiledLevel" component.
-		//var tiledMap = map.tiledLevel("./scenery/dungeon.json", gameContainer.conf.get('renderType')); //Draw the level
 		
-		//infc['info'] = new Info();
 		sc['player'] = new Amianto();
 		sc['hearts'] = [];
 		sc['delimiters'] = [];
 		sc['delays'] = Crafty.e("Delay");
-		sc['bckgrndFade'] = Crafty.e("2D, Color, Tween").attr({ x: 0, y: 0, w: 800, h: 600 });
+		sc['bckgrndFade'] = Crafty.e("2D, Canvas, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 1 });
 		
 		//<hearts' loop> 
 		var summoning = sc.delays.delay(function() {
@@ -33,23 +27,24 @@ Crafty.scene("level01", function() {
 		//</hearts' loop>
 		
 		//<change background color>
-		var i = 0;
+		var i = 0,
+			blue = { r: 0 , g: 0 , b: 255 },
+			yellow = { r: 255, g: 255, b: 0 },
+			white = { r: 255, g: 255, b: 255 };
+		  
 		var backgroundChange = sc.delays.delay(function() {
 			switch(i) {
 				case 0: 
-					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFFFF").tween({ alpha: 0.0 },200);
-					Crafty.background("#0000FF"); 
+					sc.bckgrndFade.tweenColor(blue, 255);
 					break;
 				case 1: 
-					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#0000FF").tween({ alpha: 0.0 },200);
-					Crafty.background("#FFFF00"); 
+					sc.bckgrndFade.tweenColor(yellow, 255);
 					break;
 				case 2: 
-					sc.bckgrndFade.attr({ alpha: 1.0 }).color("#FFFF00").tween({ alpha: 0.0 },200);
-					Crafty.background("#FFFFFF"); 
+					sc.bckgrndFade.tweenColor(white, 255);
 					break;
 			}
-			if(i++ > 2) 
+			if(++i > 2) 
 				i = 0; 
 		},10000,-1);
 		//</change background color>

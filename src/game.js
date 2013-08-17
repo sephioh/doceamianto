@@ -1,8 +1,6 @@
 window.onload = function() {
   
-    var MAP_HEIGHT,
-		MAP_WIDTH,
-		version = null,
+    var version = null,
 		today = new Date(),
 		lang = getUrlVars()['lang'];
 	lang = ((lang != 'en')?'pt':'en');
@@ -47,10 +45,11 @@ window.onload = function() {
 		    // array with local components
 	    var elements = [
 		//"src/components/MouseHover.js?v="+version+"",
-		"src/components/movetwo.js?v="+version+"",
 		//"src/components/bmViewport.js?v="+version+"",
 		//"src/components/TiledLevelImporter.js?v="+version+"",
 		//"src/components/box2d.js?v="+version+"",
+		"src/components/movetwo.js?v="+version+"",
+		"src/components/TweenColor.js?v="+version+"",
 		"src/entities/base/BaseEntity.js?v="+version+"",
 		];
 
