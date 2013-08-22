@@ -16,8 +16,8 @@ Crafty.c('TweenColor', {
             b: b
           });
         }
-        c = "rgb(" + r + ", " + g + ", " + b + ")";
-		console.log(c);
+        c = "rgb(" + ~~r + ", " + ~~g + ", " + ~~b + ")";
+		
         return this.color(c);
       } else {
         return {
