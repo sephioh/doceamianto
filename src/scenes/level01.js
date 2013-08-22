@@ -17,13 +17,12 @@ Crafty.scene("level01", function() {
 		sc['delimiters'] = [];
 		sc['delays'] = Crafty.e("Delay");
 		sc['bckgrndFade'] = Crafty.e("2D, Canvas, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 0 });
-		sc['bckgrndDegrade'] = Crafty.e("2D, Canvas, Sprite, degrade").attr({ x: 0, y: 0, w: 800, h: 600, z: 0 });
 		
 		//<hearts' loop> 
-		var summoning = sc.delays.delay(function() {
+		var summoningHearts = sc.delays.delay(function() {
 			sc.hearts.push(new DarkHeart());  
 			sc.hearts.push(new RedHeart());
-		    sc.hearts.push(new DarkHeart());
+			sc.hearts.push(new DarkHeart());
 		},2000,-1);
 		//</hearts' loop>
 		
@@ -37,24 +36,26 @@ Crafty.scene("level01", function() {
 		  
 		sc.bckgrndFade.rgb(white);
 		
-		var backgroundChange = sc.delays.delay(function() {
-			switch(i) {
-				case 0: 
-					sc.bckgrndFade.tweenColor(yellow, 255);
-					break;
-				case 1: 
-					sc.bckgrndFade.tweenColor(pink, 255);
-					break;
-				case 2: 
-					sc.bckgrndFade.tweenColor(violet, 255);
-					break;
-				case 3: 
-					sc.bckgrndFade.tweenColor(green, 255);
-					break;
+		Crafty.backgroundChange = Crafty.bind("EnterFrame",function() {
+			if(!sc.bckgrndFade.isTweeningColor()){
+				switch(i) {
+					case 0: 
+						sc.bckgrndFade.tweenColor(yellow, 255);
+						break;
+					case 1: 
+						sc.bckgrndFade.tweenColor(pink, 255);
+						break;
+					case 2: 
+						sc.bckgrndFade.tweenColor(violet, 255);
+						break;
+					case 3: 
+						sc.bckgrndFade.tweenColor(green, 255);
+						break;
+				}
+				if(++i > 3) 
+					i = 0; 
 			}
-			if(++i > 3) 
-				i = 0; 
-		},10000,-1);
+		});
 		//</change background color>
 		
 		//<delimiters>
@@ -92,4 +93,5 @@ Crafty.scene("level01", function() {
 	
 }, function(){ 
 	Crafty.unbind('TooMuchLove', this.muchLove); 
+	Crafty.unbind('EnterFrame', Crafty.backgroundChange); 
 });
