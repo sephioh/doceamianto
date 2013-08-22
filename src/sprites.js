@@ -21,6 +21,14 @@ Sprites = Backbone.Model.extend({
                      'amianto01' : [0, 0]
                  }
             },
+			'degrade' : {
+				'file': 'web/images/degrade.png',
+				'tile': 800,
+				'tileh': 600,
+				'elements': {
+					'degrade': [0, 0]
+				}
+			},
             'redHeart' : {
                  'file' : 'web/images/redheart.png',
                  'tile' : 50,
