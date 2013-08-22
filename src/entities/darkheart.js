@@ -31,8 +31,8 @@ DarkHeart = BaseEntity.extend({
 					// Apply new values
 					this.attr({x: newX, y: newY, w: sizeRate, h: sizeRate });
 					
-					// Each 10 frames, change z by SPEED
-					if((LIFETIME--)%3==1)
+					// Each 3 frames, change z by SPEED
+					if((--LIFETIME)%3==1)
 						this.z = this._z - SPEED;
 					
 					// Calculate new coordinates used for collision tests (NEED TO BE FIXED!)
