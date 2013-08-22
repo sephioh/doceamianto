@@ -7,7 +7,7 @@ Amianto = BaseEntity.extend({
     	var model = this,
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision");
 		entity
-			.attr({x: 350, y: 220, z: 300, w:94, h:126 })
+			.attr({x: 350, y: 220, z: 300, w:125, h:168 })
 			.collision(new Crafty.polygon([[37,18],[55,18],[69,51],[45,108],[24,52]]))
 			//.twoway(model.get('speed'), model.get('speed')*2)
 			.onHit('solid', function(hit) {
