@@ -23,16 +23,16 @@ Sprites = Backbone.Model.extend({
             },
 			'redHeart' : {
                  'file' : 'web/images/redheart.png',
-                 'tile' : 50,
-                 'tileh' : 50,
+                 'tile' : 144,
+                 'tileh' : 128,
                  'elements': {
                      'redHeart' : [0, 0]
                  }
             },
             'darkHeart' : {
                  'file' : 'web/images/darkheart.png',
-                 'tile' : 50,
-                 'tileh' : 50,
+                 'tile' : 144,
+                 'tileh' : 128,
                  'elements': {
                      'darkHeart' : [0, 0]
                  }
