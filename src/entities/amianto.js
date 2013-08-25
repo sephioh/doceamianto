@@ -10,7 +10,7 @@ Amianto = BaseEntity.extend({
 			POSY = 220,  	// Initial y coordinate
 			POSZ = 300,		// Initial z coordinate
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, WiredHitBox");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
@@ -38,7 +38,7 @@ Amianto = BaseEntity.extend({
 			  })
 			.onHit('heart',function(hit) {
 				for (var i = 0; i < hit.length; i++) {
-					if(hit[i].obj._z <= 325 && hit[i].obj._z >= 275){
+					if(hit[i].obj._z == this._z){
 						if(hit[i].obj.__c.darkHeart) {
 							model.set({ 'love' : model.get('love')-1 });
 							hit[i].obj.destroy();
