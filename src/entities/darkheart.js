@@ -27,7 +27,7 @@ DarkHeart = BaseEntity.extend({
 					var newY = this._y - SPEED,         			// reduced using fixed rate(SPEED)		   
 						newX = ((newY-POSY)/TAN) + POSX,    		// change using new y-coordinate and TAN
 						sizeRate = ((newY-VPY)/(POSY-VPY)) * WIDTH, // used for new witdth and height; reduced using new y-coordinate
-						newPoly = poly.shift(newX-this._x, -SPEED); // creates a new polygon for collision tests
+						newPoly = entity.poly.shift(newX-this._x, -SPEED); // creates a new polygon for collision tests
 
 					// Apply new values
 					this.attr({x: newX, y: newY, w: sizeRate, h: sizeRate });
