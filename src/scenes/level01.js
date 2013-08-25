@@ -82,17 +82,18 @@ Crafty.scene("level01", function() {
 	});
 	
 	//	Event declarations
+
+	// Amianto get max number of RedHearts
 	this.muchLove = Crafty.bind('TooMuchLove', function() {
-		var playerEnt = sc.player.get('entity');
-		sc.delays.destroy();
-		sc.delimiters[0].destroy();
-		Crafty.viewport.follow(playerEnt,0,0);
-		playerEnt._stopMoving();
-		playerEnt.disregardMouseInput = true;
-		playerEnt.animate("AmiantoFalling",32,-1);
-		//window.setInterval(function(){ playerEnt.animate("AmiantoHittingTheGround",32,0); },4500);
-		//playerEnt.addComponent("Gravity");
- 		//playerEnt.gravity('floor');
+		var playerEnt = sc.player.get('entity');	// get Amianto object
+		sc.delays.destroy();						//
+		sc.delimiters[0].destroy();					// destroy delimiters
+		sc.delimiters[1].destroy();					// destroy delimiters
+		playerEnt._stopMoving();					//	
+		playerEnt.disregardMouseInput = true;		// disable mouse controls
+		playerEnt.disableControl();					// disable keyboard controls
+		playerEnt.animate("AmiantoFalling",32,-1);	// animate Amianto falling
+
 	});
 	
 }, function(){ 
