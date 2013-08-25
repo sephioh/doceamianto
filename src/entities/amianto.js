@@ -15,7 +15,7 @@ Amianto = BaseEntity.extend({
 			ZOOM_SPEED = 0.01, 	// Control amianto zoom speed when level01 starts
 			zoom = 3,			// zoom used at Amianto first frame; is reduced from ZOOM_SPEED to 1
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, Multiway, WiredHitBox");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, Multiway");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180})
