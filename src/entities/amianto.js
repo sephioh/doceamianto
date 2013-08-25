@@ -4,12 +4,16 @@ Amianto = BaseEntity.extend({
 		'love' : 0
     },
     initialize: function() {
-    	var model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision");
+		var WIDTH = 125,	// Initial width
+			HEIGHT = 168,	// Initial height
+			POSX = 350, 	// Initial x coordinate
+			POSY = 220,  	// Initial y coordinate
+			POSZ = 300,		// Initial z coordinate
+			model = this,
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, WiredHitBox");
 		entity
-			.attr({x: 350, y: 220, z: 300, w:125, h:168 })
-			.collision(new Crafty.polygon([[37,18],[55,18],[69,51],[45,108],[24,52]]))
-			//.twoway(model.get('speed'), model.get('speed')*2)
+			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
+			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
 			.onHit('solid', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					var hitDirY = Math.round(hit[i].normal.y), hitDirX = Math.round(hit[i].normal.x);
