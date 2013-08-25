@@ -49,6 +49,7 @@ Amianto = BaseEntity.extend({
 						if(hit[i].obj.__c.redHeart) {
 							model.set({ 'love' : model.get('love')+1 });
 							hit[i].obj.destroy();
+							entity.stop().animate("AmiantoHittingRedHeart", 32, 0);
 							model.fellInLove();
 						}
 					}
@@ -57,13 +58,14 @@ Amianto = BaseEntity.extend({
 			.moveTo(model.get('speed'))
 			.setTargetDeviation(((entity._w/2) * -1),(entity._h * -1))
 			.setName("Amianto01")
-			.animate("AmiantoMovingTowards", 0, 0, 7)
-			.animate("AmiantoMovingLeft", 0, 1, 7)
-			.animate("AmiantoMovingRight", 0, 2, 7)
-			.animate("AmiantoHittingDarkHeart", 0, 3, 7)
-			.animate("AmiantoStumbling", 0, 4, 7)
-			.animate("AmiantoFalling", 0, 5, 7)
-			.animate("AmiantoHittingTheGround", 0, 6, 7)
+			.animate("AmiantoMovingTowards", 0, 0, 15)
+			.animate("AmiantoMovingLeft", 0, 2, 7)
+			.animate("AmiantoMovingRight", 0, 3, 7)
+			.animate("AmiantoHittingRedHeart", 0, 4, 7)
+			.animate("AmiantoHittingDarkHeart", 0, 5, 7)
+			.animate("AmiantoStumbling", 0, 6, 7)
+			.animate("AmiantoFalling", 0, 7, 7)
+			.animate("AmiantoHittingTheGround", 0, 8, 7)
 			.bind('NewDirection', function (d) {
 				if (d.x > 0) {
 				  entity.stop().animate('AmiantoMovingRight', 32, -1);
