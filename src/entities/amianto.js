@@ -38,7 +38,7 @@ Amianto = BaseEntity.extend({
 			  })
 			.onHit('heart',function(hit) {
 				for (var i = 0; i < hit.length; i++) {
-					if(hit[i].obj._z <= 325 && hit[i].obj._z >= 275){
+					if(hit[i].obj._z == this._z){
 						if(hit[i].obj.__c.darkHeart) {
 							model.set({ 'love' : model.get('love')-1 });
 							hit[i].obj.destroy();
