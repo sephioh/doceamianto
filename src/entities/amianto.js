@@ -21,10 +21,10 @@ Amianto = BaseEntity.extend({
 					var hitDirX = Math.round(hit[i].normal.x);
 					if(hitDirX !== 0) {
 						if (hitDirX === 1) {
-							this.x = this.x + 3;
+							this.x = this._x + 3;
 						} else {
 							if(hitDirX === -1){
-								this.x = this.x - 3;
+								this.x = this._x - 3;
 							}
 						}
 					}
