@@ -26,18 +26,16 @@ DarkHeart = BaseEntity.extend({
 					// Calculate new values for instance attributes:
 					var newY = this._y - SPEED,         			// reduced using fixed rate(SPEED)		   
 						newX = ((newY-POSY)/TAN) + POSX,    		// change using new y-coordinate and TAN
-						sizeRate = ((newY-VPY)/(POSY-VPY)) * WIDTH; // used for new witdth and height; reduced using new y-coordinate
+						sizeRate = ((newY-VPY)/(POSY-VPY)) * WIDTH, // used for new witdth and height; reduced using new y-coordinate
+						newPoly = poly.shift(newX-this._x, -SPEED); // creates a new polygon for collision tests
 
 					// Apply new values
 					this.attr({x: newX, y: newY, w: sizeRate, h: sizeRate });
-					
+					entity.collision(newPoly);
+
 					// Each 3 frames, change z by SPEED
 					if((--LIFETIME)%3==1)
 						this.z = this._z - SPEED;
-					
-					// Calculate new coordinates used for collision tests (NEED TO BE FIXED!)
-					entity.poly.shift(sizeRate * -1,sizeRate * -1);
-
 				} else {
 					// If DarkHeart's lifetime is over, destroy itself 	
 					this.destroy();
