@@ -62,7 +62,7 @@ Amianto = BaseEntity.extend({
 			.animate("AmiantoHittingTheGround", 0, 8, 7)
 			.bind('NewDirection', function (d) {
 				if (d.x > 0) {
-				  entity.stop().animate('AmiantoMovingRight', 32, -1);
+				  entity.stop().animate('AmiantoMovingRight', 64, -1);
 				} else if (d.x < 0) {
 				  entity.stop().animate('AmiantoMovingLeft', 32, -1);
 				} else {
