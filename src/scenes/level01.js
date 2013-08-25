@@ -3,20 +3,23 @@ Crafty.scene("level01", function() {
 	var elements = [
         "src/entities/amianto.js",
 		"src/entities/darkheart.js",
-		"src/entities/redheart.js",
-        //"src/interfaces/info.js",
+		"src/entities/redheart.js"
 	];
 	
-	Crafty.background("#FFFFFF"); 
-	
+	Crafty.background("#FFFFFF");
+		
 	//when everything is loaded, run the level01 scene
 	require(elements, function() {
-		
+				
 		sc['player'] = new Amianto();
 		sc['hearts'] = [];
 		sc['delimiters'] = [];
 		sc['delays'] = Crafty.e("Delay");
 		sc['bckgrndFade'] = Crafty.e("2D, Canvas, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 0 });
+		sc['bckgrndDegrade'] = Crafty.e("2D, DOM, Image").attr({ x: 0, y: 378, w: 800, h: 222, z: 0 }).image("web/images/transp01.png","repeat-x");
+				
+		// Play theme
+		Crafty.audio.play("theme01");
 		
 		//<hearts' loop> 
 		var summoningHearts = sc.delays.delay(function() {
@@ -78,6 +81,7 @@ Crafty.scene("level01", function() {
 		
 	});
 	
+	//	Event declarations
 	this.muchLove = Crafty.bind('TooMuchLove', function() {
 		var playerEnt = sc.player.get('entity');
 		sc.delays.destroy();
@@ -86,7 +90,7 @@ Crafty.scene("level01", function() {
 		playerEnt._stopMoving();
 		playerEnt.disregardMouseInput = true;
 		playerEnt.animate("AmiantoFalling",32,-1);
-		window.setInterval(function(){ playerEnt.animate("AmiantoHittingTheGround",32,0); },4500);
+		//window.setInterval(function(){ playerEnt.animate("AmiantoHittingTheGround",32,0); },4500);
 		//playerEnt.addComponent("Gravity");
  		//playerEnt.gravity('floor');
 	});
