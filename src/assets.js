@@ -19,7 +19,7 @@ Assets = Backbone.Model.extend({
 				'player' : {
 					'file' : 'web/images/sheet_amianto01.png',
 					'tile' : 94,
-					'tileh' : 126,
+					'tileh' : 114,
 					'elements': {
 						'amianto01' : [0, 0]
 					}
