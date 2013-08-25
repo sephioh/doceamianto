@@ -9,10 +9,12 @@ Amianto = BaseEntity.extend({
 			POSX = 350, 	// Initial x coordinate
 			POSY = 220,  	// Initial y coordinate
 			POSZ = 300,		// Initial z coordinate
+			SPEED = 3,
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, Multiway");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
+			.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180})
 			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
 			.onHit('solid', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
