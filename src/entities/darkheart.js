@@ -28,7 +28,6 @@ DarkHeart = BaseEntity.extend({
 					// If hearts achieves its MAX y, reduces y so it stays behind Amianto
 					if(this._y <= max_y_collision)
 						this._z = this._z - SPEED;
-					console.log(this._z);
 
 					// Calculate new values for instance attributes:
 					var newY = this._y - SPEED,         				   // reduced using fixed rate(SPEED)
