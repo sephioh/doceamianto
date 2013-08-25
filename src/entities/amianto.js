@@ -1,7 +1,9 @@
 Amianto = BaseEntity.extend({
     defaults: {
         'speed' : 4,
-		'love' : 0
+		'love' : 0,
+		'maxLove' : 6,
+		'minLove' : 0
     },
     initialize: function() {
 		var WIDTH = 125,	// Initial width
@@ -33,15 +35,18 @@ Amianto = BaseEntity.extend({
 			.onHit('heart',function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					if(hit[i].obj._z == this._z){
+						var luv = model.get('love');
 						if(hit[i].obj.__c.darkHeart) {
-							model.set({ 'love' : model.get('love')-1 });
+							if(luv>model.get('minLove')){
+								model.set({ 'love' : luv-1 });
+							}
 							hit[i].obj.destroy();
 							entity._stopMoving();
 							entity.disregardMouseInput = true;
 							entity.stop().animate("AmiantoHittingDarkHeart", 32, 0);
 						} else 
 						if(hit[i].obj.__c.redHeart) {
-							model.set({ 'love' : model.get('love')+1 });
+							model.set({ 'love' : luv+1 });
 							hit[i].obj.destroy();
 							entity.stop().animate("AmiantoHittingRedHeart", 32, 0);
 							model.fellInLove();
@@ -79,7 +84,7 @@ Amianto = BaseEntity.extend({
 		
     },
 	fellInLove: function() {
-		if(this.get('love') > 4)
+		if(this.get('love') >= this.get('maxLove'))
 			Crafty.trigger('TooMuchLove');
 	},
     
