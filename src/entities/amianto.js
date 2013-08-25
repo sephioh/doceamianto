@@ -76,7 +76,7 @@ Amianto = BaseEntity.extend({
 			  })
 			.bind('EnterFrame', function() {
 				if(!entity.isPlaying()){
-					entity.animate('AmiantoMovingTowards', 32, -1);
+					entity.animate('AmiantoMovingTowards', 64, -1);
 					entity.disregardMouseInput = false;
 				}
 			  });
