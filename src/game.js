@@ -18,15 +18,21 @@ window.onload = function() {
     Crafty.viewport.init(800,600);
     
     require([
-	    "src/sprites.js?v="+version+"",
+	    "src/assets.js?v="+version+"",
 	    "src/config.js?v="+version+"",
-	    "src/lang/lang-"+lang+".js",
+	    "src/lang/lang-"+lang+".js?v="+version+"",
     ], function() {
-	// Create Sprites
-	var sprites = new Sprites();
-	sprites.create();
-
-	// Load config
+	
+	// allow playing MP3 files
+	Crafty.support.audio = true;
+	
+	assets = new Assets();
+	
+	// set sprites for level01
+	assets.createSprite(gameContainer.scene);
+	// set sounds for level01
+	assets.createSound(gameContainer.scene);
+	
 	gameContainer['conf'] = new Config({});
 	
 	//the loading screen - that will be display while assets loaded
@@ -41,17 +47,14 @@ window.onload = function() {
 		.textFont({'size' : '24px', 'family': 'Arial'});
 
 	    // load takes an array of assets and a callback when complete
-	    Crafty.load(sprites.getPaths(), function() {
-		    // array with local components
-	    var elements = [
-		//"src/components/MouseHover.js?v="+version+"",
-		//"src/components/bmViewport.js?v="+version+"",
-		//"src/components/TiledLevelImporter.js?v="+version+"",
-		//"src/components/box2d.js?v="+version+"",
-		"src/components/movetwo.js?v="+version+"",
-		"src/components/TweenColor.js?v="+version+"",
-		"src/entities/base/BaseEntity.js?v="+version+"",
-		];
+	    Crafty.load(assets.getPaths(gameContainer.scene), function() {
+			
+			// array with local components
+			var elements = [
+			"src/components/movetwo.js?v="+version+"",
+			"src/components/TweenColor.js?v="+version+"",
+			"src/entities/base/BaseEntity.js?v="+version+"",
+			];
 
 		    //when everything is loaded, run the level01 scene
 		    require(elements, function() {	   
