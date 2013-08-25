@@ -63,7 +63,7 @@ Crafty.scene("level01", function() {
 		
 		//<delimiters>
 		var delimitersMap = {
-			left: 	{ x: 210, y: 242, w: 1, h: 400, 	shape: [[0,0],[1,400]], isfloor: false }, 
+			left: 	{ x: 0, y: 242, w: 1, h: 400, 	shape: [[0,0],[1,400]], isfloor: false }, 
 			right: 	{ x: 800, y: 242, w: 1, h: 400, 	shape: [[0,0],[1,400]], isfloor: false }
 		};
 		
