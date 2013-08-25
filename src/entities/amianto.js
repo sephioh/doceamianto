@@ -18,26 +18,18 @@ Amianto = BaseEntity.extend({
 			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
 			.onHit('solid', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
-					var hitDirY = Math.round(hit[i].normal.y), hitDirX = Math.round(hit[i].normal.x);
-					if (hitDirY !== 0) { // hit bottom or top
-						if (hitDirY === 1)  // hit the bottom 
-							this.y = hit[i].obj.y + hit[i].obj.h;
-						else 
-						if (hitDirY === -1) // hit the top
-							this.y = hit[i].obj.y - this._h;
-						if(Math.round(this._prevPos.x) == Math.round(this._x)) 
-							this._stopMoving();
-					} else if(hitDirX !== 0) { // hit right or left
-						if (hitDirX === 1) // hit right side
-							this.x = hit[i].obj.x + hit[i].obj.w;
-						else 
-						if(hitDirX === -1) // hit left side
-							this.x = hit[i].obj.x - this._w;
-						if(Math.round(this._prevPos.y) == Math.round(this._y))
-							this._stopMoving();
+					var hitDirX = Math.round(hit[i].normal.x);
+					if(hitDirX !== 0) {
+						if (hitDirX === 1) {
+							this.x = this.x + 3;
+						} else {
+							if(hitDirX === -1){
+								this.x = this.x - 3;
+							}
+						}
 					}
 				}
-			  })
+			})
 			.onHit('heart',function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					if(hit[i].obj._z == this._z){
