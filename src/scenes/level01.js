@@ -19,7 +19,7 @@ Crafty.scene("level01", function() {
 		sc['bckgrndDegrade'] = Crafty.e("2D, DOM, Image").attr({ x: 0, y: 378, w: 800, h: 222, z: 0 }).image("web/images/transp01.png","repeat-x");
 				
 		// Play theme
-		Crafty.audio.play("theme01");
+		Crafty.audio.play("theme01", -1);
 		
 		//<hearts' loop> 
 		var summoningHearts = sc.delays.delay(function() {
