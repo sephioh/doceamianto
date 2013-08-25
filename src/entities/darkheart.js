@@ -13,7 +13,8 @@ DarkHeart = BaseEntity.extend({
 			TAN = (VPY-POSY)/(VPX-POSX),  // Slope(tan) of a line that between vanish point and initial position
 			SPEED = 1,					 // Movement speed rate
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, darkHeart, Collision");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, darkHeart, Collision"),
+			amianto = Crafty("amianto01");
 		entity['poly'] = new Crafty.polygon([[0,0],[WIDTH,0],[WIDTH,HEIGHT],[0,HEIGHT]]);
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w: WIDTH, h: HEIGHT})
@@ -22,8 +23,7 @@ DarkHeart = BaseEntity.extend({
 				// At each frame, test if darkheart is visible
 				if(this._w>0) {
 					// Calc position that hearts stays behind Amianto
-					var amianto = Crafty("amianto01"),
-						max_y_collision = amianto._y + (amianto._h * 3/4);
+					var max_y_collision = amianto._y + (amianto._h * 3/4);
 
 					// If hearts achieves its MAX y, reduces y so it stays behind Amianto
 					if(this._y <= max_y_collision)
