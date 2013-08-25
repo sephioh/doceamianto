@@ -17,7 +17,7 @@ Assets = Backbone.Model.extend({
 		level01: {
 			'images' : {
 				'player' : {
-					'file' : 'web/images/Sheet_amianto_redimensionada.png',
+					'file' : 'web/images/sheet_amianto01.png',
 					'tile' : 94,
 					'tileh' : 126,
 					'elements': {
