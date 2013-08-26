@@ -22,14 +22,14 @@ Crafty.scene("level01", function() {
 		Crafty.audio.play("theme01", -1);
 		
 		//<hearts' loop> 
-		var summoningHearts = sc.delays.delay(function() {
-			// 75% chance of creating a dark heart
-			if((Crafty.math.random(1,100))<=75){
-			  sc.hearts.push(new DarkHeart());
+		sc.delays.delay(function() {
+			// 80% chance of creating a dark heart
+			if(Crafty.math.randomNumber(1,100)<=80){
+				sc.hearts.push(new DarkHeart());
 			} else {
-			  sc.hearts.push(new RedHeart());
+				sc.hearts.push(new RedHeart());
 			}
-		},500,-1);
+		},750,-1);
 		//</hearts' loop>
 		
 		//<change background color>
@@ -96,7 +96,6 @@ Crafty.scene("level01", function() {
 		playerEnt.disregardMouseInput = true;		// disable mouse controls
 		playerEnt.disableControl();					// disable keyboard controls
 		playerEnt.animate("AmiantoFalling",32,-1);	// animate Amianto falling
-
 	});
 	
 }, function(){ 
