@@ -16,7 +16,7 @@ Crafty.scene("level01", function() {
 		sc['delimiters'] = [];
 		sc['delays'] = Crafty.e("Delay");
 		sc['bckgrndFade'] = Crafty.e("2D, Canvas, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 0 });
-		sc['bckgrndDegrade'] = Crafty.e("2D, DOM, Image").attr({ x: 0, y: 378, w: 800, h: 222, z: 0 }).image("web/images/transp01.png","repeat-x");
+		sc['bckgrndDegrade'] = Crafty.e("2D, Canvas, Sprite, degrade").attr({ x: 0, y: 0, w: 800, h: 600, z: 0 });
 				
 		// Play theme
 		Crafty.audio.play("theme01", -1);
