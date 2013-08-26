@@ -6,12 +6,14 @@ Amianto = BaseEntity.extend({
 		'minLove' : 0
     },
     initialize: function() {
-		var WIDTH = 125,	// Initial width
-			HEIGHT = 168,	// Initial height
-			POSX = 350, 	// Initial x coordinate
-			POSY = 220,  	// Initial y coordinate
-			POSZ = 300,		// Initial z coordinate
-			SPEED = 3,
+		var WIDTH = 125,		// Initial width
+			HEIGHT = 168,		// Initial height
+			POSX = 350, 		// Initial x coordinate
+			POSY = 220,  		// Initial y coordinate
+			POSZ = 300,			// Initial z coordinate
+			SPEED = 3,			// Amianto speed when move horizontally
+			ZOOM_SPEED = 0.01, 	// Control amianto zoom speed when level01 starts
+			zoom = 3,			// zoom used at Amianto first frame; is reduced from ZOOM_SPEED to 1
 			model = this,
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, Multiway");
 		entity
@@ -75,13 +77,20 @@ Amianto = BaseEntity.extend({
 				}
 			  })
 			.bind('EnterFrame', function() {
+				// Amianto initial zoom
+				if(zoom > 1){
+					this.attr({w:WIDTH*zoom, h:HEIGHT*zoom })
+					zoom = zoom - ZOOM_SPEED;
+				} else {
+					this.attr({w:WIDTH, h:HEIGHT});
+				}
+				// Amianto inital animation
 				if(!entity.isPlaying()){
 					entity.animate('AmiantoMovingTowards', 64, -1);
 					entity.disregardMouseInput = false;
 				}
 			  });
 		model.set({'entity' : entity });
-		
     },
 	fellInLove: function() {
 		if(this.get('love') >= this.get('maxLove'))
