@@ -40,6 +40,14 @@ Assets = Backbone.Model.extend({
 						'darkHeart' : [0, 0]
 					}
 				}
+				'degrade' : {
+					'file' : 'web/images/degrade.png',
+					'tile' : 400,
+					'tileh' : 200,
+					'elements': {
+						'degrade' : [0, 0]
+					}
+				}
 				
 			},
 			'audio' : {
