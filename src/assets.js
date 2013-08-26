@@ -39,7 +39,7 @@ Assets = Backbone.Model.extend({
 					'elements': {
 						'darkHeart' : [0, 0]
 					}
-				}
+				},
 				'degrade' : {
 					'file' : 'web/images/degrade.png',
 					'tile' : 400,
@@ -48,7 +48,6 @@ Assets = Backbone.Model.extend({
 						'degrade' : [0, 0]
 					}
 				}
-				
 			},
 			'audio' : {
 				'theme' : {
