@@ -23,10 +23,13 @@ Crafty.scene("level01", function() {
 		
 		//<hearts' loop> 
 		var summoningHearts = sc.delays.delay(function() {
-			sc.hearts.push(new DarkHeart());  
-			sc.hearts.push(new RedHeart());
-			sc.hearts.push(new DarkHeart());
-		},2000,-1);
+			// 75% chance of creating a dark heart
+			if((Crafty.math.random(1,100))<=75){
+			  sc.hearts.push(new DarkHeart());
+			} else {
+			  sc.hearts.push(new RedHeart());
+			}
+		},500,-1);
 		//</hearts' loop>
 		
 		//<change background color>
