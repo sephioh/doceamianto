@@ -1,7 +1,6 @@
 Amianto = BaseEntity.extend({
     defaults: {
-        'speed' : 4,
-		'love' : 0,
+        'love' : 0,
 		'maxLove' : 6,
 		'minLove' : 0
     },
@@ -12,10 +11,9 @@ Amianto = BaseEntity.extend({
 			POSY = 220,  		// Initial y coordinate
 			POSZ = 300,			// Initial z coordinate
 			SPEED = 3,			// Amianto speed when move horizontally
-			ZOOM_SPEED = 0.01, 	// Control amianto zoom speed when level01 starts
-			zoom = 3,			// zoom used at Amianto first frame; is reduced from ZOOM_SPEED to 1
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, MoveTwo, Collision, Multiway");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, Collision, Multiway"),
+			shadow = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, amianto01Shadow, Multiway");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180})
@@ -43,8 +41,6 @@ Amianto = BaseEntity.extend({
 								model.set({ 'love' : luv-1 });
 							}
 							hit[i].obj.destroy();
-							entity._stopMoving();
-							entity.disregardMouseInput = true;
 							entity.stop().animate("AmiantoHittingDarkHeart", 32, 0);
 						} else 
 						if(hit[i].obj.__c.redHeart) {
@@ -56,8 +52,6 @@ Amianto = BaseEntity.extend({
 					}
 				}
 			  })
-			.moveTo(model.get('speed'))
-			.setTargetDeviation(((entity._w/2) * -1),(entity._h * -1))
 			.setName("Amianto01")
 			.animate("AmiantoMovingTowards", [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1]])
 			.animate("AmiantoMovingLeft", 0, 2, 7)
@@ -75,26 +69,32 @@ Amianto = BaseEntity.extend({
 				} else {
 				  entity.stop().animate('AmiantoMovingTowards', 64, -1);
 				}
-			  })
-			.bind('EnterFrame', function() {
-				// Amianto initial zoom
-				if(zoom > 1){
-					this.attr({w:WIDTH*zoom, h:HEIGHT*zoom })
-					zoom = zoom - ZOOM_SPEED;
-				} else {
-					this.attr({w:WIDTH, h:HEIGHT});
-				}
-				// Amianto inital animation
-				if(!entity.isPlaying()){
-					entity.animate('AmiantoMovingTowards', 64, -1);
-					entity.disregardMouseInput = false;
-				}
 			  });
+			
+			shadow
+				.attr({ x: entity._x+14, y: entity._y+12, w: 164, h: entity._h, z: entity._z }) //
+				.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
 		model.set({'entity' : entity });
+		model.set({'shadow' : shadow });
     },
-	fellInLove: function() {
-		if(this.get('love') >= this.get('maxLove'))
-			Crafty.trigger('TooMuchLove');
+    startMoving: function() {
+		var entity = this.getEntity();
+		_.bind(this.keepMoving, entity); // bind keepMoving to entity's context
+		entity.bind('EnterFrame', this.keepMoving);
 	},
-    
+	keepMoving: function() {
+		if(!this.isPlaying())
+			this.animate('AmiantoMovingTowards', 64, -1);
+	},
+	fellInLove: function() {
+		if(this.get('love') >= this.get('maxLove')) {
+			this.getEntity() 
+				.unbind('EnterFrame', this.keepMoving)
+				.stop()
+				.disableControl();
+			this.get('shadow')
+				.destroy();
+			Crafty.trigger('TooMuchLove');
+		}
+	}
 });
