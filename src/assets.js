@@ -43,9 +43,17 @@ Assets = Backbone.Model.extend({
 				'degrade' : {
 					'file' : 'web/images/degrade.png',
 					'tile' : 400,
-					'tileh' : 200,
+					'tileh' : 300,
 					'elements': {
 						'degrade' : [0, 0]
+					}
+				},
+				'amianto01Shadow' : {
+					'file' : 'web/images/amiantoShadow01.png',
+					'tile' : 164,
+					'tileh' : 114,
+					'elements': {
+						'amianto01Shadow' : [0, 0]
 					}
 				}
 			},
