@@ -1,6 +1,6 @@
 RedHeart = BaseEntity.extend({
 	defaults: {
-        
+
     },
     initialize: function(){
 		var WIDTH = 250,	// Initial width
@@ -10,41 +10,20 @@ RedHeart = BaseEntity.extend({
 			POSZ = 300,							// Initial z coordinate
 			VPX = 400,						  // Perspective´s vanish point: x axis
 			VPY = 210,						 // Perspective´s vanish point: y axis
-			TAN = (VPY-POSY)/(VPX-POSX),  // Slope(tan) of a line that between vanish point and initial position
-			SPEED = 1,					 // Movement speed rate
+			SPEED = 400	,					 // Movement speed rate
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, redHeart, Collision"),
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, redHeart, Collision, Tween, WiredHitBox"),
 			amianto = Crafty("amianto01");
 		entity['poly'] = new Crafty.polygon([[0,0],[WIDTH,0],[WIDTH,HEIGHT],[0,HEIGHT]]);
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w: WIDTH, h: HEIGHT})
 			.collision(entity.poly)
-			.bind('EnterFrame',function() {
-				// At each frame, test if redheart is visible
-				if(this._w>0) {
-					// Calc position that hearts stays behind Amianto
-						var max_y_collision = amianto._y + (amianto._h * 3/4);
-
-					// If hearts achieves its MAX y, reduces y so it stays behind Amianto
-					if(this._y <= max_y_collision)
-						this._z = this._z - SPEED;
-
-					// Calculate new values for instance attributes:
-					var newY = this._y - SPEED,         				   // reduced using fixed rate(SPEED)
-						newX = ((newY-POSY)/TAN) + POSX,    			   // change using new y-coordinate and TAN
-						sizeRate = ((newY-VPY)/(POSY-VPY)) * WIDTH, 	   // used for new witdth and height; reduced using new y-coordinate
-						newPoly = entity.poly.shift(newX-this._x, -SPEED); // creates a new polygon for collision tests
-
-					// Apply new values
-					this.attr({x: newX, y: newY, w: sizeRate, h: sizeRate });
-					entity.collision(newPoly);
-
-				} else {
-					// If RedHeart's lifetime is over, destroy itself 	
-					this.destroy();
-				}
+			.tween({x: VPX, y: VPY, w: 0, h: 0}, SPEED)
+			.bind('TweenEnd',function() {
+				// When tween end, destroy heart
+				entity.destroy();
 			  })
-			.setName('Red heart');
+			.setName('Red Heart');
 		model.set({'entity' : entity });
-	}
+    }
 });
