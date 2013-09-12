@@ -92,9 +92,8 @@ Crafty.scene("level01", function() {
 	// Amianto get max number of RedHearts
 	this.muchLove = Crafty.bind('TooMuchLove', function() {
 		
-		var playerEnt = sc.player.getEntity(),				// get Amianto object
-			time = 60;										// time in frames to control effects
-				
+		var time = 60;										// time in frames, duration of tweening effects
+		
 		sc.delays.destroy();								// destroy delays
 		sc.delays = undefined;								// reset delays
 		sc['delays'] = Crafty.e("Delay");					// reset delays
@@ -109,13 +108,14 @@ Crafty.scene("level01", function() {
 		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, time); // tween black
 		sc.bckgrndDegrade.tween({ alpha: 0.0 }, time); 			// tween black
 		
-		sc.delays.delay(function() {							// after half sec,
-			playerEnt.animate("AmiantoFalling",32,-1);		// Amianto falls
+		sc.delays.delay(function() {						// after half sec,
+			sc.player.stumble(); 							// make amianto stumble, and then fall
 		}, 500);
 		
 		sc['spcParticles'] = []; 							// space particles' container
-		sc.delays.delay(function() { 						// creating 6 particles each half sec
-			var partAmount = 6,
+		
+		sc.delays.delay(function() { 						// each half sec,
+			var partAmount = 6,								// create 6 particles 
 				i=0;
 			while(i<partAmount){
 				particle = Crafty.e("2D, Canvas, Color, Tween, spaceParticle");
@@ -129,25 +129,28 @@ Crafty.scene("level01", function() {
 					  z: 1
 					})
 					.color("rgb(80,80,80)")		// dark grey
-					.tween({ y:0, alpha:0.0 }, 185)
-					.bind('TweenEnd', function() { particle.destroy(); } ); 
+					.tween({ y:0, alpha:0.0 }, 150)
+					.bind('TweenEnd', function() { 
+						particle.destroy(); 
+					}); 
 				i++;
 				sc.spcParticles.push(particle);
 			}		  
 		}, 500, -1);
 		
-		sc.delays.delay(function() {										// after 11 sec,
-			playerEnt.stop().animate("AmiantoHittingTheGround",32,0);	// Amianto hits the ground
+		sc.delays.delay(function() {												// after 10.5 sec,
+			sc.player.getEntity().playAnimation("AmiantoHittingTheGround",40,0);	// Amianto hits the ground
 			sc.delays.destroy();						//destroy delays
 			sc.delays = undefined;						// reset delays
 			sc['delays'] = Crafty.e("Delay");			// reset delays
-			Crafty("spaceParticle").each(function() { 	// select particles and stop their tweening
-				this.unbind('EnterFrame', this.tweenEnterFrame);			
+			Crafty("spaceParticle").each(function() { 	// select particles and stop their tweening, then make them fadeout
+				this.unbind('EnterFrame', this.tweenEnterFrame)
+					.tween({ alpha: 0.0 }, time);
 			});
 			Crafty.background("#000000"); 				// set background to black
 			sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
 			Crafty.trigger('LoadLevel02');
-		}, 11000);
+		}, 10500);
 		
 	});
 	
