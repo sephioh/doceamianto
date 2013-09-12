@@ -12,7 +12,7 @@ RedHeart = BaseEntity.extend({
 			VPY = 210,						 // Perspective´s vanish point: y axis
 			SPEED = 400	,					 // Movement speed rate
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, redHeart, Collision, Tween, WiredHitBox"),
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, redHeart, Collision, Tween"),
 			amianto = Crafty("amianto01");
 		entity['poly'] = new Crafty.polygon([[0,0],[WIDTH,0],[WIDTH,HEIGHT],[0,HEIGHT]]);
 		entity
