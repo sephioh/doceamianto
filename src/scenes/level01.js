@@ -143,10 +143,7 @@ Crafty.scene("level01", function() {
 			sc.delays.destroy();						//destroy delays
 			sc.delays = undefined;						// reset delays
 			sc['delays'] = Crafty.e("Delay");			// reset delays
-			Crafty("spaceParticle").each(function() { 	// select particles and stop their tweening, then make them fadeout
-				this.unbind('EnterFrame', this.tweenEnterFrame)
-					.tween({ alpha: 0.0 }, time);
-			});
+			Crafty("spaceParticle").destroy(); 			// destroy all particles
 			Crafty.background("#000000"); 				// set background to black
 			sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
 			Crafty.trigger('LoadLevel02');
