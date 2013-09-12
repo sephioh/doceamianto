@@ -62,7 +62,8 @@ Amianto = BaseEntity.extend({
 									entity
 										.unbind('AnimationEnd')
 										.enableControl();
-									model.startMoving();
+									if(model.get('love') < model.get('maxLove'))
+										model.startMoving();
 								})
 								.playAnimation("AmiantoHittingRedHeart", 40, 0, 0);
 							model._fellInLove();
@@ -116,8 +117,8 @@ Amianto = BaseEntity.extend({
 	},
 	_fellInLove: function() {
 		if(this.get('love') >= this.get('maxLove')) {
-			this.getEntity() 
-				.unbind('EnterFrame', this._keepMoving)
+			this._stopMoving();
+			this.getEntity()
 				.disableControl();
 			this.get('shadow')
 				.destroy();
