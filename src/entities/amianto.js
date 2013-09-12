@@ -13,7 +13,7 @@ Amianto = BaseEntity.extend({
 			SPEED = 3,			// Amianto speed when move horizontally
 			model = this,
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, Collision, Multiway"),
-			shadow = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, amianto01Shadow, Multiway");
+			shadow = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, amianto01Shadow");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180})
@@ -41,13 +41,31 @@ Amianto = BaseEntity.extend({
 								model.set({ 'love' : luv-1 });
 							}
 							hit[i].obj.destroy();
-							entity.stop().animate("AmiantoHittingDarkHeart", 32, 0);
+							model._stopMoving();
+							entity
+								.disableControl()
+								.bind('AnimationEnd', function() { 
+									entity
+										.unbind('AnimationEnd')
+										.enableControl();
+									model.startMoving();
+								})
+								.playAnimation("AmiantoHittingDarkHeart", 40, 0, 0);
 						} else 
 						if(hit[i].obj.__c.redHeart) {
 							model.set({ 'love' : luv+1 });
 							hit[i].obj.destroy();
-							entity.stop().animate("AmiantoHittingRedHeart", 32, 0);
-							model.fellInLove();
+							model._stopMoving();
+							entity
+								.disableControl()
+								.bind('AnimationEnd', function() { 
+									entity
+										.unbind('AnimationEnd')
+										.enableControl();
+									model.startMoving();
+								})
+								.playAnimation("AmiantoHittingRedHeart", 40, 0, 0);
+							model._fellInLove();
 						}
 					}
 				}
@@ -62,39 +80,57 @@ Amianto = BaseEntity.extend({
 			.animate("AmiantoFalling", 0, 7, 7)
 			.animate("AmiantoHittingTheGround", 0, 8, 7)
 			.bind('NewDirection', function (d) {
-				if (d.x > 0) {
-				  entity.stop().animate('AmiantoMovingRight', 32, -1);
-				} else if (d.x < 0) {
-				  entity.stop().animate('AmiantoMovingLeft', 32, -1);
-				} else {
-				  entity.stop().animate('AmiantoMovingTowards', 64, -1);
+				if(!entity.disableControls) {
+					if (d.x > 0) {
+						if(!entity.isPlaying("AmiantoMovingRight"))
+							entity.playAnimation("AmiantoMovingRight", 40, -1);
+					} else if (d.x < 0) {
+						if(!entity.isPlaying("AmiantoMovingLeft"))
+							entity.playAnimation("AmiantoMovingLeft", 40, -1);
+					} else {
+						if(!entity.isPlaying("AmiantoMovingTowards"))
+							entity.playAnimation("AmiantoMovingTowards", 80, -1);
+					}
 				}
 			  });
-			
-			shadow
-				.attr({ x: entity._x+14, y: entity._y+12, w: 164, h: entity._h, z: entity._z }) //
-				.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
+		shadow
+			.attr({ x: entity._x+14, y: entity._y+12, w: 164, h: entity._h, z: entity._z })
+			.bind('EnterFrame', function(){ 
+				shadow.x = entity._x+14;
+			});
 		model.set({'entity' : entity });
 		model.set({'shadow' : shadow });
     },
     startMoving: function() {
-		var entity = this.getEntity();
-		_.bind(this.keepMoving, entity); // bind keepMoving to entity's context
-		entity.bind('EnterFrame', this.keepMoving);
+		this.getEntity()
+			.bind('EnterFrame', this._keepMoving);
 	},
-	keepMoving: function() {
-		if(!this.isPlaying())
-			this.animate('AmiantoMovingTowards', 64, -1);
+	_keepMoving: function() {							// function bound to the entity's context
+		if(!this._isPlaying)
+			this.playAnimation("AmiantoMovingTowards", 80, -1);
 	},
-	fellInLove: function() {
+	_stopMoving: function() {
+		this.getEntity()
+			.unbind('EnterFrame', this._keepMoving)
+			.pauseAnimation();
+	},
+	_fellInLove: function() {
 		if(this.get('love') >= this.get('maxLove')) {
 			this.getEntity() 
-				.unbind('EnterFrame', this.keepMoving)
-				.stop()
+				.unbind('EnterFrame', this._keepMoving)
 				.disableControl();
 			this.get('shadow')
 				.destroy();
 			Crafty.trigger('TooMuchLove');
 		}
+	},
+	stumble: function() {
+		this.getEntity()
+			.bind('AnimationEnd', this._falling)
+			.playAnimation("AmiantoStumbling", 40, 0);
+	},
+	_falling: function() { 								// function bound to the entity's context
+		this.unbind('AnimationEnd')
+			.playAnimation("AmiantoFalling", 40, -1);
 	}
 });
