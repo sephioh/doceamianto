@@ -48,7 +48,7 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    sc['progressbar'] = Crafty.e("2D, ProgressBar, Persist")
+	    var progressbar = Crafty.e("2D, ProgressBar, Persist")
 			.attr({ x: 150, y : 140, w: 300, h: 25, z: 100 })
 			// this .progressBar(String eventName, Number blockCount, Number maxValue, 
 			// Boolean flipDirection, String emptyColor, String filledColor, String renderMethod)
