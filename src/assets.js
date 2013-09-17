@@ -68,21 +68,21 @@ Assets = Backbone.Model.extend({
 		level02: {
 			'images' : {
 				'player' : {
-					'file' : 'web/images/',
+					'file' : 'web/images/sheet_amianto01.png',
 					'tile' : 0,
 					'tileh' : 0,
 					'elements': {
 						'amianto02' : [0, 0]
 					}
-				}
+				},
 			},
-			'audio' : {
+			/*'audio' : {
 				'theme' : {
 					'files' : ['web/audio/',
 							   'web/audio/'],
 					'cmd' : 'theme02'
 				}
-			}
+			}*/
 		}
     },
 	

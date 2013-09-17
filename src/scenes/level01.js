@@ -1,7 +1,7 @@
 Crafty.scene("level01", function() {
 	
 	var elements = [
-        "src/entities/amianto.js",
+        "src/entities/amianto01.js",
 		"src/entities/darkheart.js",
 		"src/entities/redheart.js"
 	];
@@ -11,12 +11,14 @@ Crafty.scene("level01", function() {
 	//when everything is loaded, run the level01 scene
 	require(elements, function() {
 				
-		sc['player'] = new Amianto(),
+		sc['player'] = new Amianto01(),
 		sc['hearts'] = [],
 		sc['delimiters'] = [],
 		sc['delays'] = Crafty.e("Delay"),
-		sc['bckgrndFade'] = Crafty.e("2D, Canvas, Tween, TweenColor").attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 }),
-		sc['bckgrndDegrade'] = Crafty.e("2D, Canvas, Sprite, Tween, degrade").attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 });
+		sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, TweenColor")
+			.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 }),
+		sc['bckgrndDegrade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, degrade")
+			.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 });
 		
 		sc.player.startMoving();
 		// Play theme
@@ -85,12 +87,14 @@ Crafty.scene("level01", function() {
 		
 		Crafty.settings.modify("autoPause",true);
 		
+		Crafty.trigger("LevelTransition");
+		
 	});
 	
 	//	Event declarations
 
 	// Amianto get max number of RedHearts
-	this.muchLove = Crafty.bind('TooMuchLove', function() {
+	this.muchLove = function() {
 		
 		var time = 60;										// time in frames, duration of tweening effects
 		
@@ -117,7 +121,7 @@ Crafty.scene("level01", function() {
 		sc.delays.delay(function() { 						// each half sec,
 			var partAmount = 6,								// create 6 particles 
 				i=0;
-			while(i<partAmount){
+			while(i<partAmount) {
 				particle = Crafty.e("2D, Canvas, Color, Tween, spaceParticle");
 				particle
 					.attr({ 
@@ -146,21 +150,46 @@ Crafty.scene("level01", function() {
 			Crafty("spaceParticle").destroy(); 			// destroy all particles
 			Crafty.background("#000000"); 				// set background to black
 			sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
-			Crafty.trigger('LoadLevel02');
+			Crafty.trigger('LevelTransition');
 		}, 10500);
 		
-	});
+	}
 	
-	this.levelTransition =  Crafty.bind('LoadLevel02', function() { // load level02
+	Crafty.bind('TooMuchLove', this.muchLove);
+	
+	this.loadLevel02 = function() { // load level02
+	
 		sc.delays.delay(function() { 
-			sc.bckgrndFade.tween({ alpha: 1.0 }, 200);	// tween bckgrndFade making it cover everything
+			sc.bckgrndFade
+				.tween({ alpha: 1.0 }, 200) // tween bckgrndFade making it cover everything
+				.bind("TweenEnd", function() {
+					// set level02 scene info
+					gameContainer.setNextSceneInfo({ 
+					  name: "level02",
+					  elements: [
+						  //"map!src/scenes/tilemaps/level02.json",
+						  "src/components/TiledLevelImporter.js",
+						  "src/components/camera.js",
+						  //"src/modules/create_mocks_module.js",
+						  //"src/components/tiledmapbuilder.js",
+						],
+					  //maps: { "tilemap_level02" : "text!src/scenes/tilemaps/level02.json" }
+					});
+					// run level02 scene
+					Crafty.scene("loading");
+				});	
 		}, 5000);
 		
-		// !TODO require level02 files
-	});
+	}; 
 	
-}, function() {
-	Crafty.unbind('TooMuchLove', this.muchLove); // works? not sure
-	Crafty.heartComing = undefined;
-	Crafty.backgroundChange = undefined;
+	Crafty.bind('LevelTransition', this.loadLevel02);
+	
+}, function() { 											// executed after scene() is called within the present scene
+	Crafty.unbind('EnterFrame', Crafty.backgroundChange);	// unbind backgroundChange function
+	Crafty.unbind('TooMuchLove', this.muchLove);			// unbind muchLove function
+	Crafty.heartComing = undefined;							// clear level functions held in Crafty obj
+	Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
+	sc.delays.destroy();									// destroy delays
+	sc = [];												// clear scene
+	Crafty("2D").destroy();									// Destroy all entities with 2D component
 });

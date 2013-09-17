@@ -35,7 +35,13 @@
   gameContainer = {
       env : 'dev',
       gameVersion : '0.0.1',
-      scene : 'level01'
+      scene : '',
+      elementsToLoad : [],
+      setNextSceneInfo : function(sceneInfo) {
+		  this.scene = sceneInfo.name;
+		  this.elementsToLoad = sceneInfo.elements;
+		  return;
+      }
   },
   sc    = [], // container for backbone scene elements
   infc  = [],	// container for backbone interface elements

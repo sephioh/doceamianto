@@ -59,11 +59,11 @@ Amianto = BaseEntity.extend({
 							entity
 								.disableControl()
 								.bind('AnimationEnd', function() { 
-									entity
-										.unbind('AnimationEnd')
-										.enableControl();
-									if(model.get('love') < model.get('maxLove'))
+									entity.unbind('AnimationEnd');
+									if(model.get('love') < model.get('maxLove')) {
 										model.startMoving();
+										entity.enableControl();
+									}
 								})
 								.playAnimation("AmiantoHittingRedHeart", 40, 0, 0);
 							model._fellInLove();
@@ -99,8 +99,7 @@ Amianto = BaseEntity.extend({
 			.bind('EnterFrame', function(){ 
 				shadow.x = entity._x+14;
 			});
-		model.set({'entity' : entity });
-		model.set({'shadow' : shadow });
+		model.set({'entity' : entity, 'shadow' : shadow });
     },
     startMoving: function() {
 		this.getEntity()
@@ -117,12 +116,11 @@ Amianto = BaseEntity.extend({
 	},
 	_fellInLove: function() {
 		if(this.get('love') >= this.get('maxLove')) {
-			this._stopMoving();
 			this.getEntity()
 				.disableControl();
 			this.get('shadow')
 				.destroy();
-			Crafty.trigger('TooMuchLove');
+			Crafty.trigger("TooMuchLove");
 		}
 	},
 	stumble: function() {

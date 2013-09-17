@@ -5763,7 +5763,8 @@ Crafty.extend({
 			Crafty.viewport.follow();
 			Crafty.viewport.mouselook('stop');
 			Crafty.viewport.scale();
-		}
+		},
+		
     }
 });
 
