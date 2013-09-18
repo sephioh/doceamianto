@@ -77,7 +77,7 @@ window.onload = function() {
 		ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
 			.textColor(ellipsisColor)
 			.textFont({ weight: 'bold', family: 'Arial', size : '50px',  })
-			.text(". ")
+			.text(". . . ")
 			.bind('EnterFrame', function(){
 				ellipsis.eFrames++;
 				if(ellipsis.eFrames === ellipsis.nFrames) {
