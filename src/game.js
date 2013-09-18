@@ -39,7 +39,8 @@ window.onload = function() {
 	gameContainer.setNextSceneInfo({ 
 	  name: "level02",
 	  elements: [
-		  "text!src/scenes/tilemaps/level02.txt",
+		  // texts must come first
+		  "text!src/scenes/tilemaps/level02.txt", 
 		  "src/components/TweenColor.js?v="+version+"",
 		  "src/entities/base/BaseEntity.js?v="+version+"",
 		  "src/components/TiledLevelImporter.js",
@@ -54,11 +55,15 @@ window.onload = function() {
 	    // clear scene and interface
 	    sc = []; infc = [];   
 		
+		var ellipsisColor = 'black';
+		
 		if (typeof obj !== 'undefined'){
 			if(obj.backgroundColor)
 				Crafty.backgroundColor(obj.backgroundColor);
 			if(obj.soundToPlay)
 				Crafty.audio.play(obj.soundToPlay, -1);
+			if(obj.ellipsisColor)
+				ellipsisColor = obj.ellipsisColor;
 		}
 		
 		// set sprites for next scene
@@ -66,11 +71,22 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    var progressbar = Crafty.e("2D, ProgressBar")
-			.attr({ x: 150, y : 140, w: 300, h: 25, z: 100 })
-			// this .progressBar(String eventName, Number blockCount, Number maxValue, 
-			// Boolean flipDirection, String emptyColor, String filledColor, String renderMethod)
-			.progressBar("LoadingProgress", 10, 100, false, "white", "red", "DOM");
+	    var ellipsis = Crafty.e("2D, DOM, Text, Persist");
+			ellipsis['nFrames'] = 15, // each nFrames, add a '. '
+			ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
+		ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
+			.textColor(ellipsisColor)
+			.textFont({ weight: 'bold', family: 'Arial', size : '50px',  })
+			.text(". ")
+			.bind('EnterFrame', function(){
+				ellipsis.eFrames++;
+				if(ellipsis.eFrames==ellipsis.nFrames)
+					if(ellipsis._text == ". . . ") {
+						ellipsis.text("");
+					} else {
+						ellipsis.text(ellipsis._text + ". ");
+					}
+			});
 		
 		// load takes an array of assets and a callback when complete
 	    Crafty.load(assets.getPaths(gameContainer.scene), 
@@ -95,13 +111,12 @@ window.onload = function() {
 				// if text files were loaded, add them to gameContainer.loadedStrings array
 				'if(arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
 				// destroy progressbar and run the specified scene
-				'progressbar.destroy(); if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
+				'if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
 				
 				eval( '(' + require_str + ')' );
 			},
 			function(e) {
 				//progress
-				Crafty.trigger("LoadingProgress", e.percent);
 			},
 			function(e) {
 				//error
