@@ -76,11 +76,12 @@ window.onload = function() {
 			ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
 		ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
 			.textColor(ellipsisColor)
-			.textFont({ weight: 'bold', family: 'Arial', size : '50px',  })
+			.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
 			.text(". . . ")
 			.bind('EnterFrame', function(){
 				ellipsis.eFrames++;
 				if(ellipsis.eFrames === ellipsis.nFrames) {
+					console.log(ellipsis.eFrames+" frames");
 					ellipsis.eFrames = 0;
 					if(ellipsis._text === ". . . ") {
 						ellipsis.text("");
