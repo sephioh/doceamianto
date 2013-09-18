@@ -87,8 +87,6 @@ Crafty.scene("level01", function() {
 		
 		Crafty.settings.modify("autoPause",true);
 		
-		Crafty.trigger("LevelTransition");
-		
 	});
 	
 	//	Event declarations
@@ -167,13 +165,10 @@ Crafty.scene("level01", function() {
 					gameContainer.setNextSceneInfo({ 
 					  name: "level02",
 					  elements: [
-						  //"map!src/scenes/tilemaps/level02.json",
+						  "text!src/scenes/tilemaps/level02.txt",
 						  "src/components/TiledLevelImporter.js",
 						  "src/components/camera.js",
-						  //"src/modules/create_mocks_module.js",
-						  //"src/components/tiledmapbuilder.js",
 						],
-					  //maps: { "tilemap_level02" : "text!src/scenes/tilemaps/level02.json" }
 					});
 					// run level02 scene
 					Crafty.scene("loading");
