@@ -71,22 +71,22 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    var ellipsis = Crafty.e("2D, DOM, Text, Persist");
-			ellipsis['nFrames'] = 15, // each nFrames, add a '. '
-			ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-		ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
+	    sc['ellipsis'] = Crafty.e("2D, DOM, Text, Persist");
+			sc.ellipsis['nFrames'] = 15, // each nFrames, add a '. '
+			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
+		sc.ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
 			.textColor(ellipsisColor)
 			.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
 			.text(". . . ")
 			.bind('EnterFrame', function(){
-				ellipsis.eFrames++;
-				if(ellipsis.eFrames === ellipsis.nFrames) {
-					console.log(ellipsis.eFrames+" frames");
-					ellipsis.eFrames = 0;
-					if(ellipsis._text === ". . . ") {
-						ellipsis.text("");
+				this.eFrames++;
+				if(this.eFrames === this.nFrames) {
+					console.log(this.eFrames+" frames");
+					this.eFrames = 0;
+					if(this._text === ". . . ") {
+						this.text("");
 					} else {
-						ellipsis.text(ellipsis._text + ". ");
+						this.text(this._text + ". ");
 					}
 				}
 			});
