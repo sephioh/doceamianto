@@ -80,9 +80,9 @@ window.onload = function() {
 			.text(". ")
 			.bind('EnterFrame', function(){
 				ellipsis.eFrames++;
-				if(ellipsis.eFrames==ellipsis.nFrames){
+				if(ellipsis.eFrames === ellipsis.nFrames) {
 					ellipsis.eFrames = 0;
-					if(ellipsis._text == ". . . ") {
+					if(ellipsis._text === ". . . ") {
 						ellipsis.text("");
 					} else {
 						ellipsis.text(ellipsis._text + ". ");
