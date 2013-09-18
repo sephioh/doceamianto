@@ -71,10 +71,10 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    var ellipsis = Crafty.e("2D, Canvas, Text");
-			ellipsis['nFrames'] = 25, // each nFrames, add a '. '
-			ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-		ellipsis.attr({ y : 500, w: 78, h: 50,  z: 1000 })
+	    sc.['ellipsis'] = Crafty.e("2D, Canvas, Text");
+			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
+			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
+		sc.ellipsis.attr({ y : 500, w: 78, h: 50,  z: 1000 })
 			.attr({ x: (Crafty.viewport.width/2)-(this._w/2) })
 			.textColor(ellipsisColor)
 			.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
@@ -111,7 +111,7 @@ window.onload = function() {
  				// require elements and execute callback
 				'require(gameContainer.elementsToLoad, function(' + require_args + ') { ' +
 				// if text files were loaded, add them to gameContainer.loadedStrings array
-				'if(arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
+				'if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
 				// destroy progressbar and run the specified scene
 				'if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
 				
