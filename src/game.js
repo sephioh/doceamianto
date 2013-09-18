@@ -71,30 +71,28 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    sc['ellipsis'] = Crafty.e("2D, Canvas, Text, Persist");
-			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
-			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-		sc.ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, w:100 ,h:50,  z: 1000 })
+	    var ellipsis = Crafty.e("2D, Canvas, Text");
+			ellipsis['nFrames'] = 25, // each nFrames, add a '. '
+			ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
+		ellipsis.attr({ y : 500, w: 78, h: 50,  z: 1000 })
+			.attr({ x: (Crafty.viewport.width/2)-(this._w/2) })
 			.textColor(ellipsisColor)
 			.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
 			.text(". . . ")
 			.bind('EnterFrame', function(){
 				this.eFrames++;
 				if(this.eFrames === this.nFrames) {
-					console.log(this.eFrames+" frames");
 					this.eFrames = 0;
 					if(this._text === ". . . ") {
 						this.text("");
 					} else {
 						this.text(this._text + ". ");
-						console.log("text content: "+this._text);
 					}
 				}
 			});
 		
 		// load takes an array of assets and a callback when complete
-	    Crafty.load(assets.getPaths(gameContainer.scene), 
-			function() {
+	    Crafty.load(assets.getPaths(gameContainer.scene), function() {
 				// use eval for executing require(), also loading possible texts/maps
 				
 				var require_str = '', require_args = '', require_args_count = 0;
