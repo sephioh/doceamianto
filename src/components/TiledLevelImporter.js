@@ -53,45 +53,36 @@ Crafty.c("TiledLevel", {
       this._layerArray.push(layerDetails);
       return null;
     },
-    tiledLevel: function(levelURL, drawType) {
-      var _this = this;
-      $.ajax({
-        type: 'GET',
-        url: levelURL,
-        dataType: 'json',
-        data: {},
-        async: false,
-        success: function(level) {
-          var lLayers, ts, tsImages, tss;
-          lLayers = level.layers, tss = level.tilesets;
-          drawType = drawType != null ? drawType : "Canvas";
-          tsImages = (function() {
-            var _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = tss.length; _i < _len; _i++) {
-              ts = tss[_i];
-              _results.push(ts.image);
-            }
-            return _results;
-          })();
-          Crafty.load(tsImages, function() {
-            var layer, _i, _j, _len, _len1;
-            for (_i = 0, _len = tss.length; _i < _len; _i++) {
-              ts = tss[_i];
-              _this.makeTiles(ts, drawType);
-            }
-            for (_j = 0, _len1 = lLayers.length; _j < _len1; _j++) {
-              layer = lLayers[_j];
-              _this.makeLayer(layer);
-            }
-            _this.trigger("TiledLevelLoaded", _this);
-            return null;
-          });
-          return null;
-        }
-      });
-      return this;
-    },
+	buildTiledLevel: function(level,drawType) {
+	  var _this = this;
+	  var lLayers, ts, tsImages, tss;
+	  level = JSON.parse(level);
+	  lLayers = level.layers, tss = level.tilesets;
+	  drawType = drawType != null ? drawType : "Canvas";
+	  tsImages = (function() {
+		var _i, _len, _results;
+		_results = [];
+		for (_i = 0, _len = tss.length; _i < _len; _i++) {
+		  ts = tss[_i];
+		  _results.push(ts.image);
+		}
+		return _results;
+	  })();
+	  Crafty.load(tsImages, function() {
+		var layer, _i, _j, _len, _len1;
+		for (_i = 0, _len = tss.length; _i < _len; _i++) {
+		  ts = tss[_i];
+		  _this.makeTiles(ts, drawType);
+		}
+		for (_j = 0, _len1 = lLayers.length; _j < _len1; _j++) {
+		  layer = lLayers[_j];
+		  _this.makeLayer(layer);
+		}
+		_this.trigger("TiledLevelLoaded", _this);
+		return null;
+	  });
+	  return this;
+	},
     getTile: function(r, c, l) {
       var layer, tile;
       if (l == null) {
