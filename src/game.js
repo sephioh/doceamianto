@@ -71,7 +71,7 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    sc.['ellipsis'] = Crafty.e("2D, Canvas, Text");
+	    sc['ellipsis'] = Crafty.e("2D, Canvas, Text");
 			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
 			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
 		sc.ellipsis.attr({ y : 500, w: 78, h: 50,  z: 1000 })
