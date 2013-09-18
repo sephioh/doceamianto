@@ -80,12 +80,14 @@ window.onload = function() {
 			.text(". ")
 			.bind('EnterFrame', function(){
 				ellipsis.eFrames++;
-				if(ellipsis.eFrames==ellipsis.nFrames)
+				if(ellipsis.eFrames==ellipsis.nFrames){
+					ellipsis.eFrames = 0;
 					if(ellipsis._text == ". . . ") {
 						ellipsis.text("");
 					} else {
 						ellipsis.text(ellipsis._text + ". ");
 					}
+				}
 			});
 		
 		// load takes an array of assets and a callback when complete
