@@ -71,8 +71,8 @@ window.onload = function() {
 		// set sounds for next scene
 		assets.createSound(gameContainer.scene);
 		
-	    sc['ellipsis'] = Crafty.e("2D, DOM, Text, Persist");
-			sc.ellipsis['nFrames'] = 15, // each nFrames, add a '. '
+	    sc['ellipsis'] = Crafty.e("2D, Canvas, Text, Persist");
+			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
 			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
 		sc.ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
 			.textColor(ellipsisColor)
@@ -87,6 +87,7 @@ window.onload = function() {
 						this.text("");
 					} else {
 						this.text(this._text + ". ");
+						console.log("text content: "+this._text);
 					}
 				}
 			});
