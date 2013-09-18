@@ -74,7 +74,7 @@ window.onload = function() {
 	    sc['ellipsis'] = Crafty.e("2D, Canvas, Text, Persist");
 			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
 			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-		sc.ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, z: 1000 })
+		sc.ellipsis.attr({ x: Crafty.viewport.width/2, y : 500, w:100 ,h:50,  z: 1000 })
 			.textColor(ellipsisColor)
 			.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
 			.text(". . . ")
