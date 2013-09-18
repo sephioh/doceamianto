@@ -54,10 +54,12 @@ window.onload = function() {
 	    // clear scene and interface
 	    sc = []; infc = [];   
 		
-		if (obj.backgroundColor!=undefined)
-			Crafty.backgroundColor(obj.backgroundColor);
-		if (obj.soundToPlay!=undefined)
-			Crafty.audio.play(obj.soundToPlay, -1);
+		if (typeof obj !== 'undefined'){
+			if(obj.backgroundColor)
+				Crafty.backgroundColor(obj.backgroundColor);
+			if(obj.soundToPlay)
+				Crafty.audio.play(obj.soundToPlay, -1);
+		}
 		
 		// set sprites for next scene
 		assets.createSprite(gameContainer.scene);
