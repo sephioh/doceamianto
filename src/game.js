@@ -20,7 +20,6 @@ window.onload = function() {
 		"src/assets.js?v="+version+"",
 	    "src/config.js?v="+version+"",
 	    "src/lang/lang-"+lang+".js",
-		"src/components/ProgressBar.js",
     ], function() {
 	
 	// allow playing MP3 files
@@ -28,30 +27,34 @@ window.onload = function() {
 	
 	assets = new Assets();
 	
-	/*gameContainer.setNextSceneInfo({ 
+	gameContainer.setNextSceneInfo({ 
 	  name: "level01",
 	  elements: [
-		  "src/components/TweenColor.js?v="+version+"",
-		  "src/entities/base/BaseEntity.js?v="+version+"",
+		  "src/components/TweenColor.js",
+		  "src/entities/base/BaseEntity.js",
+		  "src/entities/amianto01.js",
+		  "src/entities/darkheart.js",
+		  "src/entities/redheart.js"
 		]
-	});*/
+	});
 	
-	gameContainer.setNextSceneInfo({ 
+	/*gameContainer.setNextSceneInfo({ 
 	  name: "level02",
 	  elements: [
 		  // texts must come first
-		  "text!src/scenes/tilemaps/level02.txt", 
-		  "src/components/TweenColor.js?v="+version+"",
-		  "src/entities/base/BaseEntity.js?v="+version+"",
+		  "text!src/scenes/tilemaps/level02.json", 
+		  "src/entities/base/BaseEntity.js",
 		  "src/components/TiledLevelImporter.js",
 		  "src/components/camera.js",
+		  "src/entities/amianto02.js",
+		  "src/entities/diamond.js"
 		],
-	});
+	});*/
 	
 	gameContainer['conf'] = new Config({});
 		
 	// the loading screen - will be displayed while assets are loaded
-	Crafty.scene("loading", function(obj) { // { backgroundColor: '', soundToPlay: '' }
+	Crafty.scene("loading", function(obj) { // obj -> { backgroundColor: 'black', soundToPlay: 'sound', ellipsisColor: 'black' }
 	    // clear scene and interface
 	    sc = []; infc = [];   
 		
@@ -74,7 +77,7 @@ window.onload = function() {
 	    sc['ellipsis'] = Crafty.e("2D, Canvas, Text");
 		sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
 		sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-		sc.ellipsis.attr({ x: ((Crafty.viewport.width/2)-37), y: 500, w: 78, h: 50,  z: 1000 })
+		sc.ellipsis.attr({ x: ((Crafty.viewport.width/2)-39), y: 500, w: 78, h: 50,  z: 1000 })
 			.textColor(ellipsisColor)
 			.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
 			.text(". . . ")
@@ -111,8 +114,8 @@ window.onload = function() {
 				'require(gameContainer.elementsToLoad, function(' + require_args + ') { ' +
 				// if text files were loaded, add them to gameContainer.loadedStrings array
 				'if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
-				// destroy progressbar and run the specified scene
-				'if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
+				// destroy ellipsis and run the specified scene
+				'sc.ellipsis.destroy(); if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
 				
 				eval( '(' + require_str + ')' );
 			},
