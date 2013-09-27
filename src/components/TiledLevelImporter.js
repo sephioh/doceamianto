@@ -53,10 +53,21 @@ Crafty.c("TiledLevel", {
       this._layerArray.push(layerDetails);
       return null;
     },
+	tiledLevel: function(levelURL, drawType) {
+      var _this = this;
+      $.ajax({
+        type: 'GET',
+        url: levelURL,
+        dataType: 'json',
+        data: {},
+        async: false,
+        success: _this.buildTiledLevel(obj)
+      });
+      return this;
+    },
 	buildTiledLevel: function(level,drawType) {
 	  var _this = this;
 	  var lLayers, ts, tsImages, tss;
-	  level = JSON.parse(level);
 	  lLayers = level.layers, tss = level.tilesets;
 	  drawType = drawType != null ? drawType : "Canvas";
 	  tsImages = (function() {
