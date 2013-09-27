@@ -1,15 +1,9 @@
 Crafty.scene("level01", function() {
 	
-	var elements = [
-        "src/entities/amianto01.js",
-		"src/entities/darkheart.js",
-		"src/entities/redheart.js"
-	];
-	
 	Crafty.background("#FFFFFF");
 		
 	//when everything is loaded, run the level01 scene
-	require(elements, function() {
+	
 				
 		sc['player'] = new Amianto01(),
 		sc['hearts'] = [],
@@ -25,7 +19,7 @@ Crafty.scene("level01", function() {
 		Crafty.audio.play("theme01", -1);
 		
 		//<hearts' loop> 
-		Crafty.heartComing = function() {
+		this.heartComing = function() {
 			// 80% chance of creating a dark heart
 			if(Crafty.math.randomInt(1,100)<=80) {
 				sc.hearts.push(new DarkHeart());
@@ -34,7 +28,7 @@ Crafty.scene("level01", function() {
 			}
 		}
 		
-		sc.delays.delay(Crafty.heartComing,750,-1);
+		sc.delays.delay(this.heartComing,750,-1);
 		//</hearts' loop>
 		
 		//<change background color>
@@ -47,7 +41,7 @@ Crafty.scene("level01", function() {
 		  
 		sc.bckgrndFade.rgb(white);
 		
-		Crafty.backgroundChange = function() {
+		this.backgroundChange = function() {
 			if(!sc.bckgrndFade.isTweeningColor()) {
 				switch(i) {
 					case 0: 
@@ -68,7 +62,7 @@ Crafty.scene("level01", function() {
 			}
 		}
 		
-		Crafty.bind('EnterFrame', Crafty.backgroundChange);
+		this.bind('EnterFrame', Crafty.backgroundChange);
 		//</change background color>
 		
 		//<delimiters>
@@ -86,8 +80,6 @@ Crafty.scene("level01", function() {
 		//</delimiters>
 		
 		Crafty.settings.modify("autoPause",true);
-		
-	});
 	
 	//	Event declarations
 
@@ -153,7 +145,7 @@ Crafty.scene("level01", function() {
 		
 	}
 	
-	Crafty.bind('TooMuchLove', this.muchLove);
+	this.bind('TooMuchLove', this.muchLove);
 	
 	this.loadLevel02 = function() { // load level02
 	
@@ -165,25 +157,25 @@ Crafty.scene("level01", function() {
 					gameContainer.setNextSceneInfo({ 
 					  name: "level02",
 					  elements: [
-						  "text!src/scenes/tilemaps/level02.txt",
+						  // texts must come first
+						  "text!src/scenes/tilemaps/level02.json", 
 						  "src/components/TiledLevelImporter.js",
 						  "src/components/camera.js",
+						  "src/entities/amianto02.js"
 						],
 					});
 					// run level02 scene
-					Crafty.scene("loading");
+					Crafty.scene("loading",{ backgroundColor: "black", ellipsisColor:"white" });
 				});	
 		}, 5000);
 		
 	}; 
 	
-	Crafty.bind('LevelTransition', this.loadLevel02);
+	this.bind('LevelTransition', this.loadLevel02);
 	
 }, function() { 											// executed after scene() is called within the present scene
-	Crafty.unbind('EnterFrame', Crafty.backgroundChange);	// unbind backgroundChange function
-	Crafty.unbind('TooMuchLove', this.muchLove);			// unbind muchLove function
-	Crafty.heartComing = undefined;							// clear level functions held in Crafty obj
-	Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
+	//Crafty.heartComing = undefined;							// clear level functions held in Crafty obj
+	//Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
 	sc.delays.destroy();									// destroy delays
 	sc = [];												// clear scene
 	Crafty("2D").destroy();									// Destroy all entities with 2D component
