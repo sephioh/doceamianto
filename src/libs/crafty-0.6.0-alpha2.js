@@ -2817,6 +2817,7 @@ Crafty.c("Gravity", {
 			//if falling, move the players Y
 			this._gy += this._gravityConst;
 			this.y += this._gy;
+			this.trigger('Moved', { x: this._x, y: this._y - this._gy });
 		} else {
 			this._gy = 0; //reset change in y
 		}
@@ -2844,7 +2845,7 @@ Crafty.c("Gravity", {
 				break;
 			}
 		}
-
+		
 		if (hit) { //stop falling if found
 			if (this._falling) this.stopFalling(hit);
 		} else {
@@ -2927,6 +2928,43 @@ Crafty.polygon.prototype = {
 		}
 
 		return c;
+	},
+   
+	getSideMostPoint: function (from) { // "top", "bottom", "left", "right"
+		var p = this.points, i, most;
+
+		for (i = 0; i < p.length;i++) {
+			if(from == "top") {
+				if(typeof most === 'undefined')
+					most = p[i][1];
+				else
+				if(p[i][1]<most)
+					most = p[i][1];
+			} else
+			if(from == "bottom") {
+				if(typeof most === 'undefined')
+					most = p[i][1];
+				else
+				if(p[i][1]>most)
+					most = p[i][1];
+			} else
+			if(from == "right") {
+				if(typeof most === 'undefined')
+					most = p[i][0];
+				else
+				if(p[i][0]<most)
+					most = p[i][0];
+			} else
+			if(from == "left") {
+				if(typeof most === 'undefined')
+					most = p[i][0];
+				else
+				if(p[i][0]>most)
+					most = p[i][0];
+			}
+		}
+
+		return most;
 	},
 
 	/**@
@@ -6973,11 +7011,11 @@ Crafty.c("Multiway", {
 
 		if (this._movement.x !== 0) {
 			this.x += this._movement.x;
-			this.trigger('Moved', { x: this.x - this._movement.x, y: this.y });
+			this.trigger('Moved', { x: this._x - this._movement.x, y: this.y });
 		}
 		if (this._movement.y !== 0) {
 			this.y += this._movement.y;
-			this.trigger('Moved', { x: this.x, y: this.y - this._movement.y });
+			this.trigger('Moved', { x: this._x, y: this._y - this._movement.y });
 		}
 	},
 
@@ -7186,6 +7224,8 @@ Crafty.c("Twoway", {
 			if (this._up) {
 				this.y -= jump;
 				this._falling = true;
+				if(this.__c.Gravity)
+					this.trigger('Moved', { x: this._x, y: this._y + jump });
 			}
 		}).bind("KeyDown", function () {
 			if (this.isDown("UP_ARROW") || this.isDown("W") || this.isDown("Z")) this._up = true;
