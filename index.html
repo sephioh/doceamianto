@@ -44,7 +44,7 @@
       setNextSceneInfo : function(sceneInfo) {
 		  this.sceneMapsRefs = [],
 		  this.loadedStrings = [],
-		  this.scene = sceneInfo.name;
+		  this.scene = sceneInfo.name,
 		  this.elementsToLoad = sceneInfo.elements;
 		  return;
       }
@@ -68,9 +68,9 @@
   }
   
   /*
-  turns a string containg array of bytes to an actual bytes array
+  turns a string containing array of bytes to an actual 'bytes' (integer) array
   */
-  function stringOfByteArrayToArrayOfBytes(str){
+  function stringOfByteArrayToArrayOfBytes(str) {
 	var byteArray = str.split(",");
 	_.each(byteArray, function(byte, key){
 		byteArray[key] = parseInt(byte);
