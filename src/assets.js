@@ -68,11 +68,20 @@ Assets = Backbone.Model.extend({
 		level02: {
 			'images' : {
 				'player' : {
-					'file' : 'web/images/sheet_amianto01.png',
-					'tile' : 0,
-					'tileh' : 0,
+					'file' : 'web/images/sheet_amianto02.png',
+					'tile' : 94,
+					'tileh' : 126,
 					'elements': {
-						'amianto02' : [0, 0]
+						'amianto02' : [0, 1],
+						'diamond1' : [0, 2],
+						'diamond2' : [0, 3],
+						'diamond3' : [0, 4],
+						'diamond4' : [0, 5],
+						'diamond5' : [0, 6],
+						'diamond6' : [0, 7],
+						'diamond7' : [0, 8],
+						'diamond8' : [0, 9],
+						'diamond9' : [0, 10],
 					}
 				},
 			},
