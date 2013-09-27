@@ -34,7 +34,7 @@ Amianto01 = BaseEntity.extend({
 			})
 			.onHit('heart',function(hit) {
 				for (var i = 0; i < hit.length; i++) {
-					if(hit[i].obj._z == this._z){
+					if(hit[i].obj._z == this._z) {
 						var luv = model.get('love');
 						if(hit[i].obj.__c.darkHeart) {
 							if(luv>model.get('minLove'))
