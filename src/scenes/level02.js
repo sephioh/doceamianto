@@ -15,7 +15,8 @@ Crafty.scene("level02", function() {
 		sc['diamond'] = new Diamond(),
 		sc['mapBuider'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.
 		sc['tiledMap'] = sc.mapBuider.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
-		sc['camera'] = Crafty.e("Camera");
+		sc['camera'] = Crafty.e("Camera"),
+		sc['delays'] = Crafty.e("Delay");
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			Crafty("grnd").each(function() { 
@@ -27,8 +28,19 @@ Crafty.scene("level02", function() {
 			Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
 			//Crafty.viewport.follow(mainEntity, 100, 100);
-			playerEnt.gravity();
+			//
 			console.log("finished loading and assembling tilemap");
+			
+			sc.delays.delay(function() {
+			    playerEnt.bind("AnimationEnd", function stand_up() {
+					this.unbind("AnimationEnd", stand_up)
+					    .collision(this.poly)
+					    .gravity()
+					    .enableControl();
+				})
+				.playAnimation("AmiantoStandingUp", 13*8, 0);
+			}, 3000);
+			
 		});
     /*}, function(percent) {
         /// Decompressing progress code goes here.

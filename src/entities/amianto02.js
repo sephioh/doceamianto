@@ -1,7 +1,7 @@
 Amianto02 = BaseEntity.extend({
     defaults: {
         'speed' : 4,
-		'startingPoint' : { x: 384, y: 1106 },
+		'startingPoint' : { x: 384, y: 1322 },
 		'width' : 94,
 		'height' : 126,
 		'withDiamond' : 0
@@ -25,7 +25,6 @@ Amianto02 = BaseEntity.extend({
 			entity.poly['leftMost'] = entity.poly.getSideMostPoint("left");
 			entity
 				.twoway(model.get('speed'), model.get('speed'))
-				.collision(this.poly)
 				.onHit('grnd', function(hit) {
 				  var justHit = false,
 					  diamondInt = model.get('withDiamond'),
@@ -244,7 +243,8 @@ Amianto02 = BaseEntity.extend({
 				.bind("DiamondGrew", function(to) {
 					var diamond = this.get('withDiamond').toString();
 					model.set({ 'withDiamond' : to });
-				});
+				})
+				.disableControl();
 		
 		model.set({'entity' : entity});
 		

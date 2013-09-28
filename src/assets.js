@@ -72,7 +72,7 @@ Assets = Backbone.Model.extend({
 					'tile' : 94,
 					'tileh' : 126,
 					'elements': {
-						'amianto02' : [0, 1],
+						'amianto02' : [0, 0],
 						'diamond1' : [0, 2],
 						'diamond2' : [0, 3],
 						'diamond3' : [0, 4],
