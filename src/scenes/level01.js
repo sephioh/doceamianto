@@ -166,7 +166,7 @@ Crafty.scene("level01", function() {
 						],
 					});
 					// run level02 scene
-					Crafty.scene("loading",{ backgroundColor: "black", ellipsisColor:"white" });
+					Crafty.scene("loading",{ backgroundColor: "#000000", ellipsisColor:"#FFFFFF" });
 				});	
 		}, 5000);
 		

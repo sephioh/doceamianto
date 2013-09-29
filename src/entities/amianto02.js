@@ -61,13 +61,11 @@ Amianto02 = BaseEntity.extend({
 				.onHit('wall', function(hit) {
 					for (var i = 0; i < hit.length; i++) {
 						var hitDirX = Math.round(hit[i].normal.x)
-						if (hitDirX !== 0) { // hit right or left
-							if (hitDirX === 1) // hit right side
+						if (hitDirX === 1) // hit right side
 								this.x = hit[i].obj._x + this._w;
 							else 
 							if(hitDirX === -1) // hit left side
 								this.x = hit[i].obj._x - hit[i].obj._w;
-						}
 					}
 				  })
 				.onHit('diamond', function(hit) { 

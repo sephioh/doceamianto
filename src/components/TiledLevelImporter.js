@@ -61,7 +61,7 @@ Crafty.c("TiledLevel", {
         dataType: 'json',
         data: {},
         async: false,
-        success: _this.buildTiledLevel(obj)
+        success: _this.buildTiledLevel(obj, drawType)
       });
       return this;
     },

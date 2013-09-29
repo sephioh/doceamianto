@@ -58,7 +58,7 @@ window.onload = function() {
 	    // clear scene and interface
 	    sc = []; infc = [];   
 		
-		var ellipsisColor = 'black';
+		var ellipsisColor = '#000000';
 		
 		if (typeof obj !== 'undefined'){
 			if(obj.backgroundColor)
