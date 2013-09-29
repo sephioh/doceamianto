@@ -62,7 +62,7 @@ window.onload = function() {
 		
 		if (typeof obj !== 'undefined'){
 			if(obj.backgroundColor)
-				Crafty.backgroundColor(obj.backgroundColor);
+				Crafty.background(obj.backgroundColor);
 			if(obj.soundToPlay)
 				Crafty.audio.play(obj.soundToPlay, -1);
 			if(obj.ellipsisColor)
