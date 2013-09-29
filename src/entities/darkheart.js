@@ -1,17 +1,22 @@
 DarkHeart = BaseEntity.extend({
     defaults: {
-	'framesCount' : 0,
-	'VTime' : 400,
-	'SIZE' : 250,	// Initial width/height
+		'framesCount' : 0,
+		'VTime' : 400,
+		'SIZE' : 250,	// Initial width/height
     },
-    initialize: function() {
+    initialize: function(){
 		var model = this,
-			SIZE = model.get('SIZE'),	
-			POSX = Crafty.math.randomInt(0,Crafty.viewport.width - SIZE), // Initial x coordinate: any x possible value in screen
-			POSY = Crafty.viewport.height+100,  // Initial y coordinate: it´s created under the viewport
-			POSZ = 300,							// Initial z coordinate
-			VPX = 400,						  // Perspective´s vanish point: x axis
-			VPY = 210,						 // Perspective´s vanish point: y axis
+			// Initial size
+			SIZE = model.get('SIZE'),
+			// Initial coordinates	
+			POSX = Crafty.math.randomInt(0,Crafty.viewport.width - SIZE),
+			POSY = Crafty.viewport.height+100,
+			POSZ = 300,
+			// Vanishing points
+			VPX = (POSX < Crafty.viewport.width/2) ? Crafty.math.randomInt(SIZE, Crafty.viewport.width / 2)
+												   : Crafty.math.randomInt(Crafty.viewport.width/2, Crafty.viewport.width - SIZE ),
+			VPY = 210,
+			// Components
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, darkHeart, Tween, Collision");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w: SIZE, h: SIZE})
@@ -20,10 +25,10 @@ DarkHeart = BaseEntity.extend({
 				// When tween end, destroy heart
 				entity.destroy();
 			  })
-			.bind('EnterFrame', function towards_oblivion() { 
+			.bind('EnterFrame', function towards_oblivion() {
 			    if(this._y<320){
-				this.z = 5;
-				this.unbind('EnterFrame', towards_oblivion);
+					this.z = 5;
+					this.unbind('EnterFrame', towards_oblivion);
 			    }
 			})
 			.setName('Dark Heart');
