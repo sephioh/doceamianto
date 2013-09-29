@@ -17,9 +17,10 @@ window.onload = function() {
     Crafty.canvas.init();
     
     require([
-		"src/assets.js?v="+version+"",
+	    "src/assets.js?v="+version+"",
 	    "src/config.js?v="+version+"",
 	    "src/lang/lang-"+lang+".js",
+	    "src/entities/base/BaseEntity.js"
     ], function() {
 	
 	// allow playing MP3 files
@@ -31,7 +32,6 @@ window.onload = function() {
 	  name: "level01",
 	  elements: [
 		  "src/components/TweenColor.js",
-		  "src/entities/base/BaseEntity.js",
 		  "src/entities/amianto01.js",
 		  "src/entities/darkheart.js",
 		  "src/entities/redheart.js"
