@@ -88,6 +88,9 @@ Crafty.scene("level01", function() {
 		
 		var time = 60;										// time in frames, duration of tweening effects
 		
+		Crafty.audio.stop();
+		Crafty.audio.play("falling01", 1);
+		
 		sc.delays.destroy();								// destroy delays
 		sc.delays = undefined;								// reset delays
 		sc['delays'] = Crafty.e("Delay");					// reset delays
