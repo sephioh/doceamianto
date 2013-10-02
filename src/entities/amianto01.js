@@ -37,6 +37,7 @@ Amianto01 = BaseEntity.extend({
 					if(hit[i].obj._z == this._z) {
 						var luv = model.get('love');
 						if(hit[i].obj.__c.darkHeart) {
+							Crafty.audio.play("hitDarkHeart", 1);
 							if(luv>model.get('minLove'))
 								model.set({ 'love' : luv-1 });
 							hit[i].obj.destroy();
@@ -52,6 +53,7 @@ Amianto01 = BaseEntity.extend({
 								.playAnimation("AmiantoHittingDarkHeart", 40, 0, 0);
 						} else 
 						if(hit[i].obj.__c.redHeart) {
+							Crafty.audio.play("hitRedHeart", 1);
 							model.set({ 'love' : luv+1 });
 							hit[i].obj.destroy();
 							model._stopMoving();
