@@ -120,7 +120,8 @@ window.onload = function() {
 				eval( '(' + require_str + ')' );
 			},
 			function(e) {
-				//progress
+				//{ loaded: j, total: total, percent: (j / total * 100) ,src:src}
+				console.log("loading assets: "+e.loaded+"; total: "+e.total+"; percent: "+e.percent+"; src: "+e.src);
 			},
 			function(e) {
 				//error
