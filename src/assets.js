@@ -59,9 +59,34 @@ Assets = Backbone.Model.extend({
 			},
 			'audio' : {
 				'theme' : {
-					'files' : ['web/audio/theme01.mp3',
-							   'web/audio/theme01.aac'],
+					'files' : [ 'web/audio/theme01.ogg',
+						    'web/audio/theme01.wav'
+						  ],
 					'cmd' : 'theme01'
+				},
+				'hitRedHeart' : {
+					'files' : ['web/audio/hitredheart.mp3',
+						    'web/audio/hitredheart.aac',
+						    'web/audio/hitredheart.ogg',
+						    'web/audio/hitredheart.m4a'
+						  ],
+					'cmd' : 'hitRedHeart'
+				},
+			       'hitDarkHeart' : {
+					'files' : ['web/audio/hitdarkheart.mp3',
+						    'web/audio/hitdarkheart.aac',
+						    'web/audio/hitdarkheart.ogg',
+						    'web/audio/hitdarkheart.m4a'
+						  ],
+					'cmd' : 'hitDarkHeart'
+				},
+			       'fall' : {
+					'files' : ['web/audio/fall01.mp3',
+						    'web/audio/fall01.aac',
+						    'web/audio/fall01.ogg',
+						    'web/audio/fall01.m4a'
+						  ],
+					'cmd' : 'falling01'
 				}
 			}
 		},
@@ -125,8 +150,9 @@ Assets = Backbone.Model.extend({
     },
     
 	createSound: function(scene,key){
-		if(key != undefined){
+	   if(key != undefined){
             element = this.get(scene)['audio'][key];
+	    
             Crafty.audio.add(element['cmd'], element['files']);
     		
             return true;
@@ -155,7 +181,7 @@ Assets = Backbone.Model.extend({
             array[i] = imgElement['file'];
             i++;
         });
-		_.each(this.get(scene)['audio'], function(audElement, ke){ 
+	_.each(this.get(scene)['audio'], function(audElement, ke){ 
 			_.each(audElement['files'], function(audFile, k) {
 				array[i] = audFile;
 				i++;
