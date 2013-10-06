@@ -10,13 +10,15 @@ Crafty.scene("level01", function() {
 		sc['delimiters'] = [],
 		sc['delays'] = Crafty.e("Delay"),
 		sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, TweenColor")
-			.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 }),
+		    .attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 }),
 		sc['bckgrndDegrade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, degrade")
-			.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 });
+		    .attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 });
 		
 		sc.player.startMoving();
 		// Play theme
-		Crafty.audio.play("theme01", -1);
+		sounds.theme01.play({
+		  loops: 15
+		});
 		
 		//<hearts' loop> 
 		this.heartComing = function() {
@@ -88,8 +90,10 @@ Crafty.scene("level01", function() {
 		
 		var time = 60;										// time in frames, duration of tweening effects
 		
-		Crafty.audio.stop();
-		Crafty.audio.play("falling01", 1);
+		//Crafty.audio.stop();
+		//Crafty.audio.play("falling01", 1);
+		sounds.theme01.stop();
+		sounds.falling01.play();
 		
 		sc.delays.destroy();								// destroy delays
 		sc.delays = undefined;								// reset delays

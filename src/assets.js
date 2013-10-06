@@ -59,8 +59,9 @@ Assets = Backbone.Model.extend({
 			},
 			'audio' : {
 				'theme' : {
-					'files' : [ 'web/audio/theme01.ogg',
-						    'web/audio/theme01.wav'
+					'files' : [ 'web/audio/theme01.mp3',
+						    'web/audio/theme01.wav',
+						    'web/audio/theme01.ogg'
 						  ],
 					'cmd' : 'theme01'
 				},
@@ -149,22 +150,36 @@ Assets = Backbone.Model.extend({
         });
     },
     
-	createSound: function(scene,key){
-	   if(key != undefined){
-            element = this.get(scene)['audio'][key];
+    createSound: function(scene,key) {
+      
+	var audioObj = {};
+	
+	if(key != undefined) {
+	    element = this.get(scene)['audio'][key];
 	    
-            Crafty.audio.add(element['cmd'], element['files']);
-    		
-            return true;
-        };
+	    audioObj = soundManager.createSound(element['cmd'],element['files'])
+	    
+	    return audioObj;
+	}
+	
+	_.each(this.get(scene)['audio'], function(element, ke) {
+	  
+		if(element['files'].length > 1)
+		    audioObj[element['cmd']] = soundManager.createSound({
+		      id: element['cmd'],
+		      url: element['files']
+		    });
+		else
+		    audioObj[element['cmd']] = soundManager.createSound({
+		      id: element['cmd'],
+		      url: element['files']
+		    });
 		
-		var audioObj = {};
-        _.each(this.get(scene)['audio'], function(element, ke){ 
-			audioObj[element['cmd']] = element['files'];
-        });
-		
-		Crafty.audio.add(audioObj);
-	},
+	  });
+	
+	  return audioObj;
+	
+    },
 	
     getSpriteData: function(scene,key){
 		return this.get(scene)['images'][key];
@@ -181,12 +196,12 @@ Assets = Backbone.Model.extend({
             array[i] = imgElement['file'];
             i++;
         });
-	_.each(this.get(scene)['audio'], function(audElement, ke){ 
+	/*_.each(this.get(scene)['audio'], function(audElement, ke){ 
 			_.each(audElement['files'], function(audFile, k) {
 				array[i] = audFile;
 				i++;
 			});
-        });
+        });*/
 		
         return array;
     }
