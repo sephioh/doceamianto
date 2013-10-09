@@ -1,4 +1,4 @@
-Crafty.scene("level02", function() {
+	Crafty.scene("level02", function() {
 	
 	sc = [];
 	
@@ -17,6 +17,7 @@ Crafty.scene("level02", function() {
 		sc['tiledMap'] = sc.mapBuider.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
 		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay");
+		sc['delimiters'] = [],
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			Crafty("grnd").each(function() { 
@@ -42,6 +43,20 @@ Crafty.scene("level02", function() {
 			}, 3000);
 			
 		});
+
+		//<delimiters>
+		var delimitersMap = {
+			left: 	{ x: 0, y: 1300, w: 1, h: 150, shape: [[0,1300],[0,1450]] }, 
+		};
+	
+		_.each(delimitersMap, function(obj) {
+			var delimiter = Crafty.e("2D, Collision, solid")
+				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
+			sc.delimiters.push(delimiter);
+		});
+		//</delimiters>
+
+
     /*}, function(percent) {
         /// Decompressing progress code goes here.
         console.log("Decompressing: " + (percent * 100) + "%");

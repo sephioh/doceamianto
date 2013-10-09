@@ -114,7 +114,16 @@ Amianto02 = BaseEntity.extend({
 				.onHit('light', function(hit) {
 					// "cast" shadow and rotate
 				  })
-				
+				.onHit('solid', function(hit) {
+					for (var i = 0; i < hit.length; i++) {
+						var hitDirX = Math.round(hit[i].normal.x);
+						if(hitDirX !== 0) {
+							if (hitDirX === 1) {
+								this.x = this._x + 4;
+							} 
+						}
+					}
+				})
 				.bind('KeyDown', function(e){ 
 					if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
 					    if((!model.get('withDiamond') && this._shiningEyes) || model.get('withDiamond'))
