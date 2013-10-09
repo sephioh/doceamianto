@@ -46,7 +46,7 @@
 
 		//<delimiters>
 		var delimitersMap = {
-			left: 	{ x: 0, y: 1300, w: 1, h: 150, shape: [[0,1300],[0,1450]] }, 
+			left: 	{ x: 425, y: 1300, w: 1, h: 150, shape: [[425,1300],[426,1450]] }, 
 		};
 	
 		_.each(delimitersMap, function(obj) {
