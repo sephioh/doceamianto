@@ -16,28 +16,35 @@
 		sc['mapBuider'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.
 		sc['tiledMap'] = sc.mapBuider.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
 		sc['camera'] = Crafty.e("Camera"),
-		sc['delays'] = Crafty.e("Delay");
-		sc['delimiters'] = [],
+		sc['delays'] = Crafty.e("Delay"),
+		sc['delimiters'] = [];
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
-			Crafty("grnd").each(function() { 
-				this.addComponent("Collision");
+			
+			// setting collision for tiles
+			
+			Crafty("upStairs").each(function() { 
+				this.collision(new Crafty.polygon([[0,32],[32,0]]))
+				    .addComponent("WiredHitBox");
+			});
+			Crafty("downStairs").each(function() { 
+				this.collision(new Crafty.polygon([[0,0],[32,32]]))
+				    .addComponent("WiredHitBox");
 			});
 			
 			var playerEnt = sc.player.getEntity();
 			
 			Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
-			//Crafty.viewport.follow(mainEntity, 100, 100);
-			//
+			
 			console.log("finished loading and assembling tilemap");
 			
 			sc.delays.delay(function() {
-			    playerEnt.bind("AnimationEnd", function stand_up() {
+				playerEnt.bind("AnimationEnd", function stand_up() {
 					this.unbind("AnimationEnd", stand_up)
-					    .collision(this.poly)
-					    .gravity()
-					    .enableControl();
+						.collision(this.poly)
+						.gravity()
+						.enableControl();
 				})
 				.playAnimation("AmiantoStandingUp", 13*8, 0);
 			}, 3000);
@@ -46,11 +53,12 @@
 
 		//<delimiters>
 		var delimitersMap = {
-			left: 	{ x: 425, y: 1300, w: 1, h: 150, shape: [[425,1300],[426,1450]] }, 
+			left: 	{ x: 435, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }, 
+			//right: 	{ x: 425, y: 1275, w: 2, h: 180, shape: [[1,0],[1,150]] }
 		};
 	
 		_.each(delimitersMap, function(obj) {
-			var delimiter = Crafty.e("2D, Collision, solid")
+			var delimiter = Crafty.e("2D, Collision, wall, WiredHitBox")
 				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
 			sc.delimiters.push(delimiter);
 		});
@@ -61,13 +69,6 @@
         /// Decompressing progress code goes here.
         console.log("Decompressing: " + (percent * 100) + "%");
     });*/
-	
-	// when everything is loaded, 
-//	require(elements, function() {					//tiledMapString) {
-		
-		
-		
-//	});
 		
 }, function(){ 
   
