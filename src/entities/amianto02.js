@@ -1,7 +1,7 @@
 Amianto02 = BaseEntity.extend({
     defaults: {
         'speed' : 4,
-		'startingPoint' : { x: 500, y: 1322 },//{ x: 500, y: 1322 }, //12084
+		'startingPoint' : { x: 12084, y: 1322 },//{ x: 500, y: 1322 }, //12084
 		'width' : 94,
 		'height' : 126,
 		'withDiamond' : 0
@@ -31,7 +31,7 @@ Amianto02 = BaseEntity.extend({
 					if((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || (this._currentReelId == "AmiantoJumpingUp" + diamondStr)){
 						justHit = true;  
 						
-						if (diamondInt === 0) this.playAnimation("AmiantoStandingStill0", 73*5, -1);
+						if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 73*5, -1);
 						else
 						if (diamondInt > 0) this.playAnimation("AmiantoStandingStill"+diamondStr, 5, -1);
 						
@@ -77,12 +77,12 @@ Amianto02 = BaseEntity.extend({
 						var actualStairs = (hit[i].obj.__c.upStairs || hit[i].obj.__c.downStairs);
 						
 						if(isfalling && actualStairs)
-							if (diamondInt === 0) this.playAnimation("AmiantoStandingStill0", 73*5, -1);
+							if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 73*5, -1);
 							else
 							if (diamondInt > 0) this.playAnimation("AmiantoStandingStill"+diamondStr, 5, -1);
 						
 						if(justHit)
-							if(hit[i].obj.__c.upStairs) {
+							if(hit[i].obj.__c.upStairs || hit[i].obj.__c.upStairsFirstStepDown) {
 								this.multiway(speed/2, {
 									LEFT_ARROW: 135,
 									RIGHT_ARROW: 0,
@@ -92,7 +92,7 @@ Amianto02 = BaseEntity.extend({
 								this._onStairs = true;
 							}
 							else
-							if(hit[i].obj.__c.downStairs) {
+							if(hit[i].obj.__c.downStairs || hit[i].obj.__c.downStairsFirstStepDown) {
 								this.multiway(speed/2, {
 									LEFT_ARROW: 180,
 									RIGHT_ARROW: 45,
