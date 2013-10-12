@@ -7,7 +7,7 @@ Diamond = BaseEntity.extend({
 	var model = this,
 	    WIDTH = 94,	// Initial width
 	    HEIGHT = 126,
-	    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Collision, Tween, diamond, diamond1, WiredHitBox");
+	    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Collision, Tween, diamond, diamond1");
 	entity['value'] = 1,
 	entity['_held'] = false;
 	entity.attr({
