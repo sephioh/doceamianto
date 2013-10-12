@@ -1,7 +1,7 @@
 Amianto02 = BaseEntity.extend({
     defaults: {
         'speed' : 4,
-		'startingPoint' : { x: 500, y: 1322 },//{ x: 500, y: 1322 }, //12084
+		'startingPoint' : { x: 12000, y: 1322 },//{ x: 500, y: 1322 }, //12084
 		'width' : 94,
 		'height' : 126,
 		'withDiamond' : 0
@@ -129,6 +129,12 @@ Amianto02 = BaseEntity.extend({
 				  }, function() {
 				     this._shiningEyes = false;
 				  })
+				.onHit('water', function() { 
+					 currentDiamondValue = Crafty("diamond").value;
+					 currentCheckPoint = sc.checkpoints[currentDiamondValue - 1];
+					 this.x = currentCheckPoint.x;
+					 this.y = currentCheckPoint.y;
+				  })
 				.bind('KeyDown', function(e){ 
 					if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
 					    if((!model.get('withDiamond') && this._shiningEyes) || model.get('withDiamond'))
@@ -137,7 +143,6 @@ Amianto02 = BaseEntity.extend({
 				  })
 				.bind('KeyUp', function(e) {
 					var k = e.key, diamond = model.get('withDiamond').toString();
-					
 					if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 					  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
 						if(this.isPlaying("AmiantoRunning0"))

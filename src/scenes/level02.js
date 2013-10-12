@@ -17,7 +17,8 @@
 		sc['tiledMap'] = sc.mapBuider.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
 		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay"),
-		sc['delimiters'] = [];
+		sc['delimiters'] = [],
+		sc['checkpoints'] = [];
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
@@ -64,6 +65,17 @@
 		});
 		//</delimiters>
 
+		//<checkpoints>
+		var checkPointsMap = {
+			0: 	{ x: 12000, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }, 
+		};
+	
+		_.each(checkPointsMap, function(obj) {
+			var checkpoint = Crafty.e("2D, Collision, checkpoint, WiredHitBox")
+				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
+			sc.checkpoints.push(checkpoint);
+		});
+		//</delimiters>
 
     /*}, function(percent) {
         /// Decompressing progress code goes here.
