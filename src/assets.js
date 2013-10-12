@@ -58,37 +58,29 @@ Assets = Backbone.Model.extend({
 				}
 			},
 			'audio' : {
-				'theme' : {
-					'files' : [ 'web/audio/theme01.mp3',
-						    'web/audio/theme01.wav',
-						    'web/audio/theme01.ogg'
-						  ],
-					'cmd' : 'theme01'
-				},
-				'hitRedHeart' : {
-					'files' : ['web/audio/hitredheart.mp3',
-						    'web/audio/hitredheart.aac',
-						    'web/audio/hitredheart.ogg',
-						    'web/audio/hitredheart.m4a'
-						  ],
-					'cmd' : 'hitRedHeart'
-				},
-			       'hitDarkHeart' : {
-					'files' : ['web/audio/hitdarkheart.mp3',
-						    'web/audio/hitdarkheart.aac',
-						    'web/audio/hitdarkheart.ogg',
-						    'web/audio/hitdarkheart.m4a'
-						  ],
-					'cmd' : 'hitDarkHeart'
-				},
-			       'fall' : {
-					'files' : ['web/audio/fall01.mp3',
-						    'web/audio/fall01.aac',
-						    'web/audio/fall01.ogg',
-						    'web/audio/fall01.m4a'
-						  ],
-					'cmd' : 'falling01'
-				}
+				'theme' : 
+					[ 'web/audio/theme01.ogg',
+					  'web/audio/theme01.wav',
+					  'web/audio/theme01.mp3',
+					],
+				'hitredheart' : 
+					[ 'web/audio/hitredheart.ogg',
+					  'web/audio/hitredheart.aac',
+					  'web/audio/hitredheart.m4a',
+					  'web/audio/hitredheart.mp3'
+					],
+			       'hitdarkheart' : 
+					[ 'web/audio/hitdarkheart.ogg',
+					  'web/audio/hitdarkheart.aac',
+					  'web/audio/hitdarkheart.m4a',
+					  'web/audio/hitdarkheart.mp3'
+					],
+			       'fall' : 
+					[ 'web/audio/fall01.ogg',
+					  'web/audio/fall01.aac',
+					  'web/audio/fall01.m4a',
+					  'web/audio/fall01.mp3',
+					]
 			}
 		},
 		level02: {
@@ -114,8 +106,7 @@ Assets = Backbone.Model.extend({
 			/*'audio' : {
 				'theme' : {
 					'files' : ['web/audio/',
-							   'web/audio/'],
-					'cmd' : 'theme02'
+							   'web/audio/']
 				}
 			}*/
 		}
@@ -150,7 +141,7 @@ Assets = Backbone.Model.extend({
         });
     },
     
-    createSound: function(scene,key) {
+    /*createSound: function(scene,key) {
       
 	var audioObj = {};
 	
@@ -179,7 +170,7 @@ Assets = Backbone.Model.extend({
 	
 	  return audioObj;
 	
-    },
+    },*/
 	
     getSpriteData: function(scene,key){
 		return this.get(scene)['images'][key];
@@ -190,19 +181,23 @@ Assets = Backbone.Model.extend({
      * 
      * @return array array of files paths
      */
-    getPaths: function(scene){
+    getPaths: function(scene) {
         var array = [], i=0;
-        _.each(this.get(scene)['images'], function(imgElement, key){ 
+        _.each(this.get(scene)['images'], function(imgElement){ 
             array[i] = imgElement['file'];
             i++;
         });
-	/*_.each(this.get(scene)['audio'], function(audElement, ke){ 
-			_.each(audElement['files'], function(audFile, k) {
-				array[i] = audFile;
-				i++;
-			});
-        });*/
-		
+	
+	_.each(this.get(scene)['audio'], function(audElement){ 
+		for (var j = 0; j < audElement.length; j++) {
+			var ext = audElement[j].substr(audElement[j].lastIndexOf('.') + 1, 3).toLowerCase();
+			if(Crafty.audio.supports(ext)) {
+				array[array.length] = audElement[j];
+				break;
+			}
+		}
+        });
+	
         return array;
     }
     
