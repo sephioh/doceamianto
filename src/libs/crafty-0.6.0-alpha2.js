@@ -10041,9 +10041,10 @@ Crafty.extend({
             obj = Crafty.asset(current) || null;   
           
             if (Crafty.audio.supports(ext)) {   
-                //Create a new asset if necessary, using the file name as an id
+                //Create a new asset if necessary, using the (file name minus ext) as an id
                 if(!obj){
-                    var name = current.substr(current.lastIndexOf('/') + 1).toLowerCase();
+                    var name = current.substr(current.lastIndexOf('/') + 1);
+		    name = name.substring(0, name.lastIndexOf('.'));
                     obj = Crafty.audio.create(name, current).obj;
             	}
         
