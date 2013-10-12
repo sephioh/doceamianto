@@ -16,9 +16,7 @@ Crafty.scene("level01", function() {
 		
 		sc.player.startMoving();
 		// Play theme
-		sounds.theme01.play({
-		  loops: 15
-		});
+		Crafty.audio.play("theme01", -1);
 		
 		//<hearts' loop> 
 		this.heartComing = function() {
@@ -90,10 +88,8 @@ Crafty.scene("level01", function() {
 		
 		var time = 60;										// time in frames, duration of tweening effects
 		
-		//Crafty.audio.stop();
-		//Crafty.audio.play("falling01", 1);
-		sounds.theme01.stop();
-		sounds.falling01.play();
+		Crafty.audio.stop();
+		Crafty.audio.play("fall01", 1);
 		
 		sc.delays.destroy();								// destroy delays
 		sc.delays = undefined;								// reset delays
@@ -164,7 +160,6 @@ Crafty.scene("level01", function() {
 					gameContainer.setNextSceneInfo({ 
 					  name: "level02",
 					  elements: [
-						  // texts must come first
 						  "text!src/scenes/tilemaps/level02.json", 
 						  "src/components/TiledLevelImporter.js",
 						  "src/components/camera.js",
