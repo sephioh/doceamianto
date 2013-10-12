@@ -1,7 +1,7 @@
 Amianto02 = BaseEntity.extend({
     defaults: {
         'speed' : 4,
-		'startingPoint' : { x: 12084, y: 1322 },//{ x: 500, y: 1322 }, //12084
+		'startingPoint' : { x: 500, y: 1322 },//{ x: 500, y: 1322 }, //12084
 		'width' : 94,
 		'height' : 126,
 		'withDiamond' : 0
@@ -37,8 +37,7 @@ Amianto02 = BaseEntity.extend({
 						
 					}
 					for (var i = 0; i < hit.length; i++) {
-						var hitDirY = Math.round(hit[i].normal.y),
-						    hitDirX = Math.round(hit[i].normal.x);
+						var hitDirY = Math.round(hit[i].normal.y);
 						if (hitDirY !== 0) { 						// hit bottom or top
 							if (hitDirY === -1) { // hit the top, stop falling
 								
@@ -68,8 +67,8 @@ Amianto02 = BaseEntity.extend({
 					    diamondInt = model.get('withDiamond'),
 					    diamondStr = diamondInt.toString(),
 					    speed = model.get('speed'),
-					    isfalling = ((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || 
-						    (this._currentReelId == "AmiantoJumpingUp" + diamondStr ));
+					    isfalling = (((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || 
+						    (this._currentReelId == "AmiantoJumpingUp" + diamondStr )) && this._falling);
 					
 					if((isfalling || this._currentReelId == "AmiantoRunning" + diamondStr))
 						justHit = true;
@@ -83,7 +82,7 @@ Amianto02 = BaseEntity.extend({
 							if (diamondInt > 0) this.playAnimation("AmiantoStandingStill"+diamondStr, 5, -1);
 						
 						if(justHit)
-							if(hit[i].obj.__c.upStairs || hit[i].obj.__c.upStairsFirstStepDown) {
+							if(hit[i].obj.__c.upStairs) {
 								this.multiway(speed/2, {
 									LEFT_ARROW: 135,
 									RIGHT_ARROW: 0,
@@ -93,7 +92,7 @@ Amianto02 = BaseEntity.extend({
 								this._onStairs = true;
 							}
 							else
-							if(hit[i].obj.__c.downStairs || hit[i].obj.__c.downStairsFirstStepDown) {
+							if(hit[i].obj.__c.downStairs) {
 								this.multiway(speed/2, {
 									LEFT_ARROW: 180,
 									RIGHT_ARROW: 45,
@@ -104,8 +103,7 @@ Amianto02 = BaseEntity.extend({
 							}
 						
 						
-						if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
-						   ((this.isDown("UP_ARROW") || this.isDown("W")) && this._up && actualStairs )) 
+						if(justHit && this._up && actualStairs) 
 							this._up = false;
 						
 						if(!this._up && justHit && actualStairs)
