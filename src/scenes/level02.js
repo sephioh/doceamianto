@@ -2,9 +2,9 @@
 	
 	sc = [];
 	
-	//Crafty.init(2400, 32000); // reset stage to accommodate the tilemap
-	//Crafty.viewport.init(800, 600);
 	Crafty.background("#000000");
+	
+	Crafty.audio.play("theme02", -1);
 	
 	//var MapBytesArray = stringOfByteArrayToArrayOfBytes(gameContainer.loadedStrings[0]);
 	
