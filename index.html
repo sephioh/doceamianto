@@ -34,28 +34,28 @@
   <script src="src/game.js"></script>
 
   <script type="text/javascript">
-  gameContainer = {
-      env : 'dev',
-      gameVersion : '0.0.1',
-      scene : '',
-      elementsToLoad : [],
-      sceneMapsRefs : [],
-      loadedStrings : [],
-      setNextSceneInfo : function(sceneInfo) {
-		  this.sceneMapsRefs = [],
-		  this.loadedStrings = [],
-		  this.scene = sceneInfo.name,
-		  this.elementsToLoad = sceneInfo.elements;
-		  return;
-      }
-  },
-  sc    = [], // container for backbone scene elements
-  infc  = [],	// container for backbone interface elements
-  assets = {};  // container for Assets obj
+    gameContainer = {
+	env : 'dev',
+	gameVersion : '0.0.1',
+	scene : '',
+	elementsToLoad : [],
+	sceneMapsRefs : [],
+	loadedStrings : [],
+	setNextSceneInfo : function(sceneInfo) {
+		this.sceneMapsRefs = [],
+		this.loadedStrings = [],
+		this.scene = sceneInfo.name,
+		this.elementsToLoad = sceneInfo.elements;
+		return;
+	}
+    },
+    sc    = [], // container for backbone scene elements
+    infc  = [],	// container for backbone interface elements
+    assets = {};  // container for Assets obj
 
-  /*Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
-    Crafty.debugBar.show();
-  });*/
+    /*Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
+      Crafty.debugBar.show();
+    });*/
   </script>
   
   <script type="text/javascript">
