@@ -292,7 +292,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"../../../web/images/tileset-level02.png",
+         "image":"web/images/tileset-level02.png",
          "imageheight":673,
          "imagewidth":768,
          "margin":0,
