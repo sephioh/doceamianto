@@ -134,6 +134,17 @@ Amianto02 = BaseEntity.extend({
 				this.x = currentCheckPoint._x;
 				this.y = currentCheckPoint._y;
 			  })
+			.onHit('checkpoint', function(hit) { 
+				for (var i = 0; i < hit.length; i++) {
+					currentDiamondValue = Crafty("diamond").value;
+					checkPointValue = hit[i].obj['value'];
+					if(currentDiamondValue < checkPointValue)
+						if(this.withDiamond != 0){
+							sc.diamond.grow(checkPointValue);							
+						}
+				}
+
+			  })
 			.bind('KeyDown', function(e){ 
 				if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
 				    if((!model.get('withDiamond') && this._shiningEyes) || model.get('withDiamond'))
@@ -257,7 +268,6 @@ Amianto02 = BaseEntity.extend({
 				      }
 			})
 			.bind("DiamondGrew", function(to) {
-				var diamond = this.get('withDiamond').toString();
 				model.set({ 'withDiamond' : to });
 			})
 			.disableControl();

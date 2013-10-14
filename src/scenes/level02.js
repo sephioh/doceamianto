@@ -67,12 +67,15 @@
 
 		//<checkpoints>
 		var checkPointsMap = {
-			0: 	{ x: 12000, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }, 
+			checkpoint1: { x: 3050, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 1 },
+			checkpoint2: { x: 6100, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 2 },
+			checkpoint3: { x: 9150, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 3 }
 		};
 	
 		_.each(checkPointsMap, function(obj) {
 			var checkpoint = Crafty.e("2D, Collision, checkpoint, WiredHitBox")
 				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
+			checkpoint['value'] = obj.value;
 			sc.checkpoints.push(checkpoint);
 		});
 		//</delimiters>
