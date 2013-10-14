@@ -59,23 +59,27 @@ Assets = Backbone.Model.extend({
 			},
 			'audio' : {
 				'theme' : 
-					[ 'web/audio/theme01.ogg',
-					  'web/audio/theme01.mp3',
+					[ 'web/audio/theme01.m4a',
+					  'web/audio/theme01.ogg'
+					  
 					],
 				'hitredheart' : 
-					[ 'web/audio/hitredheart.ogg',
-					  'web/audio/hitredheart.m4a',
-					  'web/audio/hitredheart.mp3'
+					[ 'web/audio/hitredheart.mp3',
+					 'web/audio/hitredheart.m4a',
+					 'web/audio/hitredheart.ogg'
+					  
 					],
-			       'hitdarkheart' : 
-					[ 'web/audio/hitdarkheart.ogg',
-					  'web/audio/hitdarkheart.m4a',
-					  'web/audio/hitdarkheart.mp3'
+			      'hitdarkheart' : 
+					[ 'web/audio/hitdarkheart.mp3',
+					 'web/audio/hitdarkheart.m4a',
+					  'web/audio/hitdarkheart.ogg'
+					  
 					],
-			       'fall' : 
-					[ 'web/audio/fall01.ogg',
-					  'web/audio/fall01.m4a',
+				'fall' : 
+					[ 
 					  'web/audio/fall01.mp3',
+					 'web/audio/fall01.m4a',
+					  'web/audio/fall01.ogg'
 					]
 			}
 		},
@@ -97,19 +101,18 @@ Assets = Backbone.Model.extend({
 						'diamond8' : [0, 9],
 						'diamond9' : [0, 10]
 					}
-				},
+				}
 			},
 			'audio' : {
-				'theme' : 
-					['web/audio/theme02.ogg',
-					 'web/audio/theme02.m4a'
-					 ],
 				'blanche' :
-					['web/audio/blacheflying02.ogg',
+					['web/audio/blacheflying02.mp3',
 					 'web/audio/blacheflying02.m4a',
-					 'web/audio/blacheflying02.mp3'
-					]
-				
+					 'web/audio/blacheflying02.ogg'
+					],
+				'theme' : 
+					['web/audio/theme02.m4a',
+					 'web/audio/theme02.ogg'
+					 ]
 			}
 		}
     },
@@ -142,38 +145,7 @@ Assets = Backbone.Model.extend({
                 Crafty.sprite(element['tile'], element['tileh'], element['file'], element['elements']);
         });
     },
-    
-    /*createSound: function(scene,key) {
-      
-	var audioObj = {};
-	
-	if(key != undefined) {
-	    element = this.get(scene)['audio'][key];
-	    
-	    audioObj = soundManager.createSound(element['cmd'],element['files'])
-	    
-	    return audioObj;
-	}
-	
-	_.each(this.get(scene)['audio'], function(element, ke) {
-	  
-		if(element['files'].length > 1)
-		    audioObj[element['cmd']] = soundManager.createSound({
-		      id: element['cmd'],
-		      url: element['files']
-		    });
-		else
-		    audioObj[element['cmd']] = soundManager.createSound({
-		      id: element['cmd'],
-		      url: element['files']
-		    });
-		
-	  });
-	
-	  return audioObj;
-	
-    },*/
-	
+    	
     getSpriteData: function(scene,key){
 		return this.get(scene)['images'][key];
     },
