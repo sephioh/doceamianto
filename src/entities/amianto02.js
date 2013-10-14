@@ -136,12 +136,10 @@ Amianto02 = BaseEntity.extend({
 			  })
 			.onHit('checkpoint', function(hit) { 
 				for (var i = 0; i < hit.length; i++) {
-					currentDiamondValue = Crafty("diamond").value;
-					checkPointValue = hit[i].obj['value'];
-					if(currentDiamondValue < checkPointValue)
-						if(this.withDiamond != 0){
-							sc.diamond.grow(checkPointValue);							
-						}
+					var currentDiamondValue = Crafty("diamond").value,
+					    checkPointValue = hit[i].obj['value'];
+					if((currentDiamondValue < checkPointValue) && model.get('withDiamond'))
+						sc.diamond.grow(checkPointValue);
 				}
 
 			  })
@@ -249,21 +247,21 @@ Amianto02 = BaseEntity.extend({
 					      if(!this._flipX) 	// if moved left and is unflipped
 						      this.flip("X");						// flip sprite
 					      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
-						  if(!model.get('withDiamond')) {
+						  if(!model.get('withDiamond')) 
 						      this.playAnimation("AmiantoRunning0", 40, -1);
-						  } else {
+						  else 
 						      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-						  }
+						  
 					      break;
 					case "right": 
 					      if(this._flipX) 							// if moved right and is flipped 
 						      this.unflip("X");					// unflip sprite
 					      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
-						  if(!model.get('withDiamond')) {
+						  if(!model.get('withDiamond'))
 						      this.playAnimation("AmiantoRunning0", 40, -1);
-						  } else {
+						  else
 						      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-						  }
+						  
 					      break;
 				      }
 			})
