@@ -73,7 +73,7 @@ window.onload = function() {
 					// use eval for executing require(), also loading possible texts/maps
 					
 					var require_str = '', require_args = '', require_args_count = 0, regElms = [], textElms = [], elements;
-					// build require_args string, if there are text files to load
+					// build require_args string, if there are texts to load
 					_.each(gameContainer.elementsToLoad, function(ele, i) { 
 						// search for texts, first things to load
 						if( ele.lastIndexOf("text!") !== -1 ) {
@@ -88,7 +88,7 @@ window.onload = function() {
 						
 					});
 					
-					elements = textElms.concat(regElms);
+					elements = textElms.concat(regElms); // text elements followed by javascript
 					
 					require_str = 
 					// require elements and execute callback
@@ -117,7 +117,19 @@ window.onload = function() {
 		    
 		require(scenes, function(){});
 		
+		
+		
 		gameContainer.setNextSceneInfo({ 
+					  name: "level02",
+					  elements: [
+						  "text!src/scenes/tilemaps/level02.json", 
+						  "src/components/TiledLevelImporter.js",
+						  "src/components/camera.js",
+						  "src/entities/diamond.js",
+						  "src/entities/amianto02.js"
+						],
+		});
+		/*gameContainer.setNextSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
@@ -125,8 +137,8 @@ window.onload = function() {
 				"src/entities/darkheart.js",
 				"src/entities/redheart.js"
 			      ]
-		});
-				
+		});*/
+		
 		// play the loading scene
 		Crafty.scene("loading");
 	});
