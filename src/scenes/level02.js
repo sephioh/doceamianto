@@ -84,7 +84,7 @@
 			checkpoint['value'] = obj.value;
 			sc.checkpoints.push(checkpoint);
 		});
-		//</delimiters>
+		//</checkpoints>
 
     /*}, function(percent) {
         /// Decompressing progress code goes here.
