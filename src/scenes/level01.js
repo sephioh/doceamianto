@@ -2,8 +2,8 @@ Crafty.scene("level01", function() {
 	
 	Crafty.background("#FFFFFF");
 		
-	//when everything is loaded, run the level01 scene
-	
+		// Play theme
+		Crafty.audio.play("theme01", -1);
 				
 		sc['player'] = new Amianto01(),
 		sc['hearts'] = [],
@@ -15,8 +15,6 @@ Crafty.scene("level01", function() {
 		    .attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 });
 		
 		sc.player.startMoving();
-		// Play theme
-		Crafty.audio.play("theme01", -1);
 		
 		//<hearts' loop> 
 		this.heartComing = function() {
@@ -146,7 +144,7 @@ Crafty.scene("level01", function() {
 			Crafty.trigger('LevelTransition');
 		}, 10500);
 		
-	}
+	};
 	
 	this.bind('TooMuchLove', this.muchLove);
 	
