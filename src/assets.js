@@ -59,25 +59,23 @@ Assets = Backbone.Model.extend({
 			},
 			'audio' : {
 				'theme' : 
-					[ 'web/audio/theme01.ogg',
-					  'web/audio/theme01.aac',
-					  
+					['web/audio/theme01.aac',
+					 'web/audio/theme01.ogg' 
 					],
 				'hitredheart' : 
-					['web/audio/hitredheart.ogg',
-					 'web/audio/hitredheart.aac',
+					['web/audio/hitredheart.aac',
+					 'web/audio/hitredheart.ogg',
 					 'web/audio/hitredheart.mp3' 
 					],
 			      'hitdarkheart' : 
-					['web/audio/hitdarkheart.ogg',
-					 'web/audio/hitdarkheart.aac',
+					['web/audio/hitdarkheart.aac',
+					 'web/audio/hitdarkheart.ogg',
 					 'web/audio/hitdarkheart.mp3'
 					],
 				'fall' : 
-					[ 
-					  'web/audio/fall01.ogg',
-					 'web/audio/fall01.aac',
-					  'web/audio/fall01.mp3'
+					['web/audio/fall01.aac',
+					 'web/audio/fall01.ogg',
+					 'web/audio/fall01.mp3'
 					]
 			}
 		},
@@ -103,14 +101,13 @@ Assets = Backbone.Model.extend({
 			},
 			'audio' : {
 				'blanche' :
-					['web/audio/blacheflying02.ogg',
-					 'web/audio/blacheflying02.aac',
+					['web/audio/blacheflying02.aac',
+					 'web/audio/blacheflying02.ogg',
 					 'web/audio/blacheflying02.mp3'
-					 
 					],
 				'theme' : 
-					['web/audio/theme02.ogg',
-					 'web/audio/theme02.aac'
+					['web/audio/theme02.aac',
+					 'web/audio/theme02.ogg'
 					 ]
 			}
 		}
