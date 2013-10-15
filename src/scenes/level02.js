@@ -55,7 +55,7 @@
 		//<delimiters>
 		var delimitersMap = {
 			left: 	{ x: 435, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }, 
-			//right: 	{ x: 425, y: 1275, w: 2, h: 180, shape: [[1,0],[1,150]] }
+			right: 	{ x: 37869, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }
 		};
 	
 		_.each(delimitersMap, function(obj) {
@@ -67,9 +67,15 @@
 
 		//<checkpoints>
 		var checkPointsMap = {
-			checkpoint1: { x: 3050, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 1 },
-			checkpoint2: { x: 6100, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 2 },
-			checkpoint3: { x: 9150, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 3 }
+			checkpoint1: { x: 7008, y: 1275, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 1 },
+			checkpoint2: { x: 10432, y: 1275, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 2 },
+			checkpoint3: { x: 12992, y: 1275, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 3 },
+			checkpoint4: { x: 16672, y: 1275, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 4 },
+			checkpoint5: { x: 18912, y: 1568, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 5 },
+			checkpoint6: { x: 22016, y: 1504, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 6 },
+			checkpoint7: { x: 24896, y: 992, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 7 },
+			checkpoint8: { x: 28480, y: 320, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 8 },
+			checkpoint9: { x: 31456, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 9 }
 		};
 	
 		_.each(checkPointsMap, function(obj) {
