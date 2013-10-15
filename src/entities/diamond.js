@@ -1,6 +1,6 @@
 Diamond = BaseEntity.extend({
     defaults: {
-	    'startingPoint' : { x: 3000, y: 1324}
+	    'startingPoint' : { x: 7008, y: 1324}
     },
     initialize: function() {
 		
