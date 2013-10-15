@@ -10007,7 +10007,7 @@ Crafty.extend({
                 this.removeEventListener('canplaythrough', pro, false);     
             }
            
-            ++j;
+		++j;
             //if progress callback, give information of assets loaded, total and percent
             if (onprogress) 
                 onprogress({
@@ -10022,6 +10022,8 @@ Crafty.extend({
         //Error function
         function err(){
             var src = this.src;
+		++j;
+		
             if (onerror) 
                 onerror({
                     loaded: j, 
@@ -10030,7 +10032,6 @@ Crafty.extend({
                     src:src
                 });
            		
-            j++;
             if(j === total && oncomplete) oncomplete();
         };
            
@@ -10044,7 +10045,7 @@ Crafty.extend({
                 //Create a new asset if necessary, using the (file name minus ext) as an id
                 if(!obj){
                     var name = current.substr(current.lastIndexOf('/') + 1);
-		    name = name.substring(0, name.lastIndexOf('.'));
+                    name = name.substring(0, name.lastIndexOf('.'));
                     obj = Crafty.audio.create(name, current).obj;
             	}
         

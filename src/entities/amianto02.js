@@ -16,11 +16,7 @@ Amianto02 = BaseEntity.extend({
 				h: model.get('height'), 
 				z: 300 
 			});
-		entity['poly'] = new Crafty.polygon([[32,60],[47,38],[62,60],[55,116],[39,116]]),
-		entity.poly['topMost'] = entity.poly.getSideMostPoint("top"),
-		entity.poly['bottomMost'] = entity.poly.getSideMostPoint("bottom"),
-		entity.poly['rightMost'] = entity.poly.getSideMostPoint("right"),
-		entity.poly['leftMost'] = entity.poly.getSideMostPoint("left");
+		entity['poly'] = new Crafty.polygon([[32,60],[47,38],[62,60],[55,116],[39,116]]);
 		entity
 			.twoway(model.get('speed'), model.get('speed'))
 			.onHit('grnd', function(hit) {
@@ -54,9 +50,20 @@ Amianto02 = BaseEntity.extend({
 							
 							return;
 						}
+						
 					}
 				}
 			  })
+			.onHit('ceiling', function(hit){
+				for (var i = 0; i < hit.length; i++){
+					var hitDirY = Math.round(hit[i].normal.y);
+					if(hitDirY === 1){
+						this._up = false,
+						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+						return;
+					}   
+				}
+			})
 			.onHit('wall', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
@@ -129,8 +136,8 @@ Amianto02 = BaseEntity.extend({
 			    this._shiningEyes = false;
 			  })
 			.onHit('water', function() { 
-				currentDiamondValue = Crafty("diamond").value;
-				currentCheckPoint = sc.checkpoints[currentDiamondValue - 1];
+				var currentDiamondValue = Crafty("diamond").value,
+				    currentCheckPoint = sc.checkpoints[currentDiamondValue - 1];
 				this.x = currentCheckPoint._x;
 				this.y = currentCheckPoint._y;
 			  })
@@ -138,7 +145,7 @@ Amianto02 = BaseEntity.extend({
 				for (var i = 0; i < hit.length; i++) {
 					var currentDiamondValue = Crafty("diamond").value,
 					    checkPointValue = hit[i].obj['value'];
-					if((currentDiamondValue < checkPointValue) && model.get('withDiamond'))
+					if(currentDiamondValue < checkPointValue && model.get('withDiamond'))
 						sc.diamond.grow(checkPointValue);
 				}
 
@@ -270,7 +277,7 @@ Amianto02 = BaseEntity.extend({
 			})
 			.disableControl();
 	
-	model.set({'entity' : entity});
+		model.set({'entity' : entity});
 		    
 	},	
 	_pickUpDiamond: function() { 

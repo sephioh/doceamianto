@@ -101,11 +101,10 @@ window.onload = function() {
 					eval( '(' + require_str + ')' );
 				},
 				function(e) {
-					//{ loaded: j, total: total, percent: (j / total * 100) ,src:src}
-					console.log("loading assets: "+e.loaded+"; total: "+e.total+"; percent: "+e.percent+"; src: "+e.src);
+					console.log(e);
 				},
 				function(e) {
-					//error
+					console.error(e);
 				}
 			);
 		});
@@ -127,18 +126,7 @@ window.onload = function() {
 				"src/entities/redheart.js"
 			      ]
 		});
-		
-		/*gameContainer.setNextSceneInfo({ 
-		  name: "level02",
-		  elements: [
-			  "text!src/scenes/tilemaps/level02.json", 
-			  "src/components/TiledLevelImporter.js",
-			  "src/components/camera.js",
-			  "src/entities/amianto02.js",
-			  "src/entities/diamond.js"
-			],
-		});*/
-		
+				
 		// play the loading scene
 		Crafty.scene("loading");
 	});
