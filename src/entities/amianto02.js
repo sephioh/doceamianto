@@ -54,6 +54,7 @@ Amianto02 = BaseEntity.extend({
 					}
 				}
 			  })
+			/*
 			.onHit('ceiling', function(hit){
 				for (var i = 0; i < hit.length; i++){
 					var hitDirY = Math.round(hit[i].normal.y);
@@ -64,6 +65,7 @@ Amianto02 = BaseEntity.extend({
 					}   
 				}
 			})
+			*/
 			.onHit('wall', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
