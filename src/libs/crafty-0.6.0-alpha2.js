@@ -7182,6 +7182,7 @@ Crafty.c("Fourway", {
 Crafty.c("Twoway", {
 	_speed: 3,
 	_up: false,
+	_jumpSpeed: 0,
 
 	init: function () {
 		this.requires("Fourway, Keyboard");
@@ -7217,21 +7218,28 @@ Crafty.c("Twoway", {
 		});
 
 		if (speed) this._speed = speed;
-		if (arguments.length<2) jump = this._speed * 2;	
+		if (arguments.length>1) 
+		    this._jumpSpeed = jump;
+		else
+		    this._jumpSpeed = this._speed * 2;	
 
-		this.bind("EnterFrame", function () {
-			if (this.disableControls) return;
-			if (this._up) {
-				this.y -= jump;
-				this._falling = true;
-				if(this.__c.Gravity)
-					this.trigger('Moved', { x: this._x, y: this._y + jump });
-			}
-		}).bind("KeyDown", function () {
+		this.bind("EnterFrame", this._jump)
+		    .bind("KeyDown", function () {
 			if (this.isDown("UP_ARROW") || this.isDown("W") || this.isDown("Z")) this._up = true;
-		});
+		    });
+		
 
 		return this;
+	},
+	
+	_jump: function () {
+		if (this.disableControls) return;
+		if (this._up) {
+			this.y -= this._jumpSpeed;
+			this._falling = true;
+			if(this.__c.Gravity)
+				this.trigger('Moved', { x: this._x, y: this._y + this._jumpSpeed });
+		}
 	}
 });
 
