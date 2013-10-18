@@ -3,7 +3,7 @@ Crafty.scene("level01", function() {
 	Crafty.background("#FFFFFF");
 		
 		// Play theme
-		Crafty.audio.play("theme01", -1);
+		Crafty.audio.play("theme01", -1, 0.3);
 				
 		sc['player'] = new Amianto01(),
 		sc['hearts'] = [],
