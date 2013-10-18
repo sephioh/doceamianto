@@ -33,12 +33,10 @@
 			// setting collision for tiles
 			
 			Crafty("upStairs").each(function() { 
-				this.collision(new Crafty.polygon([[0,32],[32,0]]))
-				    .addComponent("WiredHitBox");
+				this.collision(new Crafty.polygon([[0,32],[32,0]]));
 			});
 			Crafty("downStairs").each(function() { 
-				this.collision(new Crafty.polygon([[0,0],[32,32]]))
-				    .addComponent("WiredHitBox");
+				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
 			
 			
@@ -63,7 +61,7 @@
 		//<delimiters>
 		var delimitersMap = {
 			left: 	{ x: 435, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }, 
-			right: 	{ x: 37869, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }
+			//right: 	{ x: 37869, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }
 		};
 	
 		_.each(delimitersMap, function(obj) {
