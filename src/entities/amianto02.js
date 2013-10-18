@@ -10,7 +10,7 @@ Amianto02 = BaseEntity.extend({
 	},
 	initialize: function() {
 		var model = this,
-		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Twoway, Gravity, Collision, SpriteAnimation, amianto02")
+		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Twoway, Gravity, Collision, SpriteAnimation, Tween, amianto02")
 			.attr({ 
 				x: model.get('startingPoint').x, 
 				y: model.get('startingPoint').y, 
@@ -158,11 +158,20 @@ Amianto02 = BaseEntity.extend({
 			  })
 			.onHit('checkpoint', function(hit) { 
 				for (var i = 0; i < hit.length; i++) {
-					var currentDiamondValue = Crafty("diamond").value,
-					    checkPointValue = hit[i].obj['value'];
-					if(currentDiamondValue < checkPointValue && model.get('withDiamond')){
-						sc.diamond.grow(checkPointValue);
-					}
+						var currentDiamondValue = Crafty("diamond").value,
+						    checkPointValue = hit[i].obj['value'];
+						if(currentDiamondValue < checkPointValue && model.get('withDiamond') && checkPointValue<10) {
+							sc.diamond.grow(checkPointValue);
+						} 
+						else 
+						if(checkPointValue==9 && !model.get('withDiamond')) {
+							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+						} 
+						else 
+						if(checkPointValue==10) {
+							this.disableControl();
+							Crafty.trigger("AmiantoReachedLightArea");
+						}
 				}
 			  })
 			.onHit('obstacle', function(hit) { 
@@ -285,71 +294,37 @@ Amianto02 = BaseEntity.extend({
 				if(this._y > prevPos.y) 
 					moved = "down";
 				
-
-				switch(moved) {
-					case "up" :
-					      if(this.isPlaying("AmiantoStandingStill" + diamond) || 
-						(this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond))
-						      this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
-					      break;
-					case "down" :
-					      if((this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond)) || 
-						  this._currentReelId == "AmiantoRunning" + diamond )
-						      this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
-					      break;
-					case "left":
-					      if(!this._flipX) 	// if moved left and is unflipped
-						      this.flip("X");	// flip sprite
-					      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
-						  if(!model.get('withDiamond')) 
-						      this.playAnimation("AmiantoRunning0", 40, -1);
-						  else 
-						      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-						  
-					      break;
-					case "right": 
-					      if(this._flipX) 				// if moved right and is flipped 
-						      this.unflip("X");			// unflip sprite
-					      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
-						  if(!model.get('withDiamond'))
-						      this.playAnimation("AmiantoRunning0", 40, -1);
-						  else
-						      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-						  
-					      break;
-				      }
-				
 				if(!this.pushingObstacle){
 					switch(moved) {
 						case "up" :
-						      if(this.isPlaying("AmiantoStandingStill" + diamond) || 
-							(this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond))
-							      this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
-						      break;
+							if(this.isPlaying("AmiantoStandingStill" + diamond) || 
+							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond))
+								this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
+							break;
 						case "down" :
-						      if(this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond))
-							      this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
-						      break;
+							if(this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond))
+								this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
+							break;
 						case "left":
-						      if(!this._flipX) 	// if moved left and is unflipped
-							      this.flip("X");	// flip sprite
-						      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
-							  if(!model.get('withDiamond')) 
-							      this.playAnimation("AmiantoRunning0", 40, -1);
-							  else 
-							      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-							  
-						      break;
+							if(!this._flipX) 	// if moved left and is unflipped
+								this.flip("X");	// flip sprite
+							if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
+							    if(!model.get('withDiamond')) 
+								this.playAnimation("AmiantoRunning0", 40, -1);
+							    else 
+								this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+							    
+							break;
 						case "right": 
-						      if(this._flipX) 							// if moved right and is flipped 
-							      this.unflip("X");					// unflip sprite
-						      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
-							  if(!model.get('withDiamond'))
-							      this.playAnimation("AmiantoRunning0", 40, -1);
-							  else
-							      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-							  
-						      break;
+							if(this._flipX) 							// if moved right and is flipped 
+								this.unflip("X");					// unflip sprite
+							if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
+							    if(!model.get('withDiamond'))
+								this.playAnimation("AmiantoRunning0", 40, -1);
+							    else
+								this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+							    
+							break;
 					}
 				}
 			})
@@ -362,7 +337,7 @@ Amianto02 = BaseEntity.extend({
 				}
 			})
 			.disableControl();
-	
+															    
 		model.set({'entity' : entity});
 		    
 	},	

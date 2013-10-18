@@ -295,7 +295,7 @@
                 },
              "253":
                 {
-                 "components":"grnd, Collision"
+                 "components":"wall, Collision"
                 },
              "26":
                 {
@@ -327,7 +327,7 @@
                 },
              "277":
                 {
-                 "components":"grnd, Collision"
+                 "components":"wall, Collision"
                 },
              "28":
                 {
@@ -399,7 +399,7 @@
                 },
              "301":
                 {
-                 "components":"grnd, Collision"
+                 "components":"wall, Collision"
                 },
              "31":
                 {

@@ -39,8 +39,6 @@
 				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
 			
-			
-			
 			Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
 			
@@ -81,7 +79,8 @@
 			checkpoint6: { x: 22016, y: 1504, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 6 },
 			checkpoint7: { x: 24896, y: 992, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 7 },
 			checkpoint8: { x: 28480, y: 320, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 8 },
-			checkpoint9: { x: 31456, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 9 }
+			checkpoint9: { x: 31456, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 9 },
+			checkpoint10: { x: 34208, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 10 }
 		};
 	
 		_.each(checkPointsMap, function(obj) {
@@ -92,6 +91,51 @@
 		});
 		//</checkpoints>
 
+		// events declarations
+		
+		this.loadLevel03 = function(){
+			//this code is to be replaced when work on third level begins
+		  
+			sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Color")
+				.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 0.0 })
+				.color("#000000");
+			sc['continua'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Text")
+				.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 0.0 })
+				.text("Continua...")
+				.textFont({ family: 'Arial', size : '30px' })
+				.textColor("#FFFFFF");
+			sc.delays.delay(function() {
+				sc.bckgrndFade		
+					.tween({ alpha: 1.0 }, 4000)
+					.bind("TweenEnd", function() {
+						sc.continua.tween({ alpha:1.0 }, 1000);
+					});
+			});
+		}
+		
+		this.bind('LevelTransition', this.loadLevel03);																																																																																																																																																																																																																																																																																																																																																																																																						
+	
+		this.amiantoCameIntoLight = function() {
+			var playerEnt = sc.player.getEntity();
+			
+			// startingPosition, endPoint, animationTime
+			console.log("first");
+			playerEnt
+				.tween({ x: 37152 }, 300)//{ x: 37152 }, 20
+				.playAnimation("AmiantoRunning9", 4*5, -1)
+				.bind("TweenEnd", function keep_ahead(k) {
+					this.unbind("TweenEnd", keep_ahead);
+					var amiantoToBlancheOptions = { options: { initialX: this._x-80, initialY:this._y-30, initialZ: this._z, finalY: 14*32, finalX: 1197*32, finalZ: 500, flightTime: 450 } };	
+					this.pauseAnimation();
+					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
+					Crafty.trigger("StartAmiantoToBlancheAnimation");
+					this.destroy();
+				});
+			console.log("second");
+		}		
+		
+		this.bind("AmiantoReachedLightArea", this.amiantoCameIntoLight);
+					      
     /*}, function(percent) {
         /// Decompressing progress code goes here.
         console.log("Decompressing: " + (percent * 100) + "%");
