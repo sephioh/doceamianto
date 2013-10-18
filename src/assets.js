@@ -97,7 +97,15 @@ Assets = Backbone.Model.extend({
 						'diamond8' : [0, 9],
 						'diamond9' : [0, 10]
 					}
-				}
+				},
+				'obstacle' : {
+					'file' : 'web/images/obstacle.png',
+					'tile' : 53,
+					'tileh' : 136,
+					'elements': {
+						'obstacle' : [0, 0]
+					}
+				},
 			},
 			'audio' : {
 				'blanche' :

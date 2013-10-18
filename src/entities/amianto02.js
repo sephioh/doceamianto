@@ -163,8 +163,25 @@ Amianto02 = BaseEntity.extend({
 						sc.diamond.grow(checkPointValue);
 					}
 				}
-
 			  })
+			.onHit('obstacle', function(hit) { 
+				for (var i = 0; i < hit.length; i++) {
+					// If collision is horizontally
+					if(hit[i].normal.y == 0) {
+						if(hit[i].obj.movable && 		  // if obstacle didnt fall into water and
+						   !this._up &&                  // Amianto is not jumping and
+						   !model.get('withDiamond')){  // Amianto isn't holding the diamond
+								// Amianto push obstacle
+								console.log('implement animation pushing obstacle');
+								// move obstacle
+								hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
+						}
+						// Amianto dont cross the obstacle at x axis, she dont,
+						// cross y axis because obstacle have grnd component
+						this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+					}
+				}
+			})
 			.bind('KeyDown', function(e){ 
 				if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
 				    if((!model.get('withDiamond') && this._shiningEyes) || model.get('withDiamond'))

@@ -18,7 +18,8 @@
 		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
-		sc['checkpoints'] = [];
+		sc['checkpoints'] = [],
+		sc['obstacle'] = new Obstacle();
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
@@ -84,7 +85,7 @@
 			checkpoint['value'] = obj.value;
 			sc.checkpoints.push(checkpoint);
 		});
-		//</delimiters>
+		//</checkpoints>
 
     /*}, function(percent) {
         /// Decompressing progress code goes here.
