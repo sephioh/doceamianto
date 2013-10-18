@@ -3,6 +3,7 @@ Obstacle = BaseEntity.extend({
 	    'startingPoint' : { x: 800, y: 1271, z:300},
 	    'dimensions' : { height: 163, width: 53},
 	    'movable': true,
+	    'weight': 2,
     },
     initialize: function(){
 		var model = this,
@@ -13,7 +14,8 @@ Obstacle = BaseEntity.extend({
 				   z: model.get('startingPoint').z,
 				   h: model.get('dimensions').height,
 				   w: model.get('dimensions').width,
-				   movable: model.get('movable')
+				   movable: model.get('movable'),
+				   weight: model.get('weight'),
 			})
 			.onHit('water', function(hit) { 
 				this.movable = false;

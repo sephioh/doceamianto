@@ -16,7 +16,8 @@ Amianto02 = BaseEntity.extend({
 				y: model.get('startingPoint').y, 
 				w: model.get('width'), 
 				h: model.get('height'), 
-				z: 300 
+				z: 300,
+				pushingObstacle: false,
 			});
 		entity['poly'] = new Crafty.polygon([[32,60],[47,38],[62,60],[55,116],[39,116]]);
 		entity
@@ -171,16 +172,29 @@ Amianto02 = BaseEntity.extend({
 						if(hit[i].obj.movable && 		  // if obstacle didnt fall into water and
 						   !this._up &&                  // Amianto is not jumping and
 						   !model.get('withDiamond')){  // Amianto isn't holding the diamond
-								// Amianto push obstacle
-								console.log('implement animation pushing obstacle');
-								// move obstacle
 								hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
+								this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+								model._setSpeed(model.get('startingSpeed') - hit[i].obj.weight, false);
+								this.playAnimation("AmiantoPushing", 25, -1);
+								this.pushingObstacle = true;
+						} else if(this._up){
+							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+							this.pushingObstacle = false;
+						} else {
+							// Amianto dont cross the obstacle at x axis, she dont,
+							// cross y axis because obstacle have grnd component
+							this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+							this.pushingObstacle = false;
 						}
-						// Amianto dont cross the obstacle at x axis, she dont,
-						// cross y axis because obstacle have grnd component
-						this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 					}
 				}
+			}, function() {
+				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')){
+					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
+					model._setSpeed(model.get('startingSpeed'), false);
+					this.pushingObstacle = false;
+				}
+
 			})
 			.bind('KeyDown', function(e){ 
 				if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
@@ -246,6 +260,7 @@ Amianto02 = BaseEntity.extend({
 			.animate("AmiantoRunning7", [[4,8],[5,8],[6,8],[7,8]])
 			.animate("AmiantoRunning8", [[4,9],[5,9],[6,9],[7,9]])
 			.animate("AmiantoRunning9", [[4,10],[5,10],[6,10],[7,10]])
+			.animate("AmiantoPushing", 0, 11, 4)
 			.setName('Player')
 			.bind('Moved', function(prevPos) {
 				// controlling animations
@@ -270,6 +285,7 @@ Amianto02 = BaseEntity.extend({
 				if(this._y > prevPos.y) 
 					moved = "down";
 				
+
 				switch(moved) {
 					case "up" :
 					      if(this.isPlaying("AmiantoStandingStill" + diamond) || 
@@ -302,6 +318,40 @@ Amianto02 = BaseEntity.extend({
 						  
 					      break;
 				      }
+				
+				if(!this.pushingObstacle){
+					switch(moved) {
+						case "up" :
+						      if(this.isPlaying("AmiantoStandingStill" + diamond) || 
+							(this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond))
+							      this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
+						      break;
+						case "down" :
+						      if(this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond))
+							      this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
+						      break;
+						case "left":
+						      if(!this._flipX) 	// if moved left and is unflipped
+							      this.flip("X");	// flip sprite
+						      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
+							  if(!model.get('withDiamond')) 
+							      this.playAnimation("AmiantoRunning0", 40, -1);
+							  else 
+							      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+							  
+						      break;
+						case "right": 
+						      if(this._flipX) 							// if moved right and is flipped 
+							      this.unflip("X");					// unflip sprite
+						      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
+							  if(!model.get('withDiamond'))
+							      this.playAnimation("AmiantoRunning0", 40, -1);
+							  else
+							      this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+							  
+						      break;
+					}
+				}
 			})
 			.bind("DiamondGrew", function(to) {
 				model.set({ 'withDiamond' : to });
