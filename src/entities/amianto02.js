@@ -172,7 +172,7 @@ Amianto02 = BaseEntity.extend({
 						   !this._up &&                  // Amianto is not jumping and
 						   !model.get('withDiamond')){  // Amianto isn't holding the diamond
 								// Amianto push obstacle
-								console.log('implement animation pushing obstacle');
+								this.playAnimation("AmiantoPushing", 25, -1);
 								// move obstacle
 								hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
 						}
@@ -181,6 +181,9 @@ Amianto02 = BaseEntity.extend({
 						this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 					}
 				}
+			}, function() {
+				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW'))
+					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 			})
 			.bind('KeyDown', function(e){ 
 				if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
@@ -246,6 +249,7 @@ Amianto02 = BaseEntity.extend({
 			.animate("AmiantoRunning7", [[4,8],[5,8],[6,8],[7,8]])
 			.animate("AmiantoRunning8", [[4,9],[5,9],[6,9],[7,9]])
 			.animate("AmiantoRunning9", [[4,10],[5,10],[6,10],[7,10]])
+			.animate("AmiantoPushing", 0, 11, 4)
 			.setName('Player')
 			.bind('Moved', function(prevPos) {
 				// controlling animations
