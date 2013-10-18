@@ -106,6 +106,14 @@ Assets = Backbone.Model.extend({
 						'obstacle' : [0, 0]
 					}
 				},
+				'amiantotoblanchesheet' : {
+					'file' : 'web/images/amiantotoblanche.png',
+					'tile' : 184,
+					'tileh' : 164,
+					'elements': {
+						'amiantotoblanche' : [0, 0]
+					}
+				},
 			},
 			'audio' : {
 				'blanche' :

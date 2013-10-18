@@ -127,7 +127,8 @@ window.onload = function() {
 						  "src/components/camera.js",
 						  "src/entities/diamond.js",
 						  "src/entities/amianto02.js",
-						  "src/entities/obstacle.js"
+						  "src/entities/obstacle.js",
+						  "src/entities/amiantoToBlanche.js"
 						],
 		});
 		/*gameContainer.setNextSceneInfo({ 
