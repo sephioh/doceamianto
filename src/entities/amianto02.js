@@ -1,10 +1,12 @@
 Amianto02 = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
+	  'startingSpeed': 4,
 	  'startingPoint' : { x: 500, y: 1322 },//{ x: 500, y: 1322 }, //12084
 	  'width' : 94,
 	  'height' : 126,
-	  'withDiamond' : 0
+	  'withDiamond' : 0,
+	  'strength' : 6
 	},
 	initialize: function() {
 		var model = this,
@@ -24,12 +26,14 @@ Amianto02 = BaseEntity.extend({
 					diamondInt = model.get('withDiamond'),
 					diamondStr = diamondInt.toString();
 				
-				if((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || (this._currentReelId == "AmiantoJumpingUp" + diamondStr)){
+				if((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || 
+				   (this._currentReelId == "AmiantoJumpingUp" + diamondStr) || 
+				   (this._currentReelId == "AmiantoStandingUp" && !this.isPlaying("AmiantoStandingUp"))){
 					justHit = true;  
 					
-					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 73*5, -1);
+					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					else
-					if (diamondInt > 0) this.playAnimation("AmiantoStandingStill"+diamondStr, 5, -1);
+					if (diamondInt > 0) this.playAnimation("AmiantoStandingStill" + diamondStr, 5, -1);
 					
 				}
 				for (var i = 0; i < hit.length; i++) {
@@ -41,9 +45,8 @@ Amianto02 = BaseEntity.extend({
 							  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
 								this._up = false;
 							
-							if((!this._up && justHit) || this._onStairs){
+							if((!this._up && justHit) || this._onStairs)
 								this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
-							}
 							
 							if(this._falling) 
 								this._falling = false;
@@ -92,23 +95,29 @@ Amianto02 = BaseEntity.extend({
 					
 					if(justHit)
 						if(hit[i].obj.__c.upStairs || hit[i].obj.__c.upStairsFirstStepDown) {
+							speed = speed^2===0?speed:speed-1;
 							this.multiway(speed/2, {
 								LEFT_ARROW: 135,
 								RIGHT_ARROW: 0,
 								A: 135,
-								D: 0
+								D: 0,
+								Q: 135
 							});
 							this._onStairs = true;
+							this._onUpStairs = true;
 						}
 						else
 						if(hit[i].obj.__c.downStairs || hit[i].obj.__c.downStairsFirstStepDown) {
+							speed = speed^2===0?speed:speed-1;
 							this.multiway(speed/2, {
 								LEFT_ARROW: 180,
 								RIGHT_ARROW: 45,
 								A: 180,
-								D: 45
+								D: 45,
+								Q: 180
 							});
 							this._onStairs = true;
+							this._onDownStairs = true;
 						}
 					
 					if(justHit && this._up && actualStairs) 
@@ -126,9 +135,12 @@ Amianto02 = BaseEntity.extend({
 					LEFT_ARROW: 180,
 					RIGHT_ARROW: 0,
 					A: 180,
-					D: 0
+					D: 0,
+					Q: 180
 				});
 				this._onStairs = false;
+				this._onUpStairs = false;
+				this._onDownStairs = false;
 			  })
 			.onHit('diamond', function() { 
 			      if(!this._shiningEyes) { 
@@ -147,8 +159,9 @@ Amianto02 = BaseEntity.extend({
 				for (var i = 0; i < hit.length; i++) {
 					var currentDiamondValue = Crafty("diamond").value,
 					    checkPointValue = hit[i].obj['value'];
-					if(currentDiamondValue < checkPointValue && model.get('withDiamond'))
+					if(currentDiamondValue < checkPointValue && model.get('withDiamond')){
 						sc.diamond.grow(checkPointValue);
+					}
 				}
 
 			  })
@@ -163,7 +176,7 @@ Amianto02 = BaseEntity.extend({
 				if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 				  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
 					if(this.isPlaying("AmiantoRunning0"))
-						this.playAnimation("AmiantoStandingStill0", 73*5, -1);
+						this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					else
 					if(this.isPlaying("AmiantoRunning" + diamond))
 						this.playAnimation("AmiantoStandingStill" + diamond, 5, -1);
@@ -175,10 +188,8 @@ Amianto02 = BaseEntity.extend({
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
-			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
-			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
-			  [0,1],[0,1],[0,1],[0,1],[12,0],[11,0],[11,0],[11,0],[11,0] 
-			]) // 73 frames
+			 [0,1],[0,1],[0,1],[0,1],[12,0],[11,0],[11,0],[11,0],[11,0] 
+			]) // 57 frames
 			.animate("AmiantoStandingStill1", [[2,2]])
 			.animate("AmiantoStandingStill2", [[2,3]])
 			.animate("AmiantoStandingStill3", [[2,4]])
@@ -249,12 +260,12 @@ Amianto02 = BaseEntity.extend({
 						      this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
 					      break;
 					case "down" :
-					      if(this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId == "AmiantoJumpingUp" + diamond)
+					      if(this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond))
 						      this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
 					      break;
 					case "left":
 					      if(!this._flipX) 	// if moved left and is unflipped
-						      this.flip("X");						// flip sprite
+						      this.flip("X");	// flip sprite
 					      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
 						  if(!model.get('withDiamond')) 
 						      this.playAnimation("AmiantoRunning0", 40, -1);
@@ -276,24 +287,93 @@ Amianto02 = BaseEntity.extend({
 			})
 			.bind("DiamondGrew", function(to) {
 				model.set({ 'withDiamond' : to });
+				var strength = model.get('strength');
+				if(to>strength){
+					console.log("speed: " + model.get('speed') + "; strength: " + strength + "; diamond: " + to);
+					var newSpeed = model.get('startingSpeed')-(Math.abs(strength-to));
+					model._setSpeed(newSpeed,true);
+				}
 			})
 			.disableControl();
 	
 		model.set({'entity' : entity});
 		    
 	},	
+	
+	/* _setDir : set speed and keys' directions
+	 @speed Integer; @keysObj Objejct of keys set with directions; @jump Boolean */
+	
+	_setSpeed: function (speed,jump){
+		if(typeof speed === "number") {
+			var ent = this.getEntity(),
+			    keys;
+			speed = Math.floor(speed);
+			this.set({'speed' : speed});
+			if(jump)
+			    ent._jumpSpeed = speed;
+			if(ent._onUpStairs)
+			    speed = speed/2,
+			    keys = {
+				LEFT_ARROW: 135,
+				RIGHT_ARROW: 0,
+				A: 135,
+				D: 0,
+				Q: 135
+			    };
+			else 
+			if(ent._onDownStairs)
+			    speed = speed/2,
+			    keys = {
+				LEFT_ARROW: 180,
+				RIGHT_ARROW: 45,
+				A: 180,
+				D: 45,
+				Q: 180
+			    };
+			else
+			    keys = {
+				LEFT_ARROW: 180,
+				RIGHT_ARROW: 0,
+				A: 180,
+				D: 0,
+				Q: 180
+			    };
+			
+			console.log(speed);
+			
+			ent.multiway(speed, keys);
+			
+		} else { 
+			return false;
+		}
+	},
+	
 	_pickUpDiamond: function() { 
-		var diamond = Crafty("diamond"), entity = this.getEntity();
+		var diamond = Crafty("diamond"), 
+		    entity = this.getEntity(), 
+		    strength = this.get('strength'), 
+		    speed = this.get('speed'), 
+		    startingSpeed = this.get('startingSpeed');
+		    
 		if(!diamond._held && entity._shiningEyes) {
 			diamond._held = true;
 			diamond.alpha = 0.0;
 			this.set({ 'withDiamond' : diamond.value });
+			if(diamond.value>strength){
+				var newSpeed = startingSpeed-(Math.abs(strength-diamond.value));
+				this._setSpeed(newSpeed,true);
+			}
 			entity.playAnimation("AmiantoStandingStill" + diamond.value.toString(), 5, -1);
-		} else if(diamond._held) {
+		} 
+		else 
+		if(diamond._held) {
 			diamond._held = false;
 			diamond.attr({x: entity._x, y: entity._y, alpha: 1.0});
 			this.set({ 'withDiamond' : 0 });
-			entity.playAnimation("AmiantoStandingStill0", 73*5, -1);
+			if(speed != startingSpeed){
+			    this._setSpeed(startingSpeed,true);
+			}
+			entity.playAnimation("AmiantoStandingStill0", 57*5, -1);
 		}
 	},
 });
