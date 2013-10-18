@@ -28,7 +28,7 @@ Amianto02 = BaseEntity.extend({
 				
 				if((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || 
 				   (this._currentReelId == "AmiantoJumpingUp" + diamondStr) || 
-				   (this._currentReelId == "AmiantoStandingUp" && !this.isPlaying("AmiantoStandingUp"))){
+				   (this._currentReelId == "AmiantoStandingUp" && !this.isPlaying("AmiantoStandingUp"))) {
 					justHit = true;  
 					
 					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 57*5, -1);
@@ -277,7 +277,8 @@ Amianto02 = BaseEntity.extend({
 						      this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
 					      break;
 					case "down" :
-					      if(this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond))
+					      if((this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond)) || 
+						  this._currentReelId == "AmiantoRunning" + diamond )
 						      this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
 					      break;
 					case "left":
@@ -291,8 +292,8 @@ Amianto02 = BaseEntity.extend({
 						  
 					      break;
 					case "right": 
-					      if(this._flipX) 							// if moved right and is flipped 
-						      this.unflip("X");					// unflip sprite
+					      if(this._flipX) 				// if moved right and is flipped 
+						      this.unflip("X");			// unflip sprite
 					      if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
 						  if(!model.get('withDiamond'))
 						      this.playAnimation("AmiantoRunning0", 40, -1);
@@ -306,7 +307,6 @@ Amianto02 = BaseEntity.extend({
 				model.set({ 'withDiamond' : to });
 				var strength = model.get('strength');
 				if(to>strength){
-					console.log("speed: " + model.get('speed') + "; strength: " + strength + "; diamond: " + to);
 					var newSpeed = model.get('startingSpeed')-(Math.abs(strength-to));
 					model._setSpeed(newSpeed,true);
 				}

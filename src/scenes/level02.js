@@ -23,6 +23,13 @@
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
+			var playerEnt = sc.player.getEntity();
+			
+			_.each(sc.tiledMap._layerArray[1].tiles, function(obj) {
+			    obj.z = playerEnt._z + 1;
+			    obj.alpha = sc.tiledMap._layerArray[1].opacity;
+			});
+		  
 			// setting collision for tiles
 			
 			Crafty("upStairs").each(function() { 
@@ -34,7 +41,7 @@
 				    .addComponent("WiredHitBox");
 			});
 			
-			var playerEnt = sc.player.getEntity();
+			
 			
 			Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
