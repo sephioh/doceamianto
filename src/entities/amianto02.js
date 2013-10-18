@@ -160,9 +160,8 @@ Amianto02 = BaseEntity.extend({
 						   !model.get('withDiamond')){  // Amianto isn't holding the diamond
 								// Amianto push obstacle
 								console.log('implement animation pushing obstacle');
-							}
-							// move obstacle
-							hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
+								// move obstacle
+								hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
 						}
 						// Amianto dont cross the obstacle at x axis, she dont,
 						// cross y axis because obstacle have grnd component
