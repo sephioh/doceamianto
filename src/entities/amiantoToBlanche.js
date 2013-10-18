@@ -1,19 +1,23 @@
 AmiantoToBlanche = BaseEntity.extend({
-    defaults: {
-	    'startingPoint' : { x: 800, y: 1271, z:300},
-	    'dimensions' : { height: 164, width: 184},
+	// Arguments to initialize Entity
+	// @options { initialX, initialY }
+
+	defaults: {
+		'dimensions' : { height: 164, width: 184 },
+		'flyingTime' : 20,
     },
-    initialize: function(){
+    initialize: function(options){
+
 		var model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amiantotoblanche, SpriteAnimation");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amiantotoblanche, Tween, SpriteAnimation");
+
 		entity
-			.attr({x: model.get('startingPoint').x, 
-				   y: model.get('startingPoint').y,
-				   z: model.get('startingPoint').z,
+			.attr({x: model.attributes.options.initialX, 
+				   y: model.attributes.options.initialY,
+				   z: model.attributes.options.initialZ,
 				   h: model.get('dimensions').height,
 				   w: model.get('dimensions').width,
 			})
-			.setName('AmiantoToBlanche')
 			.animate('AmiantoTurningBlanche', [[0,0], [1,0], [2,0], [3,0], [4,0] ,[5,0],
 											   [0,1], [1,1], [2,1], [3,1], [4,1] ,[5,1],
 											   [0,2], [1,2], [2,2], [3,2], [4,2] ,[5,2],
@@ -22,14 +26,15 @@ AmiantoToBlanche = BaseEntity.extend({
 											   [0,5], [1,5], [2,5], [3,5], [4,5] ,[5,5]])
 			.animate('BlancheFlying', [[0,6], [1,6], [2,6], [3,6], [4,6] ,[5,6]])
 			.bind('StartAmiantoToBlancheAnimation', function(){
-				if(!this._currentReelId){
-					this.bind('AnimationEnd', function() {
-						this.playAnimation('BlancheFlying', 6*5, -1);						
-					});
-					this.playAnimation('AmiantoTurningBlanche', 36*5, 0);
-				}
-			});
-;
+				this.bind('AnimationEnd', function() {
+					this.playAnimation('BlancheFlying', 6*5, -1);
+					this.tween({x: model.attributes.options.finalX, 
+						        y: model.attributes.options.finalY,
+						        z: model.attributes.options.finalZ,}, model.attributes.options.flightTime);
+				});
+				this.playAnimation('AmiantoTurningBlanche', 36*5, 0);
+			})
+			.setName('AmiantoToBlanche');
 		model.set({'entity' : entity });
     }
 });
