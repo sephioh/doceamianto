@@ -4,30 +4,16 @@ Crafty.c("Camera", {
         this.set(obj);
         var that = this;
         obj.bind("Moved", function(location) {
-            that.set(location);
+		 var d = location;
+		 d.w = obj._w,
+		 d.h = obj._h;
+		 that.set(location);
         });
     },
     set: function(obj) {
-        xx = (-obj.x + Crafty.viewport.width / 2)
-        yy = (-obj.y + Crafty.viewport.height / 2)
-        Crafty.viewport.x = xx;
+	  var xx = (-obj.x + Crafty.viewport.width / 2) - obj.w/2,
+		yy = (-obj.y + Crafty.viewport.height / 2) - obj.h/2;
+        Crafty.viewport.x = xx,
         Crafty.viewport.y = yy;
     }
 });
-
-/*Crafty.c("Camera", {
-    init: function() {},
-    camera: function(obj) {
-        this.set(obj);
-        var that = this;
-        obj.bind("Moved", function(location) {
-            that.set(location);
-        });
-    },
-    set: function(obj) {
-        var xx = ((-obj._x + Crafty.viewport.width / 2) + obj._w/2),
-	    yy = ((-obj._y + Crafty.viewport.height / 2) + obj._h/2);
-        Crafty.viewport.x = xx;
-        Crafty.viewport.y = yy;
-    }
-});*/
