@@ -8,8 +8,8 @@ Crafty.c("Camera", {
         });
     },
     set: function(obj) {
-        xx = (-obj.x + Crafty.viewport.width / 2)
-        yy = (-obj.y + Crafty.viewport.height / 2)
+        var xx = ((-obj._x + Crafty.viewport.width / 2) + obj._w/2),
+	    yy = ((-obj._y + Crafty.viewport.height / 2) + obj._h/2);
         Crafty.viewport.x = xx;
         Crafty.viewport.y = yy;
     }

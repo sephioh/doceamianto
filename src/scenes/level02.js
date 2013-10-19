@@ -18,8 +18,8 @@
 		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
-		sc['checkpoints'] = [],
-		sc['obstacle'] = new Obstacle();
+		sc['checkpoints'] = [];
+		//sc['obstacle'] = new Obstacle();
 		
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
@@ -91,9 +91,37 @@
 		});
 		//</checkpoints>
 
-		// events declarations
+		// events' declarations
 		
-		this.loadLevel03 = function(){
+		this.amiantoCameIntoLight = function() {
+			var playerEnt = sc.player.getEntity();
+			
+			playerEnt
+				.tween({ x: 37152 }, 1500)//{ x: 37152 }, 20
+				.playAnimation("AmiantoRunning9", 4*5, -1)
+				.bind("EnterFrame", function(){ sc.player.follow_me(); })
+				.bind("TweenEnd", function keep_ahead() {
+					var amiantoToBlancheOptions = 
+						{ options: 
+							{ initialX: this._x-80, 
+							  initialY:this._y-30, 
+							  initialZ: this._z, 
+							  finalY: 14*32, 
+							  finalX: 1197*32, 
+							  finalZ: 500, 
+							  flightTime: 450 } 
+						};	
+					this.unbind("TweenEnd", keep_ahead)
+					    .pauseAnimation();
+					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
+					Crafty.trigger("StartAmiantoToBlancheAnimation");
+					this.destroy();
+				});
+		}		
+		
+		this.bind("AmiantoReachedLightArea", this.amiantoCameIntoLight);
+		
+		this.loadLevel03 = function() {
 			//this code is to be replaced when work on third level begins
 		  
 			sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Color")
@@ -113,29 +141,8 @@
 			});
 		}
 		
-		this.bind('LevelTransition', this.loadLevel03);																																																																																																																																																																																																																																																																																																																																																																																																						
-	
-		this.amiantoCameIntoLight = function() {
-			var playerEnt = sc.player.getEntity();
-			
-			// startingPosition, endPoint, animationTime
-			console.log("first");
-			playerEnt
-				.tween({ x: 37152 }, 300)//{ x: 37152 }, 20
-				.playAnimation("AmiantoRunning9", 4*5, -1)
-				.bind("TweenEnd", function keep_ahead(k) {
-					this.unbind("TweenEnd", keep_ahead);
-					var amiantoToBlancheOptions = { options: { initialX: this._x-80, initialY:this._y-30, initialZ: this._z, finalY: 14*32, finalX: 1197*32, finalZ: 500, flightTime: 450 } };	
-					this.pauseAnimation();
-					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
-					Crafty.trigger("StartAmiantoToBlancheAnimation");
-					this.destroy();
-				});
-			console.log("second");
-		}		
+		this.bind('LevelTransition', this.loadLevel03);
 		
-		this.bind("AmiantoReachedLightArea", this.amiantoCameIntoLight);
-					      
     /*}, function(percent) {
         /// Decompressing progress code goes here.
         console.log("Decompressing: " + (percent * 100) + "%");

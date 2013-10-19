@@ -152,7 +152,7 @@ Crafty.scene("level01", function() {
 	
 		sc.delays.delay(function() { 
 			sc.bckgrndFade
-				.tween({ alpha: 1.0 }, 200) // tween bckgrndFade making it cover everything
+				.tween({ alpha: 1.0 }, 20) // tween bckgrndFade making it cover everything
 				.bind("TweenEnd", function() {
 					// set level02 scene info
 					gameContainer.setNextSceneInfo({ 
