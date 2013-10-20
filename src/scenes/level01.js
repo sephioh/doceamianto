@@ -162,7 +162,8 @@ Crafty.scene("level01", function() {
 						  "src/components/TiledLevelImporter.js",
 						  "src/components/camera.js",
 						  "src/entities/diamond.js",
-						  "src/entities/amianto02.js"
+						  "src/entities/amianto02.js",
+						  "src/entities/amiantoToBlanche.js"
 						],
 					});
 					// run level02 scene

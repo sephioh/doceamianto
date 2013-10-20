@@ -39,7 +39,7 @@
 				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
 			
-			Crafty.viewport.centerOn(playerEnt, 1);
+			//Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
 			
 			console.log("finished loading and assembling tilemap");
@@ -99,17 +99,18 @@
 			playerEnt
 				.tween({ x: 37152 }, 1500)//{ x: 37152 }, 20
 				.playAnimation("AmiantoRunning9", 4*5, -1)
-				.bind("EnterFrame", function(){ sc.player.follow_me(); })
+				.bind("EnterFrame", function(){ sc.camera.set(this); })
 				.bind("TweenEnd", function keep_ahead() {
-					var amiantoToBlancheOptions = 
-						{ options: 
-							{ initialX: this._x-80, 
-							  initialY:this._y-30, 
+					var amiantoToBlancheOptions = { 
+						options: { 
+							  initialX: this._x-80, 
+							  initialY: this._y-30, 
 							  initialZ: this._z, 
 							  finalY: 14*32, 
 							  finalX: 1197*32, 
 							  finalZ: 500, 
-							  flightTime: 450 } 
+							  flightTime: 450 
+						    } 
 						};	
 					this.unbind("TweenEnd", keep_ahead)
 					    .pauseAnimation();

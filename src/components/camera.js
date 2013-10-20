@@ -5,8 +5,8 @@ Crafty.c("Camera", {
         var that = this;
         obj.bind("Moved", function(location) {
 		 var d = location;
-		 d.w = obj._w,
-		 d.h = obj._h;
+		  d.w = obj._w,
+		  d.h = obj._h;
 		 that.set(location);
         });
     },

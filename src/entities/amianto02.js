@@ -417,15 +417,6 @@ Amianto02 = BaseEntity.extend({
 			}
 			entity.playAnimation("AmiantoStandingStill0", 57*5, -1);
 		}
-	},
-	
-	follow_me: function() {
-	      var ent = this.getEntity();
-	      var xx = ((-ent._x + Crafty.viewport.width / 2) + ent._w/2),
-		  yy = ((-ent._y + Crafty.viewport.height / 2) + ent._h/2);
-	      Crafty.viewport.x = xx;
-	      Crafty.viewport.y = yy;
-	      console.log("following(?)")
 	}
 	
 });
