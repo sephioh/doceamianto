@@ -12,9 +12,9 @@ AmiantoToBlanche = BaseEntity.extend({
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amiantotoblanche, Tween, SpriteAnimation");
 
 		entity
-			.attr({x: model.attributes.options.initialX, 
-				   y: model.attributes.options.initialY,
-				   z: model.attributes.options.initialZ,
+			.attr({x: model.attributes.initialX, 
+				   y: model.attributes.initialY,
+				   z: model.attributes.initialZ,
 				   h: model.get('dimensions').height,
 				   w: model.get('dimensions').width,
 			})
@@ -28,9 +28,9 @@ AmiantoToBlanche = BaseEntity.extend({
 			.bind('StartAmiantoToBlancheAnimation', function(){
 				this.bind('AnimationEnd', function() {
 					this.playAnimation('BlancheFlying', 6*5, -1);
-					this.tween({x: model.attributes.options.finalX, 
-							y: model.attributes.options.finalY,
-							z: model.attributes.options.finalZ,}, model.attributes.options.flightTime);
+					this.tween({x: model.attributes.finalX, 
+							y: model.attributes.finalY,
+							z: model.attributes.finalZ,}, model.attributes.flightTime);
 					this.bind("TweenEnd",function final(){
 						this.unbind("TweenEnd", final);
 						Crafty.trigger("LevelTransition");
