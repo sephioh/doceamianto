@@ -121,9 +121,6 @@
 			
 			playerEnt
 				.unbind("Moved")
-				.removeComponent("Gravity",false)
-				.removeComponent("Collision",false)
-				.removeComponent("Twoway",false)
 				.tween({ x: playerEnt._x+1500 }, 1500)//{ x: 37152 }, 20
 				.playAnimation("AmiantoRunning9", 4*5, -1)
 				.bind("EnterFrame", function(){ sc.camera.set(this); })
