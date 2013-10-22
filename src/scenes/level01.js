@@ -179,6 +179,7 @@ Crafty.scene("level01", function() {
 }, function() { 											// executed after scene() is called within the present scene
 	//Crafty.heartComing = undefined;							// clear level functions held in Crafty obj
 	//Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
+	this.unbind('LevelTransition', this.loadLevel02);
 	sc.delays.destroy();									// destroy delays
 	sc = [];												// clear scene
 	Crafty("2D").destroy();									// Destroy all entities with 2D component
