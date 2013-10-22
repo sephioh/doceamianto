@@ -99,23 +99,23 @@
 		scene.explosion1 = function(){
 			var b = sc.explosion;
 			b.bind("AnimationEnd", function(){ scene.explosion2() } );
-			b.playAnimation("ColorsExplosion1",5*10);
+			b.playAnimation("ColorsExplosion1",5*5);
 		}
 		
 		scene.explosion2 = function(){
 			var b = sc.explosion;
 			//b.unbind("AnimationEnd", scene.explosion2);
 			b.bind("AnimationEnd", function(){ scene.explosion3() });
-			b.playAnimation("ColorsExplosion2",7*10,5);
+			b.playAnimation("ColorsExplosion2",7*5,3);
 		}
 		
 		scene.explosion3 = function(){
 			var b = sc.explosion;
 			//b.unbind("AnimationEnd", scene.explosion3);
 			b.bind("AnimationEnd", function(){
-				b.destroy();
+				this.destroy();
 			});
-			b.playAnimation("ColorsExplosion3",3*10);
+			b.playAnimation("ColorsExplosion3",3*5);
 		}
 		
 		this.amiantoCameIntoLight = function() {
@@ -131,7 +131,7 @@
 						options: { 
 							  initialX: scene.finalAmiantoAttr.x-80, 
 							  initialY: scene.finalAmiantoAttr.y-30, 
-							  initialZ: scene.finalAmiantoAttr.z+1, 
+							  initialZ: scene.finalAmiantoAttr.z+5, 
 							  finalY: scene.finalAmiantoAttr.y-300, 
 							  finalX: scene.finalAmiantoAttr.x+800, 
 							  finalZ: 500, 
@@ -149,7 +149,7 @@
 							  y: scene.screenPos.y,
 							  w: Crafty.viewport.width,
 							  h: Crafty.viewport.height,
-							  z: scene.finalAmiantoAttr.z - 1
+							  z: scene.finalAmiantoAttr.z+4
 						})
 						.animate("ColorsExplosion1",0,0,4)
 						.animate("ColorsExplosion2",5,0,11)
@@ -170,14 +170,14 @@
 			sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Color")
 				.attr({ x: scene.screenPos.x,
 					  y: scene.screenPos.y,
-					  w: 800, h: 600, z: 300, alpha: 0.0 })
+					  w: 800, h: 600, z: scene.screenPos.z+3, alpha: 0.0 })
 				.color("#000000");
 			sc['continua'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Text")
 				.attr({ x: scene.screenPos.x+150, 
 					  y: scene.screenPos.y, 
 					  w: 200, 
 					  h: 520, 
-					  z: 500, 
+					  z: scene.screenPos.z+4, 
 					  alpha: 0.0 })
 				.text("Continua...")
 				.textFont({ family: 'Arial', size : '30px' })
