@@ -106,6 +106,14 @@ Assets = Backbone.Model.extend({
 						'obstacle' : [0, 0]
 					}
 				},
+				'explosion' : {
+					'file' : 'web/images/explosion-sheet.png',
+					'tile' : 240,
+					'tileh' : 180,
+					'elements': {
+						'colorsExplosion' : [0, 0]
+					}
+				},
 				'amiantotoblanchesheet' : {
 					'file' : 'web/images/amiantotoblanche.png',
 					'tile' : 184,
@@ -113,7 +121,7 @@ Assets = Backbone.Model.extend({
 					'elements': {
 						'amiantotoblanche' : [0, 0]
 					}
-				},
+				}
 			},
 			'audio' : {
 				'blanche' :

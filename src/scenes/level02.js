@@ -1,6 +1,7 @@
 	Crafty.scene("level02", function() {
 	
 	sc = [];
+	var scene = this;
 	
 	Crafty.background("#000000");
 	
@@ -80,7 +81,7 @@
 			checkpoint7: { x: 24896, y: 992, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 7 },
 			checkpoint8: { x: 28480, y: 320, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 8 },
 			checkpoint9: { x: 31456, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 9 },
-			checkpoint10: { x: 34208, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 10 }
+			checkpoint10: { x: 32320, y: 736, w: 1, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]], value: 10 }
 		};
 	
 		_.each(checkPointsMap, function(obj) {
@@ -93,27 +94,68 @@
 
 		// events' declarations
 		
+		
+		
+		scene.explosion1 = function(){
+			var b = sc.explosion;
+			b.bind("AnimationEnd", function(){ scene.explosion2() } );
+			b.playAnimation("ColorsExplosion1",5*10);
+		}
+		
+		scene.explosion2 = function(){
+			var b = sc.explosion;
+			//b.unbind("AnimationEnd", scene.explosion2);
+			b.bind("AnimationEnd", function(){ scene.explosion3() });
+			b.playAnimation("ColorsExplosion2",7*10,5);
+		}
+		
+		scene.explosion3 = function(){
+			var b = sc.explosion;
+			//b.unbind("AnimationEnd", scene.explosion3);
+			b.bind("AnimationEnd", function(){
+				b.destroy();
+			});
+			b.playAnimation("ColorsExplosion3",3*10);
+		}
+		
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			
 			playerEnt
-				.tween({ x: 37152 }, 1500)//{ x: 37152 }, 20
+				.tween({ x: playerEnt._x+1500 }, 1500)//{ x: 37152 }, 20
 				.playAnimation("AmiantoRunning9", 4*5, -1)
 				.bind("EnterFrame", function(){ sc.camera.set(this); })
 				.bind("TweenEnd", function keep_ahead() {
+					scene.finalAmiantoAttr = {x: this._x, y: this._y, z: this._z, w: this._w, h: this._h};
 					var amiantoToBlancheOptions = { 
 						options: { 
-							  initialX: this._x-80, 
-							  initialY: this._y-30, 
-							  initialZ: this._z, 
-							  finalY: 14*32, 
-							  finalX: 1197*32, 
+							  initialX: scene.finalAmiantoAttr.x-80, 
+							  initialY: scene.finalAmiantoAttr.y-30, 
+							  initialZ: scene.finalAmiantoAttr.z+1, 
+							  finalY: scene.finalAmiantoAttr.y-300, 
+							  finalX: scene.finalAmiantoAttr.x+800, 
 							  finalZ: 500, 
 							  flightTime: 450 
 						    } 
 						};	
+					scene.screenPos = {x:0,y:0};
+					scene.screenPos.x = ((scene.finalAmiantoAttr.x - Crafty.viewport.width / 2) + scene.finalAmiantoAttr.w/2), 
+					scene.screenPos.y = ((scene.finalAmiantoAttr.y - Crafty.viewport.height / 2) + scene.finalAmiantoAttr.h/2);
 					this.unbind("TweenEnd", keep_ahead)
 					    .pauseAnimation();
+					sc['explosion'] = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", colorsExplosion, SpriteAnimation")
+						.attr({ 
+							  x: scene.screenPos.x,
+							  y: scene.screenPos.y,
+							  w: Crafty.viewport.width,
+							  h: Crafty.viewport.height,
+							  z: scene.finalAmiantoAttr.z - 1
+						})
+						.animate("ColorsExplosion1",0,0,4)
+						.animate("ColorsExplosion2",5,0,11)
+						.animate("ColorsExplosion3",12,0,13);
+					// explosion loop
+					scene.explosion1();
 					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
 					Crafty.trigger("StartAmiantoToBlancheAnimation");
 					this.destroy();
@@ -126,20 +168,28 @@
 			//this code is to be replaced when work on third level begins
 		  
 			sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Color")
-				.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 0.0 })
+				.attr({ x: scene.screenPos.x,
+					  y: scene.screenPos.y,
+					  w: 800, h: 600, z: 300, alpha: 0.0 })
 				.color("#000000");
 			sc['continua'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Text")
-				.attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 0.0 })
+				.attr({ x: scene.screenPos.x+150, 
+					  y: scene.screenPos.y, 
+					  w: 200, 
+					  h: 520, 
+					  z: 500, 
+					  alpha: 0.0 })
 				.text("Continua...")
 				.textFont({ family: 'Arial', size : '30px' })
 				.textColor("#FFFFFF");
-			sc.delays.delay(function() {
-				sc.bckgrndFade		
-					.tween({ alpha: 1.0 }, 4000)
-					.bind("TweenEnd", function() {
-						sc.continua.tween({ alpha:1.0 }, 1000);
-					});
-			});
+			
+			sc.bckgrndFade		
+				.tween({ alpha: 1.0 }, 300)
+				.bind("TweenEnd", function tween_continua() {
+					this.unbind("TweenEnd", tween_continua);
+					sc.continua.tween({ alpha:1.0 }, 100);
+				});
+			
 		}
 		
 		this.bind('LevelTransition', this.loadLevel03);

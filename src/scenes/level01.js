@@ -163,6 +163,7 @@ Crafty.scene("level01", function() {
 						  "src/components/camera.js",
 						  "src/entities/diamond.js",
 						  "src/entities/amianto02.js",
+						  "src/entities/obstacle.js",
 						  "src/entities/amiantoToBlanche.js"
 						],
 					});
