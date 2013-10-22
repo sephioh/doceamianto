@@ -302,7 +302,8 @@ Amianto02 = BaseEntity.extend({
 								this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
 							break;
 						case "down" :
-							if(this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond))
+							if((this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond)) ||
+							  (!this._onStairs && (this._currentReelId=="AmiantoRunning" + diamond || this._currentReelId=="AmiantoStandingStill" + diamond)))
 								this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
 							break;
 						case "left":

@@ -168,7 +168,7 @@
 						  initialZ: scene.finalAmiantoAttr.z+5, 
 						  finalY: scene.finalAmiantoAttr.y-300, 
 						  finalX: scene.finalAmiantoAttr.x+800, 
-						  finalZ: 500, 
+						  finalZ: scene.finalAmiantoAttr.z+100, 
 						  flightTime: 450 
 					};
 					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
