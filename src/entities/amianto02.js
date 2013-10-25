@@ -169,8 +169,6 @@ Amianto02 = BaseEntity.extend({
 						} 
 						else 
 						if(checkPointValue==10) {
-							this.disableControl()
-							    .unbind("Moved");
 							Crafty.trigger("AmiantoReachedLightArea");
 						}
 				}

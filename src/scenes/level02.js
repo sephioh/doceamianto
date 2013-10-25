@@ -97,8 +97,9 @@
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			
-			playerEnt
-				.tween({ x: playerEnt._x+1500 }, 1500)//{ x: 37152 }, 20
+			playerEnt.disableControl()
+				.unbind("Moved")
+				.tween({ x: playerEnt._x+1500 }, 1500)
 				.playAnimation("AmiantoRunning9", 4*5, -1)
 				.bind("EnterFrame", function(){ sc.camera.set(this); })
 				.bind("TweenEnd", function keep_ahead() {
@@ -123,6 +124,7 @@
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
+								[5,0],[6,0],[7,0],[8,0],
 								[12,0],[13,0],[14,0]
 							]);
 					

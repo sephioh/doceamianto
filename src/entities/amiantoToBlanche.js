@@ -37,7 +37,7 @@ AmiantoToBlanche = BaseEntity.extend({
 						Crafty.trigger("LevelTransition");
 					});
 				});
-				this.playAnimation('AmiantoTurningBlanche', 36*5, 0);
+				this.playAnimation('AmiantoTurningBlanche', 36*6, 0);
 			})
 			.setName('AmiantoToBlanche');
 		model.set({'entity' : entity });
