@@ -168,8 +168,8 @@ Amianto02 = BaseEntity.extend({
 							if(!model.get('withDiamond'))
 								this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 							else
-								this.unbind('KeyDown');
-						} 
+								model._pickUpDiamond = function(){ return };
+						}
 						else 
 						if(checkPointValue==10) {
 							Crafty.trigger("AmiantoReachedLightArea");
