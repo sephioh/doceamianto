@@ -164,8 +164,11 @@ Amianto02 = BaseEntity.extend({
 							sc.diamond.grow(checkPointValue);
 						} 
 						else 
-						if(checkPointValue==9 && !model.get('withDiamond')) {
-							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+						if(checkPointValue==9) {
+							if(!model.get('withDiamond'))
+								this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+							else
+								this.unbind('KeyDown');
 						} 
 						else 
 						if(checkPointValue==10) {
