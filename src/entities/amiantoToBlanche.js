@@ -30,7 +30,8 @@ AmiantoToBlanche = BaseEntity.extend({
 					this.playAnimation('BlancheFlying', 6*5, -1);
 					this.tween({x: model.attributes.finalX, 
 							y: model.attributes.finalY,
-							z: model.attributes.finalZ,}, model.attributes.flightTime);
+							//z: model.attributes.finalZ
+							}, model.attributes.flightTime);
 					this.bind("TweenEnd",function final(){
 						this.unbind("TweenEnd", final);
 						Crafty.trigger("LevelTransition");

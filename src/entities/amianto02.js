@@ -2,7 +2,7 @@ Amianto02 = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 1322 },//{ x: 500, y: 1322 }, //12084
+	  'startingPoint' : { x: 500, y: 1324 },//{ x: 500, y: 1322 }, //12084
 	  'width' : 94,
 	  'height' : 126,
 	  'withDiamond' : 0,
@@ -169,7 +169,8 @@ Amianto02 = BaseEntity.extend({
 						} 
 						else 
 						if(checkPointValue==10) {
-							this.disableControl();
+							this.disableControl()
+							    .unbind("Moved");
 							Crafty.trigger("AmiantoReachedLightArea");
 						}
 				}
