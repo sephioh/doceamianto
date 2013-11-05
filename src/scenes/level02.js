@@ -35,14 +35,16 @@
 			});
 		  
 			// setting collision for tiles
-			
 			Crafty("upStairs").each(function() { 
 				this.collision(new Crafty.polygon([[0,32],[32,0]]));
 			});
 			Crafty("downStairs").each(function() { 
 				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
-			
+			Crafty("water").each(function() { 
+				this.collision(new Crafty.polygon([[0,34],[10,34]]));
+			});
+
 			//Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
 			
