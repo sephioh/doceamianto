@@ -45,10 +45,8 @@
 				this.collision(new Crafty.polygon([[0,34],[10,34]]));
 			});
 
-			//Crafty.viewport.centerOn(playerEnt, 1);
-			sc.camera.camera(playerEnt);
-			
-			console.log("finished loading and assembling tilemap");
+			Crafty.viewport.clampToEntities = false;
+			Crafty.viewport.follow(playerEnt, 0, 0);
 			
 			sc.delays.delay(function() {
 				playerEnt.bind("AnimationEnd", function stand_up() {
@@ -69,7 +67,7 @@
 		};
 	
 		_.each(delimitersMap, function(obj) {
-			var delimiter = Crafty.e("2D, Collision, wall, WiredHitBox")
+			var delimiter = Crafty.e("2D, Collision, wall")
 				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
 			sc.delimiters.push(delimiter);
 		});
@@ -90,7 +88,7 @@
 		};
 	
 		_.each(checkPointsMap, function(obj) {
-			var checkpoint = Crafty.e("2D, Collision, checkpoint, WiredHitBox")
+			var checkpoint = Crafty.e("2D, Collision, checkpoint")
 				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
 			checkpoint['value'] = obj.value;
 			sc.checkpoints.push(checkpoint);
@@ -104,7 +102,7 @@
 			
 			playerEnt.disableControl()
 				.unbind("Moved")
-				.tween({ x: playerEnt._x+1500 }, 1500)
+				.tween({ x: playerEnt._x+800 }, 800)
 				.playAnimation("AmiantoRunning9", 4*5, -1)
 				.bind("EnterFrame", function(){ sc.camera.set(this); })
 				.bind("TweenEnd", function keep_ahead() {
