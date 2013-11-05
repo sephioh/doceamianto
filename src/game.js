@@ -124,7 +124,6 @@ window.onload = function() {
 					  elements: [
 						  "text!src/scenes/tilemaps/level02.json", 
 						  "src/components/TiledLevelImporter.js",
-						  "src/components/camera.js",
 						  "src/entities/diamond.js",
 						  "src/entities/amianto02.js",
 						  "src/entities/obstacle.js",

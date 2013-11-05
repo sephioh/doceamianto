@@ -16,7 +16,6 @@
 		sc['diamond'] = new Diamond(),
 		sc['mapBuider'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.
 		sc['tiledMap'] = sc.mapBuider.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
-		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
 		sc['checkpoints'] = [],
@@ -102,6 +101,7 @@
 			
 			playerEnt.disableControl()
 				.unbind("Moved")
+				.removeComponent("Collision")
 				.tween({ x: playerEnt._x+800 }, 800)
 				.playAnimation("AmiantoRunning9", 4*5, -1)
 				.bind("EnterFrame", function(){ sc.camera.set(this); })
