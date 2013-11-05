@@ -19,12 +19,12 @@
 		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
-		sc['checkpoints'] = [];
-		/*sc['obstacles'] = [ new Obstacle({initialX: 13500, initialY: 1175, initialZ: 300}),
+		sc['checkpoints'] = [],
+		sc['obstacles'] = [ new Obstacle({initialX: 13500, initialY: 1100, initialZ: 300}),
 							new Obstacle({initialX: 16300, initialY: 1271, initialZ: 300}),
 							new Obstacle({initialX: 25337, initialY:  960, initialZ: 300}),
-							new Obstacle({initialX: 26757, initialY:  540, initialZ: 300})];
-		*/
+							new Obstacle({initialX: 25785, initialY:  960, initialZ: 300})];
+
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
 			var playerEnt = sc.player.getEntity();
