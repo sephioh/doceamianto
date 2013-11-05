@@ -1,6 +1,6 @@
 Obstacle = BaseEntity.extend({
     defaults: {
-	    'dimensions' : { height: 163, width: 53},
+	    'dimensions' : { height: 163, width: 73},
 	    'movable': true,
 	    'weight': 2,
     },
