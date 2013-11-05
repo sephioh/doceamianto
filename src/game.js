@@ -4,7 +4,7 @@ window.onload = function() {
 		    today = new Date(),
 		    lang = getUrlVars()['lang'];
 		    lang = ((lang != 'en')?'pt':'en');
-	    
+	
 	    // Fix for cache
 	if(gameContainer.env == 'dev') {
 		    version = today.getDay()+"_"+ today.getHours() +"_"+today.getSeconds();
@@ -17,18 +17,19 @@ window.onload = function() {
 	Crafty.canvas.init();
 		
 	require([
+		"src/lang/lang-"+lang+".js",
 		"src/assets.js?v="+version+"",
 		"src/config.js?v="+version+"",
-		"src/lang/lang-"+lang+".js",
 		"src/entities/base/BaseEntity.js"
 	], function() {
 		
 		// allow playing MP3 files
-		//Crafty.support.audio = true;
+		Crafty.support.audio = true;
 		
 		assets = new Assets();
 		
 		gameContainer['conf'] = new Config({});
+		gameContainer['langStrings'] = Lang;
 			
 		// the loading screen - will be displayed while assets are loaded
 		Crafty.scene("loading", function(obj) { // obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor' }
@@ -119,7 +120,7 @@ window.onload = function() {
 		
 		
 		
-		gameContainer.setNextSceneInfo({ 
+		/*gameContainer.setNextSceneInfo({ 
 					  name: "level02",
 					  elements: [
 						  "text!src/scenes/tilemaps/level02.json", 
@@ -129,8 +130,8 @@ window.onload = function() {
 						  "src/entities/obstacle.js",
 						  "src/entities/amiantoToBlanche.js"
 						],
-		});
-		/*gameContainer.setNextSceneInfo({ 
+		});*/
+		gameContainer.setNextSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
@@ -138,7 +139,7 @@ window.onload = function() {
 				"src/entities/darkheart.js",
 				"src/entities/redheart.js"
 			      ]
-		});*/
+		});
 		
 		// play the loading scene
 		Crafty.scene("loading");

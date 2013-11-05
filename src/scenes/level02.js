@@ -104,7 +104,6 @@
 				.removeComponent("Collision")
 				.tween({ x: playerEnt._x+800 }, 800)
 				.playAnimation("AmiantoRunning9", 4*5, -1)
-				.bind("EnterFrame", function(){ sc.camera.set(this); })
 				.bind("TweenEnd", function keep_ahead() {
 				  
 					this.unbind("TweenEnd", keep_ahead).pauseAnimation();	
@@ -172,25 +171,26 @@
 		
 		this.loadLevel03 = function() {
 			//this code is to be replaced when work on third level begins
-			sc['continua'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, Text")
-				.attr({ x: scene.screenPos.x+110, 
-					  y: scene.screenPos.y, 
-					  w: 147, 
-					  h: 520, 
-					  z: scene.finalAmiantoAttr.z+4, 
+			sc['replay'] = Crafty.e("2D, DOM, Text, Tween, Mouse")
+				.attr({ x: scene.screenPos.x, 
+					  y: scene.screenPos.y + Crafty.viewport.height/2, 
+					  w: Crafty.viewport.width, 
+					  h: 30, 
+					  z: scene.finalAmiantoAttr.z+100, 
 					  alpha: 0.0 })
-				.text("Continua...")
-				.textFont({ family: 'Arial', size : '30px' })
-				.textColor("#000000");
-			sc.continua.tween({ alpha: 1.0 }, 150);
-			sc['playAgainLink'] = Crafty.e("HTML, DOM, Mouse")
-									.attr({x:scene.screenPos.x+220,
-										   y:scene.screenPos.y+200,
-										   w:300,
-										   h:300})
-									.bind('Click', function() {window.setTimeout('location.reload()', 1000);})
-    								.areaMap([0,0], [300,0], [300,50], [0,50])
-   									.append("<a style='color: black; text-decoration: none' href='#'>Jogar Novamente</a>");
+				.text(gameContainer.langStrings.text01)
+				.textFont({ family: 'Arial', size : '15px' })
+				.textColor("#000000")
+				.css({ 'text-align' : "center" })
+				.unselectable();
+				
+			sc.replay.tween({ alpha: 1.0 }, 150)
+				.bind("TweenEnd", function restart_game(){
+					this.unbind("TweenEnd", restart_game);
+					sc.coloredLayer
+						.addComponent("Mouse")
+						.bind("Click", function() { document.location.reload(); });
+				})
 		}
 		
 		this.bind('LevelTransition', this.loadLevel03);
