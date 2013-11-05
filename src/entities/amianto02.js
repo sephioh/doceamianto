@@ -2,7 +2,7 @@ Amianto02 = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 1324 },//{ x: 500, y: 1322 }, //12084
+	  'startingPoint' : { x: 500, y: 1324 },
 	  'width' : 94,
 	  'height' : 126,
 	  'withDiamond' : 0,
@@ -193,6 +193,9 @@ Amianto02 = BaseEntity.extend({
 						} else if(this._up){
 							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 							this.pushingObstacle = false;
+						} else if(!hit[i].obj.movable || model.get('withDiamond')){
+							this.pushingObstacle = false;
+							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 						} else {
 							// Amianto dont cross the obstacle at x axis, she dont,
 							// cross y axis because obstacle have grnd component
@@ -202,11 +205,11 @@ Amianto02 = BaseEntity.extend({
 					}
 				}
 			}, function() {
-				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')){
+				//if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')){
 					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					model._setSpeed(model.get('startingSpeed'), false);
 					this.pushingObstacle = false;
-				}
+				//}
 
 			})
 			.bind('KeyDown', function(e){ 
@@ -385,8 +388,6 @@ Amianto02 = BaseEntity.extend({
 				D: 0,
 				Q: 180
 			    };
-			
-			console.log(speed);
 			
 			ent.multiway(speed, keys);
 			

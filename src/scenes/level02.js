@@ -19,12 +19,12 @@
 		sc['camera'] = Crafty.e("Camera"),
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
-		sc['checkpoints'] = [];
-		/*sc['obstacles'] = [ new Obstacle({initialX: 13500, initialY: 1175, initialZ: 300}),
+		sc['checkpoints'] = [],
+		sc['obstacles'] = [ new Obstacle({initialX: 13500, initialY: 1100, initialZ: 300}),
 							new Obstacle({initialX: 16300, initialY: 1271, initialZ: 300}),
 							new Obstacle({initialX: 25337, initialY:  960, initialZ: 300}),
-							new Obstacle({initialX: 26757, initialY:  540, initialZ: 300})];
-		*/
+							new Obstacle({initialX: 25785, initialY:  960, initialZ: 300})];
+
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
 			var playerEnt = sc.player.getEntity();
@@ -35,14 +35,16 @@
 			});
 		  
 			// setting collision for tiles
-			
 			Crafty("upStairs").each(function() { 
 				this.collision(new Crafty.polygon([[0,32],[32,0]]));
 			});
 			Crafty("downStairs").each(function() { 
 				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
-			
+			Crafty("water").each(function() { 
+				this.collision(new Crafty.polygon([[0,34],[10,34]]));
+			});
+
 			//Crafty.viewport.centerOn(playerEnt, 1);
 			sc.camera.camera(playerEnt);
 			

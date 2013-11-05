@@ -100,7 +100,7 @@ Assets = Backbone.Model.extend({
 				},
 				'obstacle' : {
 					'file' : 'web/images/obstacle.png',
-					'tile' : 53,
+					'tile' : 73,
 					'tileh' : 136,
 					'elements': {
 						'obstacle' : [0, 0]
