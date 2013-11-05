@@ -1,83 +1,93 @@
 Crafty.scene("level01", function() {
 	
+	var scene = this;
+	
 	Crafty.background("#FFFFFF");
-		
-		// Play theme
-		Crafty.audio.play("theme01", -1, 0.3);
-				
-		sc['player'] = new Amianto01(),
-		sc['hearts'] = [],
-		sc['delimiters'] = [],
-		sc['delays'] = Crafty.e("Delay"),
-		sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, TweenColor")
-		    .attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 }),
-		sc['bckgrndDegrade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, degrade")
-		    .attr({ x: 0, y: 0, w: 800, h: 600, z: 0, alpha: 1.0 });
-		
-		sc.player.startMoving();
-		
-		//<hearts' loop> 
-		this.heartComing = function() {
-			// 80% chance of creating a dark heart
-			if(Crafty.math.randomInt(1,100)<=80) {
-				sc.hearts.push(new DarkHeart());
-			} else {
-				sc.hearts.push(new RedHeart());
-			}
-		}
-		
-		sc.delays.delay(this.heartComing,750,-1);
-		//</hearts' loop>
-		
-		//<change background color>
-		var i = 0,
-			white = { r: 255, g: 255, b: 255 },
-			yellow = { r: 255, g: 226, b: 78 },
-			pink = { r: 255, g: 77, b: 153 },
-			violet = { r: 128, g: 16, b: 216 },
-			green = { r: 117, g: 232, b: 7 };
-		  
-		sc.bckgrndFade.rgb(white);
-		
-		this.backgroundChange = function() {
-			if(!sc.bckgrndFade.isTweeningColor()) {
-				switch(i) {
-					case 0: 
-						sc.bckgrndFade.tweenColor(yellow, 255);
-						break;
-					case 1: 
-						sc.bckgrndFade.tweenColor(pink, 255);
-						break;
-					case 2: 
-						sc.bckgrndFade.tweenColor(violet, 255);
-						break;
-					case 3: 
-						sc.bckgrndFade.tweenColor(green, 255);
-						break;
-				}
-				if(++i > 3) 
-					i = 0; 
-			}
-		}
-		
-		this.bind('EnterFrame', Crafty.backgroundChange);
-		//</change background color>
-		
-		//<delimiters>
-		var delimitersMap = {
-			left: 	{ x: 0, y: 242, w: 1, h: 400, 	shape: [[0,0],[1,400]] }, 
-			right: 	{ x: 800, y: 242, w: 1, h: 400, shape: [[0,0],[1,400]] }
-		};
-		
-		_.each(delimitersMap, function(obj) {
-			var delimiter = Crafty.e("2D, Collision, solid")
-				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h})
-				.collision(new Crafty.polygon(obj.shape));
-			sc.delimiters.push(delimiter);
+	// Play theme
+	Crafty.audio.play("theme01", -1, 0.3);
+			
+	sc['player'] = new Amianto01(),
+	sc['hearts'] = [],
+	sc['delimiters'] = [],
+	sc['delays'] = Crafty.e("Delay"),
+	sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, TweenColor")
+	    .attr({ x: 0, y: 0, w: 800, h: 600, z: 1000, alpha: 1.0 }),
+	sc['bckgrndDegrade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, degrade")
+	    .attr({ x: 0, y: 0, w: 800, h: 600, z: 1, alpha: 1.0 });
+	
+	sc.player.startMoving();
+	
+	sc.bckgrndFade
+		.rgb({ r:0, g:0, b:0 })
+		.tween({ alpha:0.0 }, 90)
+		.bind('TweenEnd', function initial_fade_in() {
+			this.unbind('TweenEnd', initial_fade_in)
+			    .rgb({ r:255, g:255, b:255 })
+			    .attr({ z:0, alpha:1.0 });
+			scene.bind('EnterFrame', scene.backgroundChange);
 		});
-		//</delimiters>
-		
-		Crafty.settings.modify("autoPause",true);
+	
+	//Crafty.viewport.scale(3);
+	//Crafty.viewport.zoom(1/3,Crafty.viewport.x/2,Crafty.viewport.y/2,50);
+	//Crafty.viewport.zoom(1/3,sc.player.attributes.entity._x,sc.player.attributes.entity._y,50);
+	
+	//<hearts' loop> 
+	this.heartComing = function() {
+		// 80% chance of creating a dark heart
+		if(Crafty.math.randomInt(1,100)<=80) {
+			sc.hearts.push(new DarkHeart());
+		} else {
+			sc.hearts.push(new RedHeart());
+		}
+	}
+	
+	sc.delays.delay(this.heartComing,750,-1);
+	//</hearts' loop>
+	
+	//<change background color>
+	var i = 0,
+		yellow = { r: 255, g: 226, b: 78 },
+		pink = { r: 255, g: 77, b: 153 },
+		violet = { r: 128, g: 16, b: 216 },
+		green = { r: 117, g: 232, b: 7 };
+	
+	this.backgroundChange = function() {
+		if(!sc.bckgrndFade.isTweeningColor()) {
+			switch(i) {
+				case 0: 
+					sc.bckgrndFade.tweenColor(yellow, 255);
+					break;
+				case 1: 
+					sc.bckgrndFade.tweenColor(pink, 255);
+					break;
+				case 2: 
+					sc.bckgrndFade.tweenColor(violet, 255);
+					break;
+				case 3: 
+					sc.bckgrndFade.tweenColor(green, 255);
+					break;
+			}
+			if(++i > 3) 
+				i = 0; 
+		}
+	}
+	//</change background color>
+	
+	//<delimiters>
+	var delimitersMap = {
+		left: 	{ x: 0, y: 242, w: 1, h: 400, 	shape: [[0,0],[1,400]] }, 
+		right: 	{ x: 800, y: 242, w: 1, h: 400, shape: [[0,0],[1,400]] }
+	};
+	
+	_.each(delimitersMap, function(obj) {
+		var delimiter = Crafty.e("2D, Collision, solid")
+			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h})
+			.collision(new Crafty.polygon(obj.shape));
+		sc.delimiters.push(delimiter);
+	});
+	//</delimiters>
+	
+	Crafty.settings.modify("autoPause",true);
 	
 	//	Event declarations
 

@@ -11,14 +11,14 @@ Diamond = BaseEntity.extend({
 	entity['value'] = 1,
 	entity['_held'] = false;
 	entity.attr({
-	      x: model.get('startingPoint').x, 
-	      y: model.get('startingPoint').y, 
-	      z: 300, 
-	      w: WIDTH, 
-	      h: HEIGHT, 
-	      alpha: 1.0
-	    })
-	    .setName('Diamond');
+		  x: model.get('startingPoint').x, 
+		  y: model.get('startingPoint').y, 
+		  z: 300, 
+		  w: WIDTH, 
+		  h: HEIGHT, 
+		  alpha: 1.0
+		})
+		.setName('Diamond');
 	
 	model.set({'entity' : entity});
     },

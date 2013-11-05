@@ -153,6 +153,8 @@ Amianto02 = BaseEntity.extend({
 			.onHit('water', function() { 
 				var currentDiamondValue = Crafty("diamond").value,
 				    currentCheckPoint = sc.checkpoints[currentDiamondValue - 1];
+				if(!model.get('withDiamond'))
+					model._holdDiamond();
 				this.x = currentCheckPoint._x;
 				this.y = currentCheckPoint._y;
 			  })
@@ -208,10 +210,10 @@ Amianto02 = BaseEntity.extend({
 
 			})
 			.bind('KeyDown', function(e){ 
-				if(e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) {
-				    if((!model.get('withDiamond') && this._shiningEyes) || model.get('withDiamond'))
+				if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
+				  ((!model.get('withDiamond') && this._shiningEyes) || model.get('withDiamond')) && 
+				  (this.hit('grnd') || this._onStairs))
 					model._pickUpDiamond(); // pick/drop diamond
-				}
 			  })
 			.bind('KeyUp', function(e) {
 				var k = e.key, diamond = model.get('withDiamond').toString();
@@ -392,6 +394,24 @@ Amianto02 = BaseEntity.extend({
 			return false;
 		}
 	},
+	
+	
+	
+	_holdDiamond: function() {
+		var diamond = Crafty("diamond"), 
+		    entity = this.getEntity(), 
+		    strength = this.get('strength'),
+		    startingSpeed = this.get('startingSpeed');
+		diamond._held = true;
+		diamond.alpha = 0.0;
+		this.set({ 'withDiamond' : diamond.value });
+		if(diamond.value>strength){
+			var newSpeed = startingSpeed-(Math.abs(strength-diamond.value));
+			this._setSpeed(newSpeed,true);
+		}
+		entity.playAnimation("AmiantoStandingStill" + diamond.value.toString(), 5, -1);
+	},
+	
 	
 	_pickUpDiamond: function() { 
 		var diamond = Crafty("diamond"), 
