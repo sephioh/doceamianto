@@ -1,12 +1,12 @@
 Obstacle = BaseEntity.extend({
     defaults: {
-	    'dimensions' : { height: 136, width: 57},
+	    'dimensions' : { height: 136, width: 61},
 	    'movable': true,
 	    'weight': 3,
     },
     initialize: function(){
 		var model = this,
-			poly = new Crafty.polygon([[-5,0],[-5,136],[48,136],[48,0]]),
+			//poly = new Crafty.polygon([[-5,0],[-5,136],[58,136],[58,0]]),
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", obstacle, grnd, Collision, Gravity");
 		entity
 			.attr({x: model.attributes.initialX, 
@@ -17,7 +17,7 @@ Obstacle = BaseEntity.extend({
 				   movable: model.get('movable'),
 				   weight: model.get('weight'),
 			})
-			.collision(poly)
+			//.collision(poly)
 			.onHit('water', function(hit) { 
 				this.antigravity();
 				this.movable = false;
@@ -25,7 +25,10 @@ Obstacle = BaseEntity.extend({
 				this._up = false;
 				this.y += Math.ceil(hit[0].normal.y * -hit[0].overlap);
 			})
-			.gravityConst(4).gravity('grnd')
+			.onHit('wall', function(hit) { 
+				this.x += Math.ceil(hit[0].normal.x * -hit[0].overlap);
+			})
+			.gravityConst(3).gravity('grnd')
 		model.set({'entity' : entity });
     }
 });

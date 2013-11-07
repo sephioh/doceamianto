@@ -202,6 +202,9 @@ Amianto02 = BaseEntity.extend({
 							this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 							this.pushingObstacle = false;
 						}
+					} else {
+						this.pushingObstacle = false;
+						model._setSpeed(model.get('startingSpeed'), false);
 					}
 				}
 			}, function() {
