@@ -2,7 +2,7 @@ Amianto02 = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 9000, y: 1324 },//500
+	  'startingPoint' : { x: 11000, y: 1324 },//500
 	  'width' : 94,
 	  'height' : 126,
 	  'withDiamond' : 0,
@@ -160,28 +160,28 @@ Amianto02 = BaseEntity.extend({
 			  })
 			.onHit('checkpoint', function(hit) { 
 				for (var i = 0; i < hit.length; i++) {
-						var currentDiamondValue = Crafty("diamond").value,
-						    checkPointValue = hit[i].obj['value'];
-						if(currentDiamondValue < checkPointValue && model.get('withDiamond') && checkPointValue<10) {
-							sc.diamond.grow(checkPointValue);
-						} 
-						else 
-						if(checkPointValue==9) {
-							if(!model.get('withDiamond'))
-								this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-							else
-								model._pickUpDiamond = function(){ return };
-						}
-						else 
-						if(checkPointValue==10) {
-							Crafty.trigger("AmiantoReachedLightArea");
-						}
+					var currentDiamondValue = Crafty("diamond").value,
+					    checkPointValue = hit[i].obj['value'];
+					if(currentDiamondValue < checkPointValue && model.get('withDiamond') && checkPointValue<10) {
+						sc.diamond.grow(checkPointValue);
+					} 
+					else 
+					if(checkPointValue==9) {
+						if(!model.get('withDiamond'))
+							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+						else
+							model._pickUpDiamond = function(){ return };
+					}
+					else 
+					if(checkPointValue==10) {
+						Crafty.trigger("AmiantoReachedLightArea");
+					}
 				}
 			  })
 			.onHit('obstacle', function(hit) { 
 				for (var i = 0; i < hit.length; i++) {
 					// If collision is horizontally
-					if(hit[i].normal.y == 0) {
+					if(hit[i].normal.x != 0) {
 						if(hit[i].obj.movable && 		  // if obstacle didnt fall into water and
 						   !this._up &&                  // Amianto is not jumping and
 						   !model.get('withDiamond')){  // Amianto isn't holding the diamond
@@ -190,6 +190,7 @@ Amianto02 = BaseEntity.extend({
 								model._setSpeed(model.get('startingSpeed') - hit[i].obj.weight, false);
 								this.playAnimation("AmiantoPushing", 25, -1);
 								this.pushingObstacle = true;
+								hit[i].obj.wasMoved = true;
 						} else if(this._up){
 							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 							this.pushingObstacle = false;
@@ -197,8 +198,8 @@ Amianto02 = BaseEntity.extend({
 							this.pushingObstacle = false;
 							this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 						} else {
-							// Amianto dont cross the obstacle at x axis, she dont,
-							// cross y axis because obstacle have grnd component
+							// Amianto dont cross the obstacle at x axis, she dont
+							// cross y axis because obstacle has grnd component
 							this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 							this.pushingObstacle = false;
 						}
@@ -208,11 +209,11 @@ Amianto02 = BaseEntity.extend({
 					}
 				}
 			}, function() {
-				//if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')){
+				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')){
 					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					model._setSpeed(model.get('startingSpeed'), false);
 					this.pushingObstacle = false;
-				//}
+				}
 
 			})
 			.bind('KeyDown', function(e){ 

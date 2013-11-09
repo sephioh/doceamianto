@@ -38,14 +38,11 @@
 				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
 			Crafty("water").each(function() { 
-				this.collision(new Crafty.polygon([[0,32],[10,32]]));
+				this.collision(new Crafty.polygon([[0,24],[32,24]]));
 			});
-			//left walls' polygons must be 24 tiles max large
 			Crafty("leftWall").each(function() { 
 				this.collision(new Crafty.polygon([[0,0],[23,0],[23,32],[0,32]]));
-			});
-			Crafty("obstacleBlocker").each(function() { 
-				this.addComponent("WiredHitBox");
+				this.z = playerEnt._z - 1;
 			});
 
 			Crafty.viewport.clampToEntities = false;
