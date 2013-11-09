@@ -2,7 +2,7 @@ Amianto02 = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 11000, y: 1324 },//500
+	  'startingPoint' : { x: 500, y: 1324 },
 	  'width' : 94,
 	  'height' : 126,
 	  'withDiamond' : 0,
