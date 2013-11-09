@@ -19,10 +19,7 @@
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
 		sc['checkpoints'] = [],
-		sc['obstacles'] = [ new Obstacle({initialX: 13500, initialY: 1100, initialZ: 300}),
-							new Obstacle({initialX: 16300, initialY: 1271, initialZ: 300}),
-							new Obstacle({initialX: 25337, initialY:  960, initialZ: 300}),
-							new Obstacle({initialX: 25785, initialY:  960, initialZ: 300})];
+		sc['obstacles'] = [];
 
 		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
 			
@@ -63,6 +60,12 @@
 				})
 				.playAnimation("AmiantoStandingUp", 13*8, 0);
 			}, 3000);
+			
+			sc.obstacles = [ new Obstacle({initialX: 13500, initialY: 1100, initialZ: 300}),
+				new Obstacle({initialX: 16300, initialY: 1271, initialZ: 300}),
+				new Obstacle({initialX: 25337, initialY:  960, initialZ: 300}),
+				new Obstacle({initialX: 25785, initialY:  960, initialZ: 300})];
+
 			
 		});
 
