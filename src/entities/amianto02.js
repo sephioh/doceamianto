@@ -2,7 +2,7 @@ Amianto02 = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 1324 },
+	  'startingPoint' : { x: 9000, y: 1324 },//500
 	  'width' : 94,
 	  'height' : 126,
 	  'withDiamond' : 0,
@@ -354,7 +354,7 @@ Amianto02 = BaseEntity.extend({
 	},	
 	
 	/* _setDir : set speed and keys' directions
-	 @speed Integer; @keysObj Objejct of keys set with directions; @jump Boolean */
+	 @speed Integer; @jump Boolean */
 	
 	_setSpeed: function (speed,jump){
 		if(typeof speed === "number") {
@@ -399,8 +399,6 @@ Amianto02 = BaseEntity.extend({
 		}
 	},
 	
-	
-	
 	_holdDiamond: function() {
 		var diamond = Crafty("diamond"), 
 		    entity = this.getEntity(), 
@@ -415,7 +413,6 @@ Amianto02 = BaseEntity.extend({
 		}
 		entity.playAnimation("AmiantoStandingStill" + diamond.value.toString(), 5, -1);
 	},
-	
 	
 	_pickUpDiamond: function() { 
 		var diamond = Crafty("diamond"), 

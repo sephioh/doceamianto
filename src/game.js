@@ -3,7 +3,7 @@ window.onload = function() {
 	var version = null,
 		    today = new Date(),
 		    lang = getUrlVars()['lang'];
-		    lang = ((lang != 'en')?'pt':'en');
+		    lang = lang != 'en'?'pt':'en';
 	
 	    // Fix for cache
 	if(gameContainer.env == 'dev') {
@@ -118,9 +118,7 @@ window.onload = function() {
 		    
 		require(scenes, function(){});
 		
-		
-		
-		/*gameContainer.setNextSceneInfo({ 
+		gameContainer.setNextSceneInfo({ 
 					  name: "level02",
 					  elements: [
 						  "text!src/scenes/tilemaps/level02.json", 
@@ -130,8 +128,8 @@ window.onload = function() {
 						  "src/entities/obstacle.js",
 						  "src/entities/amiantoToBlanche.js"
 						],
-		});*/
-		gameContainer.setNextSceneInfo({ 
+		});
+		/*gameContainer.setNextSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
@@ -139,7 +137,7 @@ window.onload = function() {
 				"src/entities/darkheart.js",
 				"src/entities/redheart.js"
 			      ]
-		});
+		});*/
 		
 		// play the loading scene
 		Crafty.scene("loading");

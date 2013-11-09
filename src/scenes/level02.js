@@ -41,7 +41,14 @@
 				this.collision(new Crafty.polygon([[0,0],[32,32]]));
 			});
 			Crafty("water").each(function() { 
-				this.collision(new Crafty.polygon([[0,34],[10,34]]));
+				this.collision(new Crafty.polygon([[0,32],[10,32]]));
+			});
+			//left walls' polygons must be 24 tiles max large
+			Crafty("leftWall").each(function() { 
+				this.collision(new Crafty.polygon([[0,0],[23,0],[23,32],[0,32]]));
+			});
+			Crafty("obstacleBlocker").each(function() { 
+				this.addComponent("WiredHitBox");
 			});
 
 			Crafty.viewport.clampToEntities = false;
@@ -171,7 +178,7 @@
 		
 		this.loadLevel03 = function() {
 			//this code is to be replaced when work on third level begins
-			sc['replay'] = Crafty.e("2D, DOM, Text, Tween, Mouse")
+			sc['replay'] = Crafty.e("2D, DOM, Text, Tween")
 				.attr({ x: scene.screenPos.x, 
 					  y: scene.screenPos.y + Crafty.viewport.height/2, 
 					  w: Crafty.viewport.width, 
