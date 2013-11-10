@@ -105,7 +105,8 @@
 				
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
-			
+			Crafty.audio.stop();
+			Crafty.audio.play("ohthelight");
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.removeComponent("Collision")

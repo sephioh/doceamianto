@@ -132,7 +132,15 @@ Assets = Backbone.Model.extend({
 				'theme' : 
 					['web/audio/theme02.aac',
 					 'web/audio/theme02.ogg'
-					 ]
+					],
+				'diamond' :
+					['web/audio/diamondgrow.ogg',
+					 'web/audio/diamondgrow.mp3',
+					],
+				'thelight' : 
+					['web/audio/ohthelight.ogg',
+					 'web/audio/ohthelight.mp3'
+					]
 			}
 		}
     },
