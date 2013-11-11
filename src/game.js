@@ -15,7 +15,8 @@ window.onload = function() {
 	//start Crafty
 	Crafty.init(800, 600);
 	Crafty.canvas.init();
-		
+	//Crafty.settings.modify("autoPause",true);
+	
 	require([
 		"src/lang/lang-"+lang+".js",
 		"src/assets.js?v="+version+"",

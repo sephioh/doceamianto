@@ -87,8 +87,6 @@ Crafty.scene("level01", function() {
 	});
 	//</delimiters>
 	
-	Crafty.settings.modify("autoPause",true);
-	
 	//	Event declarations
 
 	// Amianto get max number of RedHearts
