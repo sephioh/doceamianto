@@ -118,6 +118,7 @@
 						eFrames = 0;
 						
 						if(down){
+							console.log(C);
 							var nVol = C.obj.volume - 0.1;      
 							nVol = Number(nVol.toFixed(1));
 							C.obj.volume = nVol;
