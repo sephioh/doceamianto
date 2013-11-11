@@ -185,9 +185,9 @@ Amianto02 = BaseEntity.extend({
 						if(hit[i].obj.movable && 		  // if obstacle didnt fall into water and
 						   !this._up &&                  // Amianto is not jumping and
 						   !model.get('withDiamond')){  // Amianto isn't holding the diamond
-								hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
-								this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
-								model._setSpeed(model.get('startingSpeed') - hit[i].obj.weight, false);
+								//this.x += (hit[i].normal.x * -hit[i].overlap);
+								hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
+								model._setSpeed(1, false);
 								if(this._currentReelId != "AmiantoPushing")
 									this.playAnimation("AmiantoPushing", 25, -1);
 								this.pushingObstacle = true;
@@ -211,12 +211,11 @@ Amianto02 = BaseEntity.extend({
 					}
 				}
 			}, function() {
-				console.log("collision finished");
 				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')) {
 					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					model._setSpeed(model.get('startingSpeed'), false);
-					this.pushingObstacle = false;
 				}
+				this.pushingObstacle = false;
 			})
 			.bind('KeyDown', function(e){ 
 				if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
