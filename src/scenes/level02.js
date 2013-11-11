@@ -108,7 +108,7 @@
 			var eFrames = 0,
 			    C;
 			    _.each(Crafty.audio.channels, function(c){
-				C = c._is(soundId)?c:false;
+				C = (typeof C === "undefined" && c._is(soundId))?c:false;
 			    });
 			    
 			if(C){
