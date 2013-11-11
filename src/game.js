@@ -137,7 +137,7 @@ window.onload = function() {
 				"src/entities/darkheart.js",
 				"src/entities/redheart.js"
 			      ]
-// 		});*/
+ 		});*/
 		
 		// play the loading scene
 		Crafty.scene("loading");
