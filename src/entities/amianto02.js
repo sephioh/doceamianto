@@ -212,7 +212,12 @@ Amianto02 = BaseEntity.extend({
 				}
 			}, function() {
 				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')) {
-					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
+					if(model.get('withDiamond')){
+						var diamond = model.get('withDiamond').toString();
+						this.playAnimation("AmiantoStandingStill" + diamond, 5, -1);
+					} else {
+						this.playAnimation("AmiantoStandingStill0", 57*5, -1);
+					}
 					model._setSpeed(model.get('startingSpeed'), false);
 				}
 				this.pushingObstacle = false;
