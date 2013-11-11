@@ -106,10 +106,14 @@
 		
 		this.graduallyChangeSoundVolume = function(soundId,down,rate) {
 			var eFrames = 0,
-			    C;
-			    _.each(Crafty.audio.channels, function(c){
-				C = (typeof C === "undefined" && c._is(soundId))?c:false;
-			    });
+				C;
+			for(var i = 0; i < Crafty.audio.channels.length; i++){
+				var c = Crafty.audio.channels[i];
+				if(c._is(soundId))
+					C = c;
+				if(typeof C !== "undefined")
+					break;
+			}
 			    
 			if(C){
 				this.bind("EnterFrame", function gradually_change_volume() {
