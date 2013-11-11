@@ -188,7 +188,8 @@ Amianto02 = BaseEntity.extend({
 								hit[i].obj.x -= Math.ceil(hit[i].normal.x * -hit[i].overlap);
 								this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 								model._setSpeed(model.get('startingSpeed') - hit[i].obj.weight, false);
-								this.playAnimation("AmiantoPushing", 25, -1);
+								if(this._currentReelId != "AmiantoPushing")
+									this.playAnimation("AmiantoPushing", 25, -1);
 								this.pushingObstacle = true;
 								hit[i].obj.wasMoved = true;
 						} else if(this._up){
@@ -203,18 +204,19 @@ Amianto02 = BaseEntity.extend({
 							this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 							this.pushingObstacle = false;
 						}
-					} else {
+					} else 
+					if(this.pushingObstacle || model.get("speed")<model.get('startingSpeed')) {
 						this.pushingObstacle = false;
 						model._setSpeed(model.get('startingSpeed'), false);
 					}
 				}
 			}, function() {
-				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')){
+				console.log("collision finished");
+				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW')) {
 					this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					model._setSpeed(model.get('startingSpeed'), false);
 					this.pushingObstacle = false;
 				}
-
 			})
 			.bind('KeyDown', function(e){ 
 				if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
