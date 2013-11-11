@@ -178,7 +178,7 @@ Amianto02 = BaseEntity.extend({
 					}
 				}
 			  })
-			.onHit('obstacle', function(hit) { 
+			.onHit('obstacle', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					// If collision is horizontally
 					if(hit[i].normal.x != 0) {
@@ -204,8 +204,7 @@ Amianto02 = BaseEntity.extend({
 							this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 							this.pushingObstacle = false;
 						}
-					} else 
-					if(this.pushingObstacle || model.get("speed")<model.get('startingSpeed')) {
+					} else {
 						this.pushingObstacle = false;
 						model._setSpeed(model.get('startingSpeed'), false);
 					}
@@ -218,8 +217,8 @@ Amianto02 = BaseEntity.extend({
 					} else {
 						this.playAnimation("AmiantoStandingStill0", 57*5, -1);
 					}
-					model._setSpeed(model.get('startingSpeed'), false);
 				}
+				model._setSpeed(model.get('startingSpeed'), false);
 				this.pushingObstacle = false;
 			})
 			.bind('KeyDown', function(e){ 
