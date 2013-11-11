@@ -101,46 +101,57 @@
 		});
 		//</checkpoints>
 		
-		/*this.graduallyChangeSoundVolume = function(soundId,down,rate) {
+		
+		// !TODO the function below must be moved to a kinda 'game manager' class
+		
+		this.graduallyChangeSoundVolume = function(soundId,down,rate) {
 			var eFrames = 0,
-			    s = Crafty.audio.sounds[soundId];
-			
-			this.bind("EnterFrame", function gradually_change_volume() {
-				eFrames++;
-				if(eFrames==rate){
-					eFrames = 0;
-					
-					if(down){
-						var nVol = s.obj.volume - 0.1;      
-						nVol = Number(nVol.toFixed(1));
-						s.volume = nVol;
-						s.obj.volume = nVol;
-						if(s.volume == 0){
-							this.unbind("EnterFrame", gradually_change_volume);
-							Crafty.audio.stop(soundId);
+			    C;
+			    _.each(Crafty.audio.channels, function(c){
+				C = c._is(soundId)?c:false;
+			    });
+			    
+			if(C){
+				this.bind("EnterFrame", function gradually_change_volume() {
+					eFrames++;
+					if(eFrames==rate){
+						eFrames = 0;
+						
+						if(down){
+							var nVol = C.obj.volume - 0.1;      
+							nVol = Number(nVol.toFixed(1));
+							C.obj.volume = nVol;
+							if(C.obj.volume == 0){
+								this.unbind("EnterFrame", gradually_change_volume);
+								
+								Crafty.audio.stop(soundId);
+							}
 						}
+						else{
+							var nVol = C.obj.volume + 0.1;
+							nVol = Number(nVol.toFixed(1));
+							C.obj.volume = nVol;
+							if(C.obj.volume == 1.0)
+								this.unbind("EnterFrame", gradually_change_volume);
+						}
+					  
 					}
-					else{
-						var nVol = s.obj.volume + 0.1;
-						nVol = Number(nVol.toFixed(1));
-						s.volume = nVol;
-						s.obj.volume = nVol;
-						if(s.volume == 1.0)
-							this.unbind("EnterFrame", gradually_change_volume);
-					}
-				  
-				}
-			})
-		}*/
+				});
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 		
 		// events' declarations
 		
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			
-			//scene.graduallyChangeSoundVolume("theme02", true, 30);
+			scene.graduallyChangeSoundVolume("theme02", true, 30);
 			
-			Crafty.audio.stop();
+			//Crafty.audio.stop();
 			Crafty.audio.play("ohthelight");
 			playerEnt.antigravity();
 			playerEnt.disableControl()
