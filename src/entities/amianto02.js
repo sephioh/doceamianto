@@ -27,9 +27,9 @@ Amianto02 = BaseEntity.extend({
 					diamondInt = model.get('withDiamond'),
 					diamondStr = diamondInt.toString();
 				
-				if((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || 
-				   (this._currentReelId == "AmiantoJumpingUp" + diamondStr) || 
-				   (this._currentReelId == "AmiantoStandingUp" && !this.isPlaying("AmiantoStandingUp"))) {
+				if(this._currentReelId == "AmiantoJumpingFalling" + diamondStr || 
+				   this._currentReelId == "AmiantoJumpingUp" + diamondStr || 
+				   (this._currentReelId == "AmiantoStandingUp" + diamondStr && this._falling)) {
 					justHit = true;  
 					
 					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 57*5, -1);
@@ -41,18 +41,21 @@ Amianto02 = BaseEntity.extend({
 					var hitDirY = Math.round(hit[i].normal.y);
 					if (hitDirY !== 0) { 						// hit bottom or top
 						if (hitDirY === -1) { // hit the top, stop falling
-							
-							if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
-							  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
-								this._up = false;
-							
-							if((!this._up && justHit) || this._onStairs)
-								this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
-							
-							if(this._falling) 
-								this._falling = false;
-							
-							return;
+							try{
+								if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
+								  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
+									this._up = false;
+								
+								if((!this._up && justHit) || this._onStairs)
+									this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+								
+								if(this._falling) 
+									this._falling = false;
+								
+								return;
+							} catch (e){ 
+								
+							}
 						}
 						
 					}
@@ -80,8 +83,8 @@ Amianto02 = BaseEntity.extend({
 				    diamondInt = model.get('withDiamond'),
 				    diamondStr = diamondInt.toString(),
 				    speed = model.get('speed'),
-				    isfalling = (((this._currentReelId == "AmiantoJumpingFalling" + diamondStr) || 
-					    (this._currentReelId == "AmiantoJumpingUp" + diamondStr )) && this._falling);
+				    isfalling = ((this._currentReelId == "AmiantoJumpingFalling" + diamondStr || 
+					    this._currentReelId == "AmiantoJumpingUp" + diamondStr ) && this._falling);
 				
 				if((isfalling || this._currentReelId == "AmiantoRunning" + diamondStr))
 					justHit = true;

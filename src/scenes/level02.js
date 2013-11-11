@@ -101,53 +101,58 @@
 		});
 		//</checkpoints>
 		
-		this.graduallyChangeSoundVolume = function(soundId,down,rate){
+		/*this.graduallyChangeSoundVolume = function(soundId,down,rate) {
 			var eFrames = 0,
 			    s = Crafty.audio.sounds[soundId];
-		
-			this.bind("EnterFrame", function gradually(){
+			
+			this.bind("EnterFrame", function gradually_change_volume() {
 				eFrames++;
 				if(eFrames==rate){
 					eFrames = 0;
 					
 					if(down){
-						var nVol = s.obj.volume - 0.1;
+						var nVol = s.obj.volume - 0.1;      
+						nVol = Number(nVol.toFixed(1));
 						s.volume = nVol;
 						s.obj.volume = nVol;
-						console.log(s.obj.volume);
 						if(s.volume == 0){
-							this.unbind("EnterFrame", gradually);
+							this.unbind("EnterFrame", gradually_change_volume);
 							Crafty.audio.stop(soundId);
 						}
 					}
 					else{
-						var nVol = ~~(s.obj.volume - 0.1);
+						var nVol = s.obj.volume + 0.1;
+						nVol = Number(nVol.toFixed(1));
 						s.volume = nVol;
 						s.obj.volume = nVol;
 						if(s.volume == 1.0)
-							this.unbind("EnterFrame", gradually);
+							this.unbind("EnterFrame", gradually_change_volume);
 					}
 				  
 				}
 			})
-		}
+		}*/
 		
 		// events' declarations
 		
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			
-			scene.graduallyChangeSoundVolume("theme02", true, 30);
-			//Crafty.audio.stop();
+			//scene.graduallyChangeSoundVolume("theme02", true, 30);
+			
+			Crafty.audio.stop();
 			Crafty.audio.play("ohthelight");
+			playerEnt.antigravity();
 			playerEnt.disableControl()
 				.unbind("Moved")
+				.unbind("KeyUp")
+				.removeComponent("Keyboard")
 				.removeComponent("Collision")
 				.tween({ x: playerEnt._x+800 }, 800)
 				.playAnimation("AmiantoRunning9", 4*5, -1)
-				.bind("TweenEnd", function keep_ahead() {
+				.bind("TweenEnd", function transformation() {
 				  
-					this.unbind("TweenEnd", keep_ahead).pauseAnimation();	
+					this.unbind("TweenEnd", transformation).pauseAnimation();	
 					
 					scene.finalAmiantoAttr = {x: this._x, y: this._y, z: this._z, w: this._w, h: this._h},
 					scene.screenPos = {x:0,y:0};
