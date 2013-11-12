@@ -263,5 +263,7 @@
     });*/
 		
 }, function(){ 
-  
+	//get rid of wanted bindings, functions and files
+	
+	assets.removeAudio("level02");
 });
