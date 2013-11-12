@@ -12,10 +12,12 @@
 
 Assets = Backbone.Model.extend({
   
-	// declaration of scenes' elements
+	
 	defaults: {
 		imagesFolder: "web/images/",
 		audioFolder: "web/audio/",
+		
+		// declaration of scenes' elements
 		level01: {
 			'images' : {
 				'player' : {
