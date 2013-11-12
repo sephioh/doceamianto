@@ -29,7 +29,7 @@ Amianto02 = BaseEntity.extend({
 				
 				if(this._currentReelId == "AmiantoJumpingFalling" + diamondStr || 
 				   this._currentReelId == "AmiantoJumpingUp" + diamondStr || 
-				   (this._currentReelId == "AmiantoRunning" + diamondStr && this._falling)) {
+				   (this._currentReelId == "AmiantoRunning" + diamondStr && this._falling && this._up)) {
 					justHit = true;  
 					
 					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 57*5, -1);
