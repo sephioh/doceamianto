@@ -161,7 +161,7 @@
 			scene.graduallyChangeSoundVolume("theme02", true, 30);
 			
 			//Crafty.audio.stop();
-			Crafty.audio.play("ohthelight");
+			Crafty.audio.play("ohthelight",1,0.5);
 			playerEnt.antigravity();
 			playerEnt.disableControl()
 				.unbind("Moved")

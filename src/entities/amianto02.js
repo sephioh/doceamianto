@@ -29,7 +29,7 @@ Amianto02 = BaseEntity.extend({
 				
 				if(this._currentReelId == "AmiantoJumpingFalling" + diamondStr || 
 				   this._currentReelId == "AmiantoJumpingUp" + diamondStr || 
-				   (this._currentReelId == "AmiantoStandingUp" + diamondStr && this._falling)) {
+				   (this._currentReelId == "AmiantoRunning" + diamondStr && this._falling)) {
 					justHit = true;  
 					
 					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 57*5, -1);
@@ -46,7 +46,8 @@ Amianto02 = BaseEntity.extend({
 								  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
 									this._up = false;
 								
-								if((!this._up && justHit) || this._onStairs)
+								if((justHit && (!this._up || this._falling)) || 
+								  this._onStairs)
 									this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 								
 								if(this._falling) 
