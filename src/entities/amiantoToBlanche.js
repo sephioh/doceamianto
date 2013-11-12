@@ -27,6 +27,7 @@ AmiantoToBlanche = BaseEntity.extend({
 			.animate('BlancheFlying', [[0,6], [1,6], [2,6], [3,6], [4,6] ,[5,6]])
 			.bind('StartAmiantoToBlancheAnimation', function(){
 				this.bind('AnimationEnd', function() {
+					Crafty.audio.play("blancheflying");
 					this.playAnimation('BlancheFlying', 6*5, -1);
 					this.tween({x: model.attributes.finalX, 
 							y: model.attributes.finalY,
@@ -36,6 +37,7 @@ AmiantoToBlanche = BaseEntity.extend({
 						this.unbind("TweenEnd", final);
 						Crafty.trigger("LevelTransition");
 					});
+					
 				});
 				this.playAnimation('AmiantoTurningBlanche', 36*6, 0);
 			})
