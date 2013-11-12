@@ -9501,10 +9501,9 @@ Crafty.extend({
 		stop: function(id) {
 			if (!Crafty.support.audio)
 				return;
-			var s;
+			var c;
 			if (!id) {
 				for (var i in this.channels) {
-
 					c = this.channels[i];
 					if (c.active){
 						c.active = false;
@@ -9514,11 +9513,14 @@ Crafty.extend({
 				return;
 			}
 			
-			s = this.sounds[id];
-			if (!s)
-				return;
-			if (!s.obj.paused)
-				s.obj.pause();
+			for (var i in this.channels) {
+				c = this.channels[i];
+				if (c._is(id) && c.active){
+					c.active = false;
+					c.obj.pause();
+					return;
+				}
+			}
 		},
 		/**
 		 * #Crafty.audio._mute
