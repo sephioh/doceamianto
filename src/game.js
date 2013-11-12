@@ -119,7 +119,7 @@ window.onload = function() {
 		    
 		require(scenes, function(){});
 		
-		/*gameContainer.setNextSceneInfo({ 
+		gameContainer.setNextSceneInfo({ 
 			name: "level02",
 			elements: [
 				"text!src/scenes/tilemaps/level02.json", 
@@ -129,7 +129,7 @@ window.onload = function() {
 				"src/entities/obstacle.js",
 				"src/entities/amiantoToBlanche.js"
 			      ],
-		});*/
+		});
 		gameContainer.setNextSceneInfo({ 
 			name: "level01",
 			elements: [
