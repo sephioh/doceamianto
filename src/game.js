@@ -119,16 +119,6 @@ window.onload = function() {
 		    
 		require(scenes, function(){});
 		
-		
-		gameContainer.setNextSceneInfo({ 
-			name: "level01",
-			elements: [
-				"src/components/TweenColor.js",
-				"src/entities/amianto01.js",
-				"src/entities/darkheart.js",
-				"src/entities/redheart.js"
-			      ]
- 		});
 		gameContainer.setNextSceneInfo({ 
 			name: "level02",
 			elements: [
@@ -140,6 +130,16 @@ window.onload = function() {
 				"src/entities/amiantoToBlanche.js"
 			      ],
 		});
+		gameContainer.setNextSceneInfo({ 
+			name: "level01",
+			elements: [
+				"src/components/TweenColor.js",
+				"src/entities/amianto01.js",
+				"src/entities/darkheart.js",
+				"src/entities/redheart.js"
+			      ]
+ 		});
+		
 		
 		// play the loading scene
 		Crafty.scene("loading");
