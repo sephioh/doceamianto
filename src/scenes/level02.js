@@ -124,20 +124,24 @@
 						if(down){
 							var nVol = C.obj.volume - 0.1;      
 							nVol = Number(nVol.toFixed(1));
+							
 							if(nVol === 0){
 								this.unbind("EnterFrame", gradually_change_volume);
-								
 								Crafty.audio.stop(soundId);
+								return;
+							} else
+							if(nVol > 0) {
+								C.obj.volume = nVol;
 							}
-							console.log(nVol);
-							C.obj.volume = nVol;
 						}
 						else{
 							var nVol = C.obj.volume + 0.1;
 							nVol = Number(nVol.toFixed(1));
-							C.obj.volume = nVol;
-							if(C.obj.volume == 1.0)
+							
+							if(nVol === 1)
 								this.unbind("EnterFrame", gradually_change_volume);
+							if(nVol <= 1)
+								C.obj.volume = nVol;
 						}
 					  
 					}
