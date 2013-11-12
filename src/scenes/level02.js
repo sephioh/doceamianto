@@ -122,9 +122,9 @@
 						eFrames = 0;
 						
 						if(down){
-							console.log(C.obj);
 							var nVol = C.obj.volume - 0.1;      
 							nVol = Number(nVol.toFixed(1));
+							console.log(nVol);
 							C.obj.volume = nVol;
 							if(C.obj.volume == 0){
 								this.unbind("EnterFrame", gradually_change_volume);
@@ -263,7 +263,8 @@
     });*/
 		
 }, function(){ 
-	//get rid of wanted bindings, functions and files
+	//get rid of unwanted bindings, functions and files
 	
 	assets.removeAudio("level02");
+	this.unbind('LevelTransition', this.loadLevel03);
 });
