@@ -103,7 +103,9 @@
 		
 		
 		// !TODO the function below must be moved to a kinda 'game manager' class
-		/*
+		
+		/* fadeSound - fade sound to defined value each given frames, by 0.1
+		 * 
 		 * @soundId 	- id of the audio element
 		 * @to 		- volume to "fade" to
 		 * @rate	- rate at which volume will be changed, in frames
@@ -166,7 +168,7 @@
 					}
 					eFrames++;
 				});
-				return true;
+				return this;
 			}
 			else {
 				return C;
@@ -178,8 +180,7 @@
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
-			scene.fadeSound("theme02", 0, 30);
-			scene.fadeSound("ohthelight", 1, 30);
+			scene.fadeSound("theme02", 0, 45).fadeSound("ohthelight", 1, 45);
 			
 			//Crafty.audio.stop();
 			
