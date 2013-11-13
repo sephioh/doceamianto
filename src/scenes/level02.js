@@ -144,7 +144,6 @@
 						if(down){
 							var nVol = C.obj.volume - 0.1;      
 							nVol = Number(nVol.toFixed(1));
-							console.log(nVol);
 							
 							if(nVol === to){
 								this.unbind("EnterFrame", gradually_change_volume);
@@ -157,7 +156,6 @@
 						else{
 							var nVol = C.obj.volume + 0.1;
 							nVol = Number(nVol.toFixed(1));
-							console.log(nVol);
 							
 							if(nVol === to)
 								this.unbind("EnterFrame", gradually_change_volume);
@@ -180,8 +178,8 @@
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
-			console.log(scene.fadeSound("theme02", 0, 30));
-			console.log(scene.fadeSound("ohthelight", 1, 30));
+			scene.fadeSound("theme02", 0, 30);
+			scene.fadeSound("ohthelight", 1, 30);
 			
 			//Crafty.audio.stop();
 			
