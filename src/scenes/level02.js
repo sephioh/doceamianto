@@ -104,7 +104,7 @@
 		
 		// !TODO the function below must be moved to a kinda 'game manager' class
 		
-		/* fadeSound - fade sound to defined value each given frames, by 0.1
+		/* fadeSound - fade sound to defined value, increasing or decreasing by 0.1 each given frames
 		 * 
 		 * @soundId 	- id of the audio element
 		 * @to 		- volume to "fade" to
