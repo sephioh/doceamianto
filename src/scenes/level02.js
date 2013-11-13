@@ -180,7 +180,8 @@
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
-			scene.fadeSound("theme02", 0, 45).fadeSound("ohthelight", 1, 45);
+			scene.fadeSound("theme02", 0, 45);
+			scene.fadeSound("ohthelight", 1, 45);
 			
 			//Crafty.audio.stop();
 			
