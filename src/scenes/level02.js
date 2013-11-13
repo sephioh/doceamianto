@@ -103,10 +103,15 @@
 		
 		
 		// !TODO the function below must be moved to a kinda 'game manager' class
-		
-		this.graduallyChangeSoundVolume = function(soundId,down,rate) {
+		/*
+		 * @soundId 	- id of the audio element
+		 * @to 		- volume to "fade" to
+		 * @rate	- rate at which volume will be changed, in frames
+		*/
+		this.fadeSound = function(soundId,to,rate) {
 			var eFrames = 0,
-				C;
+				C,
+				down;
 			for(var i = 0; i < Crafty.audio.channels.length; i++){
 				var c = Crafty.audio.channels[i];
 				if(c._is(soundId))
@@ -114,42 +119,59 @@
 				if(typeof C !== "undefined")
 					break;
 			}
-			    
+			      
 			if(C){
+				if(to > C.obj.volume && to <= 1)
+					if(to <= 1){
+						down = false;
+					}else{
+						return false;
+					}
+				else
+				if(to < C.obj.volume && to >= 0)
+					if(to >= 0){
+						down = true;
+					}else{
+						return false;
+					}
+				else 
+					return false;
 				this.bind("EnterFrame", function gradually_change_volume() {
-					eFrames++;
-					if(eFrames==rate){
+					
+					if(eFrames === rate){
 						eFrames = 0;
 						
 						if(down){
 							var nVol = C.obj.volume - 0.1;      
 							nVol = Number(nVol.toFixed(1));
 							console.log(nVol);
-							if(nVol === 0){
+							
+							if(nVol === to){
 								this.unbind("EnterFrame", gradually_change_volume);
-								Crafty.audio.stop(soundId);
-								return;
-							} else
-							if(nVol > 0) {
+								if(!nVol)
+									Crafty.audio.stop(soundId);
+							} else {
 								C.obj.volume = nVol;
 							}
 						}
 						else{
 							var nVol = C.obj.volume + 0.1;
 							nVol = Number(nVol.toFixed(1));
+							console.log(nVol);
 							
-							if(nVol === 1)
+							if(nVol === to)
 								this.unbind("EnterFrame", gradually_change_volume);
 							if(nVol <= 1)
 								C.obj.volume = nVol;
 						}
 					  
 					}
+					eFrames++;
 				});
 				return true;
 			}
 			else {
-				return false;
+				return C;
 			}
 		}
 		
@@ -157,17 +179,16 @@
 		
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
-			
-			scene.graduallyChangeSoundVolume("theme02", true, 30);
+			Crafty.audio.play("ohthelight",1,0.1);
+			console.log(scene.fadeSound("theme02", 0, 30));
+			console.log(scene.fadeSound("ohthelight", 1, 30));
 			
 			//Crafty.audio.stop();
-			Crafty.audio.play("ohthelight",1,0.5);
+			
 			playerEnt.antigravity();
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.unbind("KeyUp")
-				.removeComponent("Keyboard")
-				.removeComponent("Collision")
 				.tween({ x: playerEnt._x+800 }, 800)
 				.playAnimation("AmiantoRunning9", 4*5, -1)
 				.bind("TweenEnd", function transformation() {
