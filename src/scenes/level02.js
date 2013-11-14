@@ -123,14 +123,14 @@
 			}
 			      
 			if(C){
-				if(to > C.obj.volume && to <= 1)
+				if(to > C.obj.volume)
 					if(to <= 1){
 						down = false;
 					}else{
 						return false;
 					}
 				else
-				if(to < C.obj.volume && to >= 0)
+				if(to < C.obj.volume)
 					if(to >= 0){
 						down = true;
 					}else{

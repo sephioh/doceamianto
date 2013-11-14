@@ -329,22 +329,25 @@ Amianto02 = BaseEntity.extend({
 						case "left":
 							if(!this._flipX) 	// if moved left and is unflipped
 								this.flip("X");	// flip sprite
-							if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
+							if((!this.isPlaying("AmiantoRunning" + diamond) && !this._up) && 
+							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond && !this._up)) {
 							    if(!model.get('withDiamond')) 
 								this.playAnimation("AmiantoRunning0", 40, -1);
 							    else 
 								this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+							}
 							    
 							break;
 						case "right": 
 							if(this._flipX) 							// if moved right and is flipped 
 								this.unflip("X");					// unflip sprite
-							if(!this.isPlaying("AmiantoRunning" + diamond) && !this._up)
+							if((!this.isPlaying("AmiantoRunning" + diamond) && !this._up) &&
+							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond && !this._up)) {
 							    if(!model.get('withDiamond'))
 								this.playAnimation("AmiantoRunning0", 40, -1);
 							    else
 								this.playAnimation("AmiantoRunning" + diamond, 20, -1);
-							    
+							}    
 							break;
 					}
 				}
