@@ -32,16 +32,16 @@
 		  
 			// setting collision for tiles
 			Crafty("upStairs").each(function() { 
-				this.collision(new Crafty.polygon([[0,32],[32,0]]));
+				this.collision(new Crafty.polygon([[0,31],[31,0]]));
 			});
 			Crafty("downStairs").each(function() { 
-				this.collision(new Crafty.polygon([[0,0],[32,32]]));
+				this.collision(new Crafty.polygon([[0,0],[31,31]]));
 			});
 			Crafty("water").each(function() { 
-				this.collision(new Crafty.polygon([[0,24],[32,24]]));
+				this.collision(new Crafty.polygon([[0,24],[31,24]]));
 			});
 			Crafty("leftWall").each(function() { 
-				this.collision(new Crafty.polygon([[0,0],[23,0],[23,32],[0,32]]));
+				this.collision(new Crafty.polygon([[0,0],[23,0],[23,31],[0,31]]));
 				this.z = playerEnt._z - 2;
 			});
 
