@@ -42,7 +42,7 @@
 			});
 			Crafty("leftWall").each(function() { 
 				this.collision(new Crafty.polygon([[0,0],[23,0],[23,32],[0,32]]));
-				this.z = playerEnt._z - 1;
+				this.z = playerEnt._z - 2;
 			});
 
 			Crafty.viewport.clampToEntities = false;
@@ -58,10 +58,12 @@
 				.playAnimation("AmiantoStandingUp", 13*8, 0);
 			}, 3000);
 			
-			sc.obstacles = [ new Obstacle({initialX: 13500, initialY: 1100, initialZ: playerEnt._z+1}),
-				new Obstacle({initialX: 16300, initialY: 1271, initialZ: playerEnt._z+1}),
-				new Obstacle({initialX: 25337, initialY:  960, initialZ: playerEnt._z+1}),
-				new Obstacle({initialX: 25785, initialY:  960, initialZ: playerEnt._z+1})];
+			sc.obstacles = [ 
+				new Obstacle({initialX: 13500, initialY: 1100, initialZ: playerEnt._z-1}),
+				new Obstacle({initialX: 16300, initialY: 1271, initialZ: playerEnt._z-1}),
+				new Obstacle({initialX: 25337, initialY:  960, initialZ: playerEnt._z-1}),
+				new Obstacle({initialX: 25785, initialY:  960, initialZ: playerEnt._z-1})
+				       ];
 
 			
 		});

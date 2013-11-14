@@ -48,7 +48,7 @@ Obstacle = BaseEntity.extend({
 			.bind('EnterFrame',function change_z() {
 				if(this._falling && this.wasMoved) {
 					this.unbind('EnterFrame', change_z);
-					this.z = sc.player.getEntity()._z - 2;
+					this.z = sc.player.getEntity()._z - 3;
 				}
 			})
 			.gravity();

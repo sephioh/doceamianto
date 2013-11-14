@@ -16,10 +16,10 @@ Amianto02 = BaseEntity.extend({
 				y: model.get('startingPoint').y, 
 				w: model.get('width'), 
 				h: model.get('height'), 
-				z: 300,
+				z: 301,
 				pushingObstacle: false,
 			});
-		entity['poly'] = new Crafty.polygon([[32,60],[47,38],[62,60],[55,116],[39,116]]);
+		entity['poly'] = new Crafty.polygon([[17,60],[47,38],[77,60],[55,116],[39,116]]);
 		entity
 			.twoway(model.get('speed'), model.get('speed'))
 			.onHit('grnd', function(hit) {
