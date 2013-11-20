@@ -115,9 +115,17 @@ window.onload = function() {
 		var scenes = [
 			"src/scenes/level01.js?v="+version+"",
 			"src/scenes/level02.js?v="+version+"",
+			"src/scenes/level03.js?v="+version+"",
 		];
 		    
 		require(scenes, function(){});
+
+		gameContainer.setNextSceneInfo({
+			name: "level03",
+			elements: [
+				"src/entities/amianto03.js",
+			      ],
+		});
 		
 		gameContainer.setNextSceneInfo({ 
 			name: "level02",

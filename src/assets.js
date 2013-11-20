@@ -146,7 +146,26 @@ Assets = Backbone.Model.extend({
 					  'ohthelight.mp3'
 					]
 			}
-		}
+		},
+		level03: {
+			'images' : {
+				'background' : {
+					'file' : 'level03-background.png',
+					'tile' : 800,
+					'tileh' : 600,
+				},
+				'player' : {
+					'file' : 'sheet_amianto03.png',
+					'tile' : 78,
+					'tileh' : 96,
+					'elements': {
+						'amianto03' : [0, 0]
+					}
+				}
+			},
+			'audio' : {
+			}
+		},
 	},
 	    
 	initialize: function(){
