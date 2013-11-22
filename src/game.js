@@ -124,9 +124,9 @@ window.onload = function() {
 			name: "level03",
 			elements: [
 				"src/entities/amianto03.js",
+				"src/entities/wordblock.js",
 			      ],
 		});
-		
 		gameContainer.setNextSceneInfo({ 
 			name: "level02",
 			elements: [
@@ -147,7 +147,6 @@ window.onload = function() {
 				"src/entities/redheart.js"
 			      ]
  		});
-		
 		
 		// play the loading scene
 		Crafty.scene("loading");

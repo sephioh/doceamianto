@@ -9,7 +9,7 @@ Crafty.scene("level03", function() {
 	sc['player'] = new Amianto03();
 	sc['delays'] = Crafty.e("Delay");
 	sc['delimiters'] = [];
-
+	sc['wordblocks'] = [];
 
 	// Scenario delimiters
 	var delimitersMap = {
@@ -24,6 +24,16 @@ Crafty.scene("level03", function() {
 		sc.delimiters.push(delimiter);
 	});
 
+	// Word blocks
+	sc.wordkblocks = [
+		new Wordblock({initialX: 166, initialY: 155, initialZ: 1, initialH: 15, initialW:83,  full_text:'preciso'}),
+		new Wordblock({initialX: 266, initialY: 155, initialZ: 1, initialH: 15, initialW:177, full_text:'mudar o mundo'}),
+		new Wordblock({initialX: 466, initialY: 155, initialZ: 1, initialH: 15, initialW:85,  full_text:'embora'}),
+		new Wordblock({initialX: 566, initialY: 155, initialZ: 1, initialH: 15, initialW:75,  full_text:'prefira'}),
+		new Wordblock({initialX: 466, initialY: 455, initialZ: 1, initialH: 15, initialW:138, full_text:'um segundo'}),
+		new Wordblock({initialX: 166, initialY: 255, initialZ: 1, initialH: 15, initialW:85,  full_text:'contigo'}),
+		new Wordblock({initialX: 366, initialY: 355, initialZ: 1, initialH: 15, initialW:115, full_text:'meu amor'})
+	];
 
 }, function() {	// executed after scene() is called within the present scene
 });

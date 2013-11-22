@@ -24,7 +24,7 @@ Amianto03 = BaseEntity.extend({
 			.animate("MovingVertically", 0, 1, 5)
 			.animate("MovingLeft", 0, 2, 5)
 			.animate("MovingRight", 0, 3, 5)
-			.animate("PushingRigth", 0, 4, 5)
+			.animate("PushingRight", 0, 4, 5)
 			.animate("PushingLeft", 0, 5, 5)
 			// Default animation when amianto is created
 			.playAnimation("Standing", 20, -1)
@@ -66,7 +66,7 @@ Amianto03 = BaseEntity.extend({
 				// When user release some key, amianto begins standing animation
 				this.playAnimation("Standing", 20, -1);
 			})
-			// Amianto collide with scenario delimiters
+			// Collision with scenario delimiters
 			.onHit('wall', function(hit) {
 				// Stop amianto when she try to go out of scenario
 				for (var i = 0; i < hit.length; i++) {
@@ -74,6 +74,20 @@ Amianto03 = BaseEntity.extend({
 					this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 				}
 			})
+			// Collision with wordblocks
+			.onHit('wordblock', function(hit) {
+				for (var i = 0; i < hit.length; i++) {
+					if(hit[i].obj.movable){
+						hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
+						hit[i].obj.y -= (hit[i].normal.y * -hit[i].overlap);
+						if(hit[i].normal.x < 0){
+							this.playAnimation("PushingRight");
+						} else if (hit[i].normal.x > 0){
+							this.playAnimation("PushingLeft");
+						}
+					}
+				}
+			});
 		model.set({'entity' : entity});
 	},
 });
