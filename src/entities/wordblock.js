@@ -15,7 +15,6 @@ Wordblock = BaseEntity.extend({
 					  full_text:  model.attributes.full_text
 				});
 		entity
-			// .collision(new Crafty.polygon([[0,0], [33,25], [33,2], [63, 25]])) 
 			.text(model.attributes.full_text)
 			.textFont({ size: '20px', weight: 'bold' });
 		model.set({'entity' : entity });
