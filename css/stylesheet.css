@@ -1,0 +1,9 @@
+body {-webkit-tap-highlight-color: rgba(0,0,0,0);  margin: 0;}
+#cr-stage {margin-top: auto;margin-bottom: auto;margin-left: auto;margin-right: auto;}
+@font-face { font-family: Perfect_dos_vga_437;
+	src: url('web/fonts/perfect_dos_vga_437-webfont.eot'); /* IE9 Compat Modes */
+	src: url('web/fonts/perfect_dos_vga_437-webfont?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	     url('web/fonts/perfect_dos_vga_437-webfont.woff') format('woff'), /* Modern Browsers */
+	     url('web/fonts/perfect_dos_vga_437-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+	     url('web/fonts/perfect_dos_vga_437-webfont.svg#svgPerfect_dos_vga_437') format('svg'); /* Legacy iOS */  
+}
