@@ -56,7 +56,7 @@ window.onload = function() {
 			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
 			sc.ellipsis.attr({ x: (Crafty.viewport.width/2)-39, y: 500, w: 78, h: 50,  z: 1000 })
 				.textColor(ellipsisColor)
-				.textFont({ weight: 'bold', family: 'Arial', size : '50px' })
+				.textFont({ weight: 'bold', family: 'Arial', size : '50px', family: 'Perfect_dos_vga_437' })
 				.text(". . . ")
 				.bind('EnterFrame', function(){
 					this.eFrames++;
