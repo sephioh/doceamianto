@@ -16,7 +16,16 @@ Wordblock = BaseEntity.extend({
 				});
 		entity
 			.text(model.attributes.full_text)
-			.textFont({ size: '20px', weight: 'bold', family: 'Perfect_dos_vga_437' });
+			.textFont({ size: '20px', weight: 'bold', family: 'Perfect_dos_vga_437' })
+			// Collision with other wordblocks
+			.onHit('wordblock', function(hit) {
+				for (var i = 0; i < hit.length; i++) {
+					if(hit[i].obj.movable){
+						hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
+						hit[i].obj.y -= (hit[i].normal.y * -hit[i].overlap);
+					}
+				}
+			});
 		model.set({'entity' : entity });
     }
 });
