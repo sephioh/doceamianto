@@ -1,17 +1,4 @@
-/**
-    examples:             
-    'sprites_name' : {
-         'file' : 'path/to/file',
-         'tile' : width,
-         'tileh' : height,
-         'elements': {
-             'sprite_name' : [0, 0]
-         }
-    },
-*/
-
 Assets = Backbone.Model.extend({
-  
 	
 	defaults: {
 		imagesFolder: "web/images/",

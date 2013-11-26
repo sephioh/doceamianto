@@ -39,12 +39,12 @@
     gameContainer = {
 	env : 'dev',
 	gameVersion : '0.0.1',
+	conf: {},
+	lang: '',
 	scene : '',
 	elementsToLoad : [],
-	sceneMapsRefs : [],
 	loadedStrings : [],
 	setNextSceneInfo : function(sceneInfo) {
-		this.sceneMapsRefs = [],
 		this.loadedStrings = [],
 		this.scene = sceneInfo.name,
 		this.elementsToLoad = sceneInfo.elements;
@@ -53,33 +53,8 @@
     },
     sc    = [], // container for backbone scene elements
     infc  = [],	// container for backbone interface elements
-    assets = {};  // container for Assets obj
-
-    /*Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
-      Crafty.debugBar.show();
-    });*/
+    assets = {}, // container for Assets obj
+    utils = {};  
   </script>
-  
-  <script type="text/javascript">
-  function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-  }
-  
-  /*
-  turns a string containing array of bytes to an actual 'bytes' (integer) array
-  */
-  function stringOfByteArrayToArrayOfBytes(str) {
-	var byteArray = str.split(",");
-	_.each(byteArray, function(byte, key){
-		byteArray[key] = parseInt(byte);
-	});
-	return byteArray;
-  }
-  </script>
-  <!-- end scripts -->
 </body>
 </html>

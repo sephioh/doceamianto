@@ -1,16 +1,14 @@
 window.onload = function() {
   
 	var version = null,
-		    today = new Date(),
-		    lang = getUrlVars()['lang'];
-		    lang = lang != 'en'?'pt':'en';
+		    today = new Date();
 	
 	    // Fix for cache
 	if(gameContainer.env == 'dev') {
 		    version = today.getDay()+"_"+ today.getHours() +"_"+today.getSeconds();
 	    } else {
 		    version = gameContainer.gameVersion;
-	    };
+	    };    
 	
 	//start Crafty
 	Crafty.init(800, 600);
@@ -18,9 +16,9 @@ window.onload = function() {
 	//Crafty.settings.modify("autoPause",true);
 	
 	require([
-		"src/lang/lang-"+lang+".js",
 		"src/assets.js?v="+version+"",
 		"src/config.js?v="+version+"",
+		"src/utils.js?v="+version+"",
 		"src/entities/base/BaseEntity.js"
 	], function() {
 		
@@ -28,9 +26,10 @@ window.onload = function() {
 		Crafty.support.audio = true;
 		
 		assets = new Assets();
+		utils = new Utils();
 		
-		gameContainer['conf'] = new Config({});
-		gameContainer['langStrings'] = Lang;
+		gameContainer.conf = new Config({});
+		gameContainer.lang = utils.getLang();
 			
 		// the loading screen - will be displayed while assets are loaded
 		Crafty.scene("loading", function(obj) { // obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor' }
@@ -112,6 +111,9 @@ window.onload = function() {
 		});
 		    
 		// declare all scenes
+		
+		
+		
 		var scenes = [
 			"src/scenes/level01.js?v="+version+"",
 			"src/scenes/level02.js?v="+version+"",
@@ -119,12 +121,13 @@ window.onload = function() {
 		];
 		    
 		require(scenes, function(){});
-
+		
 		gameContainer.setNextSceneInfo({
 			name: "level03",
 			elements: [
 				"src/entities/amianto03.js",
 				"src/entities/wordblock.js",
+				"text!src/lang/level03-"+gameContainer.lang+".json"
 			      ],
 		});
 		/*

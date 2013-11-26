@@ -24,7 +24,7 @@ Crafty.scene("level03", function() {
 		sc.delimiters.push(delimiter);
 	});
 	
-	var txts = gameContainer.langStrings;
+	var txts = JSON.parse(gameContainer.loadedStrings[0]);
 	// Word blocks
 	
 	sc.wordkblocks = [

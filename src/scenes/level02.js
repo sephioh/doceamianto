@@ -103,87 +103,13 @@
 		});
 		//</checkpoints>
 		
-		
-		// !TODO the function below must be moved to a kinda 'game manager' class
-		
-		/* fadeSound - fade sound to defined value, increasing or decreasing by 0.1 each given frames
-		 * 
-		 * @soundId 	- id of the audio element
-		 * @to 		- volume to "fade" to
-		 * @rate	- rate at which volume will be changed, in frames
-		*/
-		this.fadeSound = function(soundId,to,rate) {
-			var eFrames = 0,
-				C,
-				down;
-			for(var i = 0; i < Crafty.audio.channels.length; i++){
-				var c = Crafty.audio.channels[i];
-				if(c._is(soundId))
-					C = c;
-				if(typeof C !== "undefined")
-					break;
-			}
-			      
-			if(C){
-				if(to > C.obj.volume)
-					if(to <= 1){
-						down = false;
-					}else{
-						return false;
-					}
-				else
-				if(to < C.obj.volume)
-					if(to >= 0){
-						down = true;
-					}else{
-						return false;
-					}
-				else 
-					return false;
-				this.bind("EnterFrame", function gradually_change_volume() {
-					
-					if(eFrames === rate){
-						eFrames = 0;
-						
-						if(down){
-							var nVol = C.obj.volume - 0.1;      
-							nVol = Number(nVol.toFixed(1));
-							
-							if(nVol === to){
-								this.unbind("EnterFrame", gradually_change_volume);
-								if(!nVol)
-									Crafty.audio.stop(soundId);
-							} else {
-								C.obj.volume = nVol;
-							}
-						}
-						else{
-							var nVol = C.obj.volume + 0.1;
-							nVol = Number(nVol.toFixed(1));
-							
-							if(nVol === to)
-								this.unbind("EnterFrame", gradually_change_volume);
-							if(nVol <= 1)
-								C.obj.volume = nVol;
-						}
-					  
-					}
-					eFrames++;
-				});
-				return this;
-			}
-			else {
-				return C;
-			}
-		}
-		
 		// events' declarations
 		
 		this.amiantoCameIntoLight = function() {
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
-			scene.fadeSound("theme02", 0, 45);
-			scene.fadeSound("ohthelight", 1, 45);
+			utils.fadeSound("theme02", 0, 45);
+			utils.fadeSound("ohthelight", 1, 45);
 			
 			//Crafty.audio.stop();
 			
