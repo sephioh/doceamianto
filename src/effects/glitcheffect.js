@@ -1,12 +1,15 @@
 // glitch by snorpey https://github.com/snorpey/jpg-glitch MIT license 
 
 function GlitchEffect () {
-  
-	this.glitchScreen = function (canvas_one, canvas_two)
+	
+	this.ctx_2;
+	
+	this.glitchScreen = function (canvas_one, canvas_two, glitch_options)
 	{	
 		
 		var ctx_1 = canvas_one.getContext( '2d' );
 		var ctx_2 = canvas_two.getContext( '2d' );
+		this.ctx_2 = ctx_2;
 		
 		// storing canvas dimensions
 		var canvas_width = canvas_one.clientWidth;
@@ -16,10 +19,11 @@ function GlitchEffect () {
 		// https://developer.mozilla.org/en/docs/Web/API/CanvasRenderingContext2D#getImageData()
 		var image_data_1 = ctx_1.getImageData( 0, 0, canvas_width, canvas_height );
 		
-		// glitch the image data (passi drawImageDataInCanvasTwo as a callback function)
-		var glitch_options = { amount: 10, seed: 45, iterations: 30, quality: 30 };
-		var glitch = new this.Glitch();
-		glitch.glitchScreenImage( image_data_1, glitch_options, ctx_2);
+		// glitch the image data (pass drawImageDataInCanvasTwo as a callback function and its context(ie this) )
+		
+		var glitch = new this.Glitch(),
+		    _this = this;
+		glitch.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasTwo , _this );
 		
 		// http://stackoverflow.com/a/1484514/229189
 		
@@ -74,7 +78,7 @@ function GlitchEffect () {
 		var _this = this
 		this.base64_map.forEach( function( val, key ) { _this.reverse_base64_map[val] = key; } );
 
-		this.glitchScreenImage = function ( image_data, input, ctx_t )
+		this.glitchImage = function ( image_data, input, callback, thisArg )
 		{
 			this.seed = input.seed / 100;
 			this.quality = input.quality / 100;
@@ -104,7 +108,11 @@ function GlitchEffect () {
 			this.img.onload = function() {
 				_this.ctx.drawImage( _this.img, 0, 0 );
 				_this.new_image_data = _this.ctx.getImageData( 0, 0, image_data.width, image_data.height );
-				ctx_t.putImageData( _this.new_image_data, 0, 0 );
+				
+				if(thisArg !== undefined)
+					callback.call(thisArg, _this.new_image_data);
+				else
+					callback(_this.new_image_data);
 			};
 			
 			this.img.src = this.byteArrayToBase64( this.byte_array );

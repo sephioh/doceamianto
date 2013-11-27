@@ -39,25 +39,29 @@ Crafty.scene("level03", function() {
 	];
 	
 	sc.wordblocks[6].getEntity().addComponent("Mouse").bind("Click",function(){ 
+	
 		var glitchEffect = new GlitchEffect(),
 		    stage = document.getElementById("cr-stage"),
 		    canvases = document.getElementsByTagName("canvas"),
-		    canvas1 = Crafty.canvas._canvas;
+		    canvas1 = canvases[0],
+		    glitchOptions = { amount: 10, seed: 45, iterations: 30, quality: 30 };
 		var canvas2 = canvases.length > 1 ? canvases[1] : document.createElement("canvas");
 		
-		canvas2.style.zIndex = 2,
-		canvas2.style.position = "absolute",
-		canvas2.width = Crafty.viewport.width,
-		canvas2.height = Crafty.viewport.height,
-		canvas1.style.zIndex = 1,
-		canvas1.style.position = "absolute";
+		if(canvases.length === 1) {
+			canvas2.style.zIndex = 2,
+			canvas2.style.position = "absolute",
+			canvas2.width = Crafty.viewport.width,
+			canvas2.height = Crafty.viewport.height,
+			canvas1.style.zIndex = 1,
+			canvas1.style.position = "absolute";
+			stage.appendChild(canvas2);
+		}
 		
 		sc.delays.delay(function(){
-			glitchEffect.glitchScreen(canvas1,canvas2);
+			glitchEffect.glitchScreen(canvas1,canvas2,glitchOptions);
+			glitchOptions.amount += 5;
 		}, 250, 5);
 		
-		if(canvases.length === 1) 
-			stage.appendChild(canvas2);
 	});
 	
 }, function() {	// executed after scene() is called within the present scene
