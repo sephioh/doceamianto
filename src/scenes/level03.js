@@ -2,8 +2,9 @@ Crafty.scene("level03", function() {
 	// Clear scene elements
 	sc =[];
 
+	var scene = this;
 	// Set scene background 	
-    Crafty.background("url('web/images/level03-background.png')");
+    Crafty.e("2D, Canvas, Image").image('web/images/level03-background.png');
 	
 	// Add initial elements to scene
 	sc['player'] = new Amianto03();
@@ -27,7 +28,7 @@ Crafty.scene("level03", function() {
 	var txts = JSON.parse(gameContainer.loadedStrings[0]);
 	// Word blocks
 	
-	sc.wordkblocks = [
+	sc.wordblocks = [
 		new Wordblock({ initialX: 166, initialY: 155, initialZ: 1, initialH: 15, initialW: 83,  full_text: txts.text01 }),
 		new Wordblock({ initialX: 266, initialY: 155, initialZ: 1, initialH: 15, initialW: 177, full_text: txts.text02 }),
 		new Wordblock({ initialX: 466, initialY: 155, initialZ: 1, initialH: 15, initialW: 85,  full_text: txts.text03 }),
@@ -36,6 +37,28 @@ Crafty.scene("level03", function() {
 		new Wordblock({ initialX: 166, initialY: 255, initialZ: 1, initialH: 15, initialW: 85,  full_text: txts.text06 }),
 		new Wordblock({ initialX: 366, initialY: 355, initialZ: 1, initialH: 15, initialW: 115, full_text: txts.text07 })
 	];
+	
+	sc.wordblocks[6].getEntity().addComponent("Mouse").bind("Click",function(){ 
+		var glitchEffect = new GlitchEffect(),
+		    stage = document.getElementById("cr-stage"),
+		    canvases = document.getElementsByTagName("canvas"),
+		    canvas1 = Crafty.canvas._canvas;
+		var canvas2 = canvases.length > 1 ? canvases[1] : document.createElement("canvas");
+		
+		canvas2.style.zIndex = 2,
+		canvas2.style.position = "absolute",
+		canvas2.width = Crafty.viewport.width,
+		canvas2.height = Crafty.viewport.height,
+		canvas1.style.zIndex = 1,
+		canvas1.style.position = "absolute";
+		
+		sc.delays.delay(function(){
+			glitchEffect.glitchScreen(canvas1,canvas2);
+		}, 250, 5);
+		
+		if(canvases.length === 1) 
+			stage.appendChild(canvas2);
+	});
 	
 }, function() {	// executed after scene() is called within the present scene
 });
