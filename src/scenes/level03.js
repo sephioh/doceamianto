@@ -50,7 +50,6 @@ Crafty.scene("level03", function() {
 		new Wordplaceholder({ initialX: 614, initialY: 335 })
 	];
 
-
 	sc.wordblocks[6].getEntity().addComponent("Mouse").bind("Click",function(){ 
 	
 		var glitchEffect = new GlitchEffect(),

@@ -13,8 +13,8 @@ Wordplaceholder = BaseEntity.extend({
 					   h: model.get('initialH'),
 					   w: model.get('initialW')});
 		entity
-			.animate("Shining", 0, 0, 5)
-			.playAnimation("Shining", 20, -1);
+			.animate("Shining", 0, 0, 6)
+			.playAnimation("Shining", 30, -1);
 		model.set({'entity' : entity });
     }
 });
