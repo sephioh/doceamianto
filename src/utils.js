@@ -22,6 +22,19 @@ Utils = Backbone.Model.extend({
 		return vars;
 	},
 	
+	getRandomColor: function ()
+	{
+		var letters = '0123456789ABCDEF'.split( '' );
+		var color = '#';
+		
+		for ( var i = 0; i < 6; i++ )
+		{
+			color += letters[ Math.round(Math.random() * 15) ];
+		}
+
+		return color;
+	},
+	
 	/*
 	* turns a string containing array of bytes to an actual 'bytes' (integer) array
 	* @param str - string
