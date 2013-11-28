@@ -8,8 +8,7 @@ function GlitchEffect () {
 	{	
 		
 		var ctx_1 = canvas_one.getContext( '2d' );
-		var ctx_2 = canvas_two.getContext( '2d' );
-		this.ctx_2 = ctx_2;
+		this.ctx_2 = canvas_two.getContext( '2d' );
 		
 		// storing canvas dimensions
 		var canvas_width = canvas_one.clientWidth;
@@ -23,6 +22,17 @@ function GlitchEffect () {
 		    
 		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
 		this.glitchObj.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasTwo , _this );
+		
+	}
+	
+	this.glitchPic = function (image_data, canvas_to, glitch_options)
+	{	
+		this.ctx_2 = canvas_to.getContext( '2d' );
+				
+		var _this = this;
+		    
+		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
+		this.glitchObj.glitchImage( image_data, glitch_options, _this.drawImageDataInCanvasTwo , _this );
 		
 	}
 
