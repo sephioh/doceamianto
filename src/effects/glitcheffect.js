@@ -1,8 +1,8 @@
 // glitch by snorpey https://github.com/snorpey/jpg-glitch MIT license 
 
+// GlitchEffect instantiates Glitch (embedded in GlitchEffect)
+
 function GlitchEffect () {
-	
-	this.ctx_2;
 	
 	this.glitchScreen = function (canvas_one, canvas_two, glitch_options)
 	{	
@@ -19,13 +19,10 @@ function GlitchEffect () {
 		// https://developer.mozilla.org/en/docs/Web/API/CanvasRenderingContext2D#getImageData()
 		var image_data_1 = ctx_1.getImageData( 0, 0, canvas_width, canvas_height );
 		
-		// glitch the image data (pass drawImageDataInCanvasTwo as a callback function and its context(ie this) )
-		
-		var glitch = new this.Glitch(),
-		    _this = this;
-		glitch.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasTwo , _this );
-		
-		// http://stackoverflow.com/a/1484514/229189
+		var _this = this;
+		    
+		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
+		this.glitchObj.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasTwo , _this );
 		
 	}
 
@@ -34,19 +31,6 @@ function GlitchEffect () {
 		// put the glitched image data on canvas two.
 		// https://developer.mozilla.org/en/docs/Web/API/CanvasRenderingContext2D#putImageData()
 		this.ctx_2.putImageData( image_data, 0, 0 );
-	}
-		
-	this.getRandomColor = function ()
-	{
-		var letters = '0123456789ABCDEF'.split( '' );
-		var color = '#';
-		
-		for ( var i = 0; i < 6; i++ )
-		{
-			color += letters[ Math.round(Math.random() * 15) ];
-		}
-
-		return color;
 	}
 
 	this.Glitch = function ()
@@ -75,7 +59,7 @@ function GlitchEffect () {
 		this.image_data;
 		this.input;
 		
-		var _this = this
+		var _this = this;
 		this.base64_map.forEach( function( val, key ) { _this.reverse_base64_map[val] = key; } );
 
 		this.glitchImage = function ( image_data, input, callback, thisArg )
@@ -251,4 +235,8 @@ function GlitchEffect () {
 			return copy;
 		}
 	}
+	
+	this.ctx_2;
+	this.glitchObj = new this.Glitch();
+	
 }

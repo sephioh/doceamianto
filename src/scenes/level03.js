@@ -4,7 +4,7 @@ Crafty.scene("level03", function() {
 
 	var scene = this;
 	// Set scene background 	
-    Crafty.e("2D, Canvas, Image").image('web/images/level03-background.png');
+	Crafty.e("2D, Canvas, Image").image('web/images/level03-background.png');
 	
 	// Add initial elements to scene
 	sc['player'] = new Amianto03();
@@ -44,9 +44,11 @@ Crafty.scene("level03", function() {
 		    stage = document.getElementById("cr-stage"),
 		    canvases = document.getElementsByTagName("canvas"),
 		    canvas1 = canvases[0],
-		    glitchOptions = { amount: 10, seed: 45, iterations: 30, quality: 30 };
-		var canvas2 = canvases.length > 1 ? canvases[1] : document.createElement("canvas");
+		    glitchOptions = { amount: 10, seed: 15, iterations: 3, quality: 30 },
+		    canvas2 = canvases.length > 1 ? canvases[1] : document.createElement("canvas");
 		
+		sc.player.getEntity().pauseAnimation();
+		    
 		if(canvases.length === 1) {
 			canvas2.style.zIndex = 2,
 			canvas2.style.position = "absolute",
@@ -60,6 +62,8 @@ Crafty.scene("level03", function() {
 		sc.delays.delay(function(){
 			glitchEffect.glitchScreen(canvas1,canvas2,glitchOptions);
 			glitchOptions.amount += 5;
+			glitchOptions.iterations += 2;
+			//glitchOptions.seed += 5;
 		}, 250, 5);
 		
 	});
