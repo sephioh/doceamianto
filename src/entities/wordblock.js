@@ -16,7 +16,7 @@ Wordblock = BaseEntity.extend({
 				});
 		entity
 			.text(model.attributes.full_text)
-			.textFont({ size: '20px', weight: 'bold', family: 'Perfect_dos_vga_437' })
+			.textFont({ size: '20px', family: 'Perfect_dos_vga_437' })
 			// Collision with other wordblocks
 			.onHit('wordblock', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
@@ -33,7 +33,17 @@ Wordblock = BaseEntity.extend({
 					this.x = Math.random()*800;
 					this.y = Math.random()*600;
 				}
+			})
+			.onHit('amianto03',function(hit){
+				if (hit[0].normal.x!==0)
+					this.x += (hit[0].normal.x * -hit[0].overlap);
+				else
+					this.y += (hit[0].normal.y * -hit[0].overlap);
+				this.textColor("#00FFFF").textFont({ type: "italic" })
+			},function(){
+				this.textColor("#000000").textFont({ type: "normal" })
 			});
+			
 		model.set({'entity' : entity });
     }
 });

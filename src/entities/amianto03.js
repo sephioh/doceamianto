@@ -2,7 +2,7 @@ Amianto03 = BaseEntity.extend({
     defaults: {
 		'initial_x' : 0,
 		'initial_y' : 0,
-		'initial_z' : 0,
+		'initial_z' : 1,
 		'initial_w' : 78,
 		'initial_h' : 96,
 		'initial_speed' : 3
@@ -78,8 +78,7 @@ Amianto03 = BaseEntity.extend({
 			.onHit('wordblock', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					if(hit[i].obj.movable){
-						hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
-						hit[i].obj.y -= (hit[i].normal.y * -hit[i].overlap);
+						
 						if(hit[i].normal.x < 0){
 							this.playAnimation("PushingRight");
 						} else if (hit[i].normal.x > 0){
