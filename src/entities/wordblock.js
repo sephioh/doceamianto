@@ -25,6 +25,14 @@ Wordblock = BaseEntity.extend({
 						hit[i].obj.y -= (hit[i].normal.y * -hit[i].overlap);
 					}
 				}
+			})
+			// Stop wordblocks when they try to go out of scenario
+			.onHit('wall', function(hit) {
+				for (var i = 0; i < hit.length; i++) {
+					// find position different than word_placeholder and other words
+					this.x = Math.random()*800;
+					this.y = Math.random()*600;
+				}
 			});
 		model.set({'entity' : entity });
     }
