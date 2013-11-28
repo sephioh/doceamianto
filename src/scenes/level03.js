@@ -26,10 +26,10 @@ Crafty.scene("level03", function() {
 	});
 	
 	var txts = JSON.parse(gameContainer.loadedStrings[0]);
+
 	// Word blocks
-	
 	sc.wordblocks = [
-		new Wordblock({ initialX: 166, initialY: 155, initialZ: 1, initialH: 15, initialW: 83,  full_text: txts.text01 }),
+		new Wordblock({ initialX: 166, initialY: 155, initialZ: 1, initialH: 15, initialW: 76,  full_text: txts.text01 }),
 		new Wordblock({ initialX: 266, initialY: 155, initialZ: 1, initialH: 15, initialW: 177, full_text: txts.text02 }),
 		new Wordblock({ initialX: 466, initialY: 155, initialZ: 1, initialH: 15, initialW: 85,  full_text: txts.text03 }),
 		new Wordblock({ initialX: 566, initialY: 155, initialZ: 1, initialH: 15, initialW: 75,  full_text: txts.text04 }),
@@ -37,7 +37,20 @@ Crafty.scene("level03", function() {
 		new Wordblock({ initialX: 166, initialY: 255, initialZ: 1, initialH: 15, initialW: 85,  full_text: txts.text06 }),
 		new Wordblock({ initialX: 366, initialY: 355, initialZ: 1, initialH: 15, initialW: 115, full_text: txts.text07 })
 	];
-	
+
+	// Wordplaceholders
+	sc.wordplaceholders = [
+		new Wordplaceholder({ initialX: 166, initialY: 155 }),
+		new Wordplaceholder({ initialX: 234, initialY: 241 }),
+		new Wordplaceholder({ initialX: 245, initialY: 335 }),
+		new Wordplaceholder({ initialX: 393, initialY: 155 }),
+		new Wordplaceholder({ initialX: 410, initialY: 447 }),
+		new Wordplaceholder({ initialX: 554, initialY: 241 }),
+		new Wordplaceholder({ initialX: 644, initialY: 155 }),
+		new Wordplaceholder({ initialX: 614, initialY: 335 })
+	];
+
+
 	sc.wordblocks[6].getEntity().addComponent("Mouse").bind("Click",function(){ 
 	
 		var glitchEffect = new GlitchEffect(),
