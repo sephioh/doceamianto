@@ -127,6 +127,7 @@ window.onload = function() {
 			elements: [
 				"src/entities/amianto03.js",
 				"src/entities/wordblock.js",
+				"src/entities/wordplaceholder.js",
 				"src/effects/glitcheffect.js",
 				"text!src/lang/level03-"+gameContainer.lang+".json"
 			      ],

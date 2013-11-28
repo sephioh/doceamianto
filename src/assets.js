@@ -148,6 +148,14 @@ Assets = Backbone.Model.extend({
 					'elements': {
 						'amianto03' : [0, 0]
 					}
+				},
+				'shining' : {
+					'file' : 'level03-wordplaceholder.png',
+					'tile' : 80,
+					'tileh' : 80,
+					'elements': {
+						'wordplaceholder' : [0, 0]
+					}
 				}
 			},
 			'audio' : {
