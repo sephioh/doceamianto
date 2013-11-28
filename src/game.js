@@ -89,7 +89,7 @@ window.onload = function() {
 						
 					});
 					
-					elements = textElms.concat(regElms); // text elements followed by javascript
+					elements = textElms.concat(regElms); // text elements (json,xml,txt,etc) followed by regular elements (js)
 					
 					require_str = 
 					// require elements and execute callback
