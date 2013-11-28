@@ -78,10 +78,9 @@ Amianto03 = BaseEntity.extend({
 			.onHit('wordblock', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					if(hit[i].obj.movable){
-						
-						if(hit[i].normal.x < 0){
+						if(hit[i].normal.x < 0 && !this.isPlaying("PushingRight")){
 							this.playAnimation("PushingRight");
-						} else if (hit[i].normal.x > 0){
+						} else if (hit[i].normal.x > 0 && !this.isPlaying("PushingLeft")){
 							this.playAnimation("PushingLeft");
 						}
 					}
