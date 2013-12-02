@@ -16,16 +16,21 @@ window.onload = function() {
 	//Crafty.settings.modify("autoPause",true);
 	
 	require([
-		"src/assets.js?v="+version+"",
+		"src/resources.js?v="+version+"",
 		"src/config.js?v="+version+"",
 		"src/utils.js?v="+version+"",
-		"src/entities/base/BaseEntity.js"
+		"src/entities/base/BaseEntity.js",
+		// Crafty parts to be overridden
+		"src/components/Twoway.js",
+		"src/components/Gravity.js",
+		"src/extensions/scene.js",
+		"src/extensions/assets.js"
 	], function() {
 		
 		// allow playing MP3 files
 		Crafty.support.audio = true;
 		
-		assets = new Assets();
+		resources  = new Resources(),
 		utils = new Utils();
 		
 		gameContainer.conf = new Config({});
@@ -48,7 +53,7 @@ window.onload = function() {
 			}
 			
 			// set sprites for next scene
-			assets.createSprite(gameContainer.scene);
+			resources.createSprite(gameContainer.scene);
 			
 			sc['ellipsis'] = Crafty.e("2D, Canvas, Text");
 			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
@@ -70,7 +75,7 @@ window.onload = function() {
 				});
 			
 			// load takes an array of assets and a callback when complete
-			Crafty.load(assets.getPaths(gameContainer.scene), function() {
+			Crafty.load(resources.getPaths(gameContainer.scene), function() {
 					// use eval for executing require(), also loading possible texts/maps
 					
 					var require_str = '', require_args = '', require_args_count = 0, regElms = [], textElms = [], elements;
@@ -120,7 +125,11 @@ window.onload = function() {
 			"src/scenes/level03.js?v="+version+"",
 		];
 		    
-		require(scenes, function(){});
+		require(scenes, function(){
+			/*_.each(scenes,function(s){
+				
+			})*/
+		});
 		
 		gameContainer.setNextSceneInfo({
 			name: "level03",
@@ -132,7 +141,29 @@ window.onload = function() {
 				"text!src/lang/level03-"+gameContainer.lang+".json"
 			      ],
 		});
+		
 		/*
+		gameContainer.setNextSceneInfo({ 
+			name: "level01",
+			elements: [
+				"src/components/TweenColor.js",
+				"src/entities/amianto01.js",
+				"src/entities/darkheart.js",
+				"src/entities/redheart.js"
+			      ]
+ 		});
+		
+		gameContainer.setNextSceneInfo({
+			name: "level03",
+			elements: [
+				"src/entities/amianto03.js",
+				"src/entities/wordblock.js",
+				"src/entities/wordplaceholder.js",
+				"src/effects/glitcheffect.js",
+				"text!src/lang/level03-"+gameContainer.lang+".json"
+			      ],
+		});
+		
 		gameContainer.setNextSceneInfo({ 
 			name: "level02",
 			elements: [
@@ -144,15 +175,7 @@ window.onload = function() {
 				"src/entities/amiantoToBlanche.js"
 			      ],
 		});
-		gameContainer.setNextSceneInfo({ 
-			name: "level01",
-			elements: [
-				"src/components/TweenColor.js",
-				"src/entities/amianto01.js",
-				"src/entities/darkheart.js",
-				"src/entities/redheart.js"
-			      ]
- 		});
+		
 		*/
 		
 		// play the loading scene

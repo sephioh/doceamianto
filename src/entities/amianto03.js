@@ -20,14 +20,14 @@ Amianto03 = BaseEntity.extend({
 			// Set entity name
 			.setName("Amianto03")
 			// Animation definitions
-			.animate("Standing", 0, 0, 5)
-			.animate("MovingVertically", 0, 1, 5)
-			.animate("MovingLeft", 0, 2, 5)
-			.animate("MovingRight", 0, 3, 5)
-			.animate("PushingRight", 0, 4, 5)
-			.animate("PushingLeft", 0, 5, 5)
+			.reel("Standing", 500, 0, 0, 5)
+			.reel("MovingVertically", 500, 0, 1, 5)
+			.reel("MovingLeft", 500, 0, 2, 5)
+			.reel("MovingRight", 500, 0, 3, 5)
+			.reel("PushingRight", 500, 0, 4, 5)
+			.reel("PushingLeft", 500, 0, 5, 5)
 			// Default animation when amianto is created
-			.playAnimation("Standing", 20, -1)
+			.animate("Standing", -1)
 			// Controls
 			.multiway(model.get('initial_speed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180})
 			.bind('Moved', function(prevPos) {
@@ -49,22 +49,26 @@ Amianto03 = BaseEntity.extend({
 
 				switch(moved) {
 					case "up" :
-						this.playAnimation("MovingVertically", 20, -1);
+						if(this._currentReelId !== "MovingVertically")
+							this.animate("MovingVertically", -1);
 						break;
 					case "down" :
-						this.playAnimation("MovingVertically", 20, -1);
+						if(this._currentReelId !== "MovingVertically")
+							this.animate("MovingVertically", -1);
 						break;
 					case "left":
-						this.playAnimation("MovingLeft", 20, -1);
+						if(this._currentReelId !== "MovingLeft")
+							this.animate("MovingLeft", -1);
 						break;
 					case "right": 
-						this.playAnimation("MovingRight", 20, -1);
+						if(this._currentReelId !== "MovingRight")
+							this.animate("MovingRight", -1);
 						break;
 				}
 			})
 			.bind('KeyUp', function(e) {
 				// When user release some key, amianto begins standing animation
-				this.playAnimation("Standing", 20, -1);
+				this.animate("Standing", -1);
 			})
 			// Collision with scenario delimiters
 			.onHit('wall', function(hit) {
@@ -79,13 +83,13 @@ Amianto03 = BaseEntity.extend({
 				for (var i = 0; i < hit.length; i++) {
 					if(hit[i].obj.movable){
 						if(hit[i].normal.x < 0 && !this.isPlaying("PushingRight")){
-							this.playAnimation("PushingRight");
+							this.animate("PushingRight");
 						} else if (hit[i].normal.x > 0 && !this.isPlaying("PushingLeft")){
-							this.playAnimation("PushingLeft");
+							this.animate("PushingLeft");
 						}
 					}
 				}
 			});
 		model.set({'entity' : entity});
-	},
+	}
 });

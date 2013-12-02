@@ -1,10 +1,10 @@
 Amianto01 = BaseEntity.extend({
-    defaults: {
-        'love' : 0,
-		'maxLove' : 6,
-		'minLove' : 0
-    },
-    initialize: function() {
+	defaults: {
+	    'love' : 0,
+		    'maxLove' : 6,
+		    'minLove' : 0
+	},
+	initialize: function() {
 		var WIDTH = 125,		// Initial width
 			HEIGHT = 168,		// Initial height
 			POSX = 350, 		// Initial x coordinate
@@ -50,7 +50,7 @@ Amianto01 = BaseEntity.extend({
 										.enableControl();
 									model.startMoving();
 								})
-								.playAnimation("AmiantoHittingDarkHeart", 40, 0, 0);
+								.animate("AmiantoHittingDarkHeart");
 						} else 
 						if(hit[i].obj.__c.redHeart) {
 							Crafty.audio.play("hitredheart", 1);
@@ -66,32 +66,32 @@ Amianto01 = BaseEntity.extend({
 										entity.enableControl();
 									}
 								})
-								.playAnimation("AmiantoHittingRedHeart", 40, 0, 0);
+								.animate("AmiantoHittingRedHeart");
 							model._fellInLove();
 						}
 					}
 				}
 			  })
 			.setName("Amianto01")
-			.animate("AmiantoMovingTowards", [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1]])
-			.animate("AmiantoMovingLeft", 0, 2, 7)
-			.animate("AmiantoMovingRight", 0, 3, 7)
-			.animate("AmiantoHittingRedHeart", 0, 4, 7)
-			.animate("AmiantoHittingDarkHeart", 0, 5, 7)
-			.animate("AmiantoStumbling", 0, 6, 7)
-			.animate("AmiantoFalling", 0, 7, 7)
-			.animate("AmiantoHittingTheGround", 0, 8, 7)
+			.reel("AmiantoMovingTowards", 2000, [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1]])
+			.reel("AmiantoMovingLeft", 1000, 0, 2, 7)
+			.reel("AmiantoMovingRight", 1000, 0, 3, 7)
+			.reel("AmiantoHittingRedHeart", 1000, 0, 4, 7)
+			.reel("AmiantoHittingDarkHeart", 1000, 0, 5, 7)
+			.reel("AmiantoStumbling", 1000, 0, 6, 7)
+			.reel("AmiantoFalling", 1000, 0, 7, 7)
+			.reel("AmiantoHittingTheGround", 1000, 0, 8, 7)
 			.bind('NewDirection', function (d) {
 				if(!entity.disableControls) {
 					if (d.x > 0) {
 						if(!entity.isPlaying("AmiantoMovingRight"))
-							entity.playAnimation("AmiantoMovingRight", 40, -1);
+							entity.animate("AmiantoMovingRight", -1);
 					} else if (d.x < 0) {
 						if(!entity.isPlaying("AmiantoMovingLeft"))
-							entity.playAnimation("AmiantoMovingLeft", 40, -1);
+							entity.animate("AmiantoMovingLeft", -1);
 					} else {
 						if(!entity.isPlaying("AmiantoMovingTowards"))
-							entity.playAnimation("AmiantoMovingTowards", 80, -1);
+							entity.animate("AmiantoMovingTowards", -1);
 					}
 				}
 			  });
@@ -101,14 +101,14 @@ Amianto01 = BaseEntity.extend({
 				shadow.x = entity._x+14;
 			});
 		model.set({'entity' : entity, 'shadow' : shadow });
-    },
-    startMoving: function() {
+	},
+	startMoving: function() {
 		this.getEntity()
 			.bind('EnterFrame', this._keepMoving);
 	},
-	_keepMoving: function() {							// function bound to the entity's context
+	_keepMoving: function() {	// function bound to the entity's context
 		if(!this._isPlaying)
-			this.playAnimation("AmiantoMovingTowards", 80, -1);
+			this.animate("AmiantoMovingTowards", -1);
 	},
 	_stopMoving: function() {
 		this.getEntity()
@@ -127,10 +127,10 @@ Amianto01 = BaseEntity.extend({
 	stumble: function() {
 		this.getEntity()
 			.bind('AnimationEnd', this._falling)
-			.playAnimation("AmiantoStumbling", 40, 0);
+			.animate("AmiantoStumbling", 1);
 	},
-	_falling: function() { 								// function bound to the entity's context
+	_falling: function() { 		// function bound to the entity's context
 		this.unbind('AnimationEnd')
-			.playAnimation("AmiantoFalling", 40, -1);
+			.animate("AmiantoFalling", -1);
 	}
 });

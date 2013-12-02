@@ -4,9 +4,8 @@
 
 function GlitchEffect () {
 	
-	this.glitchScreen = function (canvas_one, canvas_two, glitch_options)
+	this.glitchScreen = function ( canvas_one, canvas_two, glitch_options )
 	{	
-		
 		var ctx_1 = canvas_one.getContext( '2d' );
 		this.ctx_2 = canvas_two.getContext( '2d' );
 		
@@ -22,10 +21,9 @@ function GlitchEffect () {
 		    
 		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
 		this.glitchObj.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasTwo , _this );
-		
 	}
 	
-	this.glitchPic = function (image_data, canvas_to, glitch_options)
+	this.glitchImageData = function ( image_data, canvas_to, glitch_options )
 	{	
 		this.ctx_2 = canvas_to.getContext( '2d' );
 				
@@ -33,7 +31,6 @@ function GlitchEffect () {
 		    
 		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
 		this.glitchObj.glitchImage( image_data, glitch_options, _this.drawImageDataInCanvasTwo , _this );
-		
 	}
 
 	this.drawImageDataInCanvasTwo = function ( image_data )

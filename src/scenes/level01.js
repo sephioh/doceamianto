@@ -142,7 +142,7 @@ Crafty.scene("level01", function() {
 		}, 500, -1);
 		
 		sc.delays.delay(function() {												// after 10.5 sec,
-			sc.player.getEntity().playAnimation("AmiantoHittingTheGround",40,0);	// Amianto hits the ground
+			sc.player.getEntity().animate("AmiantoHittingTheGround");	// Amianto hits the ground
 			sc.delays.destroy();						//destroy delays
 			sc.delays = undefined;						// reset delays
 			sc['delays'] = Crafty.e("Delay");			// reset delays
@@ -154,7 +154,7 @@ Crafty.scene("level01", function() {
 		
 	};
 	
-	this.bind('TooMuchLove', this.muchLove);
+	this.one('TooMuchLove', this.muchLove);
 	
 	this.loadLevel02 = function() { // load level02
 	
@@ -181,13 +181,12 @@ Crafty.scene("level01", function() {
 		
 	}; 
 	
-	this.bind('LevelTransition', this.loadLevel02);
+	this.one('LevelTransition', this.loadLevel02);
 	
 }, function() { 											// executed after scene() is called within the present scene
 	//Crafty.heartComing = undefined;							// clear level functions held in Crafty obj
 	//Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
 	assets.removeAudio("level01");
-	this.unbind('LevelTransition', this.loadLevel02);
 	sc.delays.destroy();									// destroy delays
 	sc = [];												// clear scene
 	Crafty("2D").destroy();									// Destroy all entities with 2D component

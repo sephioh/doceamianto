@@ -7237,8 +7237,7 @@ Crafty.c("Twoway", {
 		if (this._up) {
 			this.y -= this._jumpSpeed;
 			this._falling = true;
-			if(this.__c.Gravity)
-				this.trigger('Moved', { x: this._x, y: this._y + this._jumpSpeed });
+			this.trigger('Moved', { x: this._x, y: this._y + this._jumpSpeed });
 		}
 	}
 });
@@ -8017,7 +8016,7 @@ Crafty.extend({
 		//  'Another scene': {'initialize': fnC, 'uninitialize': fnD}}
 		
 		// If there's one argument, play the scene
-		if (arguments.length === 1 || typeof(arguments[1]) !== "function") {
+		if (arguments.length === 1 || typeof(arguments[1]) === "object") {
 			Crafty.trigger("SceneDestroy", {newScene:name})
 			Crafty.viewport.reset();
 

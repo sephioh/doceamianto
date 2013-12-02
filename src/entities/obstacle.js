@@ -42,7 +42,7 @@ Obstacle = BaseEntity.extend({
 					this.movable = false;
 					var amianto = sc.player.getEntity();
 						amianto.disableControl()
-							.playAnimation("AmiantoStandingStill0", 57*5, -1);
+							.animate("AmiantoStandingStill0", -1);
 				}
 			})
 			.bind('EnterFrame',function change_z() {

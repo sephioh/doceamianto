@@ -49,13 +49,7 @@
 			Crafty.viewport.follow(playerEnt, 0, 0);
 			
 			sc.delays.delay(function() {
-				playerEnt.bind("AnimationEnd", function stand_up() {
-					this.unbind("AnimationEnd", stand_up)
-						.collision(this.poly)
-						.gravity()
-						.enableControl();
-				})
-				.playAnimation("AmiantoStandingUp", 13*8, 0);
+				sc.player.getUp();
 			}, 3000);
 			
 			sc.obstacles = [ 
@@ -117,14 +111,14 @@
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.unbind("KeyUp")
-				.tween({ x: playerEnt._x+800 }, 800)
-				.playAnimation("AmiantoRunning9", 4*5, -1)
+				.tween({ x: playerEnt._x+800 }, 5000)
+				.animate("AmiantoRunning9", -1)
 				.bind("TweenEnd", function transformation() {
 				  
 					this.unbind("TweenEnd", transformation).pauseAnimation();	
 					
-					scene.finalAmiantoAttr = {x: this._x, y: this._y, z: this._z, w: this._w, h: this._h},
-					scene.screenPos = {x:0,y:0};
+					scene.finalAmiantoAttr = { x: this._x, y: this._y, z: this._z, w: this._w, h: this._h },
+					scene.screenPos = { x:0, y:0 };
 					scene.screenPos.x = ((scene.finalAmiantoAttr.x - Crafty.viewport.width / 2) + scene.finalAmiantoAttr.w/2), 
 					scene.screenPos.y = ((scene.finalAmiantoAttr.y - Crafty.viewport.height / 2) + scene.finalAmiantoAttr.h/2);
 				
@@ -136,7 +130,7 @@
 								h: Crafty.viewport.height,
 								z: scene.finalAmiantoAttr.z+4
 							})
-							.animate("Kaboom!",[
+							.reel("Kaboom!",4125,[
 								[0,0],[1,0],[2,0],[3,0],[4,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
@@ -146,11 +140,12 @@
 							]);
 					
 					sc.explosion
+						.animate("Kaboom!")
 						.bind("AnimationEnd", function(){ 
 							this.destroy();
 						})
 						.bind("FrameChange", function create_white_layer(obj){ 
-							if(obj.frameNumber==5){
+							if(obj.currentFrame==5){
 								this.unbind("FrameChange", create_white_layer);
 								sc['coloredLayer'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color")
 									.attr({ 
@@ -163,52 +158,42 @@
 									})
 									.color("#FFFFFF");
 							}
-						})
-						.playAnimation("Kaboom!", 29*5);
+						});
 						
 					var amiantoToBlancheOptions = { 
-						  initialX: scene.finalAmiantoAttr.x-80, 
-						  initialY: scene.finalAmiantoAttr.y-30, 
-						  initialZ: scene.finalAmiantoAttr.z+5, 
-						  finalY: scene.finalAmiantoAttr.y-300, 
-						  finalX: scene.finalAmiantoAttr.x+600, 
-						  //finalZ: scene.finalAmiantoAttr.z+100, 
-						  flightTime: 325 
+						initialX: scene.finalAmiantoAttr.x-80, 
+						initialY: scene.finalAmiantoAttr.y-30, 
+						initialZ: scene.finalAmiantoAttr.z+5, 
+						finalY: scene.finalAmiantoAttr.y-300, 
+						finalX: scene.finalAmiantoAttr.x+600, 
+						//finalZ: scene.finalAmiantoAttr.z+100, 
+						flightTime: 3000
 					};
 					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
-					Crafty.trigger("StartAmiantoToBlancheAnimation");
+					sc.amiantoToBlanche.turnToBlanche();
 					this.destroy();
 					
 				});
 		}		
 		
-		this.bind('AmiantoReachedLightArea', this.amiantoCameIntoLight);
+		this.one('AmiantoReachedLightArea', this.amiantoCameIntoLight);
 		
 		this.loadLevel03 = function() {
-			//this code is to be replaced when work on third level begins
-			sc['replay'] = Crafty.e("2D, DOM, Text, Tween")
-				.attr({ x: scene.screenPos.x, 
-					  y: scene.screenPos.y + Crafty.viewport.height/2, 
-					  w: Crafty.viewport.width, 
-					  h: 30, 
-					  z: scene.finalAmiantoAttr.z+100, 
-					  alpha: 0.0 })
-				.text(gameContainer.langStrings.text01)
-				.textFont({ family: 'Arial', size : '15px' })
-				.textColor("#000000")
-				.css({ 'text-align' : "center" })
-				.unselectable();
-				
-			sc.replay.tween({ alpha: 1.0 }, 150)
-				.bind("TweenEnd", function restart_game(){
-					this.unbind("TweenEnd", restart_game);
-					sc.coloredLayer
-						.addComponent("Mouse")
-						.bind("Click", function() { document.location.reload(); });
-				})
+			gameContainer.setNextSceneInfo({
+			name: "level03",
+			elements: [
+				"src/entities/amianto03.js",
+				"src/entities/wordblock.js",
+				"src/entities/wordplaceholder.js",
+				"src/effects/glitcheffect.js",
+				"text!src/lang/level03-"+gameContainer.lang+".json"
+			      ],
+			});
+			
+			Crafty.scene("loading", { backgroundColor:"#FFFFFF", ellipsisColor:"#000000" });
 		}
 		
-		this.bind('LevelTransition', this.loadLevel03);
+		this.one('LevelTransition', this.loadLevel03);
 		
     /*}, function(percent) {
         /// Decompressing progress code goes here.
@@ -217,7 +202,7 @@
 		
 }, function(){ 
 	//get rid of unwanted bindings, functions and files
-	
+	Crafty.viewport.x = 0,
+	Crafty.viewport.y = 0;
 	assets.removeAudio("level02");
-	this.unbind('LevelTransition', this.loadLevel03);
 });

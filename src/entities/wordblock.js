@@ -9,13 +9,11 @@ Wordblock = BaseEntity.extend({
 				.attr({x: model.get('initialX'), 
 					  y: model.get('initialY'),
 					  z: model.get('initialZ'),
-					  h: model.get('initialH'),
-					  w: model.get('initialW'),
 					  movable: model.get('movable'),
 					  full_text: model.get('full_text')
 				});
 		entity
-			.text(model.attributes.full_text)
+			.text(model.get('full_text'))
 			.textFont({ size: '20px', family: 'Perfect_dos_vga_437' })
 			// Collision with other wordblocks
 			.onHit('wordblock', function(hit) {
@@ -35,13 +33,20 @@ Wordblock = BaseEntity.extend({
 				}
 			})
 			.onHit('amianto03',function(hit){
-				if (hit[0].normal.x!==0)
-					this.x += (hit[0].normal.x * -hit[0].overlap);
-				else
-					this.y += (hit[0].normal.y * -hit[0].overlap);
-				this.textColor("#00FFFF").textFont({ type: "italic" })
+				if(this.movable) {
+					if (hit[0].normal.x!==0)
+						this.x += hit[0].normal.x * -hit[0].overlap;
+					else
+						this.y += hit[0].normal.y * -hit[0].overlap;
+					this.textColor("#00FFFF").textFont({ type: "italic" })
+				}
 			},function(){
 				this.textColor("#000000").textFont({ type: "normal" })
+			})
+			.onHit('wordplaceholder',function(hit){
+				
+			},function(){
+			  
 			});
 			
 		model.set({'entity' : entity });

@@ -29,12 +29,13 @@ Amianto02 = BaseEntity.extend({
 				
 				if(this._currentReelId == "AmiantoJumpingFalling" + diamondStr || 
 				   this._currentReelId == "AmiantoJumpingUp" + diamondStr || 
-				   (this._currentReelId == "AmiantoRunning" + diamondStr && this._falling && this._up)) {
+				   (this._currentReelId == "AmiantoRunning" + diamondStr && this._falling && this._up) ||
+				   (!this.isPlaying("AmiantoStandingUp") && this._currentReelId == "AmiantoStandingUp")) {
 					justHit = true;  
 					
-					if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 57*5, -1);
+					if (!diamondInt) this.animate("AmiantoStandingStill0", -1);
 					else
-					if (diamondInt > 0) this.playAnimation("AmiantoStandingStill" + diamondStr, 5, -1);
+					if (diamondInt > 0) this.animate("AmiantoStandingStill" + diamondStr, -1);
 					
 				}
 				for (var i = 0; i < hit.length; i++) {
@@ -94,9 +95,9 @@ Amianto02 = BaseEntity.extend({
 					var actualStairs = (hit[i].obj.__c.upStairs || hit[i].obj.__c.downStairs);
 					
 					if(isfalling && actualStairs)
-						if (!diamondInt) this.playAnimation("AmiantoStandingStill0", 73*5, -1);
+						if (!diamondInt) this.animate("AmiantoStandingStill0", -1);
 						else
-						if (diamondInt > 0) this.playAnimation("AmiantoStandingStill"+diamondStr, 5, -1);
+						if (diamondInt > 0) this.animate("AmiantoStandingStill"+diamondStr, -1);
 					
 					if(justHit)
 						if(hit[i].obj.__c.upStairs || hit[i].obj.__c.upStairsFirstStepDown) {
@@ -193,7 +194,7 @@ Amianto02 = BaseEntity.extend({
 								hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
 								model._setSpeed(1, false);
 								if(this._currentReelId != "AmiantoPushing")
-									this.playAnimation("AmiantoPushing", 25, -1);
+									this.animate("AmiantoPushing", -1);
 								this.pushingObstacle = true;
 								hit[i].obj.wasMoved = true;
 						} else if(this._up){
@@ -217,9 +218,9 @@ Amianto02 = BaseEntity.extend({
 				if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW') && !this.isDown('A') && !this.isDown('D') && !this.isDown('Q')) {
 					if(model.get('withDiamond')){
 						var diamond = model.get('withDiamond').toString();
-						this.playAnimation("AmiantoStandingStill" + diamond, 5, -1);
+						this.animate("AmiantoStandingStill" + diamond, -1);
 					} else {
-						this.playAnimation("AmiantoStandingStill0", 57*5, -1);
+						this.animate("AmiantoStandingStill0", -1);
 					}
 				}
 				model._setSpeed(model.get('startingSpeed'), false);
@@ -236,62 +237,62 @@ Amianto02 = BaseEntity.extend({
 				if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 				  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
 					if(this.isPlaying("AmiantoRunning0"))
-						this.playAnimation("AmiantoStandingStill0", 57*5, -1);
+						this.animate("AmiantoStandingStill0", -1);
 					else
 					if(this.isPlaying("AmiantoRunning" + diamond))
-						this.playAnimation("AmiantoStandingStill" + diamond, 5, -1);
+						this.animate("AmiantoStandingStill" + diamond, -1);
 			})
-			.animate("AmiantoStandingUp", 0, 0, 12)
-			.animate("AmiantoStandingStill0", [
-			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
+			.reel("AmiantoStandingUp", 2600, 0, 0, 12)
+			.reel("AmiantoStandingStill0", 6125, [
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
 			  [12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],[12,0],
 			 [0,1],[0,1],[0,1],[0,1],[12,0],[11,0],[11,0],[11,0],[11,0] 
 			]) // 57 frames
-			.animate("AmiantoStandingStill1", [[2,2]])
-			.animate("AmiantoStandingStill2", [[2,3]])
-			.animate("AmiantoStandingStill3", [[2,4]])
-			.animate("AmiantoStandingStill4", [[2,5]])
-			.animate("AmiantoStandingStill5", [[2,6]])
-			.animate("AmiantoStandingStill6", [[2,7]])
-			.animate("AmiantoStandingStill7", [[2,8]])
-			.animate("AmiantoStandingStill8", [[2,9]])
-			.animate("AmiantoStandingStill9", [[2,10]])
-			.animate("AmiantoJumpingUp0", [[9,1],[9,1],[10,1]])
-			.animate("AmiantoJumpingUp1", [[9,2],[9,2],[10,2]])
-			.animate("AmiantoJumpingUp2", [[9,3],[9,3],[10,3]])
-			.animate("AmiantoJumpingUp3", [[9,4],[9,4],[10,4]])
-			.animate("AmiantoJumpingUp4", [[9,5],[9,5],[10,5]])
-			.animate("AmiantoJumpingUp5", [[9,6],[9,6],[10,6]])
-			.animate("AmiantoJumpingUp6", [[9,7],[9,7],[10,7]])
-			.animate("AmiantoJumpingUp7", [[9,8],[9,8],[10,8]])
-			.animate("AmiantoJumpingUp8", [[9,9],[9,9],[10,9]])
-			.animate("AmiantoJumpingUp9", [[9,10],[9,10],[10,10]])
-			.animate("AmiantoJumpingFalling0", [[11,1],[11,1],[12,1]])
-			.animate("AmiantoJumpingFalling1", [[11,2],[11,2],[12,2]])
-			.animate("AmiantoJumpingFalling2", [[11,3],[11,3],[12,3]])
-			.animate("AmiantoJumpingFalling3", [[11,4],[11,4],[12,4]])
-			.animate("AmiantoJumpingFalling4", [[11,5],[11,5],[12,5]])
-			.animate("AmiantoJumpingFalling5", [[11,6],[11,6],[12,6]])
-			.animate("AmiantoJumpingFalling6", [[11,7],[11,7],[12,7]])
-			.animate("AmiantoJumpingFalling7", [[11,8],[11,8],[12,8]])
-			.animate("AmiantoJumpingFalling8", [[11,9],[11,9],[12,9]])
-			.animate("AmiantoJumpingFalling9", [[11,10],[11,10],[12,10]])
-			.animate("AmiantoRunning0", [[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[1,1]])
-			.animate("AmiantoRunning1", [[4,2],[5,2],[6,2],[7,2]])
-			.animate("AmiantoRunning2", [[4,3],[5,3],[6,3],[7,3]])
-			.animate("AmiantoRunning3", [[4,4],[5,4],[6,4],[7,4]])
-			.animate("AmiantoRunning4", [[4,5],[5,5],[6,5],[7,5]])
-			.animate("AmiantoRunning5", [[4,6],[5,6],[6,6],[7,6]])
-			.animate("AmiantoRunning6", [[4,7],[5,7],[6,7],[7,7]])
-			.animate("AmiantoRunning7", [[4,8],[5,8],[6,8],[7,8]])
-			.animate("AmiantoRunning8", [[4,9],[5,9],[6,9],[7,9]])
-			.animate("AmiantoRunning9", [[4,10],[5,10],[6,10],[7,10]])
-			.animate("AmiantoPushing", 0, 11, 4)
+			.reel("AmiantoStandingStill1", 1, [[2,2]])
+			.reel("AmiantoStandingStill2", 1, [[2,3]])
+			.reel("AmiantoStandingStill3", 1, [[2,4]])
+			.reel("AmiantoStandingStill4", 1, [[2,5]])
+			.reel("AmiantoStandingStill5", 1, [[2,6]])
+			.reel("AmiantoStandingStill6", 1, [[2,7]])
+			.reel("AmiantoStandingStill7", 1, [[2,8]])
+			.reel("AmiantoStandingStill8", 1, [[2,9]])
+			.reel("AmiantoStandingStill9", 1, [[2,10]])
+			.reel("AmiantoJumpingUp0", 375, [[9,1],[9,1],[10,1]])
+			.reel("AmiantoJumpingUp1", 375, [[9,2],[9,2],[10,2]])
+			.reel("AmiantoJumpingUp2", 375, [[9,3],[9,3],[10,3]])
+			.reel("AmiantoJumpingUp3", 375, [[9,4],[9,4],[10,4]])
+			.reel("AmiantoJumpingUp4", 375, [[9,5],[9,5],[10,5]])
+			.reel("AmiantoJumpingUp5", 375, [[9,6],[9,6],[10,6]])
+			.reel("AmiantoJumpingUp6", 375, [[9,7],[9,7],[10,7]])
+			.reel("AmiantoJumpingUp7", 375, [[9,8],[9,8],[10,8]])
+			.reel("AmiantoJumpingUp8", 375, [[9,9],[9,9],[10,9]])
+			.reel("AmiantoJumpingUp9", 375, [[9,10],[9,10],[10,10]])
+			.reel("AmiantoJumpingFalling0", 375, [[11,1],[11,1],[12,1]])
+			.reel("AmiantoJumpingFalling1", 375, [[11,2],[11,2],[12,2]])
+			.reel("AmiantoJumpingFalling2", 375, [[11,3],[11,3],[12,3]])
+			.reel("AmiantoJumpingFalling3", 375, [[11,4],[11,4],[12,4]])
+			.reel("AmiantoJumpingFalling4", 375, [[11,5],[11,5],[12,5]])
+			.reel("AmiantoJumpingFalling5", 375, [[11,6],[11,6],[12,6]])
+			.reel("AmiantoJumpingFalling6", 375, [[11,7],[11,7],[12,7]])
+			.reel("AmiantoJumpingFalling7", 375, [[11,8],[11,8],[12,8]])
+			.reel("AmiantoJumpingFalling8", 375, [[11,9],[11,9],[12,9]])
+			.reel("AmiantoJumpingFalling9", 375, [[11,10],[11,10],[12,10]])
+			.reel("AmiantoRunning0", 1000, [[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[1,1]])
+			.reel("AmiantoRunning1", 500, [[4,2],[5,2],[6,2],[7,2]])
+			.reel("AmiantoRunning2", 500, [[4,3],[5,3],[6,3],[7,3]])
+			.reel("AmiantoRunning3", 500, [[4,4],[5,4],[6,4],[7,4]])
+			.reel("AmiantoRunning4", 500, [[4,5],[5,5],[6,5],[7,5]])
+			.reel("AmiantoRunning5", 500, [[4,6],[5,6],[6,6],[7,6]])
+			.reel("AmiantoRunning6", 500, [[4,7],[5,7],[6,7],[7,7]])
+			.reel("AmiantoRunning7", 500, [[4,8],[5,8],[6,8],[7,8]])
+			.reel("AmiantoRunning8", 500, [[4,9],[5,9],[6,9],[7,9]])
+			.reel("AmiantoRunning9", 500, [[4,10],[5,10],[6,10],[7,10]])
+			.reel("AmiantoPushing", 625, 0, 11, 4)
 			.setName('Player')
 			.bind('Moved', function(prevPos) {
+			  
 				// controlling animations
 				
 				if(this.isPlaying("AmiantoStandingStill")) this.pauseAnimation();
@@ -316,15 +317,17 @@ Amianto02 = BaseEntity.extend({
 				
 				if(!this.pushingObstacle){
 					switch(moved) {
-						case "up" :
-							if(this.isPlaying("AmiantoStandingStill" + diamond) || 
-							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond))
-								this.playAnimation("AmiantoJumpingUp" + diamond, 15, 0, 0);
+						case "up" : 
+							if(this._currentReelId != "AmiantoJumpingUp" &&
+							  (this.isPlaying("AmiantoStandingStill" + diamond) || 
+							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond)))
+								this.animate("AmiantoJumpingUp" + diamond);
 							break;
-						case "down" :
-							if((this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond)) ||
-							  (!this._onStairs && (this._currentReelId=="AmiantoRunning" + diamond || this._currentReelId=="AmiantoStandingStill" + diamond)))
-								this.playAnimation("AmiantoJumpingFalling" + diamond, 15, 0, 0);
+						case "down" : 
+							if(this._currentReelId != "AmiantoJumpingFalling" &&
+							  ((this._currentReelId == "AmiantoJumpingUp" + diamond && !this.isPlaying("AmiantoJumpingUp" + diamond)) ||
+							  (!this._onStairs && (this._currentReelId=="AmiantoRunning" + diamond || this._currentReelId=="AmiantoStandingStill" + diamond))))
+								this.animate("AmiantoJumpingFalling" + diamond);
 							break;
 						case "left":
 							if(!this._flipX) 	// if moved left and is unflipped
@@ -332,9 +335,9 @@ Amianto02 = BaseEntity.extend({
 							if((!this.isPlaying("AmiantoRunning" + diamond) && !this._up) && 
 							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond && !this._up)) {
 							    if(!model.get('withDiamond')) 
-								this.playAnimation("AmiantoRunning0", 40, -1);
+								this.animate("AmiantoRunning0", -1);
 							    else 
-								this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+								this.animate("AmiantoRunning" + diamond, -1);
 							}
 							    
 							break;
@@ -344,9 +347,9 @@ Amianto02 = BaseEntity.extend({
 							if((!this.isPlaying("AmiantoRunning" + diamond) && !this._up) &&
 							  (this._currentReelId != "AmiantoJumpingUp" + diamond && this._currentReelId != "AmiantoJumpingFalling" + diamond && !this._up)) {
 							    if(!model.get('withDiamond'))
-								this.playAnimation("AmiantoRunning0", 40, -1);
+								this.animate("AmiantoRunning0", -1);
 							    else
-								this.playAnimation("AmiantoRunning" + diamond, 20, -1);
+								this.animate("AmiantoRunning" + diamond, -1);
 							}    
 							break;
 					}
@@ -424,7 +427,7 @@ Amianto02 = BaseEntity.extend({
 			var newSpeed = startingSpeed-(Math.abs(strength-diamond.value));
 			this._setSpeed(newSpeed,true);
 		}
-		entity.playAnimation("AmiantoStandingStill" + diamond.value.toString(), 5, -1);
+		entity.animate("AmiantoStandingStill" + diamond.value.toString(), -1);
 	},
 	
 	_pickUpDiamond: function() { 
@@ -442,7 +445,7 @@ Amianto02 = BaseEntity.extend({
 				var newSpeed = startingSpeed-(Math.abs(strength-diamond.value));
 				this._setSpeed(newSpeed,true);
 			}
-			entity.playAnimation("AmiantoStandingStill" + diamond.value.toString(), 5, -1);
+			entity.animate("AmiantoStandingStill" + diamond.value.toString(), -1);
 		} 
 		else 
 		if(diamond._held) {
@@ -452,8 +455,18 @@ Amianto02 = BaseEntity.extend({
 			if(speed != startingSpeed){
 			    this._setSpeed(startingSpeed,true);
 			}
-			entity.playAnimation("AmiantoStandingStill0", 57*5, -1);
+			entity.animate("AmiantoStandingStill0", -1);
 		}
+	},
+	
+	getUp: function() {
+		this.getEntity().one("AnimationEnd", function() {
+				this
+				  .collision(this.poly)
+				  .gravity()
+				  .enableControl();
+			})
+			.animate("AmiantoStandingUp", 1);
 	}
 	
 });
