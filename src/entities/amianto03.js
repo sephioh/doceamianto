@@ -1,11 +1,12 @@
 Amianto03 = BaseEntity.extend({
     defaults: {
-		'initial_x' : 0,
-		'initial_y' : 0,
+		'initial_x' : 100,
+		'initial_y' : 100,
 		'initial_z' : 1,
 		'initial_w' : 78,
 		'initial_h' : 96,
-		'initial_speed' : 3
+		'initial_speed' : 3,
+		'newly_created' : false
     },
     initialize: function() {
 		var model = this,
@@ -16,7 +17,9 @@ Amianto03 = BaseEntity.extend({
 				   y: model.get('initial_y'),
 				   z: model.get('initial_z'),
 				   w: model.get('initial_w'),
-				   h: model.get('initial_h')})
+				   h: model.get('initial_h'),
+				   newly_created: model.get('newly_created')
+			})
 			// Set entity name
 			.setName("Amianto03")
 			// Animation definitions
@@ -72,10 +75,43 @@ Amianto03 = BaseEntity.extend({
 			})
 			// Collision with scenario delimiters
 			.onHit('wall', function(hit) {
-				// Stop amianto when she try to go out of scenario
-				for (var i = 0; i < hit.length; i++) {
-					this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-					this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+				var amianto = this,
+					createAnew = true,
+					nAmiantoPos = { x:0, y:0 };
+					
+				Crafty("amianto03").each(function(){
+					if(this.newly_created)
+						createAnew = false;
+				});
+				
+				if(createAnew){
+					switch(hit[0].obj.id) {
+						case "left":
+							nAmiantoPos.x = (Crafty.viewport.width-1) + amianto._w,
+							nAmiantoPos.y = amianto._y;
+							break;
+						case "right":
+							nAmiantoPos.x = 0 - amianto._w,
+							nAmiantoPos.y = amianto._y;
+							break;
+						case "up":
+							nAmiantoPos.x = amianto.x,
+							nAmiantoPos.y = (Crafty.viewport.height-1) + amianto._h;
+							break;
+						case "down":
+							nAmiantoPos.x = amianto._x,
+							nAmiantoPos.y = 0 - amianto._h;
+							break;
+					}
+					var nAmianto = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
+				}
+			}, function(){
+				if(!this.newly_created){
+					if((this._x > Crafty.viewport.width || this._x < 0) || 
+					    (this._y > Crafty.viewport.height || this._y < 0))
+					this.destroy();
+				}else{
+					this.newly_created = false;
 				}
 			})
 			// Collision with wordblocks

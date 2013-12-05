@@ -14,14 +14,14 @@ Crafty.scene("level03", function() {
 
 	// Scenario delimiters
 	var delimitersMap = {
-		left: 	{ x: 0,   y: 0, w: 1, h: 600 },
-		right: 	{ x: 800, y: 0, w: 1, h: 600 },
-		up: 	{ x: 0,   y: 0, w: 800, h: 1 },
-		down: 	{ x: 0,   y: 600, w: 800, h: 1 },
+		left: 	{ x: 0,   y: 0, w: 1, h: 600, id: "left" },
+		right: 	{ x: 800, y: 0, w: 1, h: 600, id: "right" },
+		up: 	{ x: 0,   y: 0, w: 800, h: 1, id: "up" },
+		down: 	{ x: 0,   y: 600, w: 800, h: 1, id: "down" }
 	};
 	_.each(delimitersMap, function(obj) {
 		var delimiter = Crafty.e("2D, Collision, wall")
-			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
+			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h, id: obj.id });
 		sc.delimiters.push(delimiter);
 	});
 	
