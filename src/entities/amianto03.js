@@ -75,41 +75,45 @@ Amianto03 = BaseEntity.extend({
 			})
 			// Collision with scenario delimiters
 			.onHit('wall', function(hit) {
-				var amianto = this,
-					createAnew = true,
-					nAmiantoPos = { x:0, y:0 };
+				var amianto = this;
+				for(var i = 0;i<hit.length;i++) {
 					
-				Crafty("amianto03").each(function(){
-					if(this.newly_created)
-						createAnew = false;
-				});
-				
-				if(createAnew){
-					switch(hit[0].obj.id) {
+					var createAnew = true,
+					nAmiantoPos = { x: amianto._x, y:amianto._y };
+						
+					Crafty("amianto03").each(function(){
+						if(this.newly_created)
+							createAnew = false;
+					});
+					
+					switch(hit[i].obj.id) {
 						case "left":
-							nAmiantoPos.x = (Crafty.viewport.width-1) + amianto._w,
-							nAmiantoPos.y = amianto._y;
+							nAmiantoPos.x = Crafty.viewport.width-1;
 							break;
 						case "right":
-							nAmiantoPos.x = 0 - amianto._w,
-							nAmiantoPos.y = amianto._y;
+							nAmiantoPos.x = 0 - amianto._w;
 							break;
 						case "up":
-							nAmiantoPos.x = amianto.x,
-							nAmiantoPos.y = (Crafty.viewport.height-1) + amianto._h;
+							nAmiantoPos.y = Crafty.viewport.height-1;
 							break;
 						case "down":
-							nAmiantoPos.x = amianto._x,
 							nAmiantoPos.y = 0 - amianto._h;
 							break;
 					}
-					var nAmianto = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
+					
+					if(createAnew && hit.length === 1) {
+						sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
+					}else if(!createAnew && hit.length>1) {
+						this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+					}
 				}
 			}, function(){
 				if(!this.newly_created){
 					if((this._x > Crafty.viewport.width || this._x < 0) || 
-					    (this._y > Crafty.viewport.height || this._y < 0))
-					this.destroy();
+					    (this._y > Crafty.viewport.height || this._y < 0)) {
+						this.destroy();
+					}
 				}else{
 					this.newly_created = false;
 				}
@@ -125,7 +129,14 @@ Amianto03 = BaseEntity.extend({
 						}
 					}
 				}
-			});
+			})
+			.onHit('delimiter', function(hit) {
+				// Stop amianto when she try to go out of scenario
+				for (var i = 0; i < hit.length; i++) {
+					this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+					this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+				}
+                        });
 		model.set({'entity' : entity});
 	}
 });
