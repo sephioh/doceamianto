@@ -101,11 +101,8 @@ Amianto03 = BaseEntity.extend({
 							break;
 					}
 					
-					if(createAnew && hit.length === 1) {
+					if(createAnew) {
 						sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
-					}else if(!createAnew && hit.length>1) {
-						//this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-						//this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 					}
 				}
 			}, function(){
