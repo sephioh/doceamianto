@@ -10,6 +10,7 @@ Crafty.scene("level03", function() {
 	sc['player'] = new Amianto03();
 	sc['delays'] = Crafty.e("Delay");
 	sc['delimiters'] = [];
+	sc['blockers'] = [];
 	sc['wordblocks'] = [];
 
 	// Scenario delimiters
@@ -23,6 +24,20 @@ Crafty.scene("level03", function() {
 		var delimiter = Crafty.e("2D, Collision, wall")
 			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h, id: obj.id });
 		sc.delimiters.push(delimiter);
+	});
+ 
+	// Scenario blockers
+	var blockers = {
+		left_up: 	{ x: -10, y: -10, w: 20, h: 20 },
+		left_down: 	{ x: -10, y: 590, w: 20, h: 20 },
+		right_up: 	{ x: 790, y: -10, w: 20, h: 20 },
+		right_down: { x: 790, y: 590, w: 20, h: 20 }
+
+	};
+	_.each(blockers, function(obj) {
+		var blocker = Crafty.e("2D, Collision, blocker, WiredHitBox")
+			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h, id: obj.id });
+		sc.blockers.push(blocker);
 	});
 	
 	var txts = JSON.parse(gameContainer.loadedStrings[0]);

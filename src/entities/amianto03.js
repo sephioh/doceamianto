@@ -88,24 +88,24 @@ Amianto03 = BaseEntity.extend({
 					
 					switch(hit[i].obj.id) {
 						case "left":
-							nAmiantoPos.x = Crafty.viewport.width-1;
+							nAmiantoPos.x = Crafty.viewport.width;
 							break;
 						case "right":
-							nAmiantoPos.x = 0 - amianto._w;
+							nAmiantoPos.x = -amianto._w;
 							break;
 						case "up":
-							nAmiantoPos.y = Crafty.viewport.height-1;
+							nAmiantoPos.y = Crafty.viewport.height;
 							break;
 						case "down":
-							nAmiantoPos.y = 0 - amianto._h;
+							nAmiantoPos.y = -amianto._h;
 							break;
 					}
 					
 					if(createAnew && hit.length === 1) {
 						sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
 					}else if(!createAnew && hit.length>1) {
-						this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+						//this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+						//this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 					}
 				}
 			}, function(){
@@ -130,13 +130,13 @@ Amianto03 = BaseEntity.extend({
 					}
 				}
 			})
-			.onHit('delimiter', function(hit) {
+			.onHit('blocker', function(hit) {
 				// Stop amianto when she try to go out of scenario
 				for (var i = 0; i < hit.length; i++) {
 					this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 					this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 				}
-                        });
+            });
 		model.set({'entity' : entity});
 	}
 });
