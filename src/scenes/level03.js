@@ -43,28 +43,32 @@ Crafty.scene("level03", function() {
 		sc.blockers.push(blocker);
 	});
 	
-	var txts = JSON.parse(gameContainer.loadedStrings[0]);
+	var txts = JSON.parse(gameContainer.loadedStrings[0]),
+	     txtSize = 55;
 
 	// Word blocks
+	
 	sc.wordblocks = [
-		new Wordblock({ initialX: 400, initialY: 155, initialZ: 0, initialH: 20, initialW: 76,  full_text: txts.text01 }),
-		new Wordblock({ initialX: 610, initialY: 355, initialZ: 0, initialH: 20, initialW: 177, full_text: txts.text02 }),
-		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: 20, initialW: 85,  full_text: txts.text03 }),
-		new Wordblock({ initialX: 266, initialY: 275, initialZ: 0, initialH: 20, initialW: 75,  full_text: txts.text04 }),
-		new Wordblock({ initialX: 366, initialY: 335, initialZ: 0, initialH: 20, initialW: 138, full_text: txts.text05 }),
-		new Wordblock({ initialX: 166, initialY: 399, initialZ: 0, initialH: 20, initialW: 85,  full_text: txts.text06 }),
-		new Wordblock({ initialX: 366, initialY: 424, initialZ: 0, initialH: 20, initialW: 115, full_text: txts.text07 })
+		new Wordblock({ initialX: 400, initialY: 155, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, full_text: txts.text01, text_size: txtSize }),
+		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, full_text: txts.text02, text_size: txtSize }),
+		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text03.length*txtSize, full_text: txts.text03, text_size: txtSize }),
+		new Wordblock({ initialX: 236, initialY: 617, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, full_text: txts.text04, text_size: txtSize }),
+		new Wordblock({ initialX: 486, initialY: 424, initialZ: 0, initialH: txtSize, initialW: txts.text05.length*txtSize, full_text: txts.text05, text_size: txtSize }),
+		new Wordblock({ initialX: 366, initialY: 335, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, full_text: txts.text06, text_size: txtSize }),
+		new Wordblock({ initialX: 166, initialY: 399, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, full_text: txts.text07, text_size: txtSize }),
+		new Wordblock({ initialX: 266, initialY: 275, initialZ: 0, initialH: txtSize, initialW: txts.text08.length*txtSize, full_text: txts.text08, text_size: txtSize })
 	];
 
 	// Wordplaceholders
 	sc.wordplaceholders = [
 		new Wordplaceholder({ initialX: 166, initialY: 155, full_text: txts.text01 }),
-		new Wordplaceholder({ initialX: 234, initialY: 241, full_text: txts.text04 }),
-		new Wordplaceholder({ initialX: 245, initialY: 335, full_text: txts.text06 }),
 		new Wordplaceholder({ initialX: 393, initialY: 155, full_text: txts.text02 }),
-		new Wordplaceholder({ initialX: 410, initialY: 447, full_text: txts.text07 }),
+		new Wordplaceholder({ initialX: 644, initialY: 155, full_text: txts.text03 }),
+		new Wordplaceholder({ initialX: 234, initialY: 241, full_text: txts.text04 }),
 		new Wordplaceholder({ initialX: 554, initialY: 241, full_text: txts.text05 }),
-		new Wordplaceholder({ initialX: 644, initialY: 155, full_text: txts.text03 })
+		new Wordplaceholder({ initialX: 245, initialY: 335, full_text: txts.text06 }),
+		new Wordplaceholder({ initialX: 614, initialY: 335, full_text: txts.text07 }),
+		new Wordplaceholder({ initialX: 410, initialY: 447, full_text: txts.text08 }),
 	];
 	
 	// declaring events
