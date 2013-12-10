@@ -8,17 +8,18 @@ Wordblock = BaseEntity.extend({
 		var model = this,
 			//poly = new Crafty.polygon([[5,0],[-5,136],[58,136],[58,0]]),
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", wordblock, Text, Collision")
-				.attr({x: model.get('initialX'), 
+				.attr({	
+					  x: model.get('initialX'), 
 					  y: model.get('initialY'),
 					  z: model.get('initialZ'),
 					  movable: model.get('movable'),
 					  full_text: model.get('full_text'),
 					  newly_created: model.get('newly_created')
-
 				});
 		entity
 			.text(model.get('full_text'))
-			.textFont({ size: '20px', family: 'Perfect_dos_vga_437' })
+			.textColor('#FFFFFF')
+			.textFont({ size: '70px', family: 'Perfect_dos_vga_437' })
 			// Collision with other wordblocks
 			.onHit('wordblock', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
@@ -56,11 +57,11 @@ Wordblock = BaseEntity.extend({
 								break;
 						}
 						var newWorkBlock = new Wordblock({ initialX: nWordblockPos.x,
-														   initialY: nWordblockPos.y,
-														   initialZ: wordblock._z,
-														   initialH: wordblock._h,
-														   initialW: wordblock._w,
-														   full_text: wordblock.full_text });
+										    initialY: nWordblockPos.y,
+										    initialZ: wordblock._z,
+										    initialH: wordblock._h,
+										    initialW: wordblock._w,
+										    full_text: wordblock.full_text });
 						sc.wordblocks.push(newWorkBlock);
 					}
 				}
@@ -94,7 +95,7 @@ Wordblock = BaseEntity.extend({
 					});
 				}
 			},function(){
-				this.textColor("#000000").textFont({ type: "normal" })
+				this.textColor("#FFFFFF").textFont({ type: "normal" })
 			})
 			.onHit('wordplaceholder',function(hit){
 				

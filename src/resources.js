@@ -136,14 +136,22 @@ Resources = Backbone.Model.extend({
 		},
 		level03: {
 			'images' : {
-				/*'background' : {
+				'background' : {
 					'file' : 'level03-background.png',
 					'tile' : 800,
 					'tileh' : 600,
 					'elements': {
 						'background03' : [0, 0]
 					}
-				},*/
+				},
+				'ornament' : {
+					'file' : 'level03-ornament.png',
+					'tile' : 192,
+					'tileh' : 61,
+					'elements': {
+						'ornament03' : [0, 0]
+					}
+				},
 				'player' : {
 					'file' : 'sheet_amianto03.png',
 					'tile' : 78,

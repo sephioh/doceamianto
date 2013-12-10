@@ -4,15 +4,18 @@ Crafty.scene("level03", function() {
 
 	var scene = this;
 	// Set scene background 	
-	Crafty.e("2D, Canvas, Image").image('web/images/level03-background.png');
 	
 	// Add initial elements to scene
-	sc['player'] = new Amianto03();
-	sc['delays'] = Crafty.e("Delay");
-	sc['delimiters'] = [];
-	sc['blockers'] = [];
+	sc['player'] = new Amianto03(),
+	sc['delays'] = Crafty.e("Delay"),
+	sc['background'] = Crafty.e("2D, Canvas, Sprite, background03"),
+	sc['ornament'] = Crafty.e("2D, Canvas, Sprite, ornament03"),
+	sc['delimiters'] = [],
+	sc['blockers'] = [],
 	sc['wordblocks'] = [];
 
+	sc.ornament.x = (Crafty.viewport.width/2) - (sc.ornament._w/2);
+	
 	// Scenario delimiters
 	var delimitersMap = {
 		left: 	{ x: 0,   y: 0, w: 1, h: 600, id: "left" },
@@ -31,12 +34,12 @@ Crafty.scene("level03", function() {
 		left_up: 	{ x: -10, y: -10, w: 20, h: 20 },
 		left_down: 	{ x: -10, y: 590, w: 20, h: 20 },
 		right_up: 	{ x: 790, y: -10, w: 20, h: 20 },
-		right_down: { x: 790, y: 590, w: 20, h: 20 }
+		right_down: 	{ x: 790, y: 590, w: 20, h: 20 }
 
 	};
 	_.each(blockers, function(obj) {
 		var blocker = Crafty.e("2D, Collision, blocker, WiredHitBox")
-			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h, id: obj.id });
+			.attr({ x: obj.x, y: obj.y, w: obj.w, h: obj.h });
 		sc.blockers.push(blocker);
 	});
 	

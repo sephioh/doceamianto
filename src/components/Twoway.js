@@ -11,7 +11,7 @@ Crafty.c("Twoway", {
     _up: false,
 
     init: function () {
-        this.requires("Fourway, Keyboard");
+        this.requires("Fourway, Keyboard, Gravity");
     },
 
     /**@
