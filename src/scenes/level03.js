@@ -8,8 +8,8 @@ Crafty.scene("level03", function() {
 	// Add initial elements to scene
 	sc['player'] = new Amianto03(),
 	sc['delays'] = Crafty.e("Delay"),
-	sc['background'] = Crafty.e("2D, Canvas, Sprite, background03"),
-	sc['ornament'] = Crafty.e("2D, Canvas, Sprite, ornament03"),
+	sc['background'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, background03"),
+	sc['ornament'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, ornament03"),
 	sc['delimiters'] = [],
 	sc['blockers'] = [],
 	sc['wordblocks'] = [];
@@ -31,14 +31,14 @@ Crafty.scene("level03", function() {
  
 	// Scenario blockers
 	var blockers = {
-		left_up: 	{ x: -10, y: -10, w: 20, h: 20 },
-		left_down: 	{ x: -10, y: 590, w: 20, h: 20 },
-		right_up: 	{ x: 790, y: -10, w: 20, h: 20 },
-		right_down: 	{ x: 790, y: 590, w: 20, h: 20 }
+		left_up: 	{ x: -10, y: -10, w: 20, h: 20, corner: "cornerUpLeft" },
+		left_down: 	{ x: -10, y: 590, w: 20, h: 20, corner: "cornerUpRight" },
+		right_up: 	{ x: 790, y: -10, w: 20, h: 20, corner: "cornerDownLeft" },
+		right_down: 	{ x: 790, y: 590, w: 20, h: 20, corner: "cornerDownRight" }
 
 	};
 	_.each(blockers, function(obj) {
-		var blocker = Crafty.e("2D, Collision, blocker, WiredHitBox")
+		var blocker = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Collision, Sprite, "+obj.corner+", blocker")
 			.attr({ x: obj.x, y: obj.y, w: obj.w, h: obj.h });
 		sc.blockers.push(blocker);
 	});

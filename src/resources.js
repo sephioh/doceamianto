@@ -152,6 +152,17 @@ Resources = Backbone.Model.extend({
 						'ornament03' : [0, 0]
 					}
 				},
+				'corners' : {
+					'file' : 'level03-corners.png',
+					'tile' : 100,
+					'tileh' : 100,
+					'elements': {
+						'cornerUpLeft': [1, 1],
+						'cornerUpRight': [1, 0],
+						'cornerDownLeft': [0, 1],
+						'cornerDownRight': [0, 0]
+					}
+				},
 				'player' : {
 					'file' : 'sheet_amianto03.png',
 					'tile' : 78,
