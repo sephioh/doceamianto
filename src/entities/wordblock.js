@@ -26,9 +26,9 @@ Wordblock = BaseEntity.extend({
 			// Collision with other wordblocks
 			.onHit('wordblock', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
-					if(hit[i].obj.movable){
-						hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
-						hit[i].obj.y -= (hit[i].normal.y * -hit[i].overlap);
+					if(this.movable){
+						this.x += (hit[i].normal.x * -hit[i].overlap);
+						this.y += (hit[i].normal.y * -hit[i].overlap);
 					}
 				}
 			})
