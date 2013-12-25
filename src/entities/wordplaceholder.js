@@ -1,17 +1,17 @@
 Wordplaceholder = BaseEntity.extend({
-    defaults: {
-	    'initialH': 80,
-	    'initialW': 80,
-	    'initialZ': 1
-    },
-    initialize: function(){
+	defaults: {
+		'initialH': 80,
+		'initialW': 80,
+		'initialZ': 1
+	},
+	initialize: function(){
 		var model = this,
 			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", wordplaceholder, Collision, SpriteAnimation")
 				.collision(new Crafty.polygon([[28,34],[39,34],[39,45],[28,45]]))
 				.attr({x: model.get('initialX'), 
-					   y: model.get('initialY'),
-					   z: model.get('initialZ'),
-					   full_text: model.get('full_text')
+					  y: model.get('initialY'),
+					  z: model.get('initialZ'),
+					  full_text: model.get('full_text')
 				})
 				.reel("Shining", 500, 0, 0, 6)
 				.animate("Shining", -1)
@@ -33,5 +33,5 @@ Wordplaceholder = BaseEntity.extend({
 					}
 				});
 		model.set({'entity' : entity });
-    }
+	}
 });

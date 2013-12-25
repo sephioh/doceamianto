@@ -34,27 +34,5 @@
   <script src="src/libs/lzma_worker.js"></script>
   -->
   <script src="src/game.js"></script>
-
-  <script type="text/javascript">
-    gameContainer = {
-	env : 'dev',
-	gameVersion : '0.0.1',
-	conf: {},
-	lang: '',
-	scene : '',
-	elementsToLoad : [],
-	loadedStrings : [],
-	setNextSceneInfo : function(sceneInfo) {
-		this.loadedStrings = [],
-		this.scene = sceneInfo.name,
-		this.elementsToLoad = sceneInfo.elements;
-		return;
-	}
-    },
-    sc    = [], // container for backbone scene elements
-    infc  = [],	// container for backbone interface elements
-    assets = {}, // container for Assets obj
-    utils = {};  
-  </script>
 </body>
 </html>

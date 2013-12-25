@@ -1,7 +1,27 @@
+gameContainer = {
+	env : 'dev',
+	gameVersion : '0.0.1',
+	conf: {},
+	lang: '',
+	scene : '',
+	elementsToLoad : [],
+	loadedStrings : [],
+	setNextSceneInfo : function(sceneInfo) {
+		this.loadedStrings = [],
+		this.scene = sceneInfo.name,
+		this.elementsToLoad = sceneInfo.elements;
+		return;
+  }
+},
+sc    = [], // container for backbone scene elements
+infc  = [], // container for backbone interface elements
+resources = {}, // container for Assets obj
+utils = {}; 
+
 window.onload = function() {
   
 	var version = null,
-		    today = new Date();
+	    today = new Date();
 	
 	    // Fix for cache
 	if(gameContainer.env == 'dev') {
@@ -116,8 +136,6 @@ window.onload = function() {
 		});
 		    
 		// declare all scenes
-		
-		
 		
 		var scenes = [
 			"src/scenes/level01.js?v="+version+"",
