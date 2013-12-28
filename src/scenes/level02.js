@@ -14,8 +14,8 @@
 		var mapObj = JSON.parse(gameContainer.loadedStrings[0]);
 		sc['player'] = new Amianto02(),
 		sc['diamond'] = new Diamond(),
-		sc['mapBuider'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.
-		sc['tiledMap'] = sc.mapBuider.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
+		sc['mapBuilder'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.
+		sc['tiledMap'] = sc.mapBuilder.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
 		sc['delays'] = Crafty.e("Delay"),
 		sc['delimiters'] = [],
 		sc['checkpoints'] = [],
@@ -57,8 +57,7 @@
 				new Obstacle({initialX: 16300, initialY: 1271, initialZ: playerEnt._z-1}),
 				new Obstacle({initialX: 25337, initialY:  960, initialZ: playerEnt._z-1}),
 				new Obstacle({initialX: 25785, initialY:  960, initialZ: playerEnt._z-1})
-				       ];
-
+			];
 			
 		});
 

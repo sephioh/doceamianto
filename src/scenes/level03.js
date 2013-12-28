@@ -52,7 +52,7 @@ Crafty.scene("level03", function() {
 		new Wordblock({ initialX: 400, initialY: 155, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, full_text: txts.text01, text_size: txtSize }),
 		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, full_text: txts.text02, text_size: txtSize }),
 		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text03.length*txtSize, full_text: txts.text03, text_size: txtSize }),
-		new Wordblock({ initialX: 86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, full_text: txts.text04, text_size: txtSize }),
+		new Wordblock({ initialX:  86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, full_text: txts.text04, text_size: txtSize }),
 		new Wordblock({ initialX: 486, initialY: 424, initialZ: 0, initialH: txtSize, initialW: txts.text05.length*txtSize, full_text: txts.text05, text_size: txtSize }),
 		new Wordblock({ initialX: 366, initialY: 335, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, full_text: txts.text06, text_size: txtSize }),
 		new Wordblock({ initialX: 166, initialY: 399, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, full_text: txts.text07, text_size: txtSize }),

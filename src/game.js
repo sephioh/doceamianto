@@ -141,6 +141,7 @@ window.onload = function() {
 			"src/scenes/level01.js?v="+version+"",
 			"src/scenes/level02.js?v="+version+"",
 			"src/scenes/level03.js?v="+version+"",
+			"src/scenes/level04.js?v="+version+"",
 		];
 		    
 		require(scenes, function(){
@@ -150,13 +151,11 @@ window.onload = function() {
 		});
 		
 		gameContainer.setNextSceneInfo({
-			name: "level03",
+			name: "level04",
 			elements: [
-				"src/entities/amianto03.js",
-				"src/entities/wordblock.js",
-				"src/entities/wordplaceholder.js",
-				"src/effects/glitcheffect.js",
-				"text!src/lang/level03-"+gameContainer.lang+".json"
+				"text!src/scenes/tilemaps/level04.json",
+				"src/components/TiledLevelImporter.js",
+				"src/entities/carlos.js",
 			      ],
 		});
 		
@@ -171,17 +170,6 @@ window.onload = function() {
 			      ]
  		});
 		
-		gameContainer.setNextSceneInfo({
-			name: "level03",
-			elements: [
-				"src/entities/amianto03.js",
-				"src/entities/wordblock.js",
-				"src/entities/wordplaceholder.js",
-				"src/effects/glitcheffect.js",
-				"text!src/lang/level03-"+gameContainer.lang+".json"
-			      ],
-		});
-		
 		gameContainer.setNextSceneInfo({ 
 			name: "level02",
 			elements: [
@@ -191,6 +179,17 @@ window.onload = function() {
 				"src/entities/amianto02.js",
 				"src/entities/obstacle.js",
 				"src/entities/amiantoToBlanche.js"
+			      ],
+		});
+	
+		gameContainer.setNextSceneInfo({
+			name: "level03",
+			elements: [
+				"src/entities/amianto03.js",
+				"src/entities/wordblock.js",
+				"src/entities/wordplaceholder.js",
+				"src/effects/glitcheffect.js",
+				"text!src/lang/level03-"+gameContainer.lang+".json"
 			      ],
 		});
 		
