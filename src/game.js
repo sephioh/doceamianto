@@ -4,14 +4,25 @@ gameContainer = {
 	conf: {},
 	lang: '',
 	scene : '',
+	scenes : [],
 	elementsToLoad : [],
 	loadedStrings : [],
-	setNextSceneInfo : function(sceneInfo) {
-		this.loadedStrings = [],
-		this.scene = sceneInfo.name,
-		this.elementsToLoad = sceneInfo.elements;
+	setSceneInfo : function(sceneInfo) {
+		//this.loadedStrings = [],
+		this.scenes[this.scenes.length] = sceneInfo;
+		
 		return;
-  }
+	},
+	
+	runScene: function(scene) { 
+		this.scene = scene;
+		try {
+			Crafty.scene("loading");
+		} catch(e) {
+			console.error("scene not set")
+		}
+	}
+	
 },
 sc    = [], // container for backbone scene elements
 infc  = [], // container for backbone interface elements
@@ -100,27 +111,30 @@ window.onload = function() {
 					
 					var require_str = '', require_args = '', require_args_count = 0, regElms = [], textElms = [], elements;
 					// build require_args string, if there are texts to load
-					_.each(gameContainer.elementsToLoad, function(ele, i) { 
-						// search for texts, first things to load
-						if( ele.lastIndexOf("text!") !== -1 ) {
-							textElms[require_args_count] = ele;
-							require_args_count++;
-							if(require_args != '')
-								require_args += ', ';
-							require_args += 'arg' + require_args_count.toString();
-						} else	{
-							regElms[regElms.length] = ele;
-						}
-						
-					});
+					_.each(gameContainer.scenes, function(scn) {
+						if(scn.name === gameContainer.scene)
+							_.each(scn.elements, function(ele, i) { 
+								// search for texts, first things to load
+								if( ele.lastIndexOf("text!") !== -1 ) {
+									textElms[require_args_count] = ele;
+									require_args_count++;
+									if(require_args != '')
+										require_args += ', ';
+									require_args += 'arg' + require_args_count.toString();
+								} else	{
+									regElms[regElms.length] = ele;
+								}
+								
+							})
+					})
 					
 					elements = textElms.concat(regElms); // text elements (json,xml,txt,etc) followed by regular elements (js)
 					
 					require_str = 
-					// require elements and execute callback
+					// require elements and pass callback
 					'require(elements, function(' + require_args + ') { ' +
 					// if text files were loaded, add them to gameContainer.loadedStrings array
-					'if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
+					'gameContainer.loadedStrings = []; if (arguments.length) { _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); }); }' +
 					// destroy ellipsis and run the specified scene
 					'sc.ellipsis.destroy(); if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
 					
@@ -134,6 +148,8 @@ window.onload = function() {
 				}
 			);
 		});
+		
+		
 		    
 		// declare all scenes
 		
@@ -143,24 +159,10 @@ window.onload = function() {
 			"src/scenes/level03.js?v="+version+"",
 			"src/scenes/level04.js?v="+version+"",
 		];
-		    
-		require(scenes, function(){
-			/*_.each(scenes,function(s){
-				
-			})*/
-		});
 		
-		gameContainer.setNextSceneInfo({
-			name: "level04",
-			elements: [
-				"text!src/scenes/tilemaps/level04.json",
-				"src/components/TiledLevelImporter.js",
-				"src/entities/carlos.js",
-			      ],
-		});
+		// set scenes' loading parameters (scene name, scene elements to be loaded)
 		
-		/*
-		gameContainer.setNextSceneInfo({ 
+		gameContainer.setSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
@@ -170,7 +172,7 @@ window.onload = function() {
 			      ]
  		});
 		
-		gameContainer.setNextSceneInfo({ 
+		gameContainer.setSceneInfo({ 
 			name: "level02",
 			elements: [
 				"text!src/scenes/tilemaps/level02.json", 
@@ -182,7 +184,7 @@ window.onload = function() {
 			      ],
 		});
 	
-		gameContainer.setNextSceneInfo({
+		gameContainer.setSceneInfo({
 			name: "level03",
 			elements: [
 				"src/entities/amianto03.js",
@@ -193,10 +195,21 @@ window.onload = function() {
 			      ],
 		});
 		
-		*/
+		gameContainer.setSceneInfo({
+			name: "level04",
+			elements: [
+				"text!src/scenes/tilemaps/level04.json",
+				"src/components/TiledLevelImporter.js",
+				"src/entities/carlos.js",
+			      ],
+		});
 		
-		// play the loading scene
-		Crafty.scene("loading");
+		require(scenes, function(){
+			var sceneArg = utils.getUrlVars()['scene'];
+			sceneArg = sceneArg?sceneArg:"level01";
+			gameContainer.runScene(sceneArg);
+		});
+	
 	});
 
 };

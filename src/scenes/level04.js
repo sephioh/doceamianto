@@ -96,5 +96,5 @@ Crafty.scene("level04", function() {
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
-	assets.removeAudio("level02");
+	resources.removeAudio("level04");
 });

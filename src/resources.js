@@ -185,7 +185,14 @@ Resources = Backbone.Model.extend({
 		},
 		level04: {
 			'images' : {
-				
+				'player' : {
+					'file' : 'sheet_carlos.png',
+					'tile' : 92,
+					'tileh' : 100,
+					'elements': {
+						'carlos' : [0, 0]
+					}
+				},
 			},
 			'audio' : {
 			  
