@@ -1,25 +1,27 @@
 gameContainer = {
+  
 	env : 'dev',
 	gameVersion : '0.0.1',
 	conf: {},
 	lang: '',
 	scene : '',
 	scenes : [],
-	elementsToLoad : [],
 	loadedStrings : [],
+	
 	setSceneInfo : function(sceneInfo) {
 		//this.loadedStrings = [],
 		this.scenes[this.scenes.length] = sceneInfo;
 		
-		return;
+		return this;
 	},
 	
 	runScene: function(scene) { 
 		this.scene = scene;
 		try {
 			Crafty.scene("loading");
+			return this;
 		} catch(e) {
-			console.error("scene not set")
+			console.error(e);
 		}
 	}
 	
@@ -89,7 +91,7 @@ window.onload = function() {
 			sc['ellipsis'] = Crafty.e("2D, Canvas, Text");
 			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
 			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-			sc.ellipsis.attr({ x: (Crafty.viewport.width/2)-39, y: 500, w: 78, h: 50,  z: 1000 })
+			sc.ellipsis.attr({ x: Crafty.viewport.width/2, y: 500, w: 78, h: 50,  z: 1000 })
 				.textColor(ellipsisColor)
 				.textFont({ weight: 'bold', family: 'Arial', size : '50px', family: 'Perfect_dos_vga_437' })
 				.text(". . . ")
@@ -97,10 +99,12 @@ window.onload = function() {
 					this.eFrames++;
 					if(this.eFrames === this.nFrames) {
 						this.eFrames = 0;
+						
 						if(this._text === ". . . ") {
-							this.text("");
+							this.text("")
 						} else {
-							this.text(this._text + ". ");
+							this.text(this._text + ". ")
+							    .attr({ x: this._x - this._w/2 });
 						}
 					}
 				});
@@ -124,9 +128,8 @@ window.onload = function() {
 								} else	{
 									regElms[regElms.length] = ele;
 								}
-								
-							})
-					})
+							});
+					});
 					
 					elements = textElms.concat(regElms); // text elements (json,xml,txt,etc) followed by regular elements (js)
 					
@@ -134,7 +137,7 @@ window.onload = function() {
 					// require elements and pass callback
 					'require(elements, function(' + require_args + ') { ' +
 					// if text files were loaded, add them to gameContainer.loadedStrings array
-					'gameContainer.loadedStrings = []; if (arguments.length) { _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); }); }' +
+					'gameContainer.loadedStrings = []; if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
 					// destroy ellipsis and run the specified scene
 					'sc.ellipsis.destroy(); if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
 					
@@ -162,47 +165,42 @@ window.onload = function() {
 		
 		// set scenes' loading parameters (scene name, scene elements to be loaded)
 		
-		gameContainer.setSceneInfo({ 
-			name: "level01",
-			elements: [
-				"src/components/TweenColor.js",
-				"src/entities/amianto01.js",
-				"src/entities/darkheart.js",
-				"src/entities/redheart.js"
-			      ]
- 		});
-		
-		gameContainer.setSceneInfo({ 
-			name: "level02",
-			elements: [
-				"text!src/scenes/tilemaps/level02.json", 
-				"src/components/TiledLevelImporter.js",
-				"src/entities/diamond.js",
-				"src/entities/amianto02.js",
-				"src/entities/obstacle.js",
-				"src/entities/amiantoToBlanche.js"
-			      ],
-		});
-	
-		gameContainer.setSceneInfo({
-			name: "level03",
-			elements: [
-				"src/entities/amianto03.js",
-				"src/entities/wordblock.js",
-				"src/entities/wordplaceholder.js",
-				"src/effects/glitcheffect.js",
-				"text!src/lang/level03-"+gameContainer.lang+".json"
-			      ],
-		});
-		
-		gameContainer.setSceneInfo({
-			name: "level04",
-			elements: [
-				"text!src/scenes/tilemaps/level04.json",
-				"src/components/TiledLevelImporter.js",
-				"src/entities/carlos.js",
-			      ],
-		});
+		gameContainer.
+		    setSceneInfo({ 
+			    name: "level01",
+			    elements: [
+				    "src/components/TweenColor.js",
+				    "src/entities/amianto01.js",
+				    "src/entities/darkheart.js",
+				    "src/entities/redheart.js"
+				  ]
+		    }).setSceneInfo({ 
+			    name: "level02",
+			    elements: [
+				    "text!src/scenes/tilemaps/level02.json", 
+				    "src/components/TiledLevelImporter.js",
+				    "src/entities/diamond.js",
+				    "src/entities/amianto02.js",
+				    "src/entities/obstacle.js",
+				    "src/entities/amiantoToBlanche.js"
+				  ],
+		    }).setSceneInfo({
+			    name: "level03",
+			    elements: [
+				    "src/entities/amianto03.js",
+				    "src/entities/wordblock.js",
+				    "src/entities/wordplaceholder.js",
+				    "src/effects/glitcheffect.js",
+				    "text!src/lang/level03-"+gameContainer.lang+".json"
+				  ],
+		    }).setSceneInfo({
+			    name: "level04",
+			    elements: [
+				    "text!src/scenes/tilemaps/level04.json",
+				    "src/components/TiledLevelImporter.js",
+				    "src/entities/carlos.js",
+				  ],
+		    });
 		
 		require(scenes, function(){
 			var sceneArg = utils.getUrlVars()['scene'];
