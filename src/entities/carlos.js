@@ -220,13 +220,12 @@ Carlos = BaseEntity.extend({
 				    }
 				    //this.animate("StandingStill", -1);
 		    })
-		    //.reel("AmiantoStandingUp", 2600, 0, 0, 12)
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 1, 0, 4)
 		    .reel("Shooting", 500, 0, 1, 4)
 		    .reel("BeingHit", 500, 4, 2, 1)
-		    .reel("JumpingUp", 500, [[9,1],[9,1],[10,1]])
-		    .reel("JumpingFalling", 500, [[11,1],[11,1],[12,1]])
+		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
+		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
 		    //.reel("JumpingUpShooting", 500, [[9,1],[9,1],[10,1]])
 		    //.reel("JumpingFallingShooting", 500, [[11,1],[11,1],[12,1]])
 		    .reel("ShotFromBehind", 750, 0, 4, 5)
