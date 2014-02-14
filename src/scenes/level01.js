@@ -162,20 +162,8 @@ Crafty.scene("level01", function() {
 			sc.bckgrndFade
 				.tween({ alpha: 1.0 }, 20) // tween bckgrndFade making it cover everything
 				.bind("TweenEnd", function() {
-					// set level02 scene info
-					gameContainer.setNextSceneInfo({ 
-					  name: "level02",
-					  elements: [
-						  "text!src/scenes/tilemaps/level02.json", 
-						  "src/components/TiledLevelImporter.js",
-						  "src/entities/diamond.js",
-						  "src/entities/amianto02.js",
-						  "src/entities/obstacle.js",
-						  "src/entities/amiantoToBlanche.js"
-						],
-					});
 					// run level02 scene
-					Crafty.scene("loading",{ backgroundColor: "#000000", ellipsisColor:"#FFFFFF" });
+					Crafty.runScene("level02", { backgroundColor: "#000000", ellipsisColor:"#FFFFFF" });
 				});	
 		}, 5000);
 		
@@ -186,7 +174,7 @@ Crafty.scene("level01", function() {
 }, function() { 											// executed after scene() is called within the present scene
 	//Crafty.heartComing = undefined;							// clear level functions held in Crafty obj
 	//Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
-	assets.removeAudio("level01");
+	resources.removeAudio("level01");
 	sc.delays.destroy();									// destroy delays
 	sc = [];												// clear scene
 	Crafty("2D").destroy();									// Destroy all entities with 2D component

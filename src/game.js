@@ -15,11 +15,10 @@ gameContainer = {
 		return this;
 	},
 	
-	runScene: function(scene) { 
+	runScene: function(scene, options) { 
 		this.scene = scene;
 		try {
-			Crafty.scene("loading");
-			return this;
+			Crafty.scene("loading", options);
 		} catch(e) {
 			console.error(e);
 		}
@@ -115,9 +114,9 @@ window.onload = function() {
 					
 					var require_str = '', require_args = '', require_args_count = 0, regElms = [], textElms = [], elements;
 					// build require_args string, if there are texts to load
-					_.each(gameContainer.scenes, function(scn) {
-						if(scn.name === gameContainer.scene)
-							_.each(scn.elements, function(ele, i) { 
+					for(var i = 0, scns = gameContainer.scenes; i<gameContainer.scenes.length; i++) {
+						if(scns[i].name === gameContainer.scene){
+							_.each(scns[i].elements, function(ele, i) { 
 								// search for texts, first things to load
 								if( ele.lastIndexOf("text!") !== -1 ) {
 									textElms[require_args_count] = ele;
@@ -125,11 +124,13 @@ window.onload = function() {
 									if(require_args != '')
 										require_args += ', ';
 									require_args += 'arg' + require_args_count.toString();
-								} else	{
+								} else {
 									regElms[regElms.length] = ele;
 								}
 							});
-					});
+							break;
+						}
+					}
 					
 					elements = textElms.concat(regElms); // text elements (json,xml,txt,etc) followed by regular elements (js)
 					
@@ -139,7 +140,7 @@ window.onload = function() {
 					// if text files were loaded, add them to gameContainer.loadedStrings array
 					'gameContainer.loadedStrings = []; if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
 					// destroy ellipsis and run the specified scene
-					'sc.ellipsis.destroy(); if (gameContainer.scene != undefined) { Crafty.scene(gameContainer.scene); } })';
+					'sc.ellipsis.destroy(); sc = []; if (gameContainer.scene != undefined) Crafty.scene(gameContainer.scene); })';
 					
 					eval( '(' + require_str + ')' );
 				},
@@ -152,8 +153,6 @@ window.onload = function() {
 			);
 		});
 		
-		
-		    
 		// declare all scenes
 		
 		var scenes = [
@@ -167,45 +166,48 @@ window.onload = function() {
 		
 		gameContainer.
 		    setSceneInfo({ 
-			    name: "level01",
-			    elements: [
-				    "src/components/TweenColor.js",
-				    "src/entities/amianto01.js",
-				    "src/entities/darkheart.js",
-				    "src/entities/redheart.js"
-				  ]
+			name: "level01",
+			elements: [
+				"src/components/TweenColor.js",
+				"src/entities/amianto01.js",
+				"src/entities/darkheart.js",
+				"src/entities/redheart.js"
+				]
 		    }).setSceneInfo({ 
-			    name: "level02",
-			    elements: [
-				    "text!src/scenes/tilemaps/level02.json", 
-				    "src/components/TiledLevelImporter.js",
-				    "src/entities/diamond.js",
-				    "src/entities/amianto02.js",
-				    "src/entities/obstacle.js",
-				    "src/entities/amiantoToBlanche.js"
-				  ],
+			name: "level02",
+			elements: [
+				"text!src/scenes/tilemaps/level02.json", 
+				"src/components/TiledLevelImporter.js",
+				"src/entities/diamond.js",
+				"src/entities/amianto02.js",
+				"src/entities/obstacle.js",
+				"src/entities/amiantoToBlanche.js"
+			      ],
 		    }).setSceneInfo({
-			    name: "level03",
-			    elements: [
-				    "src/entities/amianto03.js",
-				    "src/entities/wordblock.js",
-				    "src/entities/wordplaceholder.js",
-				    "src/effects/glitcheffect.js",
-				    "text!src/lang/level03-"+gameContainer.lang+".json"
-				  ],
+			name: "level03",
+			elements: [
+				"src/entities/amianto03.js",
+				"src/entities/wordblock.js",
+				"src/entities/wordplaceholder.js",
+				"src/effects/glitcheffect.js",
+				"text!src/lang/level03-"+gameContainer.lang+".json"
+			      ],
 		    }).setSceneInfo({
-			    name: "level04",
-			    elements: [
-				    "text!src/scenes/tilemaps/level04.json",
-				    "src/components/TiledLevelImporter.js",
-				    "src/entities/carlos.js",
-				  ],
+			name: "level04",
+			elements: [
+				"text!src/scenes/tilemaps/tilemap-level04-1.json",
+				"text!src/scenes/tilemaps/tilemap-level04-2.json",
+				"text!src/scenes/tilemaps/tilemap-level04-3.json",
+				"src/components/TiledLevelImporter.js",
+				"src/entities/carlos.js",
+				"src/entities/areatransition.js",
+				"src/entities/mapsmanager.js",
+			      ],
 		    });
 		
-		require(scenes, function(){
+		require(scenes, function() {
 			var sceneArg = utils.getUrlVars()['scene'];
-			sceneArg = sceneArg?sceneArg:"level01";
-			gameContainer.runScene(sceneArg);
+			gameContainer.runScene(sceneArg?sceneArg:"level01");
 		});
 	
 	});

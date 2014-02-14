@@ -36,15 +36,15 @@ Wordblock = BaseEntity.extend({
 			.onHit('wall', function(hit) {
 				var wordblock = this;
 				for(var i = 0;i<hit.length;i++) {
-					var	worblocksCount = 0, // Number of wordblocks with same full_text of "this" instance
+					var wordblocksCount = 0, // Number of wordblocks with same full_text of "this" instance
 					nWordblockPos = { x: wordblock._x, y:wordblock._y };
 
-					Crafty("wordblock").each(function(){
+					Crafty("wordblock").each(function() {
 						if(wordblock.full_text == this.full_text)
-							worblocksCount += 1;
+							worbdlocksCount += 1;
 					});
 					// If we have 1 wordblock with the word, we create another one
-					if(worblocksCount == 1){
+					if(wordblocksCount == 1) {
 						switch(hit[i].obj.id) {
 							case "left":
 								nWordblockPos.x = Crafty.viewport.width;
@@ -72,7 +72,7 @@ Wordblock = BaseEntity.extend({
 					}
 				}
 			}, function(){
-				if(!this.newly_created){
+				if(!this.newly_created) {
 					if((this._x > Crafty.viewport.width || this._x < 0) ||
 					    (this._y > Crafty.viewport.height || this._y < 0)) {
 						this.destroy();
@@ -81,7 +81,7 @@ Wordblock = BaseEntity.extend({
 					this.newly_created = false;
 				}
 			})
-			.onHit('amianto03',function(hit){
+			.onHit('amianto03', function(hit){
 				var wordblock = this,
 					delta = { x: 0, y:0 };
 
@@ -100,7 +100,7 @@ Wordblock = BaseEntity.extend({
 						}
 					});
 				}
-			},function(){
+			}, function() {
 				this.textColor("#FFFFFF").textFont({ type: "normal" })
 			})
 			.onHit('wordplaceholder',function(hit){

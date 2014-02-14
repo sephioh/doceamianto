@@ -35,6 +35,26 @@ Utils = Backbone.Model.extend({
 		return color;
 	},
 	
+	hashCode: function(str){
+	    var hash = 0;
+	    if (str.length == 0) return hash;
+	    for (i = 0; i < str.length; i++) {
+		char = str.charCodeAt(i);
+		hash = ((hash<<5)-hash)+char;
+		hash = hash & hash; // Convert to 32bit integer
+	    }
+	    return hash;
+	},
+	
+	djb2Code: function(str){
+	    var hash = 5381;
+	    for (i = 0; i < str.length; i++) {
+		char = str.charCodeAt(i);
+		hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+	    }
+	    return hash;
+	},
+	
 	/*
 	* turns a string containing array of bytes to an actual 'bytes' (integer) array
 	* @param str - string
@@ -117,6 +137,6 @@ Utils = Backbone.Model.extend({
 		else {
 			return C;
 		}
-	}
+ 	},
 	
 });

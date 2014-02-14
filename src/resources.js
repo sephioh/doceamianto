@@ -193,6 +193,11 @@ Resources = Backbone.Model.extend({
 						'carlos' : [0, 0]
 					}
 				},
+				'tileset' : {
+					'file' : 'tileset-level04.png',
+					'tile' : 1280,
+					'tileh' : 1298
+				},
 			},
 			'audio' : {
 			  
@@ -213,20 +218,25 @@ Resources = Backbone.Model.extend({
 	createSprite: function(scene,key){
 	    if(key != undefined){
 		element = this.get(scene)['images'][key];
-		if(element['tileh'] == undefined)
+		if(element['tileh'] == undefined && element['elements'])
 		    Crafty.sprite(element['tile'], this.get('imagesFolder')+element['file'], element['elements']);
 		else
+		if(element['elements'])
 		    Crafty.sprite(element['tile'], element['tileh'], this.get('imagesFolder')+element['file'], element['elements']);
+		else 
+		    return false;
 		    
 		return true;
 	    };
 	    var _this = this;	
 	    _.each(this.get(scene)['images'], function(element, k){ 
-		if(element['tileh'] == undefined)
+		if(element['tileh'] == undefined && element['elements'])
 		    Crafty.sprite(element['tile'], _this.get('imagesFolder')+element['file'], element['elements']);
 		else
+		if(element['elements'])
 		    Crafty.sprite(element['tile'], element['tileh'], _this.get('imagesFolder')+element['file'], element['elements']);
 	    });
+	    return true;
 	},
 	    
 	getSpriteData: function(scene,key){
@@ -273,6 +283,6 @@ Resources = Backbone.Model.extend({
 		var n = audElement[0].substr(audElement[0].lastIndexOf('/') + 1);
 		n = n.substring(0, n.lastIndexOf('.'));
 		return n;
-	}
+	},
       
 });
