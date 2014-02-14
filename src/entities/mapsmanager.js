@@ -1,16 +1,17 @@
 
 function MapsManager() {
 
-	maps = [],
-	currentMap = "";
+	var maps = [],
+	currentMap = null;
 	    
 	this.m = function (a) {
 		var map;
-		if (typeof a === 'undefined') {
+		if (typeof a === 'undefined' && currentMap !== null) {
 			a = currentMap;
-		} else if (typeof a === 'number') {
+		} 
+		if (typeof a === 'number') {
 			map = maps[a];
-		}
+		} else
 		if (typeof a === 'string') {
 			for(var i = 0, l = maps.length; i<l; i++) {
 				if(maps[i].properties.name === a) {
@@ -23,8 +24,8 @@ function MapsManager() {
 	},
 	
 	this.addMap = function(){
-		maps.push(Crafty.e("TiledLevel"));
-		return maps[maps.length - 1];
+		currentMap = maps.push(Crafty.e("TiledLevel")) - 1;
+		return this.m();
 	},
 	
 	this.configTiles = function(o) {
@@ -34,7 +35,7 @@ function MapsManager() {
 	this.prepTilesets = function(tm) {
 	    var _this = this;
 	    _.each(tm.tilesets, function(ts){
-	      _this.makeTiles(ts, gameContainer.conf.get('renderType'));
+	      this.prepTileset(ts);
 	    });
 	    return this;
 	},
@@ -79,10 +80,11 @@ function MapsManager() {
 	    return null;
 	},
 	
-	this.switchMap = function(map,side) {
-		
+	this.switchMap = function(map) {
+		var hide = currentMap;
+		currentMap = map;
 		//!TODO Store current map in DB or make its elements invisible
-		this.showMap(currentMap,false); // ?
+		this.showMap(hide,false); // ?
 		
 		//!TODO Show already built map and put character on proper side of it
 		// entrances can be set as component of tiles
@@ -92,10 +94,10 @@ function MapsManager() {
 		
 	},
 	
+	// @param bool - pass false to hide map
 	this.showMap = function(map, bool) {
 		map = this.m(map),
 		bool = typeof bool !== "boolean"?true:bool;
-		
 		Crafty(map.properties.name).each(function(){ this.visible = bool; });
 	
 		return this;

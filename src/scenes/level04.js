@@ -44,8 +44,6 @@ Crafty.scene("level04", function() {
 	Crafty.viewport.clampToEntities = false;
 	Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	
-	console.log(mapObj1.height,mapObj1.tileheight,mapObj1.height*mapObj1.tileheight)
-	
 	sc.transitionAreas = [
 	    new AreaTransition({ 
 	      x: - mapObj1.tilewidth,
@@ -64,18 +62,18 @@ Crafty.scene("level04", function() {
 	      show: mapObj2.properties.name
 	    }),
 	    new AreaTransition({ 
-	      x: mapObj2.x + ((mapObj2.width - 1) * mapObj2.tilewidth),
+	      x: mapObj2.layers[0].x + ((mapObj2.width - 1) * mapObj2.tilewidth),
 	      y: mapObj2.layers[0].y,
-	      h: mapObj2.tilewidth * 2, 
-	      w: mapObj2.height * mapObj2.tileheight,
+	      w: mapObj2.tilewidth * 2, 
+	      h: mapObj2.height * mapObj2.tileheight,
 	      hide: mapObj2.properties.name,
 	      show: mapObj3.properties.name
 	    }),
 	    new AreaTransition({ 
-	      x: mapObj3.x + ((mapObj3.width - 1) * mapObj3.tilewidth),
+	      x: mapObj3.layers[0].x + ((mapObj3.width - 1) * mapObj3.tilewidth),
 	      y: mapObj3.layers[0].y,
-	      h: mapObj3.tilewidth * 2, 
-	      w: mapObj3.height * mapObj3.tileheight,
+	      w: mapObj3.tilewidth * 2, 
+	      h: mapObj3.height * mapObj3.tileheight,
 	      hide: mapObj3.properties.name,
 	      show: null
 	    })

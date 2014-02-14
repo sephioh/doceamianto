@@ -164,8 +164,8 @@ window.onload = function() {
 		
 		// set scenes' loading parameters (scene name, scene elements to be loaded)
 		
-		gameContainer.
-		    setSceneInfo({ 
+		gameContainer
+		    .setSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
