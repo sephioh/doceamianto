@@ -46,33 +46,33 @@ Crafty.scene("level04", function() {
 	
 	sc.transitionAreas = [
 	    new AreaTransition({ 
-	      x: - mapObj1.tilewidth,
+	      x: -1,
 	      y: 0,
-	      w: mapObj1.tilewidth * 2,
+	      w: 2,
 	      h: mapObj1.height * mapObj1.tileheight,
 	      hide: null,
 	      show: null
 	    }),
 	    new AreaTransition({ 
-	      x: (mapObj1.width - 1) * mapObj1.tilewidth,
+	      x: (mapObj1.width * mapObj1.tilewidth) - 1,
 	      y: mapObj1.layers[0].y,
-	      w: mapObj1.tilewidth * 2,
+	      w: 2,
 	      h: mapObj1.height * mapObj1.tileheight,
 	      hide: mapObj1.properties.name,
 	      show: mapObj2.properties.name
 	    }),
 	    new AreaTransition({ 
-	      x: mapObj2.layers[0].x + ((mapObj2.width - 1) * mapObj2.tilewidth),
+	      x: mapObj2.layers[0].x + (mapObj2.width * mapObj2.tilewidth) - 1,
 	      y: mapObj2.layers[0].y,
-	      w: mapObj2.tilewidth * 2, 
+	      w: 2, 
 	      h: mapObj2.height * mapObj2.tileheight,
 	      hide: mapObj2.properties.name,
 	      show: mapObj3.properties.name
 	    }),
 	    new AreaTransition({ 
-	      x: mapObj3.layers[0].x + ((mapObj3.width - 1) * mapObj3.tilewidth),
+	      x: mapObj3.layers[0].x + (mapObj3.width * mapObj3.tilewidth) - 1,
 	      y: mapObj3.layers[0].y,
-	      w: mapObj3.tilewidth * 2, 
+	      w: 2, 
 	      h: mapObj3.height * mapObj3.tileheight,
 	      hide: mapObj3.properties.name,
 	      show: null

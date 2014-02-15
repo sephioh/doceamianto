@@ -22,14 +22,14 @@ Carlos = BaseEntity.extend({
 		//entity['poly'] = new Crafty.polygon([[17,60],[47,38],[77,60],[55,116],[39,116]]);
 		
 		entity
-		    .twoway(model.get('speed'))
+		    .twoway(model.get('speed'),model.get('speed')+(model.get('speed')/2))
 		    .onHit('grnd', function(hit) {
 			    var justHit = false;
 			    
-			    if(this._currentReelId == "JumpingFalling" || 
+			    if((this._currentReelId == "JumpingFalling" || 
 				this._currentReelId == "JumpingUp" || 
 				(this._currentReelId == "Running" && this._falling && this._up) ||
-				(!this.isPlaying("StandingUp") && this._currentReelId == "StandingUp")) {
+				(!this.isPlaying("StandingUp") && this._currentReelId == "StandingUp")) && !this._transiting) {
 				    justHit = true;  
 				    this.animate("StandingStill", -1);
 			    }
@@ -215,7 +215,7 @@ Carlos = BaseEntity.extend({
 			    var k = e.key;
 			    if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 			      (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
-				    if(this.isPlaying("Running")){ 
+				    if(this.isPlaying("Running") && !this._transiting){ 
 					    this.animate("StandingStill"); 
 				    }
 				    //this.animate("StandingStill", -1);

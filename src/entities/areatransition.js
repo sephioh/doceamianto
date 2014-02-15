@@ -40,10 +40,10 @@ AreaTransition = BaseEntity.extend({
 					}
 				}
 				
-				C.animate("Running")
+				C.animate("Running", -1)
 					.tween({ x: C._x + walk }, 1000)
 					.one("TweenEnd", function() {
-						C.pauseAnimation()
+						C.animate("StandingStill", 1)
 						    .enableControl();
 						C._transiting = false;
 					});
