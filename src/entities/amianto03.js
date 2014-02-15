@@ -115,20 +115,58 @@ Amianto03 = BaseEntity.extend({
 					this.newly_created = false;
 				}
 			})
+
 			// Collision with wordblocks
 			.onHit('wordblock', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					if(hit[i].obj.movable){
-						if(hit[i].normal.x < 0 && !this.isPlaying("PushingRight")){
+						// Do pushing animation
+						if(hit[i].normal.x == -1){
 							this.animate("PushingRight");
-						} else if (hit[i].normal.x > 0 && !this.isPlaying("PushingLeft")){
+						} else if (hit[i].normal.x == 1){
 							this.animate("PushingLeft");
+						}
+
+						// Push wordblocks if they are no colliding with another one or wall at its movement direction
+						var wordblock_is_pushable = true,
+							current_wordblock = hit[i],
+							another_wordblocks = hit[i].obj.hit('wordblock'),
+							walls = hit[i].obj.hit('wall');
+
+						// Test if current_block is colliding with another_blocks at its movement direction
+						if (another_wordblocks){
+							for (var j = 0; j < another_wordblocks.length; j++) {
+								if(((current_wordblock.normal.x == another_wordblocks[j].normal.x) ||
+								   (current_wordblock.normal.y == another_wordblocks[j].normal.y)) &&
+									current_wordblock.obj.movable ) {
+									wordblock_is_pushable = false;
+								}
+							}
+						}
+
+						// Test if current_block is colliding with walls at its movement direction
+						if (walls){
+							for (var i = 0; i < walls.length; i++) {
+								if(current_wordblock.normal.y == walls[i].normal.y){
+									wordblock_is_pushable = false;
+								}
+							}
+						}
+
+						// Move wordblock if its possible, or keep amianto at its initial position
+						if(wordblock_is_pushable){
+							current_wordblock.obj.x -= Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
+							current_wordblock.obj.y -= Math.ceil(current_wordblock.normal.y * -current_wordblock.overlap);
+						} else {
+							this.x += Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
+							this.y += Math.ceil(current_wordblock.normal.y * -current_wordblock.overlap);
 						}
 					}
 				}
 			})
+
 			.onHit('blocker', function(hit) {
-				// Stop amianto when she try to go out of scenario
+				// Stop amianto when she try to go out of scenario through corners
 				for (var i = 0; i < hit.length; i++) {
 					this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 					this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
