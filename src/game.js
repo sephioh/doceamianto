@@ -83,7 +83,7 @@ window.onload = function() {
 				if(obj.ellipsisColor)
 					ellipsisColor = obj.ellipsisColor;
 				if(obj.image)
-					Crafty.e("2D, DOM, Image").attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h }).image(obj.image.url);
+					sc['loadingImage'] = Crafty.e("2D, DOM, Image").attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h }).image(obj.image.url);
 			}
 			
 			// set sprites for next scene
@@ -202,6 +202,7 @@ window.onload = function() {
 				//"text!src/scenes/tilemaps/tilemap-level04-2.json",
 				//"text!src/scenes/tilemaps/tilemap-level04-3.json",
 				"src/components/TiledLevelImporter.js",
+				"src/components/Bullet.js",
 				"src/entities/carlos.js",
 				"src/entities/areatransition.js",
 				"src/entities/mapsmanager.js",

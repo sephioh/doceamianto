@@ -208,9 +208,9 @@ Carlos = BaseEntity.extend({
 		    })*/
 		    .bind('KeyDown', function(e){ 
 			    if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
-			      (this.hit('grnd') || this._onStairs) &&
-			      this._currentReelId !== "Shooting")
-				    model._shoot();
+			      (this.hit('grnd') || this._onStairs || this._up) &&
+			      this._currentReelId !== "Shooting" && this._currentReelId !== "JumpingShooting")
+				    model._pullTrigger();
 		      })
 		    .bind('KeyUp', function(e) {
 			    var k = e.key;
@@ -227,8 +227,7 @@ Carlos = BaseEntity.extend({
 		    .reel("WasHit", 500, 4, 2, 1)
 		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
 		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
-		    //.reel("JumpingUpShooting", 500, [[9,1],[9,1],[10,1]])
-		    //.reel("JumpingFallingShooting", 500, [[11,1],[11,1],[12,1]])
+		    .reel("JumpingShooting", 500, 0, 3, 5)
 		    .reel("ShotFromBehind", 750, 0, 4, 5)
 		    .setName('Player')
 		    .bind('Moved', function(prevPos) {
@@ -259,7 +258,7 @@ Carlos = BaseEntity.extend({
 			      case "up" : 
 				if(this._currentReelId != "JumpingUp" &&
 				  (this.isPlaying("StandingStill") || 
-				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling")))
+				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && this._currentReelId != "JumpingShooting")))
 					this.animate("JumpingUp");
 				break;
 			      case "down" : 
@@ -287,7 +286,8 @@ Carlos = BaseEntity.extend({
 				}    
 				break;
 		      }
-		    });												  
+		    });	
+		entity._canShoot = true;
 		model.set({'entity' : entity});
 		    
 	},	
@@ -338,34 +338,50 @@ Carlos = BaseEntity.extend({
 		}
 	},
 	
-	_shoot: function() { 
-		var ent = this.getEntity(); 
-		ent.animate("Shooting",1)
-		    .bind("FrameChange",function(o){
-			if(o.currentFrame == 3) {
-				var bullet = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color, Collision, Tween, bullet")
-				    .attr({ x: ent._x, y: ent._y+23, w: 1, h: 1, z: ent._z+1 })
-				    .color("#FF0000");
-				if(ent._flipX) {
-					bullet.x += 30;
-					bullet.tween({ x: bullet._x - 400 }, 500)
-					    .one("TweenEnd", function(){
-						bullet.destroy();
-					    });
-				}else{
-					bullet.x += 67;
-					bullet.tween({ x: bullet._x + 400 }, 500)
-					    .one("TweenEnd", function(){
-						bullet.destroy();
-					    });
+	_pullTrigger : function() { 
+		var ent = this.getEntity(), model = this; 
+		if(ent._canShoot) {
+			var bullet = Crafty.e("Bullet, playerBullet"),
+				bReach;
+			if(!ent._up){
+			  ent.disableControl()
+			    .animate("Shooting",1)
+			    .bind("FrameChange",function(o){
+				if(o.currentFrame == 3) {
+					model._fire.call(this,bullet);
 				}
+			      })
+			    .one("AnimationEnd", function(){ 
+				this.unbind("FrameChange")
+				    .animate("StandingStill",1)
+				    .enableControl();
+			    });
+			} else {
+			  ent.animate("JumpingShooting",1)
+			    .bind("FrameChange",function(o){
+				if(o.currentFrame == 3) {
+					model._fire.call(this,bullet);
+				}
+			      })
+			    .one("AnimationEnd", function(){ 
+				this.unbind("FrameChange")
+				    .animate("JumpingFalling",1);
+			    });
 			}
-		      })
-		    .one("AnimationEnd", function(){ 
-			this.unbind("FrameChange")
-			    .animate("StandingStill",1); 
-		    });
-		
+		}
+	},
+	
+	_fire: function(bullet){
+		var reach;
+		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z+1 });
+		if(this._flipX) {
+			bullet.x += 30;
+			reach = -400;
+		} else {
+			bullet.x += 67;
+			reach = 400;
+		}
+		bullet.shoot({ x: bullet._x + reach });
 	}
 	
 });

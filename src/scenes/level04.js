@@ -25,19 +25,13 @@ Crafty.scene("level04", function() {
 	sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
-		    sc.mm.configTiles(o);
+		    Crafty("upStairs").each(function() { 
+			    this.collision(new Crafty.polygon([[1,32],[32,1]]));
+			}),
+		    Crafty("downStairs").each(function() { 
+			    this.collision(new Crafty.polygon([[1,1],[32,32]]));
+		    });
 		    sc.player.getEntity().gravity();
-		    /*sc.mm.addMap()
-			.one("TiledLevelLoaded", function(o) {
-				sc.mm.configTiles(o);
-				
-				sc.mm.addMap()
-				    .one("TiledLevelLoaded", function(o) {
-					      sc.mm.configTiles(o);
-				      })
-				    .buildTiledLevel(mapObj3, gameContainer.conf.get('renderType'), false);
-			})
-			.buildTiledLevel(mapObj2, gameContainer.conf.get('renderType'), false);*/
 	    })
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
 		
@@ -45,9 +39,7 @@ Crafty.scene("level04", function() {
 	Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	
 	var ls = mapObj1.layers;
-	
-	//console.log(((ls[2].properties.lInitialX + ls[2].properties.lWidth) * mapObj1.tilewidth));
-	
+		
 	sc.transitionAreas = [
 	    new AreaTransition({ 
 	      x: ((ls[0].properties.lInitialX + ls[0].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
