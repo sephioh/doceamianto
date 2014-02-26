@@ -162,50 +162,7 @@ Carlos = BaseEntity.extend({
 					    Crafty.trigger("AmiantoReachedLightArea");
 				    }
 			    }
-		      })
-		    .onHit('obstacle', function(hit) {
-			    for (var i = 0; i < hit.length; i++) {
-				    // If collision is horizontally
-				    if(hit[i].normal.x != 0) {
-					    if(hit[i].obj.movable && 		  // if obstacle didnt fall into water and
-						!this._up &&                  // Amianto is not jumping and
-						!model.get('withDiamond')){  // Amianto isn't holding the diamond
-							    //this.x += (hit[i].normal.x * -hit[i].overlap);
-							    hit[i].obj.x -= (hit[i].normal.x * -hit[i].overlap);
-							    model._setSpeed(1, false);
-							    if(this._currentReelId != "AmiantoPushing")
-								    this.animate("AmiantoPushing", -1);
-							    this.pushingObstacle = true;
-							    hit[i].obj.wasMoved = true;
-					    } else if(this._up){
-						    this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-						    this.pushingObstacle = false;
-					    } else if(!hit[i].obj.movable || model.get('withDiamond')){
-						    this.pushingObstacle = false;
-						    this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-					    } else {
-						    // Amianto dont cross the obstacle at x axis, she dont
-						    // cross y axis because obstacle has grnd component
-						    this.x += Math.ceil(hit[i].normal.y * -hit[i].overlap);
-						    this.pushingObstacle = false;
-					    }
-				    } else {
-					    this.pushingObstacle = false;
-					    model._setSpeed(model.get('startingSpeed'), false);
-				    }
-			    }
-		    }, function() {
-			    if(!this.isDown('LEFT_ARROW') && !this.isDown('RIGHT_ARROW') && !this.isDown('A') && !this.isDown('D') && !this.isDown('Q')) {
-				    if(model.get('withDiamond')){
-					    var diamond = model.get('withDiamond').toString();
-					    this.animate("AmiantoStandingStill" + diamond, -1);
-				    } else {
-					    this.animate("AmiantoStandingStill0", -1);
-				    }
-			    }
-			    model._setSpeed(model.get('startingSpeed'), false);
-			    this.pushingObstacle = false;
-		    })*/
+		      })*/
 		    .bind('KeyDown', function(e){ 
 			    if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
 			      (this.hit('grnd') || this._onStairs || this._up) &&
@@ -341,8 +298,7 @@ Carlos = BaseEntity.extend({
 	_pullTrigger : function() { 
 		var ent = this.getEntity(), model = this; 
 		if(ent._canShoot) {
-			var bullet = Crafty.e("Bullet, playerBullet"),
-				bReach;
+			var bullet = Crafty.e("Bullet, playerBullet");
 			if(!ent._up){
 			  ent.disableControl()
 			    .animate("Shooting",1)
