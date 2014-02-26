@@ -34,11 +34,9 @@ Crafty.c("TiledLevel", {
       return null;
     },
     makeLayer: function(layer) {
-      var i, lData, lHeight, lWidth, lZ, lOpacity, lX, lY, lVisible, layerDetails, tDatum, tile, _i, _len, mName;
-      lData = layer.data, lWidth = layer.width, lHeight = layer.height, 
-	lX = layer.x, lY = layer.y, lZ = layer.z, lOpacity = layer.opacity, lVisible = layer.visible, mName = this.properties.name;
-      //var i, lData, lHeight, lWidth, layerDetails, tDatum, tile, _i, _len;
-      //lData = layer.data, lWidth = layer.width, lHeight = layer.height;
+      var i, lData, lHeight, lWidth, lZ, lOpacity, lX, lY, lVisible, layerDetails, tDatum, tile, _i, _len, lName, props;
+      lData = layer.data, lWidth = layer.width, lHeight = layer.height, lX = layer.x, lY = layer.y, 
+	lOpacity = layer.opacity, lName = layer.name, props = layer.properties; lVisible = props.lVisible, lZ = props.lInitialZ;
       layerDetails = {
         tiles: [],
         width: lWidth,
@@ -46,22 +44,26 @@ Crafty.c("TiledLevel", {
 	x: lX,
 	y: lY,
 	z: lZ,
+	name: lName,
 	visible: lVisible,
-	opacity: lOpacity
+	opacity: lOpacity,
+	properties: props
       };
       for (i = _i = 0, _len = lData.length; _i < _len; i = ++_i) {
         tDatum = lData[i];
         if (tDatum) {
           tile = Crafty.e("tile" + tDatum);
           tile.x = lX + ((i % lWidth) * tile.w),
-          tile.y = lY + ((i / lWidth | 0) * tile.h),
-	  tile.visible = lVisible;  
-	  if (lZ)
-	    tile.z = lZ;
+          tile.y = lY + ((i / lWidth | 0) * tile.h);
 	  if (lOpacity!==1)
 	    tile.alpha = lOpacity;
-	  if (mName)
-	    tile.addComponent(mName);
+	  if (lName)
+	    tile.addComponent(lName);
+	  if (lVisible !== undefined)
+	    tile.visible = lVisible;  
+	  if (lZ)
+	    tile.z = lZ;
+	  
           layerDetails.tiles[i] = tile;
         }
       }

@@ -26,10 +26,10 @@ Carlos = BaseEntity.extend({
 		    .onHit('grnd', function(hit) {
 			    var justHit = false;
 			    
-			    if((this._currentReelId == "JumpingFalling" || 
+			    if(this._currentReelId == "JumpingFalling" || 
 				this._currentReelId == "JumpingUp" || 
 				(this._currentReelId == "Running" && this._falling && this._up) ||
-				(!this.isPlaying("StandingUp") && this._currentReelId == "StandingUp")) && !this._transiting) {
+				(!this.isPlaying("StandingUp") && this._currentReelId == "StandingUp")) {
 				    justHit = true;  
 				    this.animate("StandingStill", -1);
 			    }
@@ -208,7 +208,8 @@ Carlos = BaseEntity.extend({
 		    })*/
 		    .bind('KeyDown', function(e){ 
 			    if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
-			      (this.hit('grnd') || this._onStairs))
+			      (this.hit('grnd') || this._onStairs) &&
+			      this._currentReelId !== "Shooting")
 				    model._shoot();
 		      })
 		    .bind('KeyUp', function(e) {
@@ -222,7 +223,7 @@ Carlos = BaseEntity.extend({
 		    })
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 1, 0, 4)
-		    .reel("Shooting", 500, 0, 1, 4)
+		    .reel("Shooting", 500, 0, 1, 5)
 		    .reel("WasHit", 500, 4, 2, 1)
 		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
 		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
@@ -234,27 +235,27 @@ Carlos = BaseEntity.extend({
 		      
 			    // controlling animations
 			    
-			    if(this.isPlaying("StandingStill")) this.pauseAnimation();
-				    
-			    var moved = "";
+		    if(this.isPlaying("StandingStill")) this.pauseAnimation();
 			    
-			    // if this moved right
-			    if(this._x > prevPos.x)
-				    moved = "right";
-			    else
-			    // if this moved up
-			    if(this._y < prevPos.y) 
-				    moved = "up";
-			    else
-			    // if this moved left
-			    if(this._x < prevPos.x)
-				    moved = "left";
-			    else
-			    // if this moved down
-			    if(this._y > prevPos.y) 
-				    moved = "down";
-			    
-			    switch(moved) {
+		    var moved = "";
+		    
+		    // if this moved right
+		    if(this._x > prevPos.x)
+			    moved = "right";
+		    else
+		    // if this moved up
+		    if(this._y < prevPos.y) 
+			    moved = "up";
+		    else
+		    // if this moved left
+		    if(this._x < prevPos.x)
+			    moved = "left";
+		    else
+		    // if this moved down
+		    if(this._y > prevPos.y) 
+			    moved = "down";
+			  
+		    switch(moved) {
 			      case "up" : 
 				if(this._currentReelId != "JumpingUp" &&
 				  (this.isPlaying("StandingStill") || 
@@ -277,8 +278,8 @@ Carlos = BaseEntity.extend({
 				    
 				break;
 			      case "right": 
-				if(this._flipX) 							// if moved right and is flipped 
-					this.unflip("X");					// unflip sprite
+				if(this._flipX) 				// if moved right and is flipped 
+					this.unflip("X");			// unflip sprite
 				if((!this.isPlaying("Running") && !this._up) &&
 				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
 					this.animate("Running", -1);
@@ -338,6 +339,32 @@ Carlos = BaseEntity.extend({
 	},
 	
 	_shoot: function() { 
+		var ent = this.getEntity(); 
+		ent.animate("Shooting",1)
+		    .bind("FrameChange",function(o){
+			if(o.currentFrame == 3) {
+				var bullet = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color, Collision, Tween, bullet")
+				    .attr({ x: ent._x, y: ent._y+23, w: 1, h: 1, z: ent._z+1 })
+				    .color("#FF0000");
+				if(ent._flipX) {
+					bullet.x += 30;
+					bullet.tween({ x: bullet._x - 400 }, 500)
+					    .one("TweenEnd", function(){
+						bullet.destroy();
+					    });
+				}else{
+					bullet.x += 67;
+					bullet.tween({ x: bullet._x + 400 }, 500)
+					    .one("TweenEnd", function(){
+						bullet.destroy();
+					    });
+				}
+			}
+		      })
+		    .one("AnimationEnd", function(){ 
+			this.unbind("FrameChange")
+			    .animate("StandingStill",1); 
+		    });
 		
 	}
 	

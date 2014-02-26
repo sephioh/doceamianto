@@ -28,7 +28,7 @@ function MapsManager() {
 		return this.m();
 	},
 	
-	this.configTiles = function(o) {
+	this.configTiles = function(o,callback) {
 		console.log("carregado ", o);
 	},
 	
@@ -103,8 +103,13 @@ function MapsManager() {
 		return this;
 	},
 	
+	this.showMapPart = function(pName, bool){
+		bool = typeof bool !== "boolean"?true:bool;
+		Crafty(pName).each(function(){ this.visible = bool; });
+	}
+	
 	this.getCurrentMap = function() {
-	  
+		return 
 	}
 	
 }

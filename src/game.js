@@ -82,6 +82,8 @@ window.onload = function() {
 					Crafty.audio.play(obj.soundToPlay, -1);
 				if(obj.ellipsisColor)
 					ellipsisColor = obj.ellipsisColor;
+				if(obj.image)
+					Crafty.e("2D, DOM, Image").attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h }).image(obj.image.url);
 			}
 			
 			// set sprites for next scene
@@ -195,9 +197,10 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level04",
 			elements: [
-				"text!src/scenes/tilemaps/tilemap-level04-1.json",
-				"text!src/scenes/tilemaps/tilemap-level04-2.json",
-				"text!src/scenes/tilemaps/tilemap-level04-3.json",
+				"text!src/scenes/tilemaps/level04-2.json",
+				//"text!src/scenes/tilemaps/tilemap-level04-1.json",
+				//"text!src/scenes/tilemaps/tilemap-level04-2.json",
+				//"text!src/scenes/tilemaps/tilemap-level04-3.json",
 				"src/components/TiledLevelImporter.js",
 				"src/entities/carlos.js",
 				"src/entities/areatransition.js",
@@ -207,7 +210,7 @@ window.onload = function() {
 		
 		require(scenes, function() {
 			var sceneArg = utils.getUrlVars()['scene'];
-			gameContainer.runScene(sceneArg?sceneArg:"level01");
+			gameContainer.runScene(sceneArg?sceneArg:"level01",{ image: { url: "web/images/prt_279x291_1376776673.gif", w:800, h:600 } });
 		});
 	
 	});
