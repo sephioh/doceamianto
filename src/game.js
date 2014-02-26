@@ -210,7 +210,7 @@ window.onload = function() {
 		
 		require(scenes, function() {
 			var sceneArg = utils.getUrlVars()['scene'];
-			gameContainer.runScene(sceneArg?sceneArg:"level01",{ image: { url: "web/images/prt_279x291_1376776673.gif", w:800, h:600 } });
+			gameContainer.runScene(sceneArg?sceneArg:"level01");
 		});
 	
 	});
