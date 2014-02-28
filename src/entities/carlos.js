@@ -2,7 +2,7 @@ Carlos = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 448 },
+	  'startingPoint' : { x: 500, y: 548 },
 	  'width' : 92,
 	  'height' : 100,
 	  'withDiamond' : 0,
@@ -16,7 +16,8 @@ Carlos = BaseEntity.extend({
 				y: model.get('startingPoint').y, 
 				w: model.get('width'), 
 				h: model.get('height'), 
-				z: 301
+				z: 301,
+				canShoot: true
 			});
 			//.multiway(model.get('startingSpeed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
 		//entity['poly'] = new Crafty.polygon([[17,60],[47,38],[77,60],[55,116],[39,116]]);
@@ -166,8 +167,8 @@ Carlos = BaseEntity.extend({
 		    .bind('KeyDown', function(e){ 
 			    if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
 			      (this.hit('grnd') || this._onStairs || this._up) &&
-			      this._currentReelId !== "Shooting" && this._currentReelId !== "JumpingShooting")
-				    model._pullTrigger();
+			      this._currentReelId != "Shooting" && this._currentReelId != "JumpingShooting")
+				    model.pullTrigger();
 		      })
 		    .bind('KeyUp', function(e) {
 			    var k = e.key;
@@ -244,7 +245,6 @@ Carlos = BaseEntity.extend({
 				break;
 		      }
 		    });	
-		entity._canShoot = true;
 		model.set({'entity' : entity});
 		    
 	},	
@@ -295,9 +295,9 @@ Carlos = BaseEntity.extend({
 		}
 	},
 	
-	_pullTrigger : function() { 
+	pullTrigger : function() { 
 		var ent = this.getEntity(), model = this; 
-		if(ent._canShoot) {
+		if(ent.canShoot) {
 			var bullet = Crafty.e("Bullet, playerBullet");
 			if(!ent._up){
 			  ent.disableControl()
@@ -327,6 +327,7 @@ Carlos = BaseEntity.extend({
 		}
 	},
 	
+	// must be called from within entity context
 	_fire: function(bullet){
 		var reach;
 		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z+1 });

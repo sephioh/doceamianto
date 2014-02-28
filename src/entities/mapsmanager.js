@@ -109,7 +109,7 @@ function MapsManager() {
 	}
 	
 	this.getCurrentMap = function() {
-		return 
+		return this.m(currentMap);
 	}
 	
 }

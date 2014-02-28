@@ -198,6 +198,20 @@ Resources = Backbone.Model.extend({
 					'tile' : 1280,
 					'tileh' : 1298
 				},
+				'figurants':{
+					'file':'sheet_figurants04.png',
+					'tile' : 106,
+					'tileh': 123.333333333,
+					'elements': {
+						'Figurant0': [0,1],
+						'Figurant1': [0,3],
+						'Figurant2': [0,5],
+						'Figurant3': [0,7],
+						'Figurant4': [0,9],
+						'Figurant5': [0,11]
+					}
+				  
+				}
 			},
 			'audio' : {
 			  

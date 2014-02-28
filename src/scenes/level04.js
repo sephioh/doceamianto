@@ -20,18 +20,20 @@ Crafty.scene("level04", function() {
 	sc['transitionAreas'] = [],
 	sc['delimiters'] = [],
 	sc['checkpoints'] = [],
-	sc['obstacles'] = [];
+	sc['obstacles'] = [],
+	sc['figurants'] = [];
 
 	sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
 		    Crafty("upStairs").each(function() { 
-			    this.collision(new Crafty.polygon([[1,32],[32,1]]));
-			}),
+			  this.collision(new Crafty.polygon([[1,32],[32,1]]));
+		    }),
 		    Crafty("downStairs").each(function() { 
-			    this.collision(new Crafty.polygon([[1,1],[32,32]]));
+			  this.collision(new Crafty.polygon([[1,1],[32,32]]));
 		    });
 		    sc.player.getEntity().gravity();
+		    
 	    })
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
 		
@@ -39,6 +41,33 @@ Crafty.scene("level04", function() {
 	Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	
 	var ls = mapObj1.layers;
+	
+	sc.figurants = [
+		Crafty.e("Figurant").setFace(0).attr({ 
+		  x: sc.player.getEntity()._x+400, 
+		  y: sc.player.getEntity()._y, 
+		  z: sc.player.getEntity()._z }),
+		  Crafty.e("Figurant").setFace(1).attr({ 
+		  x: sc.player.getEntity()._x+100, 
+		  y: sc.player.getEntity()._y, 
+		  z: sc.player.getEntity()._z }),
+		  Crafty.e("Figurant").setFace(2).attr({ 
+		  x: sc.player.getEntity()._x-200, 
+		  y: sc.player.getEntity()._y, 
+		  z: sc.player.getEntity()._z }),
+		  Crafty.e("Figurant").setFace(3).attr({ 
+		  x: sc.player.getEntity()._x+600, 
+		  y: sc.player.getEntity()._y, 
+		  z: sc.player.getEntity()._z }),
+		  Crafty.e("Figurant").setFace(4).attr({ 
+		  x: sc.player.getEntity()._x-400, 
+		  y: sc.player.getEntity()._y, 
+		  z: sc.player.getEntity()._z }),
+		  Crafty.e("Figurant").setFace(5).attr({ 
+		  x: sc.player.getEntity()._x+200, 
+		  y: sc.player.getEntity()._y, 
+		  z: sc.player.getEntity()._z })
+	]
 		
 	sc.transitionAreas = [
 	    new AreaTransition({ 

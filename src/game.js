@@ -4,7 +4,7 @@ gameContainer = {
 	gameVersion : '0.0.1',
 	conf: {},
 	lang: '',
-	scene : '',
+	scene : undefined,
 	scenes : [],
 	loadedStrings : [],
 	
@@ -83,7 +83,9 @@ window.onload = function() {
 				if(obj.ellipsisColor)
 					ellipsisColor = obj.ellipsisColor;
 				if(obj.image)
-					sc['loadingImage'] = Crafty.e("2D, DOM, Image").attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h }).image(obj.image.url);
+					sc['loadingImage'] = Crafty.e("2D, DOM, Image")
+					  .attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h })
+					  .image(obj.image.url);
 			}
 			
 			// set sprites for next scene
@@ -142,7 +144,7 @@ window.onload = function() {
 					// if text files were loaded, add them to gameContainer.loadedStrings array
 					'gameContainer.loadedStrings = []; if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
 					// destroy ellipsis and run the specified scene
-					'sc.ellipsis.destroy(); sc = []; if (gameContainer.scene != undefined) Crafty.scene(gameContainer.scene); })';
+					'sc.ellipsis.destroy(); sc = []; if (gameContainer.scene !== undefined) Crafty.scene(gameContainer.scene); })';
 					
 					eval( '(' + require_str + ')' );
 				},
@@ -203,6 +205,7 @@ window.onload = function() {
 				//"text!src/scenes/tilemaps/tilemap-level04-3.json",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Bullet.js",
+				"src/components/Figurant.js",
 				"src/entities/carlos.js",
 				"src/entities/areatransition.js",
 				"src/entities/mapsmanager.js",
@@ -210,8 +213,13 @@ window.onload = function() {
 		    });
 		
 		require(scenes, function() {
-			var sceneArg = utils.getUrlVars()['scene'];
-			gameContainer.runScene(sceneArg?sceneArg:"level01");
+			var sceneArg;
+			if(gameContainer.env == "dev") 
+				sceneArg = utils.getUrlVars()['scene'],
+				sceneArg = sceneArg?sceneArg:"level01";
+			else
+				sceneArg = "level01";
+			gameContainer.runScene(sceneArg);
 		});
 	
 	});
