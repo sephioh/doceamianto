@@ -203,12 +203,12 @@ Resources = Backbone.Model.extend({
 					'tile' : 106,
 					'tileh': 123.333333333,
 					'elements': {
-						'Figurant0': [0,1],
-						'Figurant1': [0,3],
-						'Figurant2': [0,5],
-						'Figurant3': [0,7],
-						'Figurant4': [0,9],
-						'Figurant5': [0,11]
+						'figurant0': [0,1],
+						'figurant1': [0,3],
+						'figurant2': [0,5],
+						'figurant3': [0,7],
+						'figurant4': [0,9],
+						'figurant5': [0,11]
 					}
 				  
 				}

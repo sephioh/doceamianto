@@ -16,6 +16,7 @@ Crafty.scene("level04", function() {
 	
 	sc['player'] = new Carlos(),
 	sc['mm'] = new MapsManager(),
+	sc['map'] = Crafty.e("2D, Canvas, TiledMapBuilder"),
 	sc['delays'] = Crafty.e("Delay"),
 	sc['transitionAreas'] = [],
 	sc['delimiters'] = [],
@@ -23,7 +24,8 @@ Crafty.scene("level04", function() {
 	sc['obstacles'] = [],
 	sc['figurants'] = [];
 
-	sc.mm.prepTileset(mapObj1.tilesets[0])
+	/*
+	 * sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
 		    Crafty("upStairs").each(function() { 
@@ -35,12 +37,22 @@ Crafty.scene("level04", function() {
 		    sc.player.getEntity().gravity();
 		    
 	    })
-	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
+	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);*/
+	
+	var START_COLUMN =0, START_ROW = 5, LAZY_TILE_HEIGHT = 20, LAZY_TILE_WIDTH = 30;
+	sc.map
+	    .setMapDataSource( mapObj1 )
+	    .createView( START_ROW, START_COLUMN, LAZY_TILE_WIDTH, LAZY_TILE_HEIGHT, function( tiledmap ){
+		  console.log("done");
+		  _.each(sc.figurants, function(f) {
+			  f.wanderLoop();
+		  });
+	    });
 		
 	Crafty.viewport.clampToEntities = false;
 	Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	
-	var ls = mapObj1.layers;
+	
 	
 	sc.figurants = [
 		Crafty.e("Figurant").setFace(0).attr({ 
@@ -67,9 +79,12 @@ Crafty.scene("level04", function() {
 		  x: sc.player.getEntity()._x+200, 
 		  y: sc.player.getEntity()._y, 
 		  z: sc.player.getEntity()._z })
-	]
-		
-	sc.transitionAreas = [
+	];
+	
+	
+	 /* 
+	    var ls = mapObj1.layers;
+	    sc.transitionAreas = [
 	    new AreaTransition({ 
 	      x: ((ls[0].properties.lInitialX + ls[0].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
 	      y: ls[0].properties.lInitialY * mapObj1.tileheight,
@@ -145,7 +160,7 @@ Crafty.scene("level04", function() {
 	      h: (ls[8].properties.lHeight - ls[8].properties.lInitialY) * mapObj1.tileheight,
 	      show: "P5"
 	    })
-	];
+	];*/
 	
 }, function(){ 
 	//get rid of unwanted bindings, functions and files

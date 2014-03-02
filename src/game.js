@@ -25,7 +25,7 @@ gameContainer = {
 	}
 	
 },
-sc    = [], // container for backbone scene elements
+sc    = [], // container for scene elements
 infc  = [], // container for backbone interface elements
 resources = {}, // container for Assets obj
 utils = {}; 
@@ -98,7 +98,7 @@ window.onload = function() {
 				.textColor(ellipsisColor)
 				.textFont({ weight: 'bold', family: 'Arial', size : '50px', family: 'Perfect_dos_vga_437' })
 				.text(". . . ")
-				.bind('EnterFrame', function(){
+				.bind('EnterFrame', function() {
 					this.eFrames++;
 					if(this.eFrames === this.nFrames) {
 						this.eFrames = 0;
@@ -199,11 +199,14 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level04",
 			elements: [
-				"text!src/scenes/tilemaps/level04-2.json",
+				"text!src/scenes/tilemaps/level04.json",
+				//"text!src/scenes/tilemaps/level04-2.json",
 				//"text!src/scenes/tilemaps/tilemap-level04-1.json",
 				//"text!src/scenes/tilemaps/tilemap-level04-2.json",
 				//"text!src/scenes/tilemaps/tilemap-level04-3.json",
-				"src/components/TiledLevelImporter.js",
+				//"src/components/TiledLevelImporter.js",
+				"src/modules/create_mocks_module.js",
+				"src/components/tiledmapbuilder.js",
 				"src/components/Bullet.js",
 				"src/components/Figurant.js",
 				"src/entities/carlos.js",

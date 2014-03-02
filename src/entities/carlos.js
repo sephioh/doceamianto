@@ -180,17 +180,18 @@ Carlos = BaseEntity.extend({
 				    //this.animate("StandingStill", -1);
 		    })
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
-		    .reel("Running", 500, 1, 0, 4)
-		    .reel("Shooting", 500, 0, 1, 5)
-		    .reel("WasHit", 500, 4, 2, 1)
+		    .reel("Running", 500, 1, 0, 5)
+		    .reel("Shooting", 500, 0, 1, 6)
+		    .reel("WasHit", 500, 4, 2, 2)
 		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
 		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
-		    .reel("JumpingShooting", 500, 0, 3, 5)
-		    .reel("ShotFromBehind", 750, 0, 4, 5)
+		    .reel("JumpingShooting", 500, 0, 3, 6)
+		    .reel("ShotFromBehind", 750, 0, 4, 6)
 		    .setName('Player')
 		    .bind('Moved', function(prevPos) {
-		      
-			    // controlling animations
+		    
+			  
+			  // controlling animations
 			    
 		    if(this.isPlaying("StandingStill")) this.pauseAnimation();
 			    
@@ -300,45 +301,45 @@ Carlos = BaseEntity.extend({
 		if(ent.canShoot) {
 			var bullet = Crafty.e("Bullet, playerBullet");
 			if(!ent._up){
-			  ent.disableControl()
-			    .animate("Shooting",1)
-			    .bind("FrameChange",function(o){
-				if(o.currentFrame == 3) {
-					model._fire.call(this,bullet);
-				}
-			      })
-			    .one("AnimationEnd", function(){ 
-				this.unbind("FrameChange")
-				    .animate("StandingStill",1)
-				    .enableControl();
-			    });
+				ent.disableControl()
+				  .animate("Shooting",1)
+				  .bind("FrameChange", function(o){
+				      if(o.currentFrame == 3) {
+					      model._fire.call(this,bullet);
+				      }
+				    })
+				  .one("AnimationEnd", function(){ 
+				      this.unbind("FrameChange")
+					  .animate("StandingStill",1)
+					  .enableControl();
+				  });
 			} else {
-			  ent.animate("JumpingShooting",1)
-			    .bind("FrameChange",function(o){
-				if(o.currentFrame == 3) {
-					model._fire.call(this,bullet);
-				}
-			      })
-			    .one("AnimationEnd", function(){ 
-				this.unbind("FrameChange")
-				    .animate("JumpingFalling",1);
-			    });
+				ent.animate("JumpingShooting",1)
+				  .bind("FrameChange", function(o){
+				      if(o.currentFrame == 3) {
+					      model._fire.call(this,bullet);
+				      }
+				    })
+				  .one("AnimationEnd", function(){ 
+				      this.unbind("FrameChange")
+					  .animate("JumpingFalling",1);
+				  });
 			}
 		}
 	},
 	
 	// must be called from within entity context
-	_fire: function(bullet){
-		var reach;
+	_fire: function(bullet) {
+		var reach = 400;
 		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z+1 });
 		if(this._flipX) {
 			bullet.x += 30;
-			reach = -400;
+			reach *= -1;
 		} else {
 			bullet.x += 67;
-			reach = 400;
 		}
-		bullet.shoot({ x: bullet._x + reach });
+		this.trigger("shoot", bullet.shoot({ x: bullet._x + reach }));
+		
 	}
 	
 });
