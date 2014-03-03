@@ -25,7 +25,8 @@ Crafty.scene("level04", function() {
 	sc['delimiters'] = [],
 	sc['checkpoints'] = [],
 	sc['obstacles'] = [],
-	sc['figurants'] = [];
+	sc['figurants'] = [],
+	sc['policemen'] = [];
 
 	 sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
@@ -67,16 +68,42 @@ Crafty.scene("level04", function() {
 	
 	// binding events
 	
-	scene
-	    .bind("PlayerShoot", function alert1() {
-		    this.unbind(alert1);
-		    this.trigger("Alert", 1);
+	this.bind("PlayerShoot", function alert1() {
+		    console.log("Player shoot");
+		    this.unbind("PlayerShoot", alert1);
+		    if(alert < 1)
+			this.trigger("Alert", 1);
 	    })
 	    .bind("FigurantDied", function alert2() {
-		    this.unbind(alert2);
-		    this.trigger("Alert", 2);    
+		    console.log("Figurant died");
+		    this.unbind("FigurantDied", alert2);
+		    if(alert < 2){
+			this.trigger("Alert", 2);    
+			this.callPolicemen();
+		    }
 	    });
 	
+	// scene events' functions
+	    
+	this.callPolicemen = function() {
+		sc.delay(function() {
+			var polen = Crafty("Policeman").length;
+			if(polen < 2){
+				if(polen < 1){ 
+					/*
+					sc.policemen.push(new Policeman().);
+					sc.policemen.push(new Policeman().);
+					*/
+				}
+				else{	
+					/*
+					sc.policemen.push(new Policeman().);
+					*/
+				}
+			}
+		},6000,6);
+	};
+	    
 	  /*
 	    var ls = mapObj1.layers;
 	    sc.transitionAreas = [
