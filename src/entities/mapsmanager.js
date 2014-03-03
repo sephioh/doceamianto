@@ -28,6 +28,12 @@ function MapsManager() {
 		return this.m();
 	},
 	
+	/*
+	this.addMap = function(){
+		currentMap = maps.push(Crafty.e("2D, "+gameContainer.get('renderType')+", TiledLevel")) - 1;
+		return this.m();
+	},*/
+	
 	this.configTiles = function(o,callback) {
 		console.log("carregado ", o);
 	},
@@ -106,10 +112,24 @@ function MapsManager() {
 	this.showMapPart = function(pName, bool){
 		bool = typeof bool !== "boolean"?true:bool;
 		Crafty(pName).each(function(){ this.visible = bool; });
-	}
+	},
 	
 	this.getCurrentMap = function() {
 		return this.m(currentMap);
+	},
+	
+	this.showMapPartWithFakeWorker = function(pName, bool){
+		var w = new EasyWebWorker("src/modules/show_map_part.js", this);
+				
+		w.onerror = function(event,filename,lineno,message){
+			console.log(event,filename,lineno,message);
+		};
+		
+		this.showMapPartCallback = function(event,obj){
+			console.log("in the callback",obj);
+		};
+		
+		w.execute("showMapPartFromWorker", { mapPart: pName, bool: bool });
 	}
 	
 }

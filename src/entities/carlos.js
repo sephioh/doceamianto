@@ -165,19 +165,19 @@ Carlos = BaseEntity.extend({
 			    }
 		      })*/
 		    .bind('KeyDown', function(e){ 
-			    if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
-			      (this.hit('grnd') || this._onStairs || this._up) &&
-			      this._currentReelId != "Shooting" && this._currentReelId != "JumpingShooting")
-				    model.pullTrigger();
+			if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
+			  (this.hit('grnd') || this._onStairs || this._up) &&
+			  this._currentReelId != "Shooting" && this._currentReelId != "JumpingShooting")
+				model.pullTrigger();
 		      })
 		    .bind('KeyUp', function(e) {
-			    var k = e.key;
-			    if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
-			      (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
-				    if(this.isPlaying("Running") && !this._transiting){ 
-					    this.animate("StandingStill"); 
-				    }
-				    //this.animate("StandingStill", -1);
+			var k = e.key;
+			if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
+			  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
+				if(this.isPlaying("Running") && !this._transiting){ 
+					this.animate("StandingStill"); 
+				}
+				//this.animate("StandingStill", -1);
 		    })
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 1, 0, 5)
@@ -190,7 +190,6 @@ Carlos = BaseEntity.extend({
 		    .setName('Player')
 		    .bind('Moved', function(prevPos) {
 		    
-			  
 			  // controlling animations
 			    
 		    if(this.isPlaying("StandingStill")) this.pauseAnimation();
@@ -214,19 +213,19 @@ Carlos = BaseEntity.extend({
 			    moved = "down";
 			  
 		    switch(moved) {
-			      case "up" : 
+			    case "up" : 
 				if(this._currentReelId != "JumpingUp" &&
 				  (this.isPlaying("StandingStill") || 
 				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && this._currentReelId != "JumpingShooting")))
 					this.animate("JumpingUp");
 				break;
-			      case "down" : 
+			    case "down" : 
 				if(this._currentReelId != "JumpingFalling" &&
 				  ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
 				  (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
 					this.animate("JumpingFalling");
 				break;
-			      case "left":
+			    case "left":
 				if(!this._flipX) 	// if moved left and is unflipped
 					this.flip("X");	// flip sprite
 				if((!this.isPlaying("Running") && !this._up) && 
@@ -235,17 +234,16 @@ Carlos = BaseEntity.extend({
 				}
 				    
 				break;
-			      case "right": 
+			    case "right": 
 				if(this._flipX) 				// if moved right and is flipped 
 					this.unflip("X");			// unflip sprite
 				if((!this.isPlaying("Running") && !this._up) &&
 				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
 					this.animate("Running", -1);
-				    
 				}    
 				break;
 		      }
-		    });	
+		    });
 		model.set({'entity' : entity});
 		    
 	},	
@@ -299,7 +297,7 @@ Carlos = BaseEntity.extend({
 	pullTrigger : function() { 
 		var ent = this.getEntity(), model = this; 
 		if(ent.canShoot) {
-			var bullet = Crafty.e("Bullet, playerBullet");
+			var bullet = Crafty.e("Bullet");
 			if(!ent._up){
 				ent.disableControl()
 				  .animate("Shooting",1)
@@ -330,7 +328,7 @@ Carlos = BaseEntity.extend({
 	
 	// must be called from within entity context
 	_fire: function(bullet) {
-		var reach = 400;
+		var reach = 500;
 		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z+1 });
 		if(this._flipX) {
 			bullet.x += 30;
@@ -338,8 +336,22 @@ Carlos = BaseEntity.extend({
 		} else {
 			bullet.x += 67;
 		}
-		this.trigger("shoot", bullet.shoot({ x: bullet._x + reach }));
-		
+		bullet.onHit("Collision", function(hit) {
+			for(var i=0, len = hit.length; i<len; i++) {
+				if(hit[i].obj.__c.Figurant && !hit[i].obj._wasHit) {
+					hit[i].obj.shot();
+					this.destroy();
+					break;
+				} 
+				else 
+				if(hit[i].obj.__c.wall) {
+					this.destroy();
+					break;
+				}
+			}
+		    })
+		    .shoot({ x: bullet._x + reach });
+		Crafty.trigger("PlayerShoot");
 	}
 	
 });

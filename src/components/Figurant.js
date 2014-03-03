@@ -8,23 +8,16 @@
 	
 	init: function() {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', SpriteAnimation, Tween, Collision, Delay');
-		this.onHit('playerBullet', function(h) {
-			if(!this._wasHit)
-				this.animate("Dying",1)
-					.delay(function() {
-						this.destroy();
-						//! here goes "transformation" to phatom
-						
-						
-					}, 5000);
-			h[0].obj.destroy();
-			this._wasHit = true;
-		}).onHit('wall', function(h) {
+		this.onHit('wall', function(h) {
 			var hitDirX = hit[i].normal.x;
-			this.walkLeftOrRight(hitDirX);
-		}).bind('alert',function(int) {
-			this.setAlert(int);
-		});
+			if(!this._wasHit)
+				this.walkLeftOrRight(hitDirX);
+		    })
+		    .bind('Alert',function(int) {
+			if(!this._wasHit)
+				this.setAlert(int)
+				    .walkLeftOrRight();
+		    });
 		return this;
 	},
 		
@@ -33,7 +26,7 @@
 	    return this;
 	},
 	
-	// @param {number} face: identifier of figurant
+	// {number} face: identifier of figurant
 	setFace: function(face) {
 		this.addComponent("figurant" + face);
 		face = face*2;
@@ -47,14 +40,14 @@
 	
 	// 0, 1, 2
 	setAlert: function(num) {
-		if(_.isNumber(num) && num<3)
-		      this._alert = num;
+		if(_.isNumber(num) && num < 3)
+			this._alert = num;
 		// set speed to double or triple the starting speed
-		return this.setSpeed(this._startingSpeed * num+1);
+		return this.setSpeed(this._startingSpeed * (num+1));
 	},
 	
-	// @param dir: accepted values -1, 1 for left and right
-	// @param dis: distance in pixels
+	// dir: accepted values are -1 or 1 for left or right
+	// dis: distance in pixels
 	walkLeftOrRight: function(dir,dis) {
 		var time;
 		if (this._wandering)
@@ -76,10 +69,12 @@
 		this.animate("Walking" + this._alert, -1)
 			.tween({ x: this._x + dis }, time)
 			.one("TweenEnd",function() {
-				this.animate("StandingStill",1);
-				this._wandering = false;
-				if(this._wanderingLoop)
-					this.wanderLoop();
+				if(!this._wasHit){
+					this.animate("StandingStill", 1)
+					    ._wandering = false;
+					if(this._wanderingLoop)
+						this.wanderLoop();    
+				}
 			});
 		this._wandering = true;
 		return this;
@@ -89,19 +84,35 @@
 		var time = Math.ceil(Math.random() * 5000);
 		this._wanderingLoop = true;
 		this.delay(function () {
-			if(!this._wandering)
+			if(!this._wandering && this._wanderingLoop)
 				this.walkLeftOrRight();
 		},time,0);
 	},
 	
 	stopWalking: function() {
-		this.cancelTween('x');
-		this._wandering = false;
+		this.cancelTween('x')
+		    ._wandering = false;
 		return this;
 	},
 	
 	stopWanderLoop: function() {
 		this._wanderingLoop = false;
+		if(this._wandering)
+			this.stopWalking();
+		return this;
+	},
+	
+	shot: function() {
+		this._wasHit = true;
+		this.stopWanderLoop()
+		    .animate("Dying", 1)
+		    .delay(function() {
+			//!TODO here goes "transformation" to phatom
+			
+			this.destroy();
+		    }, 5000);  
+		Crafty.trigger("FigurantDied");
 		return this;
 	}
+	
   });

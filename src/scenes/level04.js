@@ -6,11 +6,14 @@ Crafty.scene("level04", function() {
 	
 	Crafty.audio.play("theme02", -1);
 	
+	//gameContainer.conf.set({'renderType': 'DOM'});
+	
 	//var MapBytesArray = stringOfByteArrayToArrayOfBytes(gameContainer.loadedStrings[0]);
 	
 	//LZMA.decompress(MapBytesArray, function(result) {
         //console.log("Decompressed.");
-	var mapObj1 = JSON.parse(gameContainer.loadedStrings[0]);//,
+	var mapObj1 = JSON.parse(gameContainer.loadedStrings[0]), 
+	    alert = 0;
 	    //mapObj2 = JSON.parse(gameContainer.loadedStrings[1]),
 	    //mapObj3 = JSON.parse(gameContainer.loadedStrings[2]);
 	
@@ -24,65 +27,57 @@ Crafty.scene("level04", function() {
 	sc['obstacles'] = [],
 	sc['figurants'] = [];
 
-	/*
-	 * sc.mm.prepTileset(mapObj1.tilesets[0])
+	 sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
-		    Crafty("upStairs").each(function() { 
-			  this.collision(new Crafty.polygon([[1,32],[32,1]]));
-		    }),
-		    Crafty("downStairs").each(function() { 
-			  this.collision(new Crafty.polygon([[1,1],[32,32]]));
-		    });
-		    sc.player.getEntity().gravity();
-		    
+	      
+		Crafty("upStairs").each(function() { 
+		      this.collision(new Crafty.polygon([[1,32],[32,1]]));
+		}),
+		Crafty("downStairs").each(function() { 
+		      this.collision(new Crafty.polygon([[1,1],[32,32]]));
+		});
+		
+		var playerEnt = sc.player.getEntity();
+		playerEnt.gravity();
+		sc.figurants = [
+		    Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z }),
+		    Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z }),
+		    Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z }),
+		    Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z }),
+		    Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z }),
+		    Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z })
+		    ];
+		_.each(sc.figurants, function(f) {
+			f.wanderLoop();
+		});
 	    })
-	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);*/
+	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
 	
+	/*
 	var START_COLUMN =0, START_ROW = 5, LAZY_TILE_HEIGHT = 20, LAZY_TILE_WIDTH = 30;
 	sc.map
 	    .setMapDataSource( mapObj1 )
 	    .createView( START_ROW, START_COLUMN, LAZY_TILE_WIDTH, LAZY_TILE_HEIGHT, function( tiledmap ){
-		  console.log("done");
-		  _.each(sc.figurants, function(f) {
-			  f.wanderLoop();
-		  });
-	    });
+		
+	    });*/
 		
 	Crafty.viewport.clampToEntities = false;
 	Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	
+	// binding events
 	
+	scene
+	    .bind("PlayerShoot", function alert1() {
+		    this.unbind(alert1);
+		    this.trigger("Alert", 1);
+	    })
+	    .bind("FigurantDied", function alert2() {
+		    this.unbind(alert2);
+		    this.trigger("Alert", 2);    
+	    });
 	
-	sc.figurants = [
-		Crafty.e("Figurant").setFace(0).attr({ 
-		  x: sc.player.getEntity()._x+400, 
-		  y: sc.player.getEntity()._y, 
-		  z: sc.player.getEntity()._z }),
-		  Crafty.e("Figurant").setFace(1).attr({ 
-		  x: sc.player.getEntity()._x+100, 
-		  y: sc.player.getEntity()._y, 
-		  z: sc.player.getEntity()._z }),
-		  Crafty.e("Figurant").setFace(2).attr({ 
-		  x: sc.player.getEntity()._x-200, 
-		  y: sc.player.getEntity()._y, 
-		  z: sc.player.getEntity()._z }),
-		  Crafty.e("Figurant").setFace(3).attr({ 
-		  x: sc.player.getEntity()._x+600, 
-		  y: sc.player.getEntity()._y, 
-		  z: sc.player.getEntity()._z }),
-		  Crafty.e("Figurant").setFace(4).attr({ 
-		  x: sc.player.getEntity()._x-400, 
-		  y: sc.player.getEntity()._y, 
-		  z: sc.player.getEntity()._z }),
-		  Crafty.e("Figurant").setFace(5).attr({ 
-		  x: sc.player.getEntity()._x+200, 
-		  y: sc.player.getEntity()._y, 
-		  z: sc.player.getEntity()._z })
-	];
-	
-	
-	 /* 
+	  /*
 	    var ls = mapObj1.layers;
 	    sc.transitionAreas = [
 	    new AreaTransition({ 

@@ -50,7 +50,7 @@ Crafty.c("TiledLevel", {
 	properties: props
       };
       for (i = _i = 0, _len = lData.length; _i < _len; i = ++_i) {
-        tDatum = lData[i];
+	tDatum = lData[i];
         if (tDatum) {
           tile = Crafty.e("tile" + tDatum);
           tile.x = lX + ((i % lWidth) * tile.w),
@@ -59,8 +59,8 @@ Crafty.c("TiledLevel", {
 	    tile.alpha = lOpacity;
 	  if (lName)
 	    tile.addComponent(lName);
-	  if (lVisible !== undefined)
-	    tile.visible = lVisible;  
+	  /*if (lVisible !== undefined)
+	    tile.visible = lVisible;  */
 	  if (lZ)
 	    tile.z = lZ;
 	  

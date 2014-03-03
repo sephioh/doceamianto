@@ -20,17 +20,19 @@ AreaTransition = BaseEntity.extend({
 
 				if(norm.x === 1) {
 					if (side == "left") {
-						sc.mm.showMapPart(show);
+						//sc.mm.showMapPart(show);
+						//sc.mm.showMapPartWithFakeWorker(show, true);
 					}
 					else {
-						sc.mm.showMapPart(show, false);
+						//sc.mm.showMapPart(show, false);
 					}
 				} else {
 					if (side == "left") {
-						sc.mm.showMapPart(show, false);
+						//sc.mm.showMapPart(show, false);
 					}
 					else {
-						sc.mm.showMapPart(show);
+						//sc.mm.showMapPart(show);
+						//sc.mm.showMapPartWithFakeWorker(show, true);
 					}
 					
 				}
@@ -41,5 +43,9 @@ AreaTransition = BaseEntity.extend({
 	  });
 	
 	model.set({'entity' : entity});
+    },
+    
+    hideShowArea: function(area){
+      
     }
 });

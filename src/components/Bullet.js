@@ -11,7 +11,7 @@ Crafty.c('Bullet', {
     shoot: function(props) {
 	this.color('yellow')
 	    .tween(props, this._bulletFlightTime)
-	    .one("TweenEnd", function(){ this.destroy(); })
+	    .one('TweenEnd', function(){ this.destroy(); });
 	return this;
     },
     
