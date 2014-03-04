@@ -104,6 +104,8 @@
 	
 	shot: function() {
 		this._wasHit = true;
+		console.log("Figurant shot");
+		Crafty.trigger("FigurantDied");
 		this.stopWanderLoop()
 		    .animate("Dying", 1)
 		    .delay(function() {
@@ -111,7 +113,6 @@
 			
 			this.destroy();
 		    }, 5000);  
-		Crafty.trigger("FigurantDied");
 		return this;
 	}
 	

@@ -19,8 +19,8 @@ Carlos = BaseEntity.extend({
 				z: 301,
 				canShoot: true
 			});
-			//.multiway(model.get('startingSpeed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
-		//entity['poly'] = new Crafty.polygon([[17,60],[47,38],[77,60],[55,116],[39,116]]);
+		//.multiway(model.get('startingSpeed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
+		entity['poly'] = new Crafty.polygon([[17,60],[47,38],[77,60],[55,116],[39,116]]);
 		
 		entity
 		    .twoway(model.get('speed'),model.get('speed')+(model.get('speed')/2))
@@ -232,7 +232,6 @@ Carlos = BaseEntity.extend({
 				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
 					this.animate("Running", -1);
 				}
-				    
 				break;
 			    case "right": 
 				if(this._flipX) 				// if moved right and is flipped 
@@ -240,10 +239,15 @@ Carlos = BaseEntity.extend({
 				if((!this.isPlaying("Running") && !this._up) &&
 				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
 					this.animate("Running", -1);
-				}    
+				}
 				break;
 		      }
-		    });
+		    })
+		.onHit('levelLimits', function(hit) {
+			for (var i = 0; i < hit.length; i++) {
+				this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+			}
+		  });
 		model.set({'entity' : entity});
 		    
 	},	

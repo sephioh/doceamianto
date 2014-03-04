@@ -7,6 +7,7 @@ gameContainer = {
 	scene : undefined,
 	scenes : [],
 	loadedStrings : [],
+	alreadyLoadedElements : [],
 	
 	setSceneInfo : function(sceneInfo) {
 		//this.loadedStrings = [],
@@ -118,31 +119,37 @@ window.onload = function() {
 					
 					var require_str = '', require_args = '', require_args_count = 0, regElms = [], textElms = [], elements;
 					// build require_args string, if there are texts to load
-					for(var i = 0, scns = gameContainer.scenes; i<gameContainer.scenes.length; i++) {
+					for(var i = 0, scns = gameContainer.scenes, scnsLen = gameContainer.scenes.length; i<scnsLen; i++) {
 						if(scns[i].name === gameContainer.scene){
-							_.each(scns[i].elements, function(ele, i) { 
-								// search for texts, first things to load
-								if( ele.lastIndexOf("text!") !== -1 ) {
-									textElms[require_args_count] = ele;
-									require_args_count++;
-									if(require_args != '')
-										require_args += ', ';
-									require_args += 'arg' + require_args_count.toString();
-								} else {
-									regElms[regElms.length] = ele;
-								}
+							_.each(scns[i].elements, function(ele, i){ 
+								// if element has not already been loded 
+								if(gameContainer.alreadyLoadedElements.indexOf(ele) == -1)
+									//search for texts, first things to load,
+									if(ele.indexOf("text!") != -1){
+										textElms[require_args_count] = ele;
+										require_args_count++;
+										if(require_args != ''){
+											require_args += ', ';
+											require_args += 'arg' + require_args_count.toString();
+										}
+									} else {
+										regElms[regElms.length] = ele;
+									}
 							});
 							break;
 						}
 					}
 					
-					elements = textElms.concat(regElms); // text elements (json,xml,txt,etc) followed by regular elements (js)
+					// text elements (json,xml,txt,etc) followed by regular elements (js)
+					elements = textElms.concat(regElms); 
 					
 					require_str = 
 					// require elements and pass callback
 					'require(elements, function(' + require_args + ') { ' +
-					// if text files were loaded, add them to gameContainer.loadedStrings array
+					// if text files were loaded, push them to gameContainer.loadedStrings
 					'gameContainer.loadedStrings = []; if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
+					// push lodedElements to gameContainer.alreadyLoadedElements
+					'gameContainer.alreadyLoadedElements.push(elements);' +
 					// destroy ellipsis and run the specified scene
 					'sc.ellipsis.destroy(); sc = []; if (gameContainer.scene !== undefined) Crafty.scene(gameContainer.scene); })';
 					
@@ -173,6 +180,8 @@ window.onload = function() {
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
+				"src/components/Delimiter.js",
+				"src/components/Particle.js",
 				"src/entities/amianto01.js",
 				"src/entities/darkheart.js",
 				"src/entities/redheart.js"
@@ -182,6 +191,7 @@ window.onload = function() {
 			elements: [
 				"text!src/scenes/tilemaps/level02.json", 
 				"src/components/TiledLevelImporter.js",
+				"src/components/Delimiter.js",
 				"src/entities/diamond.js",
 				"src/entities/amianto02.js",
 				"src/entities/obstacle.js",
@@ -190,6 +200,7 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level03",
 			elements: [
+				"src/components/Delimiter.js",
 				"src/entities/amianto03.js",
 				"src/entities/wordblock.js",
 				"src/entities/wordplaceholder.js",
@@ -207,6 +218,7 @@ window.onload = function() {
 				//"src/components/tiledmapbuilder.js",
 				"text!src/scenes/tilemaps/level04-2.json",
 				"src/components/TiledLevelImporter.js",
+				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
 				"src/components/Figurant.js",
 				"src/entities/carlos.js",

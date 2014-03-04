@@ -39,63 +39,62 @@ Crafty.scene("level04", function() {
 		      this.collision(new Crafty.polygon([[1,1],[32,32]]));
 		});
 		
-		var playerEnt = sc.player.getEntity();
-		playerEnt.gravity();
-		sc.figurants = [
-		    Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z }),
-		    Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z }),
-		    Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z }),
-		    Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z }),
-		    Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z }),
-		    Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z })
-		    ];
 		_.each(sc.figurants, function(f) {
 			f.wanderLoop();
 		});
+		
+		Crafty.viewport.clampToEntities = false;
+		Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	    })
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
 	
-	/*
-	var START_COLUMN =0, START_ROW = 5, LAZY_TILE_HEIGHT = 20, LAZY_TILE_WIDTH = 30;
-	sc.map
-	    .setMapDataSource( mapObj1 )
-	    .createView( START_ROW, START_COLUMN, LAZY_TILE_WIDTH, LAZY_TILE_HEIGHT, function( tiledmap ){
-		
-	    });*/
-		
-	Crafty.viewport.clampToEntities = false;
-	Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
+	sc.delimiters = [
+		Crafty.e("Delimiter, levelLimits").attr({ x: 354, y: 540, w: 1, h: 150 }), 
+		Crafty.e("Delimiter, levelLimits").attr({ x: 23450 + sc.player.getEntity()._w, y: 2070, w: 1, h: 150 })
+	  ];
 	
+	var playerEnt = sc.player.getEntity();
+	playerEnt.gravity();
+	sc.figurants = [
+		Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z }),
+		Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z }),
+		Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z }),
+		Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z }),
+		Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z }),
+		Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z })
+	  ];
 	// binding events
 	
 	this.bind("PlayerShoot", function alert1() {
-		    console.log("Player shoot");
-		    this.unbind("PlayerShoot", alert1);
-		    if(alert < 1)
+		this.unbind("PlayerShoot", alert1);
+		if(alert < 1)
 			this.trigger("Alert", 1);
-	    })
-	    .bind("FigurantDied", function alert2() {
-		    console.log("Figurant died");
-		    this.unbind("FigurantDied", alert2);
-		    if(alert < 2){
+	  });
+	this.bind("FigurantDied", function alert2() {
+		this.unbind("FigurantDied", alert2);
+		if(alert < 2){
 			this.trigger("Alert", 2);    
 			this.callPolicemen();
-		    }
-	    });
+		}
+	  });
 	
 	// scene events' functions
 	    
 	this.callPolicemen = function() {
-		sc.delay(function() {
+		sc.delays.delay(function() {
 			var polen = Crafty("Policeman").length;
 			if(polen < 2){
 				if(polen < 1){ 
+					// !TODO create 2 policemen in the right spot
+					
 					/*
 					sc.policemen.push(new Policeman().);
 					sc.policemen.push(new Policeman().);
 					*/
 				}
 				else{	
+					// !TODO create 1 policemen in the right spot
+					
 					/*
 					sc.policemen.push(new Policeman().);
 					*/
@@ -103,86 +102,6 @@ Crafty.scene("level04", function() {
 			}
 		},6000,6);
 	};
-	    
-	  /*
-	    var ls = mapObj1.layers;
-	    sc.transitionAreas = [
-	    new AreaTransition({ 
-	      x: ((ls[0].properties.lInitialX + ls[0].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
-	      y: ls[0].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[0].properties.lHeight - ls[0].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P2",
-	      side: "left"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[0].properties.lInitialX + ls[0].properties.lWidth) * mapObj1.tilewidth) + Crafty.viewport.width/2,
-	      y: ls[0].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[0].properties.lHeight - ls[0].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P1"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[2].properties.lInitialX + ls[2].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
-	      y: ls[2].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[2].properties.lHeight - ls[2].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P3",
-	      side: "left"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[2].properties.lInitialX + ls[2].properties.lWidth) * mapObj1.tilewidth) + Crafty.viewport.width/2,
-	      y: ls[2].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[2].properties.lHeight - ls[2].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P2"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[4].properties.lInitialX + ls[4].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
-	      y: ls[4].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[4].properties.lHeight - ls[4].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P4",
-	      side: "left"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[4].properties.lInitialX + ls[4].properties.lWidth) * mapObj1.tilewidth) + Crafty.viewport.width/2,
-	      y: ls[4].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[4].properties.lHeight - ls[4].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P3"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[6].properties.lInitialX + ls[6].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
-	      y: ls[6].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[6].properties.lHeight - ls[6].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P5",
-	      side: "left"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[6].properties.lInitialX + ls[6].properties.lWidth) * mapObj1.tilewidth) + Crafty.viewport.width/2,
-	      y: ls[6].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[6].properties.lHeight - ls[6].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P4"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[8].properties.lInitialX + ls[8].properties.lWidth) * mapObj1.tilewidth) - Crafty.viewport.width/2,
-	      y: ls[8].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[8].properties.lHeight - ls[8].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P6",
-	      side: "left"
-	    }), 
-	     new AreaTransition({ 
-	      x: ((ls[8].properties.lInitialX + ls[8].properties.lWidth) * mapObj1.tilewidth) + Crafty.viewport.width/2,
-	      y: ls[8].properties.lInitialY * mapObj1.tileheight,
-	      w: 2,
-	      h: (ls[8].properties.lHeight - ls[8].properties.lInitialY) * mapObj1.tileheight,
-	      show: "P5"
-	    })
-	];*/
 	
 }, function(){ 
 	//get rid of unwanted bindings, functions and files

@@ -11,37 +11,26 @@ Crafty.scene("level03", function() {
 	sc['background'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, background03"),
 	sc['ornament'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, ornament03"),
 	sc['delimiters'] = [],
-	sc['blockers'] = [],
+	sc['corners'] = [],
 	sc['wordblocks'] = [];
 
 	sc.ornament.x = (Crafty.viewport.width/2) - (sc.ornament._w/2);
 	
 	// Scenario delimiters
-	var delimitersMap = {
-		left: 	{ x: 0,   y: 0, w: 1, h: 600, id: "left" },
-		right: 	{ x: 800, y: 0, w: 1, h: 600, id: "right" },
-		up: 	{ x: 0,   y: 0, w: 800, h: 1, id: "up" },
-		down: 	{ x: 0,   y: 600, w: 800, h: 1, id: "down" }
-	};
-	_.each(delimitersMap, function(obj) {
-		var delimiter = Crafty.e("2D, Collision, wall")
-			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h, id: obj.id });
-		sc.delimiters.push(delimiter);
-	});
+	sc.delimiters = [
+		Crafty.e("Delimiter, wall").attr({ x: 0, y: 0, w: 1, h: 600, id: "left" }),
+		Crafty.e("Delimiter, wall").attr({ x: 800, y: 0, w: 1, h: 600, id: "right" }),
+		Crafty.e("Delimiter, wall").attr({ x: 0, y: 0, w: 800, h: 1, id: "up" }),
+		Crafty.e("Delimiter, wall").attr({ x: 0, y: 600, w: 800, h: 1, id: "down" })
+	];
  
-	// Scenario blockers
-	var blockers = {
-		left_up: 	{ x: -10, y: -10, w: 20, h: 20, corner: "cornerUpLeft" },
-		left_down: 	{ x: -10, y: 590, w: 20, h: 20, corner: "cornerUpRight" },
-		right_up: 	{ x: 790, y: -10, w: 20, h: 20, corner: "cornerDownLeft" },
-		right_down: 	{ x: 790, y: 590, w: 20, h: 20, corner: "cornerDownRight" }
-
-	};
-	_.each(blockers, function(obj) {
-		var blocker = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Collision, Sprite, "+obj.corner+", blocker")
-			.attr({ x: obj.x, y: obj.y, w: obj.w, h: obj.h });
-		sc.blockers.push(blocker);
-	});
+	// Scenario corners
+	sc.corners = [
+		Crafty.e("Delimiter, blocker, Sprite, cornerUpLeft").attr({ x: -10, y: -10, w: 20, h: 20 }),
+		Crafty.e("Delimiter, blocker, Sprite, cornerUpRight").attr({ x: -10, y: 590, w: 20, h: 20 }),
+		Crafty.e("Delimiter, blocker, Sprite, cornerDownLeft").attr({ x: 790, y: -10, w: 20, h: 20 }),
+		Crafty.e("Delimiter, blocker, Sprite, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
+	];
 	
 	var txts = JSON.parse(gameContainer.loadedStrings[0]),
 	     txtSize = 55;

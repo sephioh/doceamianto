@@ -31,12 +31,12 @@ Resources = Backbone.Model.extend({
 						'darkHeart' : [0, 0]
 					}
 				},
-				'degrade' : {
+				'gradient' : {
 					'file' : 'degrade.png',
 					'tile' : 400,
 					'tileh' : 300,
 					'elements': {
-						'degrade' : [0, 0]
+						'gradient' : [0, 0]
 					}
 				},
 				'amianto01Shadow' : {

@@ -12,7 +12,7 @@ Crafty.scene("level01", function() {
 	sc['delays'] = Crafty.e("Delay"),
 	sc['bckgrndFade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, TweenColor")
 	    .attr({ x: 0, y: 0, w: 800, h: 600, z: 1000, alpha: 1.0 }),
-	sc['bckgrndDegrade'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, degrade")
+	sc['bckgrndGradient'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, gradient")
 	    .attr({ x: 0, y: 0, w: 800, h: 600, z: 1, alpha: 1.0 });
 	
 	sc.player.startMoving();
@@ -73,69 +73,50 @@ Crafty.scene("level01", function() {
 	}
 	//</change background color>
 	
-	//<delimiters>
-	var delimitersMap = {
-		left: 	{ x: 0, y: 242, w: 1, h: 400, 	shape: [[0,0],[1,400]] }, 
-		right: 	{ x: 800, y: 242, w: 1, h: 400, shape: [[0,0],[1,400]] }
-	};
-	
-	_.each(delimitersMap, function(obj) {
-		var delimiter = Crafty.e("2D, Collision, solid")
-			.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h})
-			.collision(new Crafty.polygon(obj.shape));
-		sc.delimiters.push(delimiter);
-	});
-	//</delimiters>
+	sc.delimiters = [
+		Crafty.e("Delimiter").attr({ x: 0, y: 242, w: 1, h: 400 }), 
+		Crafty.e("Delimiter").attr({ x: 800, y: 242, w: 1, h: 400 })
+	    ];
 	
 	//	Event declarations
 
 	// Amianto get max number of RedHearts
 	this.muchLove = function() {
 		
-		var time = 60;										// time in frames, duration of tweening effects
+		var time = 60;								// time in frames, duration of tweening effects
 		
 		Crafty.audio.stop();
 		Crafty.audio.play("fall01", 1);
 		
-		sc.delays.destroy();								// destroy delays
-		sc.delays = undefined;								// reset delays
+		sc.delays.destroy();							// destroy delays
+		sc.delays = undefined;							// reset delays
 		sc['delays'] = Crafty.e("Delay");					// reset delays
-		Crafty.unbind('EnterFrame', Crafty.backgroundChange); // stop backgroundChange loop
+		Crafty.unbind('EnterFrame', Crafty.backgroundChange); 			// stop backgroundChange loop
 		
-		sc.delimiters[0].destroy();							// destroy delimiter
-		sc.delimiters[1].destroy();							// destroy delimiter
+		sc.delimiters[0].destroy();						// destroy delimiter
+		sc.delimiters[1].destroy();						// destroy delimiter
 		_.each(sc.hearts, function(heart){					// destroy all hearts
 			heart.remove();
 		});
 		sc.bckgrndFade.stopTweeningColor();					// stop tweening color
-		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, time); // tween black
-		sc.bckgrndDegrade.tween({ alpha: 0.0 }, time); 			// tween black
+		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, time); 			// tween black
+		sc.bckgrndGradient.tween({ alpha: 0.0 }, time); 			// tween black
 		
 		sc.delays.delay(function() {						// after half sec,
-			sc.player.stumble(); 							// make amianto stumble, and then fall
+			sc.player.stumble(); 						// make amianto stumble, and then fall
 		}, 500);
 		
-		sc['spcParticles'] = []; 							// space particles' container
+		sc['spcParticles'] = []; 						// space particles' container
 		
 		sc.delays.delay(function() { 						// each half sec,
-			var partAmount = 6,								// create 6 particles 
+			var partAmount = 6,						// create 6 particles 
 				i=0;
 			while(i<partAmount) {
-				particle = Crafty.e("2D, Canvas, Color, Tween, spaceParticle");
-				particle
-					.attr({ 
-					  x: Crafty.math.randomInt(1,795),
-					  y: Crafty.viewport.height,
-					  h: Crafty.math.randomInt(1,5)+3,
-					  w: Crafty.math.randomInt(1,5)+3,
-					  alpha: 1.0,
-					  z: 1
-					})
-					.color("rgb(80,80,80)")		// dark grey
-					.tween({ y:0, alpha:0.0 }, 150)
-					.bind('TweenEnd', function() { 
-						particle.destroy(); 
-					}); 
+				particle = Crafty.e("Particle, spaceParticle");
+				particle.attr({ x: Crafty.math.randomInt(1,795), y: Crafty.viewport.height, 
+				    h: Crafty.math.randomInt(1,5)+3, w: Crafty.math.randomInt(1,5)+3, alpha: 1.0, z: 1 })
+				  .color("rgb(80,80,80)")		// dark grey
+				  .interpolation({ y:0, alpha:0.0 }, 150); 
 				i++;
 				sc.spcParticles.push(particle);
 			}		  
@@ -145,9 +126,9 @@ Crafty.scene("level01", function() {
 			sc.player.getEntity().animate("AmiantoHittingTheGround");	// Amianto hits the ground
 			sc.delays.destroy();						//destroy delays
 			sc.delays = undefined;						// reset delays
-			sc['delays'] = Crafty.e("Delay");			// reset delays
-			Crafty("spaceParticle").destroy(); 			// destroy all particles
-			Crafty.background("#000000"); 				// set background to black
+			sc['delays'] = Crafty.e("Delay");				// reset delays
+			Crafty("spaceParticle").each(function(){ this.destroy(); }); 	// destroy all particles
+			Crafty.background("#000000"); 					// set background to black
 			sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
 			Crafty.trigger('LevelTransition');
 		}, 10500);
@@ -176,6 +157,4 @@ Crafty.scene("level01", function() {
 	//Crafty.backgroundChange = undefined;					// clear level functions held in Crafty obj
 	resources.removeAudio("level01");
 	sc.delays.destroy();									// destroy delays
-	sc = [];												// clear scene
-	Crafty("2D").destroy();									// Destroy all entities with 2D component
 });

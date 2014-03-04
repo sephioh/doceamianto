@@ -61,18 +61,11 @@
 			
 		});
 
-		//<delimiters>
-		var delimitersMap = {
-			left: 	{ x: 435, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }, 
-			right: 	{ x: 37869, y: 1275, w: 2, h: 180, shape: [[0,0],[1,0],[1,180],[0,180]] }
-		};
-	
-		_.each(delimitersMap, function(obj) {
-			var delimiter = Crafty.e("2D, Collision, wall")
-				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
-			sc.delimiters.push(delimiter);
-		});
-		//</delimiters>
+		sc.delimiters = [
+			Crafty.e("Delimiter, wall").attr({ x: 435, y: 1275, w: 2, h: 180}), 
+			Crafty.e("Delimiter, wall").attr({ x: 37869, y: 1275, w: 2, h: 180 })
+		];
+		
 
 		//<checkpoints>
 		var checkPointsMap = {
@@ -110,7 +103,7 @@
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.unbind("KeyUp")
-				.tween({ x: playerEnt._x+800 }, 5000)
+				.tween({ x: playerEnt._x + 800 }, 5000)
 				.animate("AmiantoRunning9", -1)
 				.bind("TweenEnd", function transformation() {
 				  
@@ -178,18 +171,7 @@
 		this.one('AmiantoReachedLightArea', this.amiantoCameIntoLight);
 		
 		this.loadLevel03 = function() {
-			gameContainer.setNextSceneInfo({
-			name: "level03",
-			elements: [
-				"src/entities/amianto03.js",
-				"src/entities/wordblock.js",
-				"src/entities/wordplaceholder.js",
-				"src/effects/glitcheffect.js",
-				"text!src/lang/level03-"+gameContainer.lang+".json"
-			      ],
-			});
-			
-			Crafty.scene("loading", { backgroundColor:"#FFFFFF", ellipsisColor:"#000000" });
+			gameContainer.runScene("level03", { backgroundColor:"#FFFFFF", ellipsisColor:"#000000" });
 		}
 		
 		this.one('LevelTransition', this.loadLevel03);
