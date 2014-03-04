@@ -137,33 +137,8 @@ Carlos = BaseEntity.extend({
 			    this._onDownStairs = false;
 		      })
 		    .onHit('water', function() { 
-				// ? var currentCheckPoint = sc.checkpoints[currentDiamondValue - 1]; 
-			    /*if(!model.get('withDiamond'))
-				    model._holdDiamond();
-			    this.x = currentCheckPoint._x;
-			    this.y = currentCheckPoint._y;
-			    */
+				
 		      })
-		    /*.onHit('checkpoint', function(hit) { 
-			    for (var i = 0; i < hit.length; i++) {
-				    var currentDiamondValue = Crafty("diamond").value,
-					checkPointValue = hit[i].obj['value'];
-				    if(currentDiamondValue < checkPointValue && model.get('withDiamond') && checkPointValue<10) {
-					    sc.diamond.grow(checkPointValue);
-				    } 
-				    else 
-				    if(checkPointValue==9) {
-					    if(!model.get('withDiamond'))
-						    this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
-					    else
-						    model._pickUpDiamond = function(){ return };
-				    }
-				    else 
-				    if(checkPointValue==10) {
-					    Crafty.trigger("AmiantoReachedLightArea");
-				    }
-			    }
-		      })*/
 		    .bind('KeyDown', function(e){ 
 			if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
 			  (this.hit('grnd') || this._onStairs || this._up) &&
@@ -177,7 +152,6 @@ Carlos = BaseEntity.extend({
 				if(this.isPlaying("Running") && !this._transiting){ 
 					this.animate("StandingStill"); 
 				}
-				//this.animate("StandingStill", -1);
 		    })
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 1, 0, 5)
