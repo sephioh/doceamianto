@@ -12,7 +12,7 @@ Crafty.scene("level04", function() {
 	
 	//LZMA.decompress(MapBytesArray, function(result) {
         //console.log("Decompressed.");
-	var mapObj1 = JSON.parse(gameContainer.loadedStrings[0]), 
+	var mapObj1 = JSON.parse(gameContainer.getSceneTexts()[0]), 
 	    alert = 0;
 	    //mapObj2 = JSON.parse(gameContainer.loadedStrings[1]),
 	    //mapObj3 = JSON.parse(gameContainer.loadedStrings[2]);
@@ -51,8 +51,8 @@ Crafty.scene("level04", function() {
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
 	
 	sc.delimiters = [
-		Crafty.e("Delimiter, levelLimits").attr({ x: 354, y: 540, w: 1, h: 150 }), 
-		Crafty.e("Delimiter, levelLimits").attr({ x: 23450 + sc.player.getEntity()._w, y: 2070, w: 1, h: 150 })
+		Crafty.e("Delimiter, levelLimits").attr({ x: 322, y: 540, w: 1, h: 150 }), 
+		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + sc.player.getEntity()._w, y: 2070, w: 1, h: 150 })
 	  ];
 	
 	var playerEnt = sc.player.getEntity();
@@ -67,12 +67,25 @@ Crafty.scene("level04", function() {
 	  ];
 	  
 	// background  
-	sc.background1 = [
-	    Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image").attr({ x:0, y:-40, z:299 }).image("web/images/Pmedio1.png")
-	  ];
-	sc.background2 = [
-	    Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image").attr({ x:0, y:40, z:298 }).image("web/images/Pfundo1.png")
-	  ];
+	sc.background1[0] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: 0, y: -30, z: 299, w: 9568 })
+	    .image("web/images/Pmedio1.png"),
+	sc.background2[0] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: 0, y: 30, z: 298, w: 8320 })
+	    .image("web/images/Pfundo1.png");
+	/*
+	sc.background1[1] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: sc.background1[0]._w, y:-40, z:299, w: 9558 })
+	    .image("web/images/Pmedio2.png"),
+	sc.background2[1] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: sc.background1[0]._w, y:40, z:298, w: 8320 })
+	    .image("web/images/Pfundo2.png");
+	sc.background1[2] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: sc.background1[0]._w + sc.background1[1]._w, y:-40, z:299, w: 5952 })
+	    .image("web/images/Pmedio3.png"),
+	sc.background2[2] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: sc.background1[0]._w + sc.background1[1]._w, y:40, z:298, w: 5952 })
+	    .image("web/images/Pfundo3.png");*/
 	  
 	// binding events
 	
@@ -88,9 +101,9 @@ Crafty.scene("level04", function() {
 			this.callPolicemen();
 		}
 	  });
-	this.bind("PlayerMoved", function (movedTo) {
+	this.bind("PlayerMoved", function(movedTo) {
 		this.moveBG(movedTo,0.15);
-	});
+	  });
 	
 	// scene events' functions
 	    
@@ -119,24 +132,45 @@ Crafty.scene("level04", function() {
 	
 	this.moveBG = function(moved,rate) {
 		if(!_.isUndefined(rate)) rate = 0.5;
+		
 		switch(moved) {
 		      case "up" : 
 			  sc.background1[0].y -= rate,
 			  sc.background2[0].y -= rate*2;
+			  /*
+			   * sc.background1[1].y -= rate,
+			  sc.background2[1].y -= rate*2,
+			  sc.background1[2].y -= rate,
+			  sc.background2[2].y -= rate*2;*/
 			  break;
 		      case "down" : 
 			  sc.background1[0].y += rate,
 			  sc.background2[0].y += rate*2;
+			  /*
+			   * sc.background1[1].y += rate,
+			  sc.background2[1].y += rate*2,
+			  sc.background1[2].y += rate,
+			  sc.background2[2].y += rate*2;*/
 			  break;
 		      case "left":
 			  sc.background1[0].x -= rate,
 			  sc.background2[0].x -= rate*2;
+			  /*
+			   * sc.background1[1].x -= rate,
+			  sc.background2[1].x -= rate*2,
+			  sc.background1[2].x -= rate,
+			  sc.background2[2].x -= rate*2;*/
 			  break;
 		      case "right": 
 			  sc.background1[0].x += rate,
 			  sc.background2[0].x += rate*2;
+			  /*
+			   * sc.background1[1].x += rate,
+			  sc.background2[1].x += rate*2,
+			  sc.background1[2].x += rate,
+			  sc.background2[2].x += rate*2;*/
 			  break;
-		}
+		  }
 	};
 	
 }, function(){ 

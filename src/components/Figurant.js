@@ -97,6 +97,7 @@
 	
 	stopWanderLoop: function() {
 		this._wanderingLoop = false;
+		this.trigger("Pause");
 		if(this._wandering)
 			this.stopWalking();
 		return this;
@@ -104,12 +105,11 @@
 	
 	shot: function() {
 		this._wasHit = true;
-		console.log("Figurant shot");
 		Crafty.trigger("FigurantDied");
 		this.stopWanderLoop()
 		    .animate("Dying", 1)
 		    .delay(function() {
-			//!TODO here goes "transformation" to phatom
+			//!TODO here goes "transformation" to phantom
 			
 			this.destroy();
 		    }, 5000);  

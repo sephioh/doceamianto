@@ -33,6 +33,7 @@ Carlos = BaseEntity.extend({
 				(!this.isPlaying("StandingUp") && this._currentReelId == "StandingUp")) {
 				    justHit = true;  
 				    this.animate("StandingStill", -1);
+				    this._blockedDoubleJump = false;
 			    }
 			    for (var i = 0; i < hit.length; i++) {
 				    var hitDirY = Math.round(hit[i].normal.y);
@@ -122,6 +123,7 @@ Carlos = BaseEntity.extend({
 				    
 				    if(!this._up && justHit && actualStairs)
 					    this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap),
+					    this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap),
 					    justHit = false;
 				    
 				    if(this._falling && actualStairs) 
@@ -145,14 +147,22 @@ Carlos = BaseEntity.extend({
 		    .bind('KeyDown', function(e){ 
 			if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
 			  (this.hit('grnd') || this._onStairs || this._up) &&
-			  this._currentReelId != "Shooting" && this._currentReelId != "JumpingShooting")
+			  this._currentReelId != "Shooting" && this._currentReelId != "JumpingShooting"){
 				model.pullTrigger();
-			if (!this._falling && (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)) {
+			}
+		      })
+		    .bind('KeyDown', function(e){ 
+			if ((!this._blockedDoubleJump && !this._canJumpAgain) &&
+			  (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)){
+			    this._up = true,
 			    this._canJumpAgain = true;
-			} else if (this._canJumpAgain && (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)) {
+			}
+			else
+			if (this._canJumpAgain && !this._blockedDoubleJump && (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)) {
 			    this._up = true;
 			    this._gy = 0;
 			    this._canJumpAgain = false;
+			    this._blockedDoubleJump = true;
 			}
 		      })
 		    .bind('KeyUp', function(e) {
@@ -231,6 +241,9 @@ Carlos = BaseEntity.extend({
 				  }
 			    
 			  }
+		      })
+		    .bind("NewDirection", function(){
+			    if(this.hit("Delimiter")) this._blocked = true;
 		      })
 		    .onHit('levelLimits', function(hit) {
 			for (var i = 0; i < hit.length; i++) {

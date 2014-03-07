@@ -217,12 +217,10 @@ gameContainer = {
 	loadedStrings : {},
 	
 	setSceneInfo : function(scnInfo) {
-		//this.loadedStrings = [],
 		this.scenes[scnInfo.name] = scnInfo.elements;
 		
 		return this;
 	},
-	
 	runScene: function(scn, options) { 
 		this.scene = scn;
 		try {
@@ -231,21 +229,17 @@ gameContainer = {
 			console.log(e);
 		}
 	},
-	
 	getSceneElements: function(scn){
 		return this.scenes[this._scn(scn)];
 	},
-	
 	setSceneTexts: function(texts,scn) {
 		this.loadedStrings[this._scn(scn)] = texts;
 		return this;
 	},
-	
 	getSceneTexts: function(scn){
 		return this.loadedStrings[this._scn(scn)];
 		return this;
 	},
-	
 	removeSceneTexts: function(scn) {
 		var alreadyLdd = this.alreadyLoadedElements,
 		    scnElements = this.getSceneElements(scn);
@@ -253,14 +247,12 @@ gameContainer = {
 			if(ele.indexOf("text!") === -1){
 				continue;
 			} else {
-				var eleNdx = alreadyLdd.indexOf(ele);
-				this.alreadyLoadedElements[eleNdx] = undefined;
+				this.alreadyLoadedElements[alreadyLdd.indexOf(ele)] = undefined;
 				delete this.loadedStrings[this._scn(scn)];
 			}
 			return this;
 		}
 	},
-	
 	_scn: function(scn) {
 		return _.isUndefined(scn)?this.scene:scn;
 	}
