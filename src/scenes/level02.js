@@ -62,7 +62,7 @@
 		});
 
 		sc.delimiters = [
-			Crafty.e("Delimiter, wall").attr({ x: 435, y: 1275, w: 2, h: 180}), 
+			Crafty.e("Delimiter, wall").attr({ x: 435, y: 1275, w: 2, h: 180 }), 
 			Crafty.e("Delimiter, wall").attr({ x: 37869, y: 1275, w: 2, h: 180 })
 		];
 		

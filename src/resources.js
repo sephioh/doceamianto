@@ -211,6 +211,55 @@ Resources = Backbone.Model.extend({
 						'figurant5': [0,11]
 					}
 				  
+				},
+				'bg1_1': {
+					'file':'Pmedio1.png',
+					'tile' : 9568,
+					'tileh': 1696,
+					'elements': {
+						'bg1_1': [0,0],
+					}
+				  
+				},
+				'bg1_2': {
+					'file':'Pmedio2.png',
+					'tile' : 8320,
+					'tileh': 1376,
+					'elements': {
+						'bg1_2': [0,0],
+					}
+				},
+				'bg1_3': {
+					'file':'Pmedio3.png',
+					'tile' : 5952,
+					'tileh': 1824,
+					'elements': {
+						'bg1_3': [0,0],
+					}
+				},
+				'bg2_1': {
+					'file':'Pfundo1.png',
+					'tile' : 9558,
+					'tileh': 1696,
+					'elements': {
+						'bg2_1': [0,0],
+					}
+				},
+				'bg2_2': {
+					'file':'Pfundo2.png',
+					'tile' : 8320,
+					'tileh': 1376,
+					'elements': {
+						'bg2_2': [0,0],
+					}
+				},
+				'bg2_3': {
+					'file':'Pfundo3.png',
+					'tile' : 5952,
+					'tileh': 1824,
+					'elements': {
+						'bg2_3': [0,0],
+					}
 				}
 			},
 			'audio' : {

@@ -1,36 +1,3 @@
-gameContainer = {
-  
-	env : 'dev',
-	gameVersion : '0.0.1',
-	conf: {},
-	lang: '',
-	scene : undefined,
-	scenes : [],
-	loadedStrings : [],
-	alreadyLoadedElements : [],
-	
-	setSceneInfo : function(sceneInfo) {
-		//this.loadedStrings = [],
-		this.scenes[this.scenes.length] = sceneInfo;
-		
-		return this;
-	},
-	
-	runScene: function(scene, options) { 
-		this.scene = scene;
-		try {
-			Crafty.scene("loading", options);
-		} catch(e) {
-			console.error(e);
-		}
-	}
-	
-},
-sc    = [], // container for scene elements
-infc  = [], // container for backbone interface elements
-resources = {}, // container for Assets obj
-utils = {}; 
-
 window.onload = function() {
   
 	var version = null,
@@ -240,3 +207,37 @@ window.onload = function() {
 	});
 
 };
+
+gameContainer = {
+  
+	env : 'dev',
+	gameVersion : '0.0.1',
+	conf: {},
+	lang: '',
+	scene : undefined,
+	scenes : [],
+	loadedStrings : [],
+	alreadyLoadedElements : [],
+	
+	setSceneInfo : function(sceneInfo) {
+		//this.loadedStrings = [],
+		this.scenes[this.scenes.length] = sceneInfo;
+		
+		return this;
+	},
+	
+	runScene: function(scene, options) { 
+		this.scene = scene;
+		try {
+			Crafty.scene("loading", options);
+		} catch(e) {
+			console.error(e);
+		}
+	}
+	//!TODO set text function, get text fuction, remove text function
+	
+},
+sc    = [], // container for scene elements
+infc  = [], // container for backbone interface elements
+resources = {}, // container for Assets obj
+utils = {}; 
