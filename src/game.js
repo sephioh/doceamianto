@@ -35,6 +35,7 @@ window.onload = function() {
 		
 		gameContainer.conf = new Config({});
 		gameContainer.lang = utils.getLang();
+		gameContainer.scene = "level01";
 			
 		// the loading screen - will be displayed while assets are loaded
 		Crafty.scene("loading", function(obj) { // obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor' }
@@ -53,7 +54,7 @@ window.onload = function() {
 				if(obj.image)
 					sc['loadingImage'] = Crafty.e("2D, DOM, Image")
 					  .attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h })
-					  .image(obj.image.url);
+					  .image(obj.image.src);
 			}
 			
 			// set sprites for next scene
@@ -86,26 +87,21 @@ window.onload = function() {
 					
 					var require_str = '', require_args = '', require_args_count = 0, regElms = [], textElms = [], elements;
 					// build require_args string, if there are texts to load
-					for(var i = 0, scns = gameContainer.scenes, scnsLen = gameContainer.scenes.length; i<scnsLen; i++) {
-						if(scns[i].name === gameContainer.scene){
-							_.each(scns[i].elements, function(ele, i){ 
-								// if element has not already been loded 
-								if(gameContainer.alreadyLoadedElements.indexOf(ele) == -1)
-									//search for texts, first things to load,
-									if(ele.indexOf("text!") != -1){
-										textElms[require_args_count] = ele;
-										require_args_count++;
-										if(require_args != ''){
-											require_args += ', ';
-											require_args += 'arg' + require_args_count.toString();
-										}
-									} else {
-										regElms[regElms.length] = ele;
-									}
-							});
-							break;
-						}
-					}
+					_.each(gameContainer.getSceneElements(), function(ele, i){ 
+						// if element has not already been loded 
+						if(gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
+							//search for texts, first things to load,
+							if(ele.indexOf("text!") !== -1){
+								textElms[require_args_count] = ele;
+								require_args_count++;
+								if(require_args != ''){
+									require_args += ', ';
+									require_args += 'arg' + require_args_count.toString();
+								}
+							} else {
+								regElms[regElms.length] = ele;
+							}
+					});
 					
 					// text elements (json,xml,txt,etc) followed by regular elements (js)
 					elements = textElms.concat(regElms); 
@@ -114,11 +110,11 @@ window.onload = function() {
 					// require elements and pass callback
 					'require(elements, function(' + require_args + ') { ' +
 					// if text files were loaded, push them to gameContainer.loadedStrings
-					'gameContainer.loadedStrings = []; if (arguments.length) _.each(arguments, function(a) { gameContainer.loadedStrings.push(a); });' +
-					// push lodedElements to gameContainer.alreadyLoadedElements
-					'gameContainer.alreadyLoadedElements.push(elements);' +
-					// destroy ellipsis and run the specified scene
-					'sc.ellipsis.destroy(); sc = []; if (gameContainer.scene !== undefined) Crafty.scene(gameContainer.scene); })';
+					'if (arguments.length) gameContainer.setSceneTexts(arguments); ' +
+					// push lodedElements to gameContainer.alreadyLoadedElements then destroy ellipsis
+					'gameContainer.alreadyLoadedElements.push(elements); sc.ellipsis.destroy(); sc = [];' +
+					// run specified scene
+					'if (gameContainer.scene !== undefined) Crafty.scene(gameContainer.scene); })';
 					
 					eval( '(' + require_str + ')' );
 				},
@@ -184,6 +180,7 @@ window.onload = function() {
 				//"src/modules/create_mocks_module.js",
 				//"src/components/tiledmapbuilder.js",
 				"text!src/scenes/tilemaps/level04-2.json",
+				"src/components/Twoway.js",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
@@ -198,7 +195,7 @@ window.onload = function() {
 			var sceneArg;
 			if(gameContainer.env == "dev") 
 				sceneArg = utils.getUrlVars()['scene'],
-				sceneArg = sceneArg?sceneArg:"level01";
+				sceneArg = sceneArg?sceneArg:gameContainer.scene;
 			else
 				sceneArg = "level01";
 			gameContainer.runScene(sceneArg);
@@ -216,25 +213,57 @@ gameContainer = {
 	lang: '',
 	scene : undefined,
 	scenes : [],
-	loadedStrings : [],
 	alreadyLoadedElements : [],
+	loadedStrings : {},
 	
-	setSceneInfo : function(sceneInfo) {
+	setSceneInfo : function(scnInfo) {
 		//this.loadedStrings = [],
-		this.scenes[this.scenes.length] = sceneInfo;
+		this.scenes[scnInfo.name] = scnInfo.elements;
 		
 		return this;
 	},
 	
-	runScene: function(scene, options) { 
-		this.scene = scene;
+	runScene: function(scn, options) { 
+		this.scene = scn;
 		try {
 			Crafty.scene("loading", options);
 		} catch(e) {
-			console.error(e);
+			console.log(e);
 		}
+	},
+	
+	getSceneElements: function(scn){
+		return this.scenes[this._scn(scn)];
+	},
+	
+	setSceneTexts: function(texts,scn) {
+		this.loadedStrings[this._scn(scn)] = texts;
+		return this;
+	},
+	
+	getSceneTexts: function(scn){
+		return this.loadedStrings[this._scn(scn)];
+		return this;
+	},
+	
+	removeSceneTexts: function(scn) {
+		var alreadyLdd = this.alreadyLoadedElements,
+		    scnElements = this.getSceneElements(scn);
+		for(var ele in scnElements){
+			if(ele.indexOf("text!") === -1){
+				continue;
+			} else {
+				var eleNdx = alreadyLdd.indexOf(ele);
+				this.alreadyLoadedElements[eleNdx] = undefined;
+				delete this.loadedStrings[this._scn(scn)];
+			}
+			return this;
+		}
+	},
+	
+	_scn: function(scn) {
+		return _.isUndefined(scn)?this.scene:scn;
 	}
-	//!TODO set text function, get text fuction, remove text function
 	
 },
 sc    = [], // container for scene elements
