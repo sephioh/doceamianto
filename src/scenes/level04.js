@@ -68,13 +68,10 @@ Crafty.scene("level04", function() {
 	  
 	// background  
 	sc.background1 = [
-	    Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image").attr({ x:0, y:100, z:299 }).image("web/images/Pmedio1.png")
-	    //Crafty("2D, "+gameContainer.conf.get('renderType')+", Sprite, bg1_2"),
-	    //Crafty("2D, "+gameContainer.conf.get('renderType')+", Sprite, bg1_3")
+	    Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image").attr({ x:0, y:-40, z:299 }).image("web/images/Pmedio1.png")
 	  ];
 	sc.background2 = [
-	    Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image").attr({ x:0, y:100, z:298 }).image("web/images/Pfundo1.png")
-	    //Crafty("2D, "+gameContainer.conf.get('renderType')+", Sprite, bg2_3"), 
+	    Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image").attr({ x:0, y:40, z:298 }).image("web/images/Pfundo1.png")
 	  ];
 	  
 	// binding events
@@ -94,28 +91,6 @@ Crafty.scene("level04", function() {
 	this.bind("PlayerMoved", function (movedTo) {
 		this.moveBG(movedTo,0.15);
 	});
-	
-	this.moveBG = function(moved,rate) {
-		if(!_.isUndefined(rate)) rate = 0.5;
-		switch(moved) {
-		      case "up" : 
-			  sc.background1[0].y -= rate,
-			  sc.background2[0].y -= rate*2;
-			  break;
-		      case "down" : 
-			  sc.background1[0].y += rate,
-			  sc.background2[0].y += rate*2;
-			  break;
-		      case "left":
-			  sc.background1[0].x -= rate,
-			  sc.background2[0].x -= rate*2;
-			  break;
-		      case "right": 
-			  sc.background1[0].x += rate,
-			  sc.background2[0].x += rate*2;
-			  break;
-		}
-	};
 	
 	// scene events' functions
 	    
@@ -140,6 +115,28 @@ Crafty.scene("level04", function() {
 				}
 			}
 		},6000,6);
+	};
+	
+	this.moveBG = function(moved,rate) {
+		if(!_.isUndefined(rate)) rate = 0.5;
+		switch(moved) {
+		      case "up" : 
+			  sc.background1[0].y -= rate,
+			  sc.background2[0].y -= rate*2;
+			  break;
+		      case "down" : 
+			  sc.background1[0].y += rate,
+			  sc.background2[0].y += rate*2;
+			  break;
+		      case "left":
+			  sc.background1[0].x -= rate,
+			  sc.background2[0].x -= rate*2;
+			  break;
+		      case "right": 
+			  sc.background1[0].x += rate,
+			  sc.background2[0].x += rate*2;
+			  break;
+		}
 	};
 	
 }, function(){ 

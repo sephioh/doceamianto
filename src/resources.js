@@ -212,7 +212,7 @@ Resources = Backbone.Model.extend({
 					}
 				  
 				},
-				'bg1_1': {
+				/*'bg1_1': {
 					'file':'Pmedio1.png',
 					'tile' : 9568,
 					'tileh': 1696,
@@ -260,7 +260,7 @@ Resources = Backbone.Model.extend({
 					'elements': {
 						'bg2_3': [0,0],
 					}
-				}
+				}*/
 			},
 			'audio' : {
 			  

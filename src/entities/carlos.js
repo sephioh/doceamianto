@@ -240,7 +240,7 @@ Carlos = BaseEntity.extend({
 		      },function(){
 				this._blocked = false;
 		      })
-		    .collision(new Crafty.polygon([[30,7],[60,7],[60,87],[30,87]]));
+		    .collision(new Crafty.polygon([[32,7],[60,7],[60,87],[32,87]]));
 		model.set({'entity' : entity});
 		    
 	},	
