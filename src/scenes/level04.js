@@ -51,7 +51,7 @@ Crafty.scene("level04", function() {
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
 	
 	sc.delimiters = [
-		Crafty.e("Delimiter, levelLimits").attr({ x: 322, y: 540, w: 1, h: 150 }), 
+		Crafty.e("Delimiter, levelLimits").attr({ x: 388, y: 540, w: 1, h: 150 }), 
 		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + sc.player.getEntity()._w, y: 2070, w: 1, h: 150 })
 	  ];
 	
@@ -68,10 +68,10 @@ Crafty.scene("level04", function() {
 	  
 	// background  
 	sc.background1[0] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: 0, y: -30, z: 299, w: 9568 })
+	    .attr({ x: 0, y: 30, z: 299, w: 9568 })
 	    .image("web/images/Pmedio1.png"),
 	sc.background2[0] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: 0, y: 30, z: 298, w: 8320 })
+	    .attr({ x: 0, y: -30, z: 298, w: 8320 })
 	    .image("web/images/Pfundo1.png");
 	/*
 	sc.background1[1] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
@@ -101,8 +101,8 @@ Crafty.scene("level04", function() {
 			this.callPolicemen();
 		}
 	  });
-	this.bind("PlayerMoved", function(movedTo) {
-		this.moveBG(movedTo,0.15);
+	this.bind("PlayerMoved", function(prevPos) {
+		this.moveBG(prevPos, 10);
 	  });
 	
 	// scene events' functions
@@ -112,7 +112,7 @@ Crafty.scene("level04", function() {
 			var polen = Crafty("Policeman").length;
 			if(polen < 2){
 				if(polen < 1){ 
-					// !TODO create 2 policemen in the right spot
+					// !TODO create 1 policeman at each side
 					
 					/*
 					sc.policemen.push(new Policeman().);
@@ -120,7 +120,7 @@ Crafty.scene("level04", function() {
 					*/
 				}
 				else{	
-					// !TODO create 1 policemen in the right spot
+					// !TODO create 1 policeman on left or right
 					
 					/*
 					sc.policemen.push(new Policeman().);
@@ -130,47 +130,21 @@ Crafty.scene("level04", function() {
 		},6000,6);
 	};
 	
-	this.moveBG = function(moved,rate) {
-		if(!_.isUndefined(rate)) rate = 0.5;
-		
-		switch(moved) {
-		      case "up" : 
-			  sc.background1[0].y -= rate,
-			  sc.background2[0].y -= rate*2;
-			  /*
-			   * sc.background1[1].y -= rate,
-			  sc.background2[1].y -= rate*2,
-			  sc.background1[2].y -= rate,
-			  sc.background2[2].y -= rate*2;*/
-			  break;
-		      case "down" : 
-			  sc.background1[0].y += rate,
-			  sc.background2[0].y += rate*2;
-			  /*
-			   * sc.background1[1].y += rate,
-			  sc.background2[1].y += rate*2,
-			  sc.background1[2].y += rate,
-			  sc.background2[2].y += rate*2;*/
-			  break;
-		      case "left":
-			  sc.background1[0].x -= rate,
-			  sc.background2[0].x -= rate*2;
-			  /*
-			   * sc.background1[1].x -= rate,
-			  sc.background2[1].x -= rate*2,
-			  sc.background1[2].x -= rate,
-			  sc.background2[2].x -= rate*2;*/
-			  break;
-		      case "right": 
-			  sc.background1[0].x += rate,
-			  sc.background2[0].x += rate*2;
-			  /*
-			   * sc.background1[1].x += rate,
-			  sc.background2[1].x += rate*2,
-			  sc.background1[2].x += rate,
-			  sc.background2[2].x += rate*2;*/
-			  break;
-		  }
+	this.moveBG = function(prevPos,rate) {
+		if(_.isUndefined(rate)) rate = 0.5;
+		var moved;
+		if(prevPos._x !== playerEnt._x){
+			var bg1PosX = ((playerEnt._x - sc.player.get('startingPoint').x) / rate),
+			    bg2PosX = ((playerEnt._x - sc.player.get('startingPoint').x) / (rate/2));
+			sc.background1[0].x = bg1PosX,
+			sc.background2[0].x = bg2PosX;
+		} else 
+		if( prevPos._y !== playerEnt._y){
+			var bg1PosY = ((playerEnt._y - sc.player.get('startingPoint').y) / rate) - 32,
+			    bg2PosY = ((playerEnt._y - sc.player.get('startingPoint').y) / (rate/2)) + 32;
+			sc.background1[0].y = bg1PosY,
+			sc.background2[0].y = bg2PosY;
+		}
 	};
 	
 }, function(){ 

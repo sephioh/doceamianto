@@ -182,6 +182,10 @@ Carlos = BaseEntity.extend({
 		    .reel("JumpingShooting", 500, 0, 3, 6)
 		    .reel("ShotFromBehind", 750, 0, 4, 6)
 		    .setName('Player')
+		    .bind('Move', function(oldPos) {
+			//if(!this._blocked)
+			Crafty.trigger("PlayerMoved", oldPos);
+		    })
 		    .bind('Moved', function(prevPos) {
 		    
 			// controlling animations
@@ -190,7 +194,7 @@ Carlos = BaseEntity.extend({
 				
 			var moved = "";
 			
-			if(!this._blocked) {
+			//if(!this._blocked) {
 				// if this moved right
 				if(this._x > prevPos.x)
 					moved = "right";
@@ -207,7 +211,7 @@ Carlos = BaseEntity.extend({
 				if(this._y > prevPos.y) 
 					moved = "down";
 			  
-				Crafty.trigger("PlayerMoved", moved);
+				//Crafty.trigger("PlayerMoved", moved);
 			      
 				switch(moved) {
 					case "up" : 
@@ -240,14 +244,15 @@ Carlos = BaseEntity.extend({
 					    break;
 				  }
 			    
-			  }
+			  //}
 		      })
-		    .bind("NewDirection", function(){
+		    /*.bind("NewDirection", function(o){
 			    if(this.hit("Delimiter")) this._blocked = true;
-		      })
+			    console.log(this._blocked, "new direction: ", o);
+		      })*/
 		    .onHit('levelLimits', function(hit) {
 			for (var i = 0; i < hit.length; i++) {
-				this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
+				this.x += hit[i].normal.x * model.get('speed') - 0.000000000000001;
 				this._blocked = true;
 			}
 		      },function(){
