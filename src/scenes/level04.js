@@ -27,8 +27,8 @@ Crafty.scene("level04", function() {
 	sc['obstacles'] = [],
 	sc['figurants'] = [],
 	sc['policemen'] = [],
-	sc['background1'] = [],
-	sc['background2'] = [];
+	sc['background1'] = {},
+	sc['background2'] = {};
 
 	 sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
@@ -67,27 +67,12 @@ Crafty.scene("level04", function() {
 	  ];
 	  
 	// background  
-	sc.background1[0] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	sc.background1 = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 30, z: 299, w: 9568 })
-	    .image("web/images/Pmedio1.png"),
-	sc.background2[0] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .image("web/images/bg1-level04.png"),
+	sc.background2 = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: -30, z: 298, w: 8320 })
-	    .image("web/images/Pfundo1.png");
-	/*
-	sc.background1[1] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: sc.background1[0]._w, y:-40, z:299, w: 9558 })
-	    .image("web/images/Pmedio2.png"),
-	sc.background2[1] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: sc.background1[0]._w, y:40, z:298, w: 8320 })
-	    .image("web/images/Pfundo2.png");
-	sc.background1[2] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: sc.background1[0]._w + sc.background1[1]._w, y:-40, z:299, w: 5952 })
-	    .image("web/images/Pmedio3.png"),
-	sc.background2[2] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: sc.background1[0]._w + sc.background1[1]._w, y:40, z:298, w: 5952 })
-	    .image("web/images/Pfundo3.png");*/
-	  
-	// binding events
+	    .image("web/images/bg2-level04.png");
 	
 	this.bind("PlayerShoot", function alert1() {
 		this.unbind("PlayerShoot", alert1);
@@ -130,15 +115,17 @@ Crafty.scene("level04", function() {
 		},6000,6);
 	};
 	
-	this.moveBG = function(prevPos,rate) {
+	this.moveBG = function(prevPos,rate){
 		if(_.isUndefined(rate)) rate = 10;
 		if(prevPos._x !== playerEnt._x){
-			sc.background1[0].x = (playerEnt._x - sc.player.get('startingPoint').x) / rate,
-			sc.background2[0].x = (playerEnt._x - sc.player.get('startingPoint').x) / (rate/2);
+			var xDif = playerEnt._x - sc.player.get('startingPoint').x;
+			sc.background1.x = xDif / rate,
+			sc.background2.x = xDif / (rate/2);
 		} else 
 		if(prevPos._y !== playerEnt._y){
-			sc.background1[0].y = ((playerEnt._y - sc.player.get('startingPoint').y) / rate) - 32,
-			sc.background2[0].y = ((playerEnt._y - sc.player.get('startingPoint').y) / (rate/2)) + 32;
+			var yDif = playerEnt._y - sc.player.get('startingPoint').y;
+			sc.background1.y = (yDif / rate) - 32,
+			sc.background2.y = (yDif / (rate/2)) + 32;
 		}
 	};
 	

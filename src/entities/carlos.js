@@ -183,7 +183,6 @@ Carlos = BaseEntity.extend({
 		    .reel("ShotFromBehind", 750, 0, 4, 6)
 		    .setName('Player')
 		    .bind('Move', function(oldPos) {
-			//if(!this._blocked)
 			Crafty.trigger("PlayerMoved", oldPos);
 		    })
 		    .bind('Moved', function(prevPos) {
@@ -209,9 +208,7 @@ Carlos = BaseEntity.extend({
 			// if this moved down
 			if(this._y > prevPos.y) 
 				moved = "down";
-		  
-			//Crafty.trigger("PlayerMoved", moved);
-		      
+		  		      
 			switch(moved) {
 				case "up" : 
 				    if(this._currentReelId != "JumpingUp" &&
@@ -226,16 +223,16 @@ Carlos = BaseEntity.extend({
 					    this.animate("JumpingFalling");
 				    break;
 				case "left":
-				    if(!this._flipX) 	// if moved left and is unflipped
-					    this.flip("X");	// flip sprite
+				    if(!this._flipX) 			// if moved left and is unflipped
+					    this.flip("X");		// flip sprite
 				    if((!this.isPlaying("Running") && !this._up) && 
 				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
 					    this.animate("Running", -1);
 				    }
 				    break;
 				case "right": 
-				    if(this._flipX) 				// if moved right and is flipped 
-					    this.unflip("X");			// unflip sprite
+				    if(this._flipX) 			// if moved right and is flipped 
+					    this.unflip("X");		// unflip sprite
 				    if((!this.isPlaying("Running") && !this._up) &&
 				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
 					    this.animate("Running", -1);
@@ -245,7 +242,7 @@ Carlos = BaseEntity.extend({
 		      })
 		    .onHit('levelLimits', function(hit) {
 			for (var i = 0; i < hit.length; i++) {
-				this.x += hit[i].normal.x * model.get('speed') - 0.000000000000001;
+				this.x += hit[i].normal.x * model.get('speed');
 			}
 		      })
 		    .collision(new Crafty.polygon([[32,7],[60,7],[60,87],[32,87]]));
