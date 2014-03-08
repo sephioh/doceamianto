@@ -102,7 +102,7 @@ Crafty.scene("level04", function() {
 		}
 	  });
 	this.bind("PlayerMoved", function(prevPos) {
-		this.moveBG(prevPos, 10);
+		this.moveBG(prevPos, 15);
 	  });
 	
 	// scene events' functions
@@ -131,19 +131,14 @@ Crafty.scene("level04", function() {
 	};
 	
 	this.moveBG = function(prevPos,rate) {
-		if(_.isUndefined(rate)) rate = 0.5;
-		var moved;
+		if(_.isUndefined(rate)) rate = 10;
 		if(prevPos._x !== playerEnt._x){
-			var bg1PosX = ((playerEnt._x - sc.player.get('startingPoint').x) / rate),
-			    bg2PosX = ((playerEnt._x - sc.player.get('startingPoint').x) / (rate/2));
-			sc.background1[0].x = bg1PosX,
-			sc.background2[0].x = bg2PosX;
+			sc.background1[0].x = (playerEnt._x - sc.player.get('startingPoint').x) / rate,
+			sc.background2[0].x = (playerEnt._x - sc.player.get('startingPoint').x) / (rate/2);
 		} else 
-		if( prevPos._y !== playerEnt._y){
-			var bg1PosY = ((playerEnt._y - sc.player.get('startingPoint').y) / rate) - 32,
-			    bg2PosY = ((playerEnt._y - sc.player.get('startingPoint').y) / (rate/2)) + 32;
-			sc.background1[0].y = bg1PosY,
-			sc.background2[0].y = bg2PosY;
+		if(prevPos._y !== playerEnt._y){
+			sc.background1[0].y = ((playerEnt._y - sc.player.get('startingPoint').y) / rate) - 32,
+			sc.background2[0].y = ((playerEnt._y - sc.player.get('startingPoint').y) / (rate/2)) + 32;
 		}
 	};
 	

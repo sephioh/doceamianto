@@ -194,69 +194,59 @@ Carlos = BaseEntity.extend({
 				
 			var moved = "";
 			
-			//if(!this._blocked) {
-				// if this moved right
-				if(this._x > prevPos.x)
-					moved = "right";
-				else
-				// if this moved up
-				if(this._y < prevPos.y) 
-					moved = "up";
-				else
-				// if this moved left
-				if(this._x < prevPos.x)
-					moved = "left";
-				else
-				// if this moved down
-				if(this._y > prevPos.y) 
-					moved = "down";
-			  
-				//Crafty.trigger("PlayerMoved", moved);
-			      
-				switch(moved) {
-					case "up" : 
-					    if(this._currentReelId != "JumpingUp" &&
-					      (this.isPlaying("StandingStill") || 
-					      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && this._currentReelId != "JumpingShooting")))
-						    this.animate("JumpingUp");
-					    break;
-					case "down" : 
-					    if(this._currentReelId != "JumpingFalling" &&
-					      ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
-					      (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
-						    this.animate("JumpingFalling");
-					    break;
-					case "left":
-					    if(!this._flipX) 	// if moved left and is unflipped
-						    this.flip("X");	// flip sprite
-					    if((!this.isPlaying("Running") && !this._up) && 
-					      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
-						    this.animate("Running", -1);
-					    }
-					    break;
-					case "right": 
-					    if(this._flipX) 				// if moved right and is flipped 
-						    this.unflip("X");			// unflip sprite
-					    if((!this.isPlaying("Running") && !this._up) &&
-					      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
-						    this.animate("Running", -1);
-					    }
-					    break;
-				  }
-			    
-			  //}
+			// if this moved right
+			if(this._x > prevPos.x)
+				moved = "right";
+			else
+			// if this moved up
+			if(this._y < prevPos.y) 
+				moved = "up";
+			else
+			// if this moved left
+			if(this._x < prevPos.x)
+				moved = "left";
+			else
+			// if this moved down
+			if(this._y > prevPos.y) 
+				moved = "down";
+		  
+			//Crafty.trigger("PlayerMoved", moved);
+		      
+			switch(moved) {
+				case "up" : 
+				    if(this._currentReelId != "JumpingUp" &&
+				      (this.isPlaying("StandingStill") || 
+				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && this._currentReelId != "JumpingShooting")))
+					    this.animate("JumpingUp");
+				    break;
+				case "down" : 
+				    if(this._currentReelId != "JumpingFalling" &&
+				      ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
+				      (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
+					    this.animate("JumpingFalling");
+				    break;
+				case "left":
+				    if(!this._flipX) 	// if moved left and is unflipped
+					    this.flip("X");	// flip sprite
+				    if((!this.isPlaying("Running") && !this._up) && 
+				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
+					    this.animate("Running", -1);
+				    }
+				    break;
+				case "right": 
+				    if(this._flipX) 				// if moved right and is flipped 
+					    this.unflip("X");			// unflip sprite
+				    if((!this.isPlaying("Running") && !this._up) &&
+				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
+					    this.animate("Running", -1);
+				    }
+				    break;
+				}
 		      })
-		    /*.bind("NewDirection", function(o){
-			    if(this.hit("Delimiter")) this._blocked = true;
-			    console.log(this._blocked, "new direction: ", o);
-		      })*/
 		    .onHit('levelLimits', function(hit) {
 			for (var i = 0; i < hit.length; i++) {
 				this.x += hit[i].normal.x * model.get('speed') - 0.000000000000001;
-				this._blocked = true;
 			}
-		      },function(){
-				this._blocked = false;
 		      })
 		    .collision(new Crafty.polygon([[32,7],[60,7],[60,87],[32,87]]));
 		model.set({'entity' : entity});
