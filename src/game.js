@@ -38,7 +38,8 @@ window.onload = function() {
 		gameContainer.scene = "level01";
 			
 		// the loading screen - will be displayed while assets are loaded
-		Crafty.scene("loading", function(obj) { // obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor' }
+		// callback obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor', 'image': { url, w, h } }
+		Crafty.scene("loading", function(obj) { 
 			// clear scene
 			sc = [], infc = [], sounds = {};
 			
@@ -85,18 +86,18 @@ window.onload = function() {
 			Crafty.load(resources.getPaths(gameContainer.scene), function() {
 					// use eval for executing require(), also loading possible texts/maps
 					
-					var require_str = '', args_texts = '', args_texts_count = 0, regElms = [], textElms = [], elements;
-					// build args_texts string, if there are texts to load
+					var require_str = '', text_args = '', text_args_count = 0, regElms = [], textElms = [], elements;
+					// build text_args string, if there are texts to load
 					_.each(gameContainer.getSceneElements(), function(ele, i){ 
 						// if element has not already been loded 
 						if(gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
 							//search for texts, first things to load,
 							if(ele.indexOf("text!") !== -1){
-								textElms[args_texts_count] = ele;
-								args_texts_count++;
-								if(args_texts != ''){
-									args_texts += ', ';
-									args_texts += 'arg' + args_texts_count.toString();
+								textElms[text_args_count] = ele;
+								text_args_count++;
+								if(text_args != ''){
+									text_args += ', ';
+									text_args += 'arg' + text_args_count;
 								}
 							} else {
 								regElms[regElms.length] = ele;
@@ -108,7 +109,7 @@ window.onload = function() {
 					
 					require_str = 
 					// require elements and pass callback
-					'require(elements, function(' + args_texts + ') { ' +
+					'require(elements, function(' + text_args + ') { ' +
 					// if text files were loaded, push them to gameContainer.loadedStrings
 					'if (arguments.length) gameContainer.setSceneTexts(arguments); ' +
 					// push lodedElements to gameContainer.alreadyLoadedElements then destroy ellipsis
@@ -126,7 +127,56 @@ window.onload = function() {
 				}
 			);
 		});
-		  
+		
+		// set scenes' loading parameters (scene name, scene elements to be loaded)
+				
+		gameContainer
+		    .setSceneInfo({ 
+			name: "level01",
+			elements: [
+				"src/components/TweenColor.js",
+				"src/components/Delimiter.js",
+				"src/components/Particle.js",
+				"src/entities/amianto01.js",
+				"src/entities/darkheart.js",
+				"src/entities/redheart.js"
+				]
+		    }).setSceneInfo({ 
+			name: "level02",
+			elements: [
+				"text!src/scenes/tilemaps/level02.json", 
+				"src/components/TiledLevelImporter.js",
+				"src/components/Delimiter.js",
+				"src/entities/diamond.js",
+				"src/entities/amianto02.js",
+				"src/entities/obstacle.js",
+				"src/entities/amiantoToBlanche.js"
+			      ],
+		    }).setSceneInfo({
+			name: "level03",
+			elements: [
+				"src/components/Delimiter.js",
+				"src/entities/amianto03.js",
+				"src/entities/wordblock.js",
+				"src/entities/wordplaceholder.js",
+				"src/effects/glitcheffect.js",
+				"text!src/lang/level03-"+gameContainer.lang+".json"
+			      ],
+		    }).setSceneInfo({
+			name: "level04",
+			elements: [
+				"text!src/scenes/tilemaps/level04-2.json",
+				"src/components/Twoway.js",
+				"src/components/TiledLevelImporter.js",
+				"src/components/Delimiter.js",
+				"src/components/Bullet.js",
+				"src/components/Figurant.js",
+				"src/entities/carlos.js",
+				"src/entities/areatransition.js",
+				"src/entities/mapsmanager.js",
+			      ],
+		    });
+		
 		// declare all scenes
 		
 		var scenes = [
@@ -207,52 +257,3 @@ sc    = [], // container for scene elements
 infc  = [], // container for backbone interface elements
 resources = {}, // container for Assets obj
 utils = {}; 
-
-// set scenes' loading parameters (scene name, scene elements to be loaded)
-		
-gameContainer
-    .setSceneInfo({ 
-	name: "level01",
-	elements: [
-		"src/components/TweenColor.js",
-		"src/components/Delimiter.js",
-		"src/components/Particle.js",
-		"src/entities/amianto01.js",
-		"src/entities/darkheart.js",
-		"src/entities/redheart.js"
-		]
-    }).setSceneInfo({ 
-	name: "level02",
-	elements: [
-		"text!src/scenes/tilemaps/level02.json", 
-		"src/components/TiledLevelImporter.js",
-		"src/components/Delimiter.js",
-		"src/entities/diamond.js",
-		"src/entities/amianto02.js",
-		"src/entities/obstacle.js",
-		"src/entities/amiantoToBlanche.js"
-	      ],
-    }).setSceneInfo({
-	name: "level03",
-	elements: [
-		"src/components/Delimiter.js",
-		"src/entities/amianto03.js",
-		"src/entities/wordblock.js",
-		"src/entities/wordplaceholder.js",
-		"src/effects/glitcheffect.js",
-		"text!src/lang/level03-"+gameContainer.lang+".json"
-	      ],
-    }).setSceneInfo({
-	name: "level04",
-	elements: [
-		"text!src/scenes/tilemaps/level04-2.json",
-		"src/components/Twoway.js",
-		"src/components/TiledLevelImporter.js",
-		"src/components/Delimiter.js",
-		"src/components/Bullet.js",
-		"src/components/Figurant.js",
-		"src/entities/carlos.js",
-		"src/entities/areatransition.js",
-		"src/entities/mapsmanager.js",
-	      ],
-    });
