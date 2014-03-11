@@ -32,8 +32,8 @@ Crafty.scene("level03", function() {
 		Crafty.e("Delimiter, blocker, Sprite, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
 	];
 	
-	var txts = JSON.parse(gameContainer.loadedStrings[0]),
-	     txtSize = 55;
+	var txts = JSON.parse(gameContainer.getSceneTexts()[0]),
+	    txtSize = 55;
 
 	// Word blocks
 	

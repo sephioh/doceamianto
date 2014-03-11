@@ -27,8 +27,12 @@ Crafty.scene("level04", function() {
 	sc['obstacles'] = [],
 	sc['figurants'] = [],
 	sc['policemen'] = [],
-	sc['background1'] = {},
-	sc['background2'] = {};
+	sc['background1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: 0, y: 30, z: 299 })
+	    .image("web/images/bg1-level04.png"),
+	sc['background2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .attr({ x: 0, y: -30, z: 298 })
+	    .image("web/images/bg2-level04.png");
 
 	 sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
@@ -41,10 +45,6 @@ Crafty.scene("level04", function() {
 		      this.collision(new Crafty.polygon([[0,0],[31,31]]));
 		});
 		
-		_.each(sc.figurants, function(f) {
-			f.wanderLoop();
-		});
-		
 		Crafty.viewport.clampToEntities = false;
 		Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	    })
@@ -55,8 +55,6 @@ Crafty.scene("level04", function() {
 		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + sc.player.getEntity()._w, y: 2070, w: 1, h: 150 })
 	  ];
 	
-	var playerEnt = sc.player.getEntity();
-	playerEnt.gravity();
 	sc.figurants = [
 		Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
@@ -64,15 +62,16 @@ Crafty.scene("level04", function() {
 		Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h })
-	  ];
+	];
 	  
-	// background  
-	sc.background1 = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: 0, y: 30, z: 299, w: 9568 })
-	    .image("web/images/bg1-level04.png"),
-	sc.background2 = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: 0, y: -30, z: 298, w: 8320 })
-	    .image("web/images/bg2-level04.png");
+	_.each(sc.figurants, function(f) {
+		f.wanderLoop();
+	});
+	
+	var playerEnt = sc.player.getEntity();
+	playerEnt.gravity();
+	
+	// event bindings
 	
 	this.bind("PlayerShoot", function alert1() {
 		this.unbind("PlayerShoot", alert1);
@@ -87,12 +86,12 @@ Crafty.scene("level04", function() {
 		}
 	  });
 	this.bind("PlayerMoved", function(prevPos) {
-		this.moveBG(prevPos, 15);
+		moveBG(prevPos);
 	  });
 	
-	// scene events' functions
+	// event functions
 	    
-	this.callPolicemen = function() {
+	this.callPolicemen = function(){
 		sc.delays.delay(function() {
 			var polen = Crafty("Policeman").length;
 			if(polen < 2){
@@ -115,19 +114,23 @@ Crafty.scene("level04", function() {
 		},6000,6);
 	};
 	
-	this.moveBG = function(prevPos,rate){
-		if(_.isUndefined(rate)) rate = 10;
+	// parallax
+	
+	var playerInitPos = sc.player.get('startingPoint');
+	    bgMoveRate = 15;
+	
+	function moveBG (prevPos){
 		if(prevPos._x !== playerEnt._x){
-			var xDif = playerEnt._x - sc.player.get('startingPoint').x;
-			sc.background1.x = xDif / rate,
-			sc.background2.x = xDif / (rate/2);
+			var xDif = playerEnt._x - playerInitPos.x;
+			sc.background1.x = xDif / bgMoveRate,
+			sc.background2.x = xDif / (bgMoveRate/2);
 		} else 
 		if(prevPos._y !== playerEnt._y){
-			var yDif = playerEnt._y - sc.player.get('startingPoint').y;
-			sc.background1.y = (yDif / rate) - 32,
-			sc.background2.y = (yDif / (rate/2)) + 32;
+			var yDif = playerEnt._y - playerInitPos.y;
+			sc.background1.y = (yDif / bgMoveRate) - 32,
+			sc.background2.y = (yDif / (bgMoveRate/2)) + 32;
 		}
-	};
+	}
 	
 }, function(){ 
 	//get rid of unwanted bindings, functions and files

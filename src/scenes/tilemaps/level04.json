@@ -65,7 +65,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"./web/images/tileset-level04.png",
+         "image":"web/images/tileset-level04.png",
          "imageheight":1298,
          "imagewidth":1280,
          "margin":0,
