@@ -21,7 +21,7 @@ Amianto03 = BaseEntity.extend({
 			});
 		entity
 			
-		    .collision(new Crafty.polygon([[22,10],[59,10],[57,88],[24,88]]))
+		    //.collision(new Crafty.polygon([[22,10],[59,10],[57,88],[24,88]]))
 		    // Animation definitions
 		    .reel("Standing", 500, 0, 0, 5)
 		    .reel("MovingVertically", 500, 0, 1, 5)
@@ -107,8 +107,12 @@ Amianto03 = BaseEntity.extend({
 			}
 		    }, function(){
 			if(!this.newly_created){
-				if(((this._x + model.getPolygonDirMostPoint('left')) > Crafty.viewport.width || this._x < 0) || 
-				    ((this._y + model.getPolygonDirMostPoint('up')) > Crafty.viewport.height || this._y < 0)) {
+				if((this._x + this._w > Crafty.viewport.width) || (this._x < 0) || 
+				    (this._y + this._h > Crafty.viewport.height) || (this._y < 0))
+				/*if((model.getPolygonDirMostPoint('left') > Crafty.viewport.width) || (model.getPolygonDirMostPoint('right') < 0) || 
+				    (model.getPolygonDirMostPoint('up') > Crafty.viewport.height) || (model.getPolygonDirMostPoint('down') < 0)) */
+				{
+					console.log("amianto destroyed");
 					this.destroy();
 				}
 			}else{
@@ -174,7 +178,7 @@ Amianto03 = BaseEntity.extend({
 		    });
 		model.set({'entity' : entity});
 	},
-	getPolygonDirMostPoint: function(dir){
+	/*getPolygonDirMostPoint: function(dir){
 		var points = this.getEntity().map.points, most;
 		for(var i = 0, plen = points.length; i < plen; i++){
 			switch(dir){
@@ -192,6 +196,6 @@ Amianto03 = BaseEntity.extend({
 				break;
 			}
 		}
-		return most - 100;
-	}
+		return most;
+	}*/
 });
