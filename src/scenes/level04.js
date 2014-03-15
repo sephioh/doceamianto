@@ -49,10 +49,13 @@ Crafty.scene("level04", function() {
 		Crafty.viewport.follow(sc.player.getEntity(), 0, 0);
 	    })
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
+	    
+	var playerEnt = sc.player.getEntity();
+	playerEnt.gravity();
 	
 	sc.delimiters = [
 		Crafty.e("Delimiter, levelLimits").attr({ x: 388, y: 540, w: 1, h: 150 }), 
-		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + sc.player.getEntity()._w, y: 2070, w: 1, h: 150 })
+		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + playerEnt._w, y: 2070, w: 1, h: 150 })
 	  ];
 	
 	sc.figurants = [
@@ -67,9 +70,6 @@ Crafty.scene("level04", function() {
 	_.each(sc.figurants, function(f) {
 		f.wanderLoop();
 	});
-	
-	var playerEnt = sc.player.getEntity();
-	playerEnt.gravity();
 	
 	// event bindings
 	
@@ -86,7 +86,7 @@ Crafty.scene("level04", function() {
 		}
 	  });
 	this.bind("PlayerMoved", function(prevPos) {
-		moveBG(prevPos);
+		this.moveBG(prevPos);
 	  });
 	
 	// event functions
@@ -114,21 +114,21 @@ Crafty.scene("level04", function() {
 		},6000,6);
 	};
 	
-	// parallax
+	// parallax background scrolling
 	
 	var playerInitPos = sc.player.get('startingPoint');
 	    bgMoveRate = 15;
 	
-	function moveBG (prevPos){
+	this.moveBG = function (prevPos){
 		if(prevPos._x !== playerEnt._x){
-			var xDif = playerEnt._x - playerInitPos.x;
-			sc.background1.x = xDif / bgMoveRate,
-			sc.background2.x = xDif / (bgMoveRate/2);
+			var XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
+			sc.background1.x = XD,
+			sc.background2.x = XD / 0.5;
 		} else 
 		if(prevPos._y !== playerEnt._y){
-			var yDif = playerEnt._y - playerInitPos.y;
-			sc.background1.y = (yDif / bgMoveRate) - 32,
-			sc.background2.y = (yDif / (bgMoveRate/2)) + 32;
+			var YD = (playerEnt._y - playerInitPos.y) / bgMoveRate;
+			sc.background1.y = YD - 32,
+			sc.background2.y = (YD / 0.5) + 32;
 		}
 	}
 	

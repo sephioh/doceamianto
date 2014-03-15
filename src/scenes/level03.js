@@ -26,10 +26,10 @@ Crafty.scene("level03", function() {
  
 	// Scenario corners
 	sc.corners = [
-		Crafty.e("Delimiter, blocker, Sprite, cornerUpLeft").attr({ x: -10, y: -10, w: 20, h: 20 }),
-		Crafty.e("Delimiter, blocker, Sprite, cornerUpRight").attr({ x: -10, y: 590, w: 20, h: 20 }),
-		Crafty.e("Delimiter, blocker, Sprite, cornerDownLeft").attr({ x: 790, y: -10, w: 20, h: 20 }),
-		Crafty.e("Delimiter, blocker, Sprite, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
+		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerUpLeft").attr({ x: -10, y: -10, w: 20, h: 20 }),
+		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerUpRight").attr({ x: -10, y: 590, w: 20, h: 20 }),
+		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerDownLeft").attr({ x: 790, y: -10, w: 20, h: 20 }),
+		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
 	];
 	
 	var txts = JSON.parse(gameContainer.getSceneTexts()[0]),
@@ -38,27 +38,29 @@ Crafty.scene("level03", function() {
 	// Word blocks
 	
 	sc.wordblocks = [
-		new Wordblock({ initialX: 400, initialY: 155, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, full_text: txts.text01, text_size: txtSize }),
+		new Wordblock({ initialX: 400, initialY: 175, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, full_text: txts.text01, text_size: txtSize }),
 		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, full_text: txts.text02, text_size: txtSize }),
 		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text03.length*txtSize, full_text: txts.text03, text_size: txtSize }),
 		new Wordblock({ initialX:  86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, full_text: txts.text04, text_size: txtSize }),
 		new Wordblock({ initialX: 486, initialY: 424, initialZ: 0, initialH: txtSize, initialW: txts.text05.length*txtSize, full_text: txts.text05, text_size: txtSize }),
-		new Wordblock({ initialX: 366, initialY: 335, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, full_text: txts.text06, text_size: txtSize }),
-		new Wordblock({ initialX: 166, initialY: 399, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, full_text: txts.text07, text_size: txtSize })
+		new Wordblock({ initialX: 100, initialY: 300, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, full_text: txts.text06, text_size: txtSize }),
+		new Wordblock({ initialX: 50, initialY: 519, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, full_text: txts.text07, text_size: txtSize })
 		//new Wordblock({ initialX: 266, initialY: 275, initialZ: 0, initialH: txtSize, initialW: txts.text08.length*txtSize, full_text: txts.text08, text_size: txtSize })
 	];
 
 	// Wordplaceholders
 	sc.wordplaceholders = [
-		new Wordplaceholder({ initialX: 166, initialY: 155, full_text: txts.text01 }),
-		new Wordplaceholder({ initialX: 393, initialY: 155, full_text: txts.text02 }),
-		new Wordplaceholder({ initialX: 644, initialY: 155, full_text: txts.text03 }),
-		new Wordplaceholder({ initialX: 234, initialY: 241, full_text: txts.text04 }),
-		new Wordplaceholder({ initialX: 554, initialY: 241, full_text: txts.text05 }),
-		new Wordplaceholder({ initialX: 245, initialY: 335, full_text: txts.text06 }),
-		new Wordplaceholder({ initialX: 614, initialY: 335, full_text: txts.text07 })
+		new Wordplaceholder({ initialX: 164, initialY: 153, full_text: txts.text01 }),
+		new Wordplaceholder({ initialX: 512, initialY: 153, full_text: txts.text02 }),
+		new Wordplaceholder({ initialX: 208, initialY: 202, full_text: txts.text03 }),
+		new Wordplaceholder({ initialX: 483, initialY: 202, full_text: txts.text04 }),
+		new Wordplaceholder({ initialX: 204, initialY: 293, full_text: txts.text05 }),
+		new Wordplaceholder({ initialX: 492, initialY: 293, full_text: txts.text06 }),
+		new Wordplaceholder({ initialX: 360, initialY: 400, full_text: txts.text07 })
 		//new Wordplaceholder({ initialX: 410, initialY: 447, full_text: txts.text08 })
 	];
+	
+	this.one("Tilt", this.glitch_effect);
 	
 	// declaring events
 
@@ -91,8 +93,6 @@ Crafty.scene("level03", function() {
 		}, 250, 5);
 		
 	}
-	
-	this.one("Tilt", this.glitch_effect);
 	
 }, function() {	// executed after scene() is called within the present scene
 });

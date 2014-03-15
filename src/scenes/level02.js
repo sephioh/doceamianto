@@ -11,7 +11,7 @@
 	
 	//LZMA.decompress(MapBytesArray, function(result) {
         //console.log("Decompressed.");
-		var mapObj = JSON.parse(gameContainer.loadedStrings[0]);
+		var mapObj = JSON.parse(gameContainer.getSceneTexts()[0]);
 		sc['player'] = new Amianto02(),
 		sc['diamond'] = new Diamond(),
 		sc['mapBuilder'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.

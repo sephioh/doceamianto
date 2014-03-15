@@ -331,7 +331,7 @@ Carlos = BaseEntity.extend({
 	// must be called from within entity context
 	_fire: function(bullet) {
 		var reach = 500;
-		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z+1 });
+		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z });
 		if(this._flipX) {
 			bullet.x += 30;
 			reach *= -1;

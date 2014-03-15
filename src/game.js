@@ -233,7 +233,6 @@ gameContainer = {
 	},
 	getSceneTexts: function(scn){
 		return this.loadedStrings[this._scn(scn)];
-		return this;
 	},
 	removeSceneTexts: function(scn) {
 		var alreadyLdd = this.alreadyLoadedElements,
