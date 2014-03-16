@@ -18,10 +18,10 @@ Crafty.scene("level03", function() {
 	
 	// Scenario delimiters
 	sc.delimiters = [
-		Crafty.e("Delimiter, wall").attr({ x: 0, y: 0, w: 1, h: 600, id: "left" }),
-		Crafty.e("Delimiter, wall").attr({ x: 800, y: 0, w: 1, h: 600, id: "right" }),
-		Crafty.e("Delimiter, wall").attr({ x: 0, y: 0, w: 800, h: 1, id: "up" }),
-		Crafty.e("Delimiter, wall").attr({ x: 0, y: 600, w: 800, h: 1, id: "down" })
+		Crafty.e("Delimiter, wall").attr({ x: 0, y: 0, w: 1, h: 600 }),
+		Crafty.e("Delimiter, wall").attr({ x: 800, y: 0, w: 1, h: 600 }),
+		Crafty.e("Delimiter, wall").attr({ x: 0, y: 0, w: 800, h: 1 }),
+		Crafty.e("Delimiter, wall").attr({ x: 0, y: 600, w: 800, h: 1 })
 	];
  
 	// Scenario corners

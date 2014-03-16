@@ -77,47 +77,44 @@ Amianto03 = BaseEntity.extend({
 		    .onHit('wall', function(hit) {
 			var amianto = this;
 			for(var i = 0;i<hit.length;i++) {
-				
 				var createAnew = true,
-				nAmiantoPos = { x: amianto._x, y:amianto._y };
+				    nAmiantoPos = { x: amianto._x, y:amianto._y };
 					
 				Crafty("amianto03").each(function(){
 					if(this.newly_created)
 						createAnew = false;
 				});
 				
-				switch(hit[i].obj.id) {
-					case "left":
-						nAmiantoPos.x = Crafty.viewport.width;
-						break;
-					case "right":
-						nAmiantoPos.x = -amianto._w;
-						break;
-					case "up":
+				if(hit[i].normal.y !== 0){
+					// up side
+					if(hit[i].normal.y === 1) {
 						nAmiantoPos.y = Crafty.viewport.height;
-						break;
-					case "down":
+					} 
+					// down side
+					else {
 						nAmiantoPos.y = -amianto._h;
-						break;
+					}
+				}else{
+					// left side
+					if(hit[i].normal.x === 1) {
+						nAmiantoPos.x = Crafty.viewport.width;
+					} 
+					// right side
+					else {
+						nAmiantoPos.x = -amianto._w;
+					}
 				}
 				
-				if(createAnew) {
+				if(createAnew) 
 					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
-				}
 			}
 		    }, function(){
-			if(!this.newly_created){
-				if((this._x + this._w > Crafty.viewport.width) || (this._x < 0) || 
-				    (this._y + this._h > Crafty.viewport.height) || (this._y < 0))
-				/*if((model.getPolygonDirMostPoint('left') > Crafty.viewport.width) || (model.getPolygonDirMostPoint('right') < 0) || 
-				    (model.getPolygonDirMostPoint('up') > Crafty.viewport.height) || (model.getPolygonDirMostPoint('down') < 0)) */
-				{
-					console.log("amianto destroyed");
-					this.destroy();
-				}
-			}else{
+			if(this.newly_created)
 				this.newly_created = false;
-			}
+				
+			if(((this._x + this._w) > Crafty.viewport.width) || this._x < 0 || 
+ 			    ((this._y + this._h) > Crafty.viewport.height) || this._y < 0)
+				this.destroy();
 		    })
 
 		    // Collision with wordblocks
@@ -181,18 +178,19 @@ Amianto03 = BaseEntity.extend({
 	/*getPolygonDirMostPoint: function(dir){
 		var points = this.getEntity().map.points, most;
 		for(var i = 0, plen = points.length; i < plen; i++){
+			var p0 = points[i][0] - this._x, p1 = points[i][1] - this._y;
 			switch(dir){
 			    case "left":
-				most = _.isUndefined(most) ? points[i][0] : points[i][0] < most ? points[i][0] : most;
+				most = _.isUndefined(most) ? p0 : p0 < most ? p0 : most;
 				break;
 			    case "right":
-				most = _.isUndefined(most) ? points[i][0] : points[i][0] > most ? points[i][0] : most;
+				most = _.isUndefined(most) ? p0 : p0 > most ? p0 : most;
 				break;
 			    case "up":
-				most = _.isUndefined(most) ? points[i][1] : points[i][1] < most ? points[i][1] : most;
+				most = _.isUndefined(most) ? p1 : p1 < most ? p1 : most;
 				break;
 			    case "down":
-				most = _.isUndefined(most) ? points[i][1] : points[i][1] > most ? points[i][1] : most;
+				most = _.isUndefined(most) ? p1 : p1 > most ? p1 : most;
 				break;
 			}
 		}
