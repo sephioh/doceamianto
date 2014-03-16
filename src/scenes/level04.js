@@ -73,6 +73,10 @@ Crafty.scene("level04", function() {
 	
 	// event bindings
 	
+	this.bind("PlayerMoved", function(prevPos) {
+		// parallax
+		this.moveBG(prevPos);
+	  });
 	this.bind("PlayerShoot", function alert1() {
 		this.unbind("PlayerShoot", alert1);
 		if(alert < 1)
@@ -84,9 +88,6 @@ Crafty.scene("level04", function() {
 			this.trigger("Alert", 2);    
 			this.callPolicemen();
 		}
-	  });
-	this.bind("PlayerMoved", function(prevPos) {
-		this.moveBG(prevPos);
 	  });
 	
 	// event functions
@@ -104,7 +105,7 @@ Crafty.scene("level04", function() {
 					*/
 				}
 				else{	
-					// !TODO create 1 policeman on left or right
+					// !TODO create 1 policeman on left or right side
 					
 					/*
 					sc.policemen.push(new Policeman().);

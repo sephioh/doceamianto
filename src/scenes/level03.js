@@ -36,7 +36,6 @@ Crafty.scene("level03", function() {
 	    txtSize = 55;
 
 	// Word blocks
-	
 	sc.wordblocks = [
 		new Wordblock({ initialX: 400, initialY: 175, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, full_text: txts.text01, text_size: txtSize }),
 		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, full_text: txts.text02, text_size: txtSize }),
@@ -59,8 +58,6 @@ Crafty.scene("level03", function() {
 		new Wordplaceholder({ initialX: 360, initialY: 400, full_text: txts.text07 })
 		//new Wordplaceholder({ initialX: 410, initialY: 447, full_text: txts.text08 })
 	];
-	
-	this.one("Tilt", this.glitch_effect);
 	
 	// declaring events
 
@@ -93,6 +90,8 @@ Crafty.scene("level03", function() {
 		}, 250, 5);
 		
 	}
+	
+	this.one("Tilt", this.glitch_effect);
 	
 }, function() {	// executed after scene() is called within the present scene
 });
