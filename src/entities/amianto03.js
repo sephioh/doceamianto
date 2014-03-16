@@ -10,7 +10,7 @@ Amianto03 = BaseEntity.extend({
     },
     initialize: function() {
 		var model = this,
-		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto03, SpriteAnimation, Multiway, Collision, WiredHitBox")
+		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto03, SpriteAnimation, Multiway, Collision")
 			// Set initial atributes
 			.attr({x: model.get('initial_x'),
 				    y: model.get('initial_y'),
@@ -85,28 +85,28 @@ Amianto03 = BaseEntity.extend({
 						createAnew = false;
 				});
 				
-				if(hit[i].normal.y !== 0){
-					// up side
-					if(hit[i].normal.y === 1) {
-						nAmiantoPos.y = Crafty.viewport.height;
-					} 
-					// down side
-					else {
-						nAmiantoPos.y = -amianto._h;
-					}
-				}else{
-					// left side
-					if(hit[i].normal.x === 1) {
-						nAmiantoPos.x = Crafty.viewport.width;
-					} 
-					// right side
-					else {
-						nAmiantoPos.x = -amianto._w;
-					}
+				if(createAnew) {
+					if(hit[i].normal.y !== 0)
+						// up side
+						if(hit[i].normal.y === 1) {
+							nAmiantoPos.y = Crafty.viewport.height;
+						} 
+						// down side
+						else {
+							nAmiantoPos.y = -amianto._h;
+						}
+					else
+						// left side
+						if(hit[i].normal.x === 1) {
+							nAmiantoPos.x = Crafty.viewport.width;
+						} 
+						// right side
+						else {
+							nAmiantoPos.x = -amianto._w;
+						}
+					
+					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });  
 				}
-				
-				if(createAnew) 
-					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
 			}
 		    }, function(){
 			if(this.newly_created)
@@ -130,40 +130,51 @@ Amianto03 = BaseEntity.extend({
 
 					// Push wordblocks if they are no colliding with another one or wall at its movement direction
 					var wordblock_is_pushable = true,
-						current_wordblock = hit[i],
-						another_wordblocks = hit[i].obj.hit('wordblock'),
-						walls = hit[i].obj.hit('wall');
+					    current_wordblock = hit[i],
+					    another_wordblocks = hit[i].obj.hit('wordblock'),
+					    walls = hit[i].obj.hit('wall');
 
-					// Test if current_block is colliding with another_blocks at its movement direction
+					// Test if current_wordblock is colliding with another_blocks at its movement direction
 					if (another_wordblocks){
 						for (var j = 0; j < another_wordblocks.length; j++) {
-							if(((current_wordblock.normal.x == another_wordblocks[j].normal.x) ||
-							    (current_wordblock.normal.y == another_wordblocks[j].normal.y)) &&
-								current_wordblock.obj.movable ) {
+							if(current_wordblock.normal.x == another_wordblocks[j].normal.x &&
+							   current_wordblock.normal.y == another_wordblocks[j].normal.y &&
+							   current_wordblock.obj.movable &&
+							   another_wordblocks[j].obj.movable) {
 								wordblock_is_pushable = false;
 							}
 						}
 					}
 
-					// Test if current_block is colliding with walls at its movement direction
+					// Test if current_wordblock is colliding with walls at its movement direction and if amianto is not hitting a wall
 					if (walls){
 						for (var i = 0; i < walls.length; i++) {
 							if(current_wordblock.normal.y == walls[i].normal.y){
 								wordblock_is_pushable = false;
 							}
+							if(this.hit('wall')){ 
+								wordblock_is_pushable = true; 
+							}
 						}
 					}
 
-					// Move wordblock if its possible, or keep amianto at its initial position
+					// Move wordblock if it's possible, or keep amianto(s) at its(their) previous position
 					if(wordblock_is_pushable){
 						current_wordblock.obj.x -= Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
 						current_wordblock.obj.y -= Math.ceil(current_wordblock.normal.y * -current_wordblock.overlap);
+						current_wordblock.obj.textColor("#99FFFF");
 					} else {
-						this.x += Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
-						this.y += Math.ceil(current_wordblock.normal.y * -current_wordblock.overlap);
+						Crafty("amianto03").each(function(){
+							this.x += Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
+							this.y += Math.ceil(current_wordblock.normal.y * -current_wordblock.overlap);
+						});
 					}
 				}
 			}
+		    }, function(){
+			Crafty("wordblock").each(function(){ 
+				this.textColor("#FFFFFF"); 
+			});
 		    })
 
 		    .onHit('blocker', function(hit) {
@@ -175,11 +186,12 @@ Amianto03 = BaseEntity.extend({
 		    });
 		model.set({'entity' : entity});
 	},
-	/*getPolygonDirMostPoint: function(dir){
-		var points = this.getEntity().map.points, most;
+	/*
+	getPolygonMostSidePoint: function(side) {
+		var ent = this.getEntity(), points = ent.map.points, most;
 		for(var i = 0, plen = points.length; i < plen; i++){
-			var p0 = points[i][0] - this._x, p1 = points[i][1] - this._y;
-			switch(dir){
+			var p0 = points[i][0] - ent._x, p1 = points[i][1] - ent._y;
+			switch(side){
 			    case "left":
 				most = _.isUndefined(most) ? p0 : p0 < most ? p0 : most;
 				break;

@@ -1,12 +1,11 @@
 Wordblock = BaseEntity.extend({
 	defaults: {
 		  'movable': true,
-		  'newly_created' : false,
 		  'text_size' : 20,
 	},
 	initialize: function(){
 		var model = this,
-		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", wordblock, Text, Collision, WiredHitBox")
+		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", wordblock, Text, Collision")
 			.attr({	
 			  x: model.get('initialX'), 
 			  y: model.get('initialY'),
@@ -15,7 +14,6 @@ Wordblock = BaseEntity.extend({
 			  w: model.get('initialW'),
 			  movable: model.get('movable'),
 			  full_text: model.get('full_text'),
-			  newly_created: model.get('newly_created'),
 			  text_size: model.get('text_size')
 			});
 		entity
