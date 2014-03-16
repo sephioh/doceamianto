@@ -20,16 +20,12 @@ Wordblock = BaseEntity.extend({
 			.text(model.get('full_text'))
 			.textColor("#FFFFFF")
 			.textFont({ size: entity.text_size+"px", family: 'Perfect_dos_vga_437' })
-			// Collision with other wordblocks
-			.onHit('wordblock', function(hit) {
-			})
-			// Collision with scenario delimiters
-			.onHit('wall', function(hit) {
-			})
-			.onHit('amianto03', function(hit){
-			})
-			.onHit('wordplaceholder',function(hit){
-			},function(){
+			// Collision with corners
+			.onHit('blocker',function(hit){
+				for (var i = 0; i < hit.length; i++) {
+					this.x -= Math.floor(hit[i].normal.x * hit[i].overlap),
+					this.y -= Math.floor(hit[i].normal.y * hit[i].overlap);
+				}
 			})
 			.collision(new Crafty.polygon([[0,0],[entity._w,0],
 			    [entity._w,entity._h-(entity._h/5)],[0,entity._h-(entity._h/5)]]));

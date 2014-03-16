@@ -20,6 +20,7 @@ Wordplaceholder = BaseEntity.extend({
 			for (var i=0; i < hit.length; i++) {
 				if(hit[i].obj.full_text == this.full_text){
 					hit[i].obj.movable = false,
+					hit[i].obj.z = 0,
 					hit[i].obj.y = this._y + (this._h/2 - (hit[i].obj.h/2)),
 					hit[i].obj.x = this._x - ((hit[i].obj.w/2) - this._w/2);
 					var movableWordblocks = 0;

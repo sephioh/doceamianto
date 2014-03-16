@@ -149,11 +149,17 @@ Amianto03 = BaseEntity.extend({
 					// Test if current_wordblock is colliding with walls at its movement direction and if amianto is not hitting a wall
 					if (walls){
 						for (var i = 0; i < walls.length; i++) {
-							if(current_wordblock.normal.y == walls[i].normal.y){
+							if(current_wordblock.normal.y === walls[i].normal.y){
 								wordblock_is_pushable = false;
-							}
-							if(this.hit('wall')){ 
-								wordblock_is_pushable = true; 
+
+								var playerHitWall = this.hit('wall');
+
+								if(playerHitWall)
+									for(var h = 0; h < playerHitWall.length; h++)
+										// If the wall colliding with this wordblock is opposite to the wall the player hit
+										if(walls[i].normal.y === -playerHitWall[h].normal.y && 
+										    walls[i].normal.x === -playerHitWall[h].normal.x)
+											wordblock_is_pushable = true; 
 							}
 						}
 					}
