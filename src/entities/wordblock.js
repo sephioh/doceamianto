@@ -5,7 +5,7 @@ Wordblock = BaseEntity.extend({
 	},
 	initialize: function(){
 		var model = this,
-		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", wordblock, Text, Collision")
+		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", wordblock, Text, Collision, Delay")
 			.attr({	
 			  x: model.get('initialX'), 
 			  y: model.get('initialY'),
@@ -16,6 +16,7 @@ Wordblock = BaseEntity.extend({
 			  full_text: model.get('full_text'),
 			  text_size: model.get('text_size')
 			});
+		
 		entity
 			.text(model.get('full_text'))
 			.textColor("#FFFFFF")
@@ -27,6 +28,12 @@ Wordblock = BaseEntity.extend({
 					this.y -= Math.floor(hit[i].normal.y * hit[i].overlap);
 				}
 			})
+			.bind("Move", function(){
+				this.textColor("#99FFFF"); 
+			})
+			.delay(function(){
+				this.textColor("#FFFFFF");
+			},75,-1)
 			.collision(new Crafty.polygon([[0,0],[entity._w,0],
 			    [entity._w,entity._h-(entity._h/5)],[0,entity._h-(entity._h/5)]]));
 			

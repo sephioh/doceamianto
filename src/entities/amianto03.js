@@ -133,7 +133,7 @@ Amianto03 = BaseEntity.extend({
 					    current_wordblock = hit[i],
 					    another_wordblocks = hit[i].obj.hit('wordblock'),
 					    walls = hit[i].obj.hit('wall');
-
+					
 					// Test if current_wordblock is colliding with another_blocks at its movement direction
 					if (another_wordblocks){
 						for (var j = 0; j < another_wordblocks.length; j++) {
@@ -168,7 +168,6 @@ Amianto03 = BaseEntity.extend({
 					if(wordblock_is_pushable){
 						current_wordblock.obj.x -= Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
 						current_wordblock.obj.y -= Math.ceil(current_wordblock.normal.y * -current_wordblock.overlap);
-						current_wordblock.obj.textColor("#99FFFF");
 					} else {
 						Crafty("amianto03").each(function(){
 							this.x += Math.ceil(current_wordblock.normal.x * -current_wordblock.overlap);
@@ -177,10 +176,6 @@ Amianto03 = BaseEntity.extend({
 					}
 				}
 			}
-		    }, function(){
-			Crafty("wordblock").each(function(){ 
-				this.textColor("#FFFFFF"); 
-			});
 		    })
 
 		    .onHit('blocker', function(hit) {
