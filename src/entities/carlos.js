@@ -2,11 +2,9 @@ Carlos = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 548 },
-	  'width' : 92,
-	  'height' : 100,
-	  'withDiamond' : 0,
-	  'strength' : 6,
+	  'startingPoint' : { x: 500, y: 480 },
+	  'width' : 140,
+	  'height' : 130
 	},
 	initialize: function() {
 		var model = this,
@@ -182,9 +180,6 @@ Carlos = BaseEntity.extend({
 		    .reel("JumpingShooting", 500, 0, 3, 6)
 		    .reel("ShotFromBehind", 750, 0, 4, 6)
 		    .setName('Player')
-		    .bind('Move', function(oldPos) {
-			Crafty.trigger("PlayerMoved", oldPos);
-		    })
 		    .bind('Moved', function(prevPos) {
 		    
 			// controlling animations
@@ -210,42 +205,43 @@ Carlos = BaseEntity.extend({
 				moved = "down";
 		  		      
 			switch(moved) {
-				case "up" : 
-				    if(this._currentReelId != "JumpingUp" &&
-				      (this.isPlaying("StandingStill") || 
-				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && this._currentReelId != "JumpingShooting")))
-					    this.animate("JumpingUp");
-				    break;
-				case "down" : 
-				    if(this._currentReelId != "JumpingFalling" &&
-				      ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
-				      (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
-					    this.animate("JumpingFalling");
-				    break;
-				case "left":
-				    if(!this._flipX) 			// if moved left and is unflipped
-					    this.flip("X");		// flip sprite
-				    if((!this.isPlaying("Running") && !this._up) && 
-				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
-					    this.animate("Running", -1);
-				    }
-				    break;
-				case "right": 
-				    if(this._flipX) 			// if moved right and is flipped 
-					    this.unflip("X");		// unflip sprite
-				    if((!this.isPlaying("Running") && !this._up) &&
-				      (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
-					    this.animate("Running", -1);
-				    }
-				    break;
+			    case "up" : 
+				if(this._currentReelId != "JumpingUp" &&
+				  (this.isPlaying("StandingStill") || 
+				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && this._currentReelId != "JumpingShooting")))
+					this.animate("JumpingUp");
+				break;
+			    case "down" : 
+				if(this._currentReelId != "JumpingFalling" &&
+				  ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
+				  (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
+					this.animate("JumpingFalling");
+				break;
+			    case "left":
+				if(!this._flipX) 			// if moved left and is unflipped
+					this.flip("X");		// flip sprite
+				if((!this.isPlaying("Running") && !this._up) && 
+				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
+					this.animate("Running", -1);
 				}
+				break;
+			    case "right": 
+				if(this._flipX) 			// if moved right and is flipped 
+					this.unflip("X");		// unflip sprite
+				if((!this.isPlaying("Running") && !this._up) &&
+				  (this._currentReelId != "JumpingUp" && this._currentReelId != "JumpingFalling" && !this._up)) {
+					this.animate("Running", -1);
+				}
+				break;
+			  }
+			Crafty.trigger("PlayerMoved", prevPos);
 		      })
 		    .onHit('levelLimits', function(hit) {
 			for (var i = 0; i < hit.length; i++) {
 				this.x += hit[i].normal.x * model.get('speed');
 			}
 		      })
-		    .collision(new Crafty.polygon([[32,7],[60,7],[60,87],[32,87]]));
+		    .collision(new Crafty.polygon([[50,15],[88,15],[88,115],[50,115]]));
 		model.set({'entity' : entity});
 		    
 	},	
@@ -331,16 +327,16 @@ Carlos = BaseEntity.extend({
 	// must be called from within entity context
 	_fire: function(bullet) {
 		var reach = 500;
-		bullet.attr({ x: this._x, y: this._y+23, w: 2, h: 2, z: this._z });
+		bullet.attr({ x: this._x, y: this._y+55, w: 2, h: 2, z: this._z });
 		if(this._flipX) {
-			bullet.x += 30;
+			bullet.x += 40;
 			reach *= -1;
 		} else {
-			bullet.x += 67;
+			bullet.x += 100;
 		}
 		bullet.onHit("Collision", function(hit) {
 			for(var i=0, len = hit.length; i<len; i++) {
-				if(hit[i].obj.__c.Figurant && !hit[i].obj._wasHit) {
+				if(hit[i].obj.__c.Figurant) {
 					hit[i].obj.shot();
 					this.destroy();
 					break;

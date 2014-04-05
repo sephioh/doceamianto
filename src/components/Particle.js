@@ -8,7 +8,7 @@ Crafty.c('Particle', {
 	
 	interpolation: function(props, time){
 		this.tween(props, time)
-		    .bind('TweenEnd', function() { 
+		    .one('TweenEnd', function() { 
 			    this.destroy(); 
 		    });
 		return this;

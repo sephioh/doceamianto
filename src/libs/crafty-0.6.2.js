@@ -11513,7 +11513,7 @@ Crafty.c("Delay", {
             while (--index >= 0) {
                 var item = this._delays[index];
                 if (item.start + item.delay + item.pause < now) {
-                    item.func.call(this);
+                    item.callback.call(this);
                     if (item.repeat > 0) {
                         // reschedule item
                         item.start = now;
@@ -11523,6 +11523,8 @@ Crafty.c("Delay", {
                     } else if (item.repeat <= 0) {
                         // remove item from array
                         this._delays.splice(index, 1);
+			if(typeof item.callbackOff === "function")
+				item.callbackOff.call(this);
                     }
                 }
             }
@@ -11567,10 +11569,11 @@ Crafty.c("Delay", {
      * }, 100, 0);
      * ~~~
      */
-    delay: function (func, delay, repeat) {
+    delay: function (callback, delay, repeat, callbackOff) {
         this._delays.push({
             start: new Date().getTime(),
-            func: func,
+            callback: callback,
+	    callbackOff: callbackOff,
             delay: delay,
             repeat: (repeat < 0 ? Infinity : repeat) || 0,
             pauseBuffer: 0,

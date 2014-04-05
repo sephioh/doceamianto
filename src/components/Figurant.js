@@ -46,7 +46,7 @@
 		return this.setSpeed(this._startingSpeed * (num+1));
 	},
 	
-	// dir: accepted values are -1 or 1 for left or right
+	// dir: accepted values are -1 or 1 for left or right respectively
 	// dis: distance in pixels
 	walkLeftOrRight: function(dir,dis) {
 		var time;
@@ -80,39 +80,43 @@
 		return this;
 	},
 	
+	_walk: function () {
+		if(!this._wandering && this._wanderingLoop)
+			this.walkLeftOrRight();
+	},
+	
 	wanderLoop: function() {
 		var time = Math.ceil(Math.random() * 5000);
 		this._wanderingLoop = true;
-		this.delay(function () {
-			if(!this._wandering && this._wanderingLoop)
-				this.walkLeftOrRight();
-		},time,0);
+		this.delay(this._walk,time,0);
 	},
 	
 	stopWalking: function() {
 		this.cancelTween('x')
+		    .cancelDelay(this._walk)
 		    ._wandering = false;
 		return this;
 	},
 	
 	stopWanderLoop: function() {
 		this._wanderingLoop = false;
-		this.trigger("Pause");
 		if(this._wandering)
 			this.stopWalking();
 		return this;
 	},
 	
 	shot: function() {
-		this._wasHit = true;
-		Crafty.trigger("FigurantDied");
-		this.stopWanderLoop()
-		    .animate("Dying", 1)
-		    .delay(function() {
-			//!TODO here goes "transformation" to phantom
-			
-			this.destroy();
-		    }, 5000);  
+		if(!this._wasHit){
+			this._wasHit = true;
+			Crafty.trigger("FigurantDied");
+			this.stopWanderLoop()
+			    .animate("Dying", 1)
+			    .delay(function() {
+				//!TODO here goes "transformation" to phantom
+				
+				this.destroy();
+			    }, 5000);  
+		}
 		return this;
 	}
 	

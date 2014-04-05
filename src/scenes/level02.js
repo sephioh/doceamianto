@@ -91,7 +91,7 @@
 		
 		// events' declarations
 		
-		this.amiantoCameIntoLight = function() {
+		this.one('AmiantoReachedLightArea', function() {
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
 			utils.fadeSound("theme02", 0, 45);
@@ -105,9 +105,9 @@
 				.unbind("KeyUp")
 				.tween({ x: playerEnt._x + 800 }, 5000)
 				.animate("AmiantoRunning9", -1)
-				.bind("TweenEnd", function transformation() {
+				.one("TweenEnd", function() {
 				  
-					this.unbind("TweenEnd", transformation).pauseAnimation();	
+					this.pauseAnimation();	
 					
 					scene.finalAmiantoAttr = { x: this._x, y: this._y, z: this._z, w: this._w, h: this._h },
 					scene.screenPos = { x:0, y:0 };
@@ -127,8 +127,7 @@
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
-								[5,0],[6,0],[7,0],[8,0],
-								[12,0],[13,0],[14,0]
+								[5,0],[6,0],[7,0],[8,0],[12,0],[13,0],[14,0]
 							]);
 					
 					sc.explosion
@@ -166,15 +165,11 @@
 					this.destroy();
 					
 				});
-		}		
+		});
 		
-		this.one('AmiantoReachedLightArea', this.amiantoCameIntoLight);
-		
-		this.loadLevel03 = function() {
+		this.one('LevelTransition', function() {
 			gameContainer.runScene("level03", { backgroundColor:"#FFFFFF", ellipsisColor:"#000000" });
-		}
-		
-		this.one('LevelTransition', this.loadLevel03);
+		});
 		
     /*}, function(percent) {
         /// Decompressing progress code goes here.

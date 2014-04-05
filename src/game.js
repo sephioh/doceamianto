@@ -13,6 +13,9 @@ window.onload = function() {
 	//start Crafty
 	Crafty.init(800, 600);
 	Crafty.canvas.init();
+	
+	document.getElementsByTagName("canvas")[0].id = "mainCanvas";
+	
 	//Crafty.settings.modify("autoPause",true);
 	
 	require([
@@ -23,6 +26,7 @@ window.onload = function() {
 		// Crafty parts to be overridden
 		"src/components/Twoway.js",
 		"src/components/Gravity.js",
+		"src/components/Delay.js",
 		"src/extensions/scene.js",
 		"src/extensions/assets.js"
 	], function() {
@@ -35,7 +39,6 @@ window.onload = function() {
 		
 		gameContainer.conf = new Config({});
 		gameContainer.lang = utils.getLang();
-		gameContainer.scene = "level01";
 			
 		// the loading screen - will be displayed while assets are loaded
 		// callback obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor', 'image': { url, w, h } }
@@ -54,12 +57,12 @@ window.onload = function() {
 					ellipsisColor = obj.ellipsisColor;
 				if(obj.image)
 					sc['loadingImage'] = Crafty.e("2D, DOM, Image")
-					  .attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h })
-					  .image(obj.image.src);
+					  .image(obj.image.src)
+					  .attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h });
 			}
 			
 			// set sprites for next scene
-			resources.createSprite(gameContainer.scene);
+			resources.createSprite(gameContainer._scn());
 			
 			sc['ellipsis'] = Crafty.e("2D, Canvas, Text");
 			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
@@ -83,7 +86,7 @@ window.onload = function() {
 				});
 			
 			// load takes an array of assets and a callback when complete
-			Crafty.load(resources.getPaths(gameContainer.scene), function() {
+			Crafty.load(resources.getPaths(gameContainer._scn()), function() {
 					// use eval for executing require(), also loading possible texts/maps
 					
 					var require_str = '', text_args = '', text_args_count = 0, regElms = [], textElms = [], elements;
@@ -115,7 +118,7 @@ window.onload = function() {
 					// push lodedElements to gameContainer.alreadyLoadedElements then destroy ellipsis
 					'gameContainer.alreadyLoadedElements.push(elements); sc.ellipsis.destroy(); sc = [];' +
 					// run specified scene
-					'if (gameContainer.scene !== undefined) Crafty.scene(gameContainer.scene); })';
+					'if (gameContainer._scn() !== undefined) Crafty.scene(gameContainer._scn()); })';
 					
 					eval( '(' + require_str + ')' );
 				},
@@ -138,8 +141,7 @@ window.onload = function() {
 				"src/components/Delimiter.js",
 				"src/components/Particle.js",
 				"src/entities/amianto01.js",
-				"src/entities/darkheart.js",
-				"src/entities/redheart.js"
+				"src/entities/heart.js"
 				]
 		    }).setSceneInfo({ 
 			name: "level02",
@@ -165,14 +167,12 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level04",
 			elements: [
-				"text!src/scenes/tilemaps/level04-2.json",
-				"src/components/Twoway.js",
+				"text!src/scenes/tilemaps/level04-3.json",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
 				"src/components/Figurant.js",
 				"src/entities/carlos.js",
-				"src/entities/areatransition.js",
 				"src/entities/mapsmanager.js",
 			      ],
 		    });
@@ -188,11 +188,12 @@ window.onload = function() {
 		
 		require(scenes, function() {
 			var sceneArg;
-			if(gameContainer.env == "dev") 
+			if(gameContainer.env == "dev"){ 
 				sceneArg = utils.getUrlVars()['scene'],
-				sceneArg = sceneArg?sceneArg:gameContainer.scene;
-			else
+				sceneArg = sceneArg?sceneArg:gameContainer._scn();
+			}else{
 				sceneArg = "level01";
+			}
 			gameContainer.runScene(sceneArg);
 		});
 	
@@ -206,32 +207,34 @@ gameContainer = {
 	gameVersion : '0.0.1',
 	conf: {},
 	lang: '',
-	scene : undefined,
+	scene : {},
 	scenes : [],
 	alreadyLoadedElements : [],
 	loadedStrings : {},
 	
 	setSceneInfo : function(scnInfo) {
-		this.scenes[scnInfo.name] = scnInfo.elements;
+		this.scenes[scnInfo.name] =  scnInfo.elements;
 		
 		return this;
 	},
-	runScene: function(scn, options) { 
-		this.scene = scn;
+	runScene: function(scn, options) {
+		this.scene = {},
+		this.scene.name = scn,
+		this.scene.functions = {};
 		try {
 			Crafty.scene("loading", options);
 		} catch(e) {
 			console.log(e);
 		}
 	},
-	getSceneElements: function(scn){
+	getSceneElements: function(scn) {
 		return this.scenes[this._scn(scn)];
 	},
 	setSceneTexts: function(texts,scn) {
 		this.loadedStrings[this._scn(scn)] = texts;
 		return this;
 	},
-	getSceneTexts: function(scn){
+	getSceneTexts: function(scn) {
 		return this.loadedStrings[this._scn(scn)];
 	},
 	removeSceneTexts: function(scn) {
@@ -241,14 +244,14 @@ gameContainer = {
 			if(ele.indexOf("text!") === -1){
 				continue;
 			} else {
-				this.alreadyLoadedElements[alreadyLdd.indexOf(ele)] = undefined;
+				this.alreadyLoadedElements.splice(alreadyLdd.indexOf(ele),1);
 				delete this.loadedStrings[this._scn(scn)];
 			}
 			return this;
 		}
 	},
 	_scn: function(scn) {
-		return _.isUndefined(scn)?this.scene:scn;
+		return _.isUndefined(scn)?this.scene.name:scn;
 	}
 	
 },

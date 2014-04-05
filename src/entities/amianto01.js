@@ -44,13 +44,11 @@ Amianto01 = BaseEntity.extend({
 							model._stopMoving();
 							entity
 								.disableControl()
-								.bind('AnimationEnd', function() { 
-									entity
-										.unbind('AnimationEnd')
-										.enableControl();
+								.animate("AmiantoHittingDarkHeart")
+								.one('AnimationEnd', function() { 
+									entity.enableControl();
 									model.startMoving();
-								})
-								.animate("AmiantoHittingDarkHeart");
+								});
 						} else 
 						if(hit[i].obj.__c.redHeart) {
 							Crafty.audio.play("hitredheart", 1);
@@ -59,14 +57,13 @@ Amianto01 = BaseEntity.extend({
 							model._stopMoving();
 							entity
 								.disableControl()
-								.bind('AnimationEnd', function() { 
-									entity.unbind('AnimationEnd');
+								.animate("AmiantoHittingRedHeart")
+								.one('AnimationEnd', function() { 
 									if(model.get('love') < model.get('maxLove')) {
 										model.startMoving();
 										entity.enableControl();
 									}
-								})
-								.animate("AmiantoHittingRedHeart");
+								});
 							model._fellInLove();
 						}
 					}
@@ -126,11 +123,10 @@ Amianto01 = BaseEntity.extend({
 	},
 	stumble: function() {
 		this.getEntity()
-			.bind('AnimationEnd', this._falling)
-			.animate("AmiantoStumbling", 1);
+			.animate("AmiantoStumbling", 1)
+			.one('AnimationEnd', this._falling);
 	},
 	_falling: function() { 		// function bound to the entity's context
-		this.unbind('AnimationEnd')
-			.animate("AmiantoFalling", -1);
+		this.animate("AmiantoFalling", -1);
 	}
 });

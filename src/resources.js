@@ -181,14 +181,18 @@ Resources = Backbone.Model.extend({
 				}
 			},
 			'audio' : {
+				/*'theme' : 
+				      ['theme03.aac',
+					'theme03.ogg'
+				      ],*/
 			}
 		},
 		level04: {
 			'images' : {
 				'player' : {
 					'file' : 'sheet_carlos.png',
-					'tile' : 92,
-					'tileh' : 100,
+					'tile' : 140,
+					'tileh' : 128,
 					'elements': {
 						'carlos' : [0, 0]
 					}
@@ -263,7 +267,7 @@ Resources = Backbone.Model.extend({
 				}*/
 			},
 			'audio' : {
-			  
+				
 			}
 		},
 	},

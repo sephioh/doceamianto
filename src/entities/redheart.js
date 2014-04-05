@@ -17,7 +17,7 @@ RedHeart = BaseEntity.extend({
 												   : Crafty.math.randomInt(Crafty.viewport.width/2, Crafty.viewport.width - SIZE ),
 			VPY = 210,
 			// Components
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, redHeart, Tween, Collision");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", heart, Tween, Collision");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w: SIZE, h: SIZE})
 			.tween({x: VPX, y: VPY, w: 0, h: 0}, model.get('VTime'))

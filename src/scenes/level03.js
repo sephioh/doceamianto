@@ -60,26 +60,26 @@ Crafty.scene("level03", function() {
 	];
 	
 	// declaring events
-
-	this.glitch_effect = function(){ 
+	
+	this.one("Tilt", function(){ 
 	
 		var glitchEffect = new GlitchEffect(),
-		    stage = document.getElementById("cr-stage"),
-		    canvases = document.getElementsByTagName("canvas"),
-		    canvas1 = canvases[0],
-		    glitchOptions = { amount: 10, seed: 15, iterations: 3, quality: 30 },
-		    canvas2 = canvases.length > 1 ? canvases[1] : document.createElement("canvas");
+		    canvas1 = document.getElementById("mainCanvas"),
+		    canvas2 = document.getElementById("glitchedCanvas"),
+		    glitchOptions = { amount: 10, seed: 15, iterations: 3, quality: 30 };
 		
 		sc.player.getEntity().disableControl().pauseAnimation();
 		    
-		if(canvases.length === 1) {
+		if(!canvas2){
+			canvas2 = document.createElement("canvas");
 			canvas2.style.zIndex = 2,
 			canvas2.style.position = "absolute",
 			canvas2.width = Crafty.viewport.width,
 			canvas2.height = Crafty.viewport.height,
+			canvas2.id = "glitchedCanvas",
 			canvas1.style.zIndex = 1,
 			canvas1.style.position = "absolute";
-			stage.appendChild(canvas2);
+			canvas1.parentNode.appendChild(canvas2);
 		}
 		
 		sc.delays.delay(function(){
@@ -87,11 +87,18 @@ Crafty.scene("level03", function() {
 			glitchOptions.amount += 5;
 			glitchOptions.iterations += 2;
 			//glitchOptions.seed += 5;
-		}, 250, 5);
+		}, 250, 5, function(){ 
+			Crafty.trigger("LevelTransition"); 
+		});
 		
-	}
+	});
 	
-	this.one("Tilt", this.glitch_effect);
+	this.one("LevelTransition", function(){
+		gameContainer.runScene("level04");
+	});
 	
-}, function() {	// executed after scene() is called within the present scene
+}, function() {	
+	// executed after scene() is called within the present scene
+	var glitched = document.getElementById("glitchedCanvas");
+	glitched.parentNode.removeChild(glitched);
 });

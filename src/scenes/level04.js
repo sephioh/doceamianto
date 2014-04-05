@@ -1,6 +1,6 @@
 Crafty.scene("level04", function() {
 	
-	var scene = this;
+	var functions = gameContainer.scene.functions;
 	
 	Crafty.background("#FFFFFF");
 	
@@ -28,16 +28,15 @@ Crafty.scene("level04", function() {
 	sc['figurants'] = [],
 	sc['policemen'] = [],
 	sc['background1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: 0, y: 30, z: 299 })
+	    .attr({ x: 0, y: 0, z: 299 })
 	    .image("web/images/bg1-level04.png"),
 	sc['background2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ x: 0, y: -30, z: 298 })
+	    .attr({ x: 0, y: 0, z: 298 })
 	    .image("web/images/bg2-level04.png");
 
-	 sc.mm.prepTileset(mapObj1.tilesets[0])
+	sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
-	      
 		Crafty("upStairs").each(function() { 
 		      this.collision(new Crafty.polygon([[0,31],[31,0]]));
 		}),
@@ -71,67 +70,54 @@ Crafty.scene("level04", function() {
 		f.wanderLoop();
 	});
 	
-	// event bindings
-	
-	this.bind("PlayerMoved", function(prevPos) {
-		// parallax
-		this.moveBG(prevPos);
-	  });
-	this.bind("PlayerShoot", function alert1() {
-		this.unbind("PlayerShoot", alert1);
-		if(alert < 1)
-			this.trigger("Alert", 1);
-	  });
-	this.bind("FigurantDied", function alert2() {
-		this.unbind("FigurantDied", alert2);
-		if(alert < 2){
-			this.trigger("Alert", 2);    
-			this.callPolicemen();
-		}
-	  });
-	
-	// event functions
-	    
-	this.callPolicemen = function(){
-		sc.delays.delay(function() {
-			var polen = Crafty("Policeman").length;
-			if(polen < 2){
-				if(polen < 1){ 
-					// !TODO create 1 policeman at each side
-					
-					/*
-					sc.policemen.push(new Policeman().);
-					sc.policemen.push(new Policeman().);
-					*/
-				}
-				else{	
-					// !TODO create 1 policeman on left or right side
-					
-					/*
-					sc.policemen.push(new Policeman().);
-					*/
-				}
+	functions.callPolicemen = function() {
+		var polen = Crafty("Policeman").length;
+		if(polen < 2){
+			if(polen < 1){ 
+				// !TODO create 1 policeman at each side
+				
+				/*
+				sc.policemen.push(new Policeman().);
+				sc.policemen.push(new Policeman().);
+				*/
 			}
-		},6000,6);
+			else{	
+				// !TODO create 1 policeman on left or right side
+				
+				/*
+				sc.policemen.push(new Policeman().);
+				*/
+			}
+		}
 	};
 	
-	// parallax background scrolling
+	// event bindings
 	
-	var playerInitPos = sc.player.get('startingPoint');
+	var playerInitPos = sc.player.get('startingPoint'),
 	    bgMoveRate = 15;
-	
-	this.moveBG = function (prevPos){
+	    
+	// background parallax
+	this.bind("PlayerMoved", function (prevPos){
 		if(prevPos._x !== playerEnt._x){
 			var XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
 			sc.background1.x = XD,
 			sc.background2.x = XD / 0.5;
-		} else 
-		if(prevPos._y !== playerEnt._y){
+		} else {
 			var YD = (playerEnt._y - playerInitPos.y) / bgMoveRate;
-			sc.background1.y = YD - 32,
-			sc.background2.y = (YD / 0.5) + 32;
+			sc.background1.y = YD,
+			sc.background2.y = YD / 0.5;
 		}
-	}
+	});
+		
+	this.one("PlayerShoot", function alert1() {
+		this.trigger("Alert", 1);
+	});
+	
+	this.one("FigurantDied", function alert2() {
+		this.trigger("Alert", 2);    
+		// call policemen each 6 seconds
+		sc.delays.delay(functions.callPolicemen,6000,-1);
+	});
 	
 }, function(){ 
 	//get rid of unwanted bindings, functions and files
