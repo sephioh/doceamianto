@@ -82,7 +82,7 @@ window.onload = function() {
 						// if element has not already been loded 
 						if(gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
 							//search for texts, first things to load,
-							if(ele.indexOf("text!") !== -1){
+							if(ele.indexOf("text!") !== -1) {
 								textElms[text_args_count] = ele;
 								text_args_count++;
 								if(text_args != ''){
