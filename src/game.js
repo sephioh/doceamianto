@@ -30,7 +30,7 @@ window.onload = function() {
 		"src/components/Delay.js",
 		"src/extensions/scene.js",
 		//"src/extensions/assets.js"
-		"src/extensions/sprite.js",
+		//"src/extensions/sprite.js",
 		"src/extensions/loader.js",
 		"src/extensions/sound.js"
 	], function() {
