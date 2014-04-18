@@ -4,7 +4,7 @@ Crafty.scene("level04", function() {
 	
 	Crafty.background("#FFFFFF");
 	
-	Crafty.audio.play("theme02", -1);
+	Crafty.audio.play("theme04", -1);
 	
 	//gameContainer.conf.set({'renderType': 'DOM'});
 	
@@ -57,14 +57,14 @@ Crafty.scene("level04", function() {
 		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + playerEnt._w, y: 2070, w: 1, h: 150 })
 	  ];
 	
-	sc.figurants = [
+	/*sc.figurants = [
 		Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h })
-	];
+	];*/
 	  
 	_.each(sc.figurants, function(f) {
 		f.wanderLoop();

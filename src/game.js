@@ -23,12 +23,16 @@ window.onload = function() {
 		"src/config.js?v="+version+"",
 		"src/utils.js?v="+version+"",
 		"src/entities/base/BaseEntity.js",
+		"src/components/Ellipsis.js",
 		// Crafty parts to be overridden
 		"src/components/Twoway.js",
 		"src/components/Gravity.js",
 		"src/components/Delay.js",
 		"src/extensions/scene.js",
-		"src/extensions/assets.js"
+		//"src/extensions/assets.js"
+		"src/extensions/sprite.js",
+		"src/extensions/loader.js",
+		"src/extensions/sound.js"
 	], function() {
 		
 		// allow playing MP3 files
@@ -39,6 +43,8 @@ window.onload = function() {
 		
 		gameContainer.conf = new Config({});
 		gameContainer.lang = utils.getLang();
+		
+		Crafty.paths({ audio: "web/audio/", images: "web/images/" });
 			
 		// the loading screen - will be displayed while assets are loaded
 		// callback obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor', 'image': { url, w, h } }
@@ -62,31 +68,12 @@ window.onload = function() {
 			}
 			
 			// set sprites for next scene
-			resources.createSprite(gameContainer._scn());
+			//resources.createSprites(gameContainer._scn());
 			
-			sc['ellipsis'] = Crafty.e("2D, Canvas, Text");
-			sc.ellipsis['nFrames'] = 25, // each nFrames, add a '. '
-			sc.ellipsis['eFrames'] = 0; // elapsed frames since last '. ' added
-			sc.ellipsis.attr({ x: Crafty.viewport.width/2, y: 500, w: 78, h: 50,  z: 1000 })
-				.textColor(ellipsisColor)
-				.textFont({ weight: 'bold', family: 'Arial', size : '50px', family: 'Perfect_dos_vga_437' })
-				.text(". . . ")
-				.bind('EnterFrame', function() {
-					this.eFrames++;
-					if(this.eFrames === this.nFrames) {
-						this.eFrames = 0;
-						
-						if(this._text === ". . . ") {
-							this.text("")
-						} else {
-							this.text(this._text + ". ")
-							    .attr({ x: this._x - this._w/2 });
-						}
-					}
-				});
+			sc['ellipsis'] = Crafty.e("Ellipsis").textColor(ellipsisColor);
 			
 			// load takes an array of assets and a callback when complete
-			Crafty.load(resources.getPaths(gameContainer._scn()), function() {
+			Crafty.load(resources.get(gameContainer._scn()), function() {
 					// use eval for executing require(), also loading possible texts/maps
 					
 					var require_str = '', text_args = '', text_args_count = 0, regElms = [], textElms = [], elements;
@@ -167,7 +154,7 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level04",
 			elements: [
-				"text!src/scenes/tilemaps/level04-3.json",
+				"text!src/scenes/tilemaps/level04-4.json",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
@@ -218,14 +205,9 @@ gameContainer = {
 		return this;
 	},
 	runScene: function(scn, options) {
-		this.scene = {},
-		this.scene.name = scn,
-		this.scene.functions = {};
-		try {
-			Crafty.scene("loading", options);
-		} catch(e) {
-			console.log(e);
-		}
+		delete this.scene;
+		this.scene = { name: scn, functions: {} };
+		Crafty.scene("loading", options);
 	},
 	getSceneElements: function(scn) {
 		return this.scenes[this._scn(scn)];

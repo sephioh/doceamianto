@@ -6,44 +6,39 @@ Resources = Backbone.Model.extend({
 		
 		// declaration of scenes' elements
 		level01: {
-			'images' : {
-				'player' : {
-					'file' : 'sheet_amianto01.png',
+			'sprites' : {
+				'sheet_amianto01.png' : {
 					'tile' : 94,
 					'tileh' : 114,
-					'elements': {
+					'map': {
 						'amianto01' : [0, 0]
 					}
 				},
-				'redHeart' : {
-					'file' : 'redheart.png',
+				'redheart.png' : {
 					'tile' : 144,
 					'tileh' : 128,
-					'elements': {
+					'map': {
 						'redHeart' : [0, 0]
 					}
 				},
-				'darkHeart' : {
-					'file' : 'darkheart.png',
+				'darkheart.png' : {
 					'tile' : 144,
 					'tileh' : 128,
-					'elements': {
+					'map': {
 						'darkHeart' : [0, 0]
 					}
 				},
-				'gradient' : {
-					'file' : 'degrade.png',
+				'degrade.png' : {
 					'tile' : 400,
 					'tileh' : 300,
-					'elements': {
+					'map': {
 						'gradient' : [0, 0]
 					}
 				},
-				'amianto01Shadow' : {
-					'file' : 'amiantoShadow01.png',
+				'amiantoShadow01.png' : {
 					'tile' : 164,
 					'tileh' : 114,
-					'elements': {
+					'map': {
 						'amianto01Shadow' : [0, 0]
 					}
 				}
@@ -68,15 +63,15 @@ Resources = Backbone.Model.extend({
 					  'fall01.ogg',
 					  'fall01.mp3'
 					]
-			}
+			},
+			'images': ['obstacle.png']
 		},
 		level02: {
-			'images' : {
-				'player' : {
-					'file' : 'sheet_amianto02.png',
+			'sprites' : {
+				'sheet_amianto02.png' : {
 					'tile' : 94,
 					'tileh' : 126,
-					'elements': {
+					'map': {
 						'amianto02' : [0, 0],
 						'diamond1' : [0, 2],
 						'diamond2' : [0, 3],
@@ -89,27 +84,24 @@ Resources = Backbone.Model.extend({
 						'diamond9' : [0, 10]
 					}
 				},
-				'obstacle' : {
-					'file' : 'obstacle.png',
+				'obstacle.png' : {
 					'tile' : 73,
 					'tileh' : 136,
-					'elements': {
+					'map': {
 						'obstacle' : [0, 0]
 					}
 				},
-				'explosion' : {
-					'file' : 'explosion-sheet.png',
+				'explosion-sheet.png' : {
 					'tile' : 240,
 					'tileh' : 180,
-					'elements': {
+					'map': {
 						'colorsExplosion' : [0, 0]
 					}
 				},
-				'amiantotoblanchesheet' : {
-					'file' : 'amiantotoblanche.png',
+				'amiantotoblanche.png' : {
 					'tile' : 184,
 					'tileh' : 164,
-					'elements': {
+					'map': {
 						'amiantotoblanche' : [0, 0]
 					}
 				}
@@ -120,66 +112,49 @@ Resources = Backbone.Model.extend({
 					  'blancheflying.ogg',
 					  'blancheflying.mp3'
 					],*/
-				'theme' : 
+				'theme02' : 
 					['theme02.aac',
 					  'theme02.ogg'
 					],
-				'diamond' :
+				'diamondgrow' :
 					['diamondgrow.ogg',
 					  'diamondgrow.mp3',
 					],
-				'thelight' : 
+				'ohthelight' : 
 					['ohthelight.ogg',
 					  'ohthelight.mp3'
 					]
 			}
 		},
 		level03: {
-			'images' : {
-				'background' : {
-					'file' : 'level03-background.png',
-					'tile' : 800,
-					'tileh' : 600,
-					'elements': {
-						'background03' : [0, 0]
-					}
-				},
-				'ornament' : {
-					'file' : 'level03-ornament.png',
-					'tile' : 192,
-					'tileh' : 61,
-					'elements': {
-						'ornament03' : [0, 0]
-					}
-				},
-				'corners' : {
-					'file' : 'level03-corners.png',
+			'sprites' : {
+				'level03-corners.png': {
 					'tile' : 100,
 					'tileh' : 100,
-					'elements': {
+					'maps': {
 						'cornerUpLeft': [1, 1],
 						'cornerUpRight': [1, 0],
 						'cornerDownLeft': [0, 1],
 						'cornerDownRight': [0, 0]
 					}
 				},
-				'player' : {
-					'file' : 'sheet_amianto03.png',
+				'sheet_amianto03.png': {
 					'tile' : 78,
 					'tileh' : 96,
-					'elements': {
+					'maps': {
 						'amianto03' : [0, 0]
 					}
 				},
-				'shining' : {
-					'file' : 'level03-wordplaceholder.png',
+				'level03-wordplaceholder.png': {
 					'tile' : 80,
 					'tileh' : 80,
-					'elements': {
+					'maps': {
 						'wordplaceholder' : [0, 0]
 					}
 				}
 			},
+			'images' : ['level03-background.png',
+				  'level03-ornament.png'],
 			'audio' : {
 				/*'theme' : 
 				      ['theme03.aac',
@@ -188,25 +163,18 @@ Resources = Backbone.Model.extend({
 			}
 		},
 		level04: {
-			'images' : {
-				'player' : {
-					'file' : 'sheet_carlos.png',
+			'sprites' : {
+				'sheet_carlos.png' : {
 					'tile' : 140,
 					'tileh' : 128,
-					'elements': {
+					'map': {
 						'carlos' : [0, 0]
 					}
 				},
-				'tileset' : {
-					'file' : 'tileset-level04.png',
-					'tile' : 1280,
-					'tileh' : 1298
-				},
-				'figurants':{
-					'file':'sheet_figurants04.png',
+				'sheet_figurants04.png': {
 					'tile' : 106,
 					'tileh': 123.333333333,
-					'elements': {
+					'map': {
 						'figurant0': [0,1],
 						'figurant1': [0,3],
 						'figurant2': [0,5],
@@ -214,58 +182,20 @@ Resources = Backbone.Model.extend({
 						'figurant4': [0,9],
 						'figurant5': [0,11]
 					}
-				  
 				},
-				/*'bg1_1': {
-					'file':'Pmedio1.png',
-					'tile' : 9568,
-					'tileh': 1696,
+				/*'policemen':{
+					'file':'sheet_figurants04.png',
+					'tile' : ,
+					'tileh': ,
 					'elements': {
-						'bg1_1': [0,0],
+						'policemen0': [],
+						'policemen1': [],
+						'policemen2': []
 					}
 				  
-				},
-				'bg1_2': {
-					'file':'Pmedio2.png',
-					'tile' : 8320,
-					'tileh': 1376,
-					'elements': {
-						'bg1_2': [0,0],
-					}
-				},
-				'bg1_3': {
-					'file':'Pmedio3.png',
-					'tile' : 5952,
-					'tileh': 1824,
-					'elements': {
-						'bg1_3': [0,0],
-					}
-				},
-				'bg2_1': {
-					'file':'Pfundo1.png',
-					'tile' : 9558,
-					'tileh': 1696,
-					'elements': {
-						'bg2_1': [0,0],
-					}
-				},
-				'bg2_2': {
-					'file':'Pfundo2.png',
-					'tile' : 8320,
-					'tileh': 1376,
-					'elements': {
-						'bg2_2': [0,0],
-					}
-				},
-				'bg2_3': {
-					'file':'Pfundo3.png',
-					'tile' : 5952,
-					'tileh': 1824,
-					'elements': {
-						'bg2_3': [0,0],
-					}
-				}*/
+				},*/
 			},
+			'images': ['tileset-level04.png','bg1-level04.png','bg2-level04.png'],
 			'audio' : {
 				
 			}
@@ -282,7 +212,7 @@ Resources = Backbone.Model.extend({
 	* 
 	* @param  string key - sprite definition key
 	*/
-	createSprite: function(scene,key){
+	createSprites: function(scene,key){
 	    if(key != undefined){
 		element = this.get(scene)['images'][key];
 		if(element['tileh'] == undefined && element['elements'])
@@ -305,7 +235,25 @@ Resources = Backbone.Model.extend({
 	    });
 	    return true;
 	},
-	    
+	
+	formatJSON: function(scene) {
+	    var json = "{",
+		audio = JSON.stringify(this.get(scene)['audio']),
+		images = JSON.stringify(this.get(scene)['images']),
+		sprites = JSON.stringify(this.get(scene)['sprites']);
+	    json += "\"audio\": " + audio + ",";
+	    json += "\"images\": " + images + ",";
+	    json += "\"sprites\": " + sprites ;
+	    json += "}";
+	    /*var json = this.get(scene);*/
+	    return json;
+	},
+	
+	getAssetUrl: function(scene,type,asset) {
+		var type = this.get(scene)[type][asset];
+                return f.search("://") === -1? (type=="audio"? paths.audio + f : paths.images + f) : f;
+	},
+	
 	getSpriteData: function(scene,key){
 	    return this.get(scene)['images'][key];
 	},

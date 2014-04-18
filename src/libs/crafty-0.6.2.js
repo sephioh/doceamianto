@@ -7881,6 +7881,7 @@ Crafty.extend({
             return value;
         }
     },
+    
     /**@
      * #Crafty.image_whitelist
      * @category Assets
@@ -8016,7 +8017,7 @@ Crafty.extend({
             if (Crafty.audio.supports(ext)) {
                 //Create a new asset if necessary, using the file name as an id
                 if (!obj) {
-                    var name = current.substr(current.lastIndexOf('/') + 1).toLowerCase();
+                    //var name = Crafty.audio.getNameFromURL(current);
                     obj = Crafty.audio.create(name, current).obj;
                 }
 
@@ -8048,6 +8049,26 @@ Crafty.extend({
         if (total === 0)
             oncomplete();
 
+    },
+    
+    removeAssets: function(assets) {
+	for (var i = 0, l = assets.length; i < l; i++) {
+	    var current = assets[i],
+		ext = current.substr(current.lastIndexOf('.') + 1, 3).toLowerCase();
+
+            if (Crafty.audio.supports(ext)) {
+                Crafty.audio.remove(current);
+            } else if (Crafty.image_whitelist.indexOf(ext) >= 0) {
+		var comps = Crafty.components();
+                for(var comp in comps){
+		    if(comps[comp].__image == current){
+			delete comps[comp];
+			delete Crafty.assets[current];
+		    }
+		}
+            }
+        }
+        return this;
     },
     /**@
      * #Crafty.modules
@@ -10185,9 +10206,22 @@ Crafty.extend({
                 }
                 return;
             }
-            if (!this.sounds[id])
-                return;
-
+            
+            if (!this.sounds[id]){
+		// if sound with given id is not found, check if id is URL of loaded asset
+		for(var i in Crafty.assets){
+		    if (id != i){ 
+			continue;
+		    }
+		    else{
+			id = this.getNameFromURL(id);
+			break;
+		    }
+		}
+		// check if there's sound with 'file basename' id
+		if (!this.sounds[id])
+		    return;
+	    }
             s = this.sounds[id];
             Crafty.audio.stop(id);
             delete Crafty.assets[s.obj.src];
@@ -10368,7 +10402,12 @@ Crafty.extend({
                     }
                 }
             }
-        }
+        },
+	
+        getNameFromURL: function(url) {
+	    var n = url.substr(url.lastIndexOf('/') + 1);
+	    return n.substring(0, n.lastIndexOf('.'));
+	}
     }
 });
 
@@ -10956,7 +10995,6 @@ Crafty.extend({
         var sharedSpriteInit = function() {
             this.requires("2D, Sprite");
             this.__trim = [0, 0, 0, 0];
-            this.__image = url;
             this.__coord = [this.__coord[0], this.__coord[1], this.__coord[2], this.__coord[3]];
             this.__tile = tile;
             this.__tileh = tileh;
@@ -10984,6 +11022,7 @@ Crafty.extend({
             //generates sprite components for each tile in the map
             Crafty.c(spriteName, {
                 ready: false,
+		__image: url,
                 __coord: [temp[0], temp[1], temp[2] || 1, temp[3] || 1],
 
                 init: sharedSpriteInit

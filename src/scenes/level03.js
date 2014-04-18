@@ -8,8 +8,10 @@ Crafty.scene("level03", function() {
 	// Add initial elements to scene
 	sc['player'] = new Amianto03(),
 	sc['delays'] = Crafty.e("Delay"),
-	sc['background'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, background03"),
-	sc['ornament'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, ornament03"),
+	sc['background'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .image("web/images/level03-background.png"),
+	sc['ornament'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .image("web/images/level03-ornament.png"),
 	sc['delimiters'] = [],
 	sc['corners'] = [],
 	sc['wordblocks'] = [];
@@ -26,10 +28,10 @@ Crafty.scene("level03", function() {
  
 	// Scenario corners
 	sc.corners = [
-		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerUpLeft").attr({ x: -10, y: -10, w: 20, h: 20 }),
-		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerUpRight").attr({ x: -10, y: 590, w: 20, h: 20 }),
-		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerDownLeft").attr({ x: 790, y: -10, w: 20, h: 20 }),
-		Crafty.e("Delimiter, Canvas, blocker, Sprite, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
+		Crafty.e("Delimiter, Canvas, blocker, cornerUpLeft").attr({ x: -10, y: -10, w: 20, h: 20 }),
+		Crafty.e("Delimiter, Canvas, blocker, cornerUpRight").attr({ x: -10, y: 590, w: 20, h: 20 }),
+		Crafty.e("Delimiter, Canvas, blocker, cornerDownLeft").attr({ x: 790, y: -10, w: 20, h: 20 }),
+		Crafty.e("Delimiter, Canvas, blocker, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
 	];
 	
 	var txts = JSON.parse(gameContainer.getSceneTexts()[0]),
