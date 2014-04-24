@@ -153,8 +153,7 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			'images' : ['level03-background.png',
-				  'level03-ornament.png'],
+			'images' : ['level03-background.png','level03-ornament.png'],
 			'audio' : {
 				/*'theme' : 
 				      ['theme03.aac',
@@ -183,17 +182,19 @@ Resources = Backbone.Model.extend({
 						'figurant5': [0,11]
 					}
 				},
-				/*'policemen':{
-					'file':'sheet_figurants04.png',
-					'tile' : ,
-					'tileh': ,
-					'elements': {
-						'policemen0': [],
-						'policemen1': [],
-						'policemen2': []
+				'sheet_policemen.png': {
+					'tile' : 120,
+					'tileh': 124,
+					'map': {
+						'policeman0': [0,0],
+						'policeman0_hostile': [0,2],
+						'policeman1': [0,4],
+						'policeman1_hostile': [0,6],
+						'policeman2': [0,8],
+						'policeman2_hostile': [0,10],
 					}
 				  
-				},*/
+				},
 			},
 			'images': ['tileset-level04.png','bg1-level04.png','bg2-level04.png'],
 			'audio' : {

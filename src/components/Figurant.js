@@ -8,7 +8,7 @@
 	
 	init: function() {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', SpriteAnimation, Tween, Collision, Delay');
-		this.onHit('wall', function(h) {
+		this.onHit('wall', function(hit) {
 			var hitDirX = hit[i].normal.x;
 			if(!this._wasHit)
 				this.walkLeftOrRight(hitDirX);

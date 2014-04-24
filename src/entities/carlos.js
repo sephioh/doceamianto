@@ -2,10 +2,11 @@ Carlos = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 480 },
+	  'startingPoint' : { x: 500, y: 460 },
 	  'initial_speed' : 4,
 	  'width' : 140,
-	  'height' : 130
+	  'height' : 130,
+	  'health' : 3
 	},
 	initialize: function() {
 		var model = this,

@@ -26,13 +26,13 @@ Crafty.scene("level04", function() {
 	sc['checkpoints'] = [],
 	sc['obstacles'] = [],
 	sc['figurants'] = [],
-	sc['policemen'] = [],
-	sc['background1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	sc['pmSpawners'] = [],
+	/*sc['bg1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 0, z: 299 })
 	    .image("web/images/bg1-level04.png"),
-	sc['background2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	sc['bg2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 0, z: 298 })
-	    .image("web/images/bg2-level04.png");
+	    .image("web/images/bg2-level04.png");*/
 
 	sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
@@ -57,38 +57,30 @@ Crafty.scene("level04", function() {
 		Crafty.e("Delimiter, levelLimits").attr({ x: 23428 + playerEnt._w, y: 2070, w: 1, h: 150 })
 	  ];
 	
-	/*sc.figurants = [
+	sc.figurants = [
 		Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
-		Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
+		/*Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
-		Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h })
-	];*/
-	  
+		Crafty.e("Figurant").setFace(5).attr({ x: playerEnt._x+200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h })*/
+	];
+	
 	_.each(sc.figurants, function(f) {
 		f.wanderLoop();
 	});
 	
+	sc.pmSpawners = [ 
+		//Crafty.e("PoliceSpawner").attr({ x: playerEnt._x - 400, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt), 
+		Crafty.e("PoliceSpawner").attr({ x: playerEnt._x + 600, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt),
+		//Crafty.e("PoliceSpawner").attr({ x: playerEnt._x - 100, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt), 
+		//Crafty.e("PoliceSpawner").attr({ x: playerEnt._x + 700, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt)
+	];
+	
 	functions.callPolicemen = function() {
-		var polen = Crafty("Policeman").length;
-		if(polen < 2){
-			if(polen < 1){ 
-				// !TODO create 1 policeman at each side
-				
-				/*
-				sc.policemen.push(new Policeman().);
-				sc.policemen.push(new Policeman().);
-				*/
-			}
-			else{	
-				// !TODO create 1 policeman on left or right side
-				
-				/*
-				sc.policemen.push(new Policeman().);
-				*/
-			}
-		}
+		_.each(sc.pmSpawners, function(S) {
+			S.spawn();
+		});
 	};
 	
 	// event bindings
@@ -97,26 +89,27 @@ Crafty.scene("level04", function() {
 	    bgMoveRate = 15;
 	    
 	// background parallax
-	this.bind("PlayerMoved", function (prevPos){
+	/*this.bind("PlayerMoved", function (prevPos){
 		if(prevPos._x !== playerEnt._x){
 			var XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
-			sc.background1.x = XD,
-			sc.background2.x = XD / 0.5;
+			sc.bg1.x = XD,
+			sc.bg2.x = XD / 0.5;
 		} else {
 			var YD = (playerEnt._y - playerInitPos.y) / bgMoveRate;
-			sc.background1.y = YD,
-			sc.background2.y = YD / 0.5;
+			sc.bg1.y = YD,
+			sc.bg2.y = YD / 0.5;
 		}
-	});
+	});*/
 		
-	this.one("PlayerShoot", function alert1() {
+	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);
 	});
 	
-	this.one("FigurantDied", function alert2() {
+	this.one("FigurantDied", function() {
 		this.trigger("Alert", 2);    
-		// call policemen each 6 seconds
-		sc.delays.delay(functions.callPolicemen,6000,-1);
+		// call policemen each 20 seconds
+		functions.callPolicemen();
+		sc.delays.delay(functions.callPolicemen, 20000, -1);
 	});
 	
 }, function(){ 
