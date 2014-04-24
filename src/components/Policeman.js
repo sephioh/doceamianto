@@ -95,7 +95,7 @@ Crafty.c('Policeman', {
 			      this.unbind("FrameChange", pulledTrigger);
 			}
 		    })
-		    .one("AnimationEnd", function(){ this.animate("HostileStand",1); });  
+		    .one("AnimationEnd", function(){ if (this._currentReelId != "Dying") this.animate("HostileStand",1); });  
 	},
 	
 	_fire: function(bullet) {
