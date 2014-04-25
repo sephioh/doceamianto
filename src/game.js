@@ -161,6 +161,7 @@ window.onload = function() {
 				"src/components/Figurant.js",
 				"src/components/Policeman.js",
 				"src/components/PoliceSpawner.js",
+				"src/components/SpriteColor.js",
 				"src/entities/carlos.js",
 				"src/entities/mapsmanager.js",
 			      ],

@@ -1,6 +1,6 @@
 Crafty.c("PoliceSpawner", {
 
-	maxEntities: 2,
+	maxEntities: 1,
 	
 	init: function(){
 		this.requires("2D");

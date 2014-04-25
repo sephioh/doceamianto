@@ -112,6 +112,7 @@ Crafty.c('Policeman', {
 				hit[0].obj.disableControl()
 				  .unbind("Moved")
 				  .unbind("KeyUp")
+				  .unbind("KeyDown")
 				  .animate("ShotFromBehind", 1);
 			}
 			this.destroy();
