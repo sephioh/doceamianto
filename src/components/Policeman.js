@@ -58,9 +58,17 @@ Crafty.c('Policeman', {
 	hunt: function(obj) {
 		this.bind("EnterFrame", function(){ 
 			var diff = this._x - obj._x,
-			    canShoot =  !this.isPlaying("HostileStand") && this._currentReelId != "Shooting" && obj._currentReelId != "ShotFromBehind" &&
-				obj._y < this._y + this._h && obj._y > this._y - obj._h,
-			    canRun = !this._wandering && !this.isPlaying("Running") && this._currentReelId != "Shooting" && obj._currentReelId != "ShotFromBehind";
+			    canShoot =  !this.isPlaying("HostileStand") && 
+				this._currentReelId != "Shooting" && 
+				this._currentReelId != "Dying" && 
+				obj._currentReelId != "ShotFromBehind" &&
+				obj._y < this._y + this._h && 
+				obj._y > this._y - obj._h,
+			    canRun = !this._wandering && 
+				!this.isPlaying("Running") && 
+				this._currentReelId != "Shooting" && 
+				this._currentReelId != "Dying" && 
+				obj._currentReelId != "ShotFromBehind";
 			
 			// if player is at the left side
 			if (diff >= 0) {
@@ -89,7 +97,7 @@ Crafty.c('Policeman', {
 	pullTrigger: function() {
 		var bullet = Crafty.e("Bullet");
 		this.animate("Shooting", 1)
-		    .bind("FrameChange", function pulledTrigger(o){
+		    .bind("FrameChange", function pulledTrigger(o) {
 			if (o.currentFrame === 2) {
 			      this._fire(bullet);
 			      this.unbind("FrameChange", pulledTrigger);

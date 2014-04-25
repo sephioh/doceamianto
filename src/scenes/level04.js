@@ -58,8 +58,8 @@ Crafty.scene("level04", function() {
 	  ];
 	
 	sc.figurants = [
-		Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
-		Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
+		Crafty.e("Figurant").setFace(0).attr({ x: playerEnt._x+400, y: playerEnt._y, z: playerEnt._z - 1, h: playerEnt._h }),
+		Crafty.e("Figurant").setFace(1).attr({ x: playerEnt._x+100, y: playerEnt._y, z: playerEnt._z - 1, h: playerEnt._h }),
 		/*Crafty.e("Figurant").setFace(2).attr({ x: playerEnt._x-200, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(3).attr({ x: playerEnt._x+600, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
 		Crafty.e("Figurant").setFace(4).attr({ x: playerEnt._x-400, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h }),
@@ -72,7 +72,7 @@ Crafty.scene("level04", function() {
 	
 	sc.pmSpawners = [ 
 		//Crafty.e("PoliceSpawner").attr({ x: playerEnt._x - 400, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt), 
-		Crafty.e("PoliceSpawner").attr({ x: playerEnt._x + 600, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt),
+		Crafty.e("PoliceSpawner").attr({ x: playerEnt._x + 600, y: playerEnt._y, z: playerEnt._z - 1 }).setTarget(playerEnt),
 		//Crafty.e("PoliceSpawner").attr({ x: playerEnt._x - 100, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt), 
 		//Crafty.e("PoliceSpawner").attr({ x: playerEnt._x + 700, y: playerEnt._y, z: playerEnt._z }).setTarget(playerEnt)
 	];
