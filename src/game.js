@@ -32,7 +32,8 @@ window.onload = function() {
 		//"src/extensions/assets.js"
 		//"src/extensions/sprite.js",
 		"src/extensions/loader.js",
-		"src/extensions/sound.js"
+		"src/extensions/sound.js",
+		"src/extensions/sprite-animation.js",
 	], function() {
 		
 		// allow playing MP3 files
@@ -159,6 +160,7 @@ window.onload = function() {
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
 				"src/components/Figurant.js",
+				"src/components/LilPhantom.js",
 				"src/components/Policeman.js",
 				"src/components/PoliceSpawner.js",
 				"src/components/SpriteColor.js",

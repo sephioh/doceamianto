@@ -187,14 +187,25 @@ Resources = Backbone.Model.extend({
 					'tileh': 124,
 					'map': {
 						'policeman0': [0,0],
-						'policeman0_hostile': [0,2],
 						'policeman1': [0,4],
-						'policeman1_hostile': [0,6],
 						'policeman2': [0,8],
-						'policeman2_hostile': [0,10],
 					}
 				  
 				},
+				'sheet_lil_phantom.png': {
+					'tile' : 124,
+					'tileh': 114,
+					'map': {
+						'lil_phantom': [0,0]
+					}
+				},
+				'sheet_badass_phantom.png': {
+					'tile' : 170,
+					'tileh': 170,
+					'map': {
+						'badass_phantom': [0,0]
+					}
+				}
 			},
 			'images': ['tileset-level04.png','bg1-level04.png','bg2-level04.png'],
 			'audio' : {

@@ -106,17 +106,16 @@
 	},
 	
 	shot: function() {
-		if(!this._wasHit){
-			this._wasHit = true;
-			Crafty.trigger("FigurantDied");
-			this.stopWanderLoop()
-			    .animate("Dying", 1)
-			    .delay(function() {
-				//!TODO here goes "transformation" to phantom
-				
+		this._wasHit = true;
+		Crafty.trigger("FigurantDied");
+		this.stopWanderLoop()
+		    .animate("Dying", 1)
+		    .delay(function() {
+			Crafty.e("LilPhantom").attr({ x: this._x, y: this._y, z: this._z }).arise();
+			this.delay(function(){
 				this.destroy();
-			    }, 5000);  
-		}
+			}, 3750);
+		    }, 5000);
 		return this;
 	}
 	

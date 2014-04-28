@@ -2,10 +2,10 @@ Crafty.c("PoliceSpawner", {
 
 	maxEntities: 1,
 	
-	init: function(){
+	init: function() {
 		this.requires("2D");
 		this.currentEntities = [];
-		this.target = null;
+		this.target = Crafty("carlos");
 	},
 
 	spawn: function() {
@@ -14,9 +14,12 @@ Crafty.c("PoliceSpawner", {
 			var pm = Crafty.e("Policeman")
 			    .setFace(Crafty.math.randomInt(0,2))
 			    .attr({ x: this._x, y: this._y, z: this._z })
-			    .one("Remove", function(){ _this.currentEntities.pop(pm); })
+			    .one("Remove", function() {
+				var ce = _this.currentEntities;
+				ce.splice(ce.indexOf(pm),1);
+			    })
 			    .walkLeftOrRight(undefined, Crafty.math.randomInt(50,300))
-			    .hunt(this.target);
+			    .watchOutFor(this.target);
 			this.currentEntities.push(pm);
 		}
 		return this;

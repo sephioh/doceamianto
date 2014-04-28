@@ -3249,6 +3249,7 @@ Crafty.c("Collision", {
     onHit: function (comp, callback, callbackOff) {
         var justHit = false;
         this.bind("EnterFrame", function () {
+	  try{
             var hitdata = this.hit(comp);
             if (hitdata) {
                 justHit = true;
@@ -3259,6 +3260,7 @@ Crafty.c("Collision", {
                 }
                 justHit = false;
             }
+	  } catch(e) { };
         });
         return this;
     },

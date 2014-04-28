@@ -25,38 +25,38 @@ Carlos = BaseEntity.extend({
 		entity
 		    .twoway(model.get('speed'),model.get('speed')+(model.get('speed')/2))
 		    .onHit('grnd', function(hit) {
-			    var justHit = false;
-			    
-			    if(this._currentReelId == "JumpingFalling" || 
-				this._currentReelId == "JumpingUp" || 
-				(this._currentReelId == "Running" && this._falling && this._up) ||
-				(!this.isPlaying("StandingUp") && this._currentReelId == "StandingUp")) {
-				    justHit = true;  
+			var justHit = false;
+			
+			if (this._currentReelId == "JumpingFalling" || 
+			    this._currentReelId == "JumpingUp" || 
+			    (this._currentReelId == "Running" && this._falling && this._up)) {
+			    justHit = true;  
+			    this._blockedDoubleJump = false;
+			    if (!this.isPlaying("WasHit") && this._currentReelId != "Dying")
 				    this.animate("StandingStill", -1);
-				    this._blockedDoubleJump = false;
-			    }
-			    for (var i = 0; i < hit.length; i++) {
-				    var hitDirY = Math.round(hit[i].normal.y);
-				    if (hitDirY !== 0) { 						// hit bottom or top
-					    if (hitDirY === -1) { // hit the top, stop falling
-						    
-						    if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
-						      ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
-							    this._up = false;
-						    
-						    if((justHit && (!this._up || this._falling)) || 
-						      this._onStairs)
-							    this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
-						    
-						    if(this._falling) 
-							    this._falling = false;
-						    
-						    return;
-						    
-					    }
-					    
-				    }
-			    }
+			}
+			for (var i = 0; i < hit.length; i++) {
+				var hitDirY = Math.round(hit[i].normal.y);
+				if (hitDirY !== 0) { 						// hit bottom or top
+					if (hitDirY === -1) { // hit the top, stop falling
+						
+						if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
+						  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
+							this._up = false;
+						
+						if((justHit && (!this._up || this._falling)) || 
+						  this._onStairs)
+							this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+						
+						if(this._falling) 
+							this._falling = false;
+						
+						return;
+						
+					}
+					
+				}
+			}
 		      })
 		    .onHit('ceiling', function(hit){
 			    for (var i = 0; i < hit.length; i++){
@@ -80,7 +80,7 @@ Carlos = BaseEntity.extend({
 			    var justHit = false,
 				speed = model.get('speed'),
 				isfalling = ((this._currentReelId == "JumpingFalling" || 
-					this._currentReelId == "JumpingUp" ) && this._falling);
+					this._currentReelId == "JumpingUp") && this._falling);
 			    
 			    if(isfalling || this._currentReelId == "Running")
 				    justHit = true;
@@ -180,7 +180,7 @@ Carlos = BaseEntity.extend({
 		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
 		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
 		    .reel("JumpingShooting", 500, 0, 3, 6)
-		    .reel("ShotFromBehind", 750, 0, 4, 6)
+		    .reel("Dying", 750, 0, 4, 6)
 		    .setName('Player')
 		    .bind('Moved', function(prevPos) {
 		    
@@ -214,7 +214,7 @@ Carlos = BaseEntity.extend({
 					this.animate("JumpingUp");
 				break;
 			    case "down" : 
-				if(this._currentReelId != "JumpingFalling" &&
+				if(this._currentReelId != "JumpingFalling" && this._currentReelId != "WasHit" &&
 				  ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
 				  (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
 					this.animate("JumpingFalling");
@@ -243,7 +243,32 @@ Carlos = BaseEntity.extend({
 				this.x += hit[i].normal.x * model.get('speed');
 			}
 		      })
-		    .collision(new Crafty.polygon([[50,15],[88,15],[88,115],[50,115]]));
+		    .collision(new Crafty.polygon([[50,15],[88,15],[88,115],[50,115]]))
+		    .bind("CarlosGotShot", function() {
+			var H = model.get('health');
+			if (H > 1) {
+				--H;
+				this.disableControl()
+				    .animate("WasHit")
+				    .one("AnimationEnd", function() {
+					if (this._up) 
+						this.animate("JumpingFalling");
+					else if (!this._dead)
+						this.animate("StandingStill");
+					this.enableControl();
+				    });
+			} else {
+				--H;
+				this.disableControl()
+				    .unbind("Moved")
+				    .unbind("KeyUp")
+				    .unbind("KeyDown")
+				    .unbind("CarlosGotShot")
+				    .animate("Dying")
+				    ._dead = true;
+			}
+			model.set({ 'health': H });
+		    });
 		model.set({'entity' : entity});
 		    
 	},	
@@ -329,7 +354,7 @@ Carlos = BaseEntity.extend({
 	// must be called from within entity context
 	_fire: function(bullet) {
 		var reach = 500;
-		bullet.attr({ x: this._x, y: this._y+55, w: 2, h: 2, z: this._z });
+		bullet.attr({ x: this._x, y: this._y+35, w: 2, h: 2, z: this._z });
 		if(this._flipX) {
 			bullet.x += 40;
 			reach *= -1;
@@ -338,15 +363,17 @@ Carlos = BaseEntity.extend({
 		}
 		bullet.onHit("Collision", function(hit) {
 			for(var i=0, len = hit.length; i<len; i++) {
-				if(hit[i].obj.__c.Figurant) {
-					hit[i].obj.shot();
-					this.destroy();
-					break;
+				if (hit[i].obj.__c.Figurant) {
+					if (!hit[i].obj._wasHit) {
+						hit[i].obj.shot();
+						this.destroy();
+						return;
+					}
 				} 
 				else 
-				if(hit[i].obj.__c.wall) {
+				if (hit[i].obj.__c.wall) {
 					this.destroy();
-					break;
+					return;
 				}
 			}
 		    })

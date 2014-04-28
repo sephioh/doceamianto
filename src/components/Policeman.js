@@ -53,22 +53,21 @@ Crafty.c('Policeman', {
 		return this;
 	},
 	
-	// {number} face: identifier of figurant
-	
-	hunt: function(obj) {
-		this.bind("EnterFrame", function(){ 
+	watchOutFor: function(obj) {
+		this.bind("EnterFrame", function attention() { 
+			if (this._currentReelId == "Dying" || obj._currentReelId == "Dying") {
+				this.unbind("EnterFrame", attention);
+				return;
+			}
+			
 			var diff = this._x - obj._x,
-			    canShoot =  !this.isPlaying("HostileStand") && 
+			    canShoot = !this.isPlaying("HostileStand") && 
 				this._currentReelId != "Shooting" && 
-				this._currentReelId != "Dying" && 
-				obj._currentReelId != "ShotFromBehind" &&
 				obj._y < this._y + this._h && 
 				obj._y > this._y - obj._h,
 			    canRun = !this._wandering && 
 				!this.isPlaying("Running") && 
-				this._currentReelId != "Shooting" && 
-				this._currentReelId != "Dying" && 
-				obj._currentReelId != "ShotFromBehind";
+				this._currentReelId != "Shooting";
 			
 			// if player is at the left side
 			if (diff >= 0) {
@@ -87,7 +86,7 @@ Crafty.c('Policeman', {
 					if (this._flipX)
 						this.unflip('X');
 					this.pullTrigger();
-				} else if (((diff + this._w) * -1) <= this._sightRange && canRun) {
+				} else if ((diff + this._w) * -1 <= this._sightRange && canRun) {
 					this.walkLeftOrRight(1, this._sightRange - this._gunRange);
 				}
 			}
@@ -116,14 +115,11 @@ Crafty.c('Policeman', {
 			bullet.x += this._w - this._shotDeviation;
 		}
 		bullet.onHit("carlos", function(hit) {
-			if (hit[0].obj._currentReelId != "ShotFromBehind") {
-				hit[0].obj.disableControl()
-				  .unbind("Moved")
-				  .unbind("KeyUp")
-				  .unbind("KeyDown")
-				  .animate("ShotFromBehind", 1);
+			if (hit[0].obj._currentReelId != "WasShot" && hit[0].obj._currentReelId != "Dying") {
+				hit[0].obj.trigger("CarlosGotShot");
+				this.destroy();
+				console.log("carlos was hit");
 			}
-			this.destroy();
 		})
 		.shoot({ x: bullet._x + reach });
 	}
