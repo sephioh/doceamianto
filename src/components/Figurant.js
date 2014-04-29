@@ -10,11 +10,11 @@
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', SpriteAnimation, Tween, Collision, Delay');
 		this.onHit('wall', function(hit) {
 			var hitDirX = hit[i].normal.x;
-			if(!this._wasHit)
+			if (!this._wasHit)
 				this.walkLeftOrRight(hitDirX);
 		    })
 		    .bind('Alert',function(int) {
-			if(!this._wasHit)
+			if (!this._wasHit)
 				this.setAlert(int)
 				    .walkLeftOrRight();
 		    });
@@ -40,7 +40,7 @@
 	
 	// 0, 1, 2
 	setAlert: function(num) {
-		if(_.isNumber(num) && num < 3)
+		if (_.isNumber(num) && num < 3)
 			this._alert = num;
 		// set speed to double or triple the starting speed
 		return this.setSpeed(this._startingSpeed * (num+1));
@@ -114,8 +114,8 @@
 			Crafty.e("LilPhantom").attr({ x: this._x, y: this._y, z: this._z }).arise();
 			this.delay(function(){
 				this.destroy();
-			}, 3750);
-		    }, 5000);
+			}, 5000);
+		    }, 3500);
 		return this;
 	}
 	

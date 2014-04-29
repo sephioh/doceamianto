@@ -28,12 +28,15 @@ Crafty.scene("level04", function() {
 	sc['obstacles'] = [],
 	sc['figurants'] = [],
 	sc['pmSpawners'] = [],
-	/*sc['bg1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	sc['bg1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 0, z: 299 })
 	    .image("web/images/bg1-level04.png"),
 	sc['bg2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 0, z: 298 })
-	    .image("web/images/bg2-level04.png");*/
+	    .image("web/images/bg2-level04.png"),
+	sc['bg3'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .image("web/images/bg3-level04.png","repeat")
+	    .attr({ x: 0, y: 0, z: 297, w: mapObj1.width * mapObj1.tilewidth, h: mapObj1.height * mapObj1.tileheight });
 
 	sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .addMap()
@@ -90,7 +93,7 @@ Crafty.scene("level04", function() {
 	    bgMoveRate = 15;
 	    
 	// background parallax
-	/*this.bind("PlayerMoved", function (prevPos){
+	this.bind("PlayerMoved", function (prevPos){
 		if(prevPos._x !== playerEnt._x){
 			var XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
 			sc.bg1.x = XD,
@@ -100,7 +103,7 @@ Crafty.scene("level04", function() {
 			sc.bg1.y = YD,
 			sc.bg2.y = YD / 0.5;
 		}
-	});*/
+	});
 		
 	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);
@@ -111,6 +114,7 @@ Crafty.scene("level04", function() {
 		// call policemen each 20 seconds
 		functions.callPolicemen();
 		sc.delays.delay(functions.callPolicemen, 20000, -1);
+		//Crafty.e("BadassPhantom").attr({ x: playerEnt._x + 600, y: playerEnt._y, z: playerEnt._z -1 });
 	});
 	
 }, function(){ 

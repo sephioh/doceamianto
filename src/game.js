@@ -155,12 +155,13 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level04",
 			elements: [
-				"text!src/scenes/tilemaps/level04-4.json",
+				"text!src/scenes/tilemaps/level04-5.json",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
 				"src/components/Figurant.js",
 				"src/components/LilPhantom.js",
+				"src/components/BadassPhantom.js",
 				"src/components/Policeman.js",
 				"src/components/PoliceSpawner.js",
 				"src/components/SpriteColor.js",

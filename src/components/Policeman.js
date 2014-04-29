@@ -118,7 +118,6 @@ Crafty.c('Policeman', {
 			if (hit[0].obj._currentReelId != "WasShot" && hit[0].obj._currentReelId != "Dying") {
 				hit[0].obj.trigger("CarlosGotShot");
 				this.destroy();
-				console.log("carlos was hit");
 			}
 		})
 		.shoot({ x: bullet._x + reach });
