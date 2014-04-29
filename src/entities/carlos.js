@@ -2,7 +2,7 @@ Carlos = BaseEntity.extend({
 	defaults: {
 	  'speed' : 4,
 	  'startingSpeed': 4,
-	  'startingPoint' : { x: 500, y: 460 },
+	  'startingPoint' : { x: 500, y: 440 },
 	  'initial_speed' : 4,
 	  'width' : 140,
 	  'height' : 130,
