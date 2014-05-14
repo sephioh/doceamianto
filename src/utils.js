@@ -138,7 +138,7 @@ Utils = Backbone.Model.extend({
 		}
  	},
 	
-	getImageDataURL: function (img) {
+	/*getImageDataURL: function (img) {
 	    // Create an empty canvas element
 	    var canvas = document.createElement("canvas");
 	    canvas.width = img.width;
@@ -154,6 +154,6 @@ Utils = Backbone.Model.extend({
 	    // will re-encode the image.
 	    
 	    return canvas.toDataURL("image/png");
-	}
+	}*/
 	
 });

@@ -167,7 +167,8 @@ Resources = Backbone.Model.extend({
 					'tile' : 140,
 					'tileh' : 128,
 					'map': {
-						'carlos' : [0, 0]
+						'carlos' : [0, 0],
+						'carlos_phantom': [0, 5]
 					}
 				},
 				'sheet_figurants04.png': {

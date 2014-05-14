@@ -6,6 +6,7 @@ Crafty.c("PoliceSpawner", {
 		this.requires("2D");
 		this.currentEntities = [];
 		this.target = Crafty("carlos");
+		return this;
 	},
 
 	spawn: function() {
@@ -13,12 +14,12 @@ Crafty.c("PoliceSpawner", {
 			var _this = this;
 			var pm = Crafty.e("Policeman")
 			    .setFace(Crafty.math.randomInt(0,2))
-			    .attr({ x: this._x, y: this._y, z: this._z })
+			    .attr({ x: this._x, y: this._y, z: this._z, h: this._h, w: this._w })
 			    .one("Remove", function() {
 				var ce = _this.currentEntities;
 				ce.splice(ce.indexOf(pm),1);
 			    })
-			    .walkLeftOrRight(undefined, Crafty.math.randomInt(50,300))
+			    .walkLeftOrRight(undefined,Crafty.math.randomInt(50,300))
 			    .watchOutFor(this.target);
 			this.currentEntities.push(pm);
 		}

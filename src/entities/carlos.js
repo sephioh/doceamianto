@@ -4,9 +4,11 @@ Carlos = BaseEntity.extend({
 	  'startingSpeed': 4,
 	  'startingPoint' : { x: 500, y: 440 },
 	  'initial_speed' : 4,
-	  'width' : 140,
-	  'height' : 130,
-	  'health' : 3
+	  'width' : 110,
+	  'height' : 105,
+	  'health' : 3,
+	  'kills': 0,
+	  'currentCheckpoint' : null
 	},
 	initialize: function() {
 		var model = this,
@@ -19,42 +21,53 @@ Carlos = BaseEntity.extend({
 				z: 301,
 				canShoot: true
 			});
-		//.multiway(model.get('startingSpeed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
-		//entity['poly'] = new Crafty.polygon([[22,7],[70,7],[60,87],[32,87]]);//22 //33,87
 		
 		entity
 		    .twoway(model.get('speed'),model.get('speed')+(model.get('speed')/2))
+		    .reel("StandingStill", 50, [[0,0],[0,0]])
+		    .reel("Running", 500, 1, 0, 5)
+		    .reel("Shooting", 500, 0, 1, 6)
+		    .reel("WasHit", 500, 4, 2, 2)
+		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
+		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
+		    .reel("JumpingShooting", 500, 0, 3, 6)
+		    .reel("ShotDead", 1000, 0, 4, 6)
+		    .reel("Shock", 1200, [[2,6],[3,6],[4,6],[5,6],[0,7],[1,7],[2,7],[3,7],[4,7]])
 		    .onHit('grnd', function(hit) {
 			var justHit = false;
 			
 			if (this._currentReelId == "JumpingFalling" || 
 			    this._currentReelId == "JumpingUp" || 
-			    (this._currentReelId == "Running" && this._falling && this._up)) {
+			    (this._falling && this._up) &&
+			    !this._currentReelId == "Running") {
 			    justHit = true;  
 			    this._blockedDoubleJump = false;
-			    if (!this.isPlaying("WasHit") && this._currentReelId != "Dying")
-				    this.animate("StandingStill", -1);
+			    if (!this._dead)
+				this.animate("StandingStill", -1);
 			}
 			for (var i = 0; i < hit.length; i++) {
 				var hitDirY = Math.round(hit[i].normal.y);
-				if (hitDirY !== 0) { 						// hit bottom or top
+				if (hitDirY !== 0) { // hit bottom or top
 					if (hitDirY === -1) { // hit the top, stop falling
 						
 						if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
 						  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
 							this._up = false;
 						
-						if((justHit && (!this._up || this._falling)) || 
-						  this._onStairs)
+						//if((justHit && (!this._up || this._falling)) || this._onStairs)
 							this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 						
 						if(this._falling) 
 							this._falling = false;
 						
+						if (hit[i].obj.__c.mud && model.get("speed") == model.get("startingSpeed"))
+							model._setSpeed(1,true)
+						else if (model.get("speed") != model.get("startingSpeed") && !hit[i].obj.__c.mud)
+							model._setSpeed(model.get("startingSpeed"),true);
+						
 						return;
 						
 					}
-					
 				}
 			}
 		      })
@@ -140,10 +153,27 @@ Carlos = BaseEntity.extend({
 			    this._onStairs = false;
 			    this._onUpStairs = false;
 			    this._onDownStairs = false;
-		      })
-		    .onHit('water', function() { 
-				
-		      })
+		    })
+		    .onHit('checkpoint', function(hit){
+			if (model.get("currentCheckpoint")) {
+			    if (model.get("currentCheckpoint").identifier !== hit[0].obj.identifier) {
+				   model.set({ 'currentCheckpoint': hit[0].obj });
+			    }
+			} else {
+			    model.set({ 'currentCheckpoint': hit[0].obj });
+			}
+		    })
+		    .onHit('teleporter', function() { 
+			    var cc = model.get('currentCheckpoint');
+			    this.attr({ x: cc._x, y: cc._y });
+		    })
+		    .onHit('spikes', function() { 
+			
+		    })
+		    .onHit('bossArea', function(hit) { 
+			if(model.get('kills') > 0)
+				Crafty.trigger("BossFight");
+		    })
 		    .bind('KeyDown', function(e){ 
 			if((e.key ==  Crafty.keys['ENTER'] || e.key ==  Crafty.keys['SPACE']) &&
 			  (this.hit('grnd') || this._onStairs || this._up) &&
@@ -169,19 +199,10 @@ Carlos = BaseEntity.extend({
 			var k = e.key;
 			if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 			  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
-				if(this.isPlaying("Running") && !this._transiting){ 
+				if(this.isPlaying("Running") && !this._transiting && !this._dead){ 
 					this.animate("StandingStill"); 
 				}
 		    })
-		    .reel("StandingStill", 50, [[0,0],[0,0]])
-		    .reel("Running", 500, 1, 0, 5)
-		    .reel("Shooting", 500, 0, 1, 6)
-		    .reel("WasHit", 500, 4, 2, 2)
-		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
-		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
-		    .reel("JumpingShooting", 500, 0, 3, 6)
-		    .reel("Dying", 750, 0, 4, 6)
-		    .setName('Player')
 		    .bind('Moved', function(prevPos) {
 		    
 			// controlling animations
@@ -238,13 +259,8 @@ Carlos = BaseEntity.extend({
 			  }
 			Crafty.trigger("PlayerMoved", prevPos);
 		      })
-		    .onHit('levelLimits', function(hit) {
-			for (var i = 0; i < hit.length; i++) {
-				this.x += hit[i].normal.x * model.get('speed');
-			}
-		      })
-		    .collision(new Crafty.polygon([[50,15],[88,15],[88,115],[50,115]]))
-		    .bind("CarlosGotShot", function() {
+		    .collision(new Crafty.polygon([[38,15],[70,15],[70,95],[38,95]]))
+		    .bind("GotShot", function() {
 			var H = model.get('health');
 			if (H > 1) {
 				--H;
@@ -260,14 +276,32 @@ Carlos = BaseEntity.extend({
 			} else {
 				--H;
 				this.disableControl()
+				    .addComponent("Delay")
 				    .unbind("Moved")
 				    .unbind("KeyUp")
 				    .unbind("KeyDown")
-				    .unbind("CarlosGotShot")
-				    .animate("Dying")
+				    .unbind("GotShot")
+				    .animate("ShotDead")
+				    .one("AnimationEnd", function() {
+					this.delay(model.losingLife, 3000);
+				    })
 				    ._dead = true;
 			}
 			model.set({ 'health': H });
+		    })
+		    .one("LifeDrained", function() {
+			this.disableControl()
+			    .addComponent("Delay")
+			    .unbind("Moved")
+			    .unbind("KeyUp")
+			    .unbind("KeyDown")
+			    .unbind("GotShot")
+			    .animate("Shock")
+			    .one("AnimationEnd", function() {
+				this.delay(model.losingLife, 3000);
+			    })
+			    ._dead = true;
+			model.set({ 'health': 0 });
 		    });
 		model.set({'entity' : entity});
 		    
@@ -283,7 +317,7 @@ Carlos = BaseEntity.extend({
 			speed = Math.floor(speed);
 			this.set({'speed' : speed});
 			if(jump)
-			    ent._jumpSpeed = speed;
+			    ent._jumpSpeed = speed + speed/2;
 			if(ent._onUpStairs)
 			    speed = speed/2,
 			    keys = {
@@ -328,19 +362,20 @@ Carlos = BaseEntity.extend({
 				  .animate("Shooting",1)
 				  .bind("FrameChange", function(o){
 				      if(o.currentFrame == 3) {
-					      model._fire.call(this,bullet);
+					      model._fire(bullet);
 				      }
 				    })
 				  .one("AnimationEnd", function(){ 
-				      this.unbind("FrameChange")
-					  .animate("StandingStill",1)
-					  .enableControl();
+				      this.unbind("FrameChange");
+				      if(!this._dead)
+					    this.animate("StandingStill",1)
+						.enableControl();
 				  });
 			} else {
 				ent.animate("JumpingShooting",1)
 				  .bind("FrameChange", function(o){
 				      if(o.currentFrame == 3) {
-					      model._fire.call(this,bullet);
+					      model._fire(bullet);
 				      }
 				    })
 				  .one("AnimationEnd", function(){ 
@@ -353,9 +388,12 @@ Carlos = BaseEntity.extend({
 	
 	// must be called from within entity context
 	_fire: function(bullet) {
-		var reach = 500;
-		bullet.attr({ x: this._x, y: this._y+35, w: 2, h: 2, z: this._z });
-		if(this._flipX) {
+		var reach = 500, 
+		    model = this, 
+		    ent = this.getEntity(), 
+		    kills = this.get('kills');
+		bullet.attr({ x: ent._x, y: ent._y+35, w: 2, h: 2, z: ent._z });
+		if(ent._flipX) {
 			bullet.x += 40;
 			reach *= -1;
 		} else {
@@ -366,6 +404,7 @@ Carlos = BaseEntity.extend({
 				if (hit[i].obj.__c.Figurant) {
 					if (!hit[i].obj._wasHit) {
 						hit[i].obj.shot();
+						model.set({ 'kills': ++kills });
 						this.destroy();
 						return;
 					}
@@ -379,6 +418,24 @@ Carlos = BaseEntity.extend({
 		    })
 		    .shoot({ x: bullet._x + reach });
 		Crafty.trigger("PlayerShoot");
+	},
+	
+	losingLife: function(){
+		var ent = this;
+		Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, SpriteAnimation, carlos_phantom")
+		    .attr({ x: ent._x, y: ent._y, z: ent._z, alpha: 0.7 , h: 70, w: 55 })
+		    .reel("LosingLife", 1000, [[0,5],[1,5],[2,5],[3,5],[4,5],[5,5],[0,6],[1,6]])
+		    .reel("Torment", 1000, [[5,7],[0,8],[1,8],[2,8],[3,8],[4,8],[5,8]])
+		    .animate("LosingLife")
+		    .one("AnimationEnd", function() {
+			this.animate("Torment", -1)
+			    .tween({ y: this._y - 1000 }, 7500)
+			    .one("TweenEnd", function() {
+				this.destroy();
+				// !TODO finish scene
+			    })
+		    });
+		    
 	}
 	
 });

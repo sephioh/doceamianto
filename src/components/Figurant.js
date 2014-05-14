@@ -1,5 +1,5 @@
-    Crafty.c('Figurant', {
-      
+Crafty.c('Figurant', {
+
 	_startingSpeed: 0.3,
 	_speed: 0.3,
 	_alert: 0,
@@ -9,7 +9,22 @@
 	init: function() {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', SpriteAnimation, Tween, Collision, Delay');
 		this.onHit('wall', function(hit) {
-			var hitDirX = hit[i].normal.x;
+			var hitDirX = hit[0].normal.x;
+			if (!this._wasHit)
+				this.walkLeftOrRight(hitDirX);
+		    })
+		    .onHit('mud', function(hit) {
+			var hitDirX = hit[0].normal.x;
+			if (!this._wasHit)
+				this.walkLeftOrRight(hitDirX);
+		    })
+		    .onHit('stairs', function(hit) {
+			var hitDirX = Math.round(hit[0].normal.x);
+			if (!this._wasHit)
+				this.walkLeftOrRight(hitDirX);
+		    })
+		    .onHit('platform_border', function(hit) {
+			var hitDirX = hit[0].normal.x;
 			if (!this._wasHit)
 				this.walkLeftOrRight(hitDirX);
 		    })
@@ -89,6 +104,7 @@
 		var time = Math.ceil(Math.random() * 5000);
 		this._wanderingLoop = true;
 		this.delay(this._walk,time,0);
+		return this;
 	},
 	
 	stopWalking: function() {
@@ -119,4 +135,4 @@
 		return this;
 	}
 	
-  });
+});

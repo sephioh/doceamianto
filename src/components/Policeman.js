@@ -55,7 +55,7 @@ Crafty.c('Policeman', {
 	
 	watchOutFor: function(obj) {
 		this.bind("EnterFrame", function attention() { 
-			if (this._currentReelId == "Dying" || obj._currentReelId == "Dying") {
+			if (this._currentReelId == "Dying" || obj._dead) {
 				this.unbind("EnterFrame", attention);
 				return;
 			}
@@ -76,7 +76,7 @@ Crafty.c('Policeman', {
 					if(!this._flipX)
 						this.flip('X');
 					this.pullTrigger();
-				} else if (diff + obj._w <= this._sightRange  && canRun) {
+				} else if (diff + obj._w <= this._sightRange && diff + this._shotDeviation > this._gunRange && canRun) {
 					this.walkLeftOrRight(-1, this._sightRange - this._gunRange);
 				}
 			} 
@@ -86,7 +86,7 @@ Crafty.c('Policeman', {
 					if (this._flipX)
 						this.unflip('X');
 					this.pullTrigger();
-				} else if ((diff + this._w) * -1 <= this._sightRange && canRun) {
+				} else if ((diff + this._w) * -1 <= this._sightRange && (diff + this._shotDeviation) * -1 > this._gunRange && canRun) {
 					this.walkLeftOrRight(1, this._sightRange - this._gunRange);
 				}
 			}
@@ -115,12 +115,12 @@ Crafty.c('Policeman', {
 			bullet.x += this._w - this._shotDeviation;
 		}
 		bullet.onHit("carlos", function(hit) {
-			if (hit[0].obj._currentReelId != "WasShot" && hit[0].obj._currentReelId != "Dying") {
-				hit[0].obj.trigger("CarlosGotShot");
+			if (hit[0].obj._currentReelId != "ShotDead") {
+				hit[0].obj.trigger("GotShot");
 				this.destroy();
 			}
-		})
-		.shoot({ x: bullet._x + reach });
+		    })
+		    .shoot({ x: bullet._x + reach });
 	}
 	
   });

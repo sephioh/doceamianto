@@ -5,10 +5,10 @@ window.onload = function() {
 	
 	    // Fix for cache
 	if(gameContainer.env == 'dev') {
-		    version = today.getDay()+"_"+ today.getHours() +"_"+today.getSeconds();
-	    } else {
-		    version = gameContainer.gameVersion;
-	    };    
+		version = today.getDay()+"_"+ today.getHours() +"_"+today.getSeconds();
+	} else {
+		version = gameContainer.gameVersion;
+	};    
 	
 	//start Crafty
 	Crafty.init(800, 600);
@@ -155,7 +155,7 @@ window.onload = function() {
 		    }).setSceneInfo({
 			name: "level04",
 			elements: [
-				"text!src/scenes/tilemaps/level04-8.json",
+				"text!src/scenes/tilemaps/level04-10.json",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
@@ -178,7 +178,6 @@ window.onload = function() {
 			"src/scenes/level03.js?v="+version+"",
 			"src/scenes/level04.js?v="+version+"",
 		];
-		
 		
 		require(scenes, function() {
 			var sceneArg;
