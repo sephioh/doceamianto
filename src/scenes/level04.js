@@ -34,7 +34,7 @@ Crafty.scene("level04", function() {
 	
 	sc['bg1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 0, z: playerEnt._z - 2 })
-	    .image("web/images/bg1-level04.png"),
+	    .image("web/images/bg1-01-level04.png"),
 	sc['bg2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .attr({ x: 0, y: 0, z: playerEnt._z - 3 })
 	    .image("web/images/bg2-level04.png"),

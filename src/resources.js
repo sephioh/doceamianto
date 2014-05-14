@@ -208,7 +208,7 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			'images': ['tileset-level04.png','bg1-level04.png','bg2-level04.png','bg3-level04.png'],
+			'images': ['tileset-level04.png','bg1-01-level04.png','bg2-level04.png','bg3-level04.png'],
 			'audio' : {
 				
 			}
