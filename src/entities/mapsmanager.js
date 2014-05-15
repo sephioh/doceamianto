@@ -6,7 +6,7 @@ function MapsManager() {
 	level,
 	paroundEnt,
 	paInitPos,
-	backgroundSectionSize = 965,
+	backgroundSectionSize = 964, // original background section images size: 965px
 	mapSectionSize = 1067.2,
 	bgMoveRate = 15;
 	
@@ -141,15 +141,19 @@ function MapsManager() {
 	    bgI,
 	    shown,
 	    XD,
-	    YD;
+	    YD,
+	    rightMargin,
+	    leftMargin;
 	Crafty.bind("PlayerMoved", function (prevPos) {
-		bgI = Math.floor(paroundEnt._x / mapSectionSize);
+		bgI = Math.floor(paroundEnt._x / mapSectionSize),
+		rightMargin = bgI > 14 ? 3 : 2,
+		leftMargin = bgI > 17 ? 3 : 2;
 		for (i = 0; i < p; i++) {
-			shown = bg1[i].placement < bgI + 2 && bg1[i].placement > bgI - 2;
-			if (!bg1[i]._visible && shown) {
+			shown = bg1[i].placement < bgI + rightMargin && bg1[i].placement > bgI - leftMargin;
+			if (shown && !bg1[i]._visible) {
 				bg1[i].visible = true,
 				bg2[i].visible = true;
-			} else if (bg1[i]._visible && !shown) {
+			} else if (!shown && bg1[i]._visible) {
 				bg1[i].visible = false,
 				bg2[i].visible = false;
 			}
@@ -165,7 +169,6 @@ function MapsManager() {
 		}
 	});
 	return this;
-	
     }
 	
 }

@@ -27,8 +27,7 @@ Crafty.scene("level04", function() {
 	sc['boss'] = {};
 	
 	var mapObj1 = JSON.parse(gameContainer.getSceneTexts()[0]), 
-	    playerEnt = sc.player.getEntity(),
-	    playerInitPos = sc.player.get('startingPoint');
+	    playerEnt = sc.player.getEntity();
 	
 	/*sc['bg1'] = Crafty.e("Background")
 	    .attr({ x: 0, y: 0, z: playerEnt._z - 2 })
@@ -43,7 +42,7 @@ Crafty.scene("level04", function() {
 	
 	sc.mm.prepTileset(mapObj1.tilesets[0])
 	    .setLevel("level04")
-	    .parallaxAround(playerEnt, playerInitPos)
+	    .parallaxAround(playerEnt, sc.player.get('startingPoint'))
 	    .setBackgrounds(resources.get("level04").images)
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
