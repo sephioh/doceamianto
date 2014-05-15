@@ -142,7 +142,6 @@ function MapsManager() {
 	    shown,
 	    XD,
 	    YD;
-	    console.log(bg1, bg2);
 	Crafty.bind("PlayerMoved", function (prevPos) {
 		bgI = Math.floor(paroundEnt._x / mapSectionSize);
 		for (i = 0; i < p; i++) {
