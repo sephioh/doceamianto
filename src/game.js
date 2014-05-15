@@ -157,6 +157,7 @@ window.onload = function() {
 			elements: [
 				"text!src/scenes/tilemaps/level04-10.json",
 				"src/components/TiledLevelImporter.js",
+				"src/components/Background.js",
 				"src/components/Delimiter.js",
 				"src/components/Bullet.js",
 				"src/components/Figurant.js",

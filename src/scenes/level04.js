@@ -18,7 +18,7 @@ Crafty.scene("level04", function() {
 	sc['mm'] = new MapsManager(),
 	sc['map'] = Crafty.e("2D, Canvas, TiledMapBuilder"),
 	sc['delays'] = Crafty.e("Delay"),
-	sc['transitionAreas'] = [],
+	sc['bgs'] = { bg1: [], bg2: [], bg3: {} },
 	sc['delimiters'] = [],
 	sc['checkpoints'] = [],
 	sc['figurants'] = [],
@@ -29,20 +29,23 @@ Crafty.scene("level04", function() {
 	
 	var mapObj1 = JSON.parse(gameContainer.getSceneTexts()[0]), 
 	    playerEnt = sc.player.getEntity(),
-	    playerInitPos = sc.player.get('startingPoint'),
-	    bgMoveRate = 15;
+	    playerInitPos = sc.player.get('startingPoint');
 	
-	sc['bg1'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	/*sc['bg1'] = Crafty.e("Background")
 	    .attr({ x: 0, y: 0, z: playerEnt._z - 2 })
-	    .image("web/images/bg1-01-level04.png"),
-	sc['bg2'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .image("web/images/bg1-level04-0.png"),
+	sc['bg2'] = Crafty.e("Background")
 	    .attr({ x: 0, y: 0, z: playerEnt._z - 3 })
-	    .image("web/images/bg2-level04.png"),
-	sc['bg3'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	    .image("web/images/bg2-level04-0.png"),
+	     
+	sc['bg3'] = Crafty.e("Background")
 	    .image("web/images/bg3-level04.png","repeat")
-	    .attr({ x: 0, y: 0, z: playerEnt._z - 4, w: mapObj1.width * mapObj1.tilewidth, h: mapObj1.height * mapObj1.tileheight });
+	    .attr({ x: 0, y: 0, z: playerEnt._z - 4, w: mapObj1.width * mapObj1.tilewidth, h: mapObj1.height * mapObj1.tileheight });*/
 	
 	sc.mm.prepTileset(mapObj1.tilesets[0])
+	    .setLevel("level04")
+	    .parallaxAround(playerEnt, playerInitPos)
+	    .setBackgrounds(resources.get("level04").images)
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
 		Crafty.viewport.clampToEntities = false,
@@ -123,7 +126,7 @@ Crafty.scene("level04", function() {
 	// event bindings
 	
 	// background parallax
-	this.bind("PlayerMoved", function (prevPos){
+	/*this.bind("PlayerMoved", function (prevPos){
 		if(prevPos._x !== playerEnt._x){
 			var XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
 			sc.bg1.x = XD,
@@ -133,7 +136,7 @@ Crafty.scene("level04", function() {
 			sc.bg1.y = YD,
 			sc.bg2.y = YD / 0.5;
 		}
-	});
+	});*/
 		
 	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);

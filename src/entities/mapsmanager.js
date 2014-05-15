@@ -1,7 +1,15 @@
 function MapsManager() {
 
     var maps = [],
-	currentMap = null;
+	currentMap = null,
+	bgs = { bg1: [], bg2: [], bg3: {} },
+	level,
+	paroundEnt,
+	paInitPos,
+	current_background_sections,
+	background_section_size = 965,
+	map_section_size = 1067.2,
+	bgMoveRate = 15;
 	
     this.m = function (a) {
 	var map;
@@ -77,6 +85,55 @@ function MapsManager() {
     
     this.getCurrentMap = function() {
 	return this.m(currentMap);
+    },
+    
+    this.setLevel = function(l){
+	level = l;
+	return this;
+    },
+    
+    this.setBackgrounds = function(arr) {
+	var bg1 = "bg1", 
+	    bg2 = "bg2", 
+	    bg3 = "bg3", 
+	    s = "-", 
+	    l = level, 
+	    ext = ".png", 
+	    bgIndex, 
+	    imagesPath = Crafty.paths().images, 
+	    pE = paroundEnt;
+
+	for (var i = 0, len = arr.length; i<len; i++) {
+	    if (arr[i].search(bg1) !== -1) {
+		bgIndex = parseInt(arr[i].replace(bg1+s+l+s,"").replace(ext,""));
+		bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * background_section_size, z: pE._z - 2 }).image(imagesPath+arr[i]);
+		bgs.bg1[bgIndex].playerEnt = pE,
+		bgs.bg1[bgIndex].playerInitPos = paInitPos,
+		bgs.bg1[bgIndex].placement = bgIndex,
+		bgs.bg1[bgIndex].startParallaxing();
+	    } else if (arr[i].search(bg2) !== -1) {
+		bgIndex = parseInt(arr[i].replace(bg2+s+l+s,"").replace(ext,""));
+		bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * background_section_size, z: pE._z - 3 }).image(imagesPath+arr[i]);
+		bgs.bg2[bgIndex].playerEnt = pE,
+		bgs.bg2[bgIndex].playerInitPos = paInitPos,
+		bgs.bg2[bgIndex].placement = bgIndex,
+		bgs.bg2[bgIndex].divisor = 0.5,
+		bgs.bg2[bgIndex].startParallaxing();
+	    } else if (arr[i].search(bg3) !== -1) {
+		bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: pE._z - 4 , w: map_section_size * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
+	    }
+	}
+	return this;
+    },
+    
+    this.parallaxAround = function (pa, paInit) {
+	paroundEnt = pa,
+	paInitPos = paInit;
+	return this;
+    },
+    
+    this.getBackgrounds = function() {
+	return bgs;
     }
 	
 }
