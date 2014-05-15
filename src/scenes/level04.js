@@ -16,7 +16,6 @@ Crafty.scene("level04", function() {
 	
 	sc['player'] = new Carlos(),
 	sc['mm'] = new MapsManager(),
-	sc['map'] = Crafty.e("2D, Canvas, TiledMapBuilder"),
 	sc['delays'] = Crafty.e("Delay"),
 	sc['bgs'] = { bg1: [], bg2: [], bg3: {} },
 	sc['delimiters'] = [],
@@ -78,6 +77,7 @@ Crafty.scene("level04", function() {
 			this.collision(new Crafty.polygon([[0,8],[31,8]]))
 			    .z = playerEnt._z + 1;
 		}),
+		sc.mm.startParallax(),
 		playerEnt.gravity();
 	    })
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);

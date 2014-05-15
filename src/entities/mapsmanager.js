@@ -6,9 +6,8 @@ function MapsManager() {
 	level,
 	paroundEnt,
 	paInitPos,
-	current_background_sections,
-	background_section_size = 965,
-	map_section_size = 1067.2,
+	backgroundSectionSize = 965,
+	mapSectionSize = 1067.2,
 	bgMoveRate = 15;
 	
     this.m = function (a) {
@@ -106,21 +105,19 @@ function MapsManager() {
 	for (var i = 0, len = arr.length; i<len; i++) {
 	    if (arr[i].search(bg1) !== -1) {
 		bgIndex = parseInt(arr[i].replace(bg1+s+l+s,"").replace(ext,""));
-		bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * background_section_size, z: pE._z - 2 }).image(imagesPath+arr[i]);
+		bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: pE._z - 2 }).image(imagesPath+arr[i]);
 		bgs.bg1[bgIndex].playerEnt = pE,
 		bgs.bg1[bgIndex].playerInitPos = paInitPos,
-		bgs.bg1[bgIndex].placement = bgIndex,
-		bgs.bg1[bgIndex].startParallaxing();
+		bgs.bg1[bgIndex].placement = bgIndex;
 	    } else if (arr[i].search(bg2) !== -1) {
 		bgIndex = parseInt(arr[i].replace(bg2+s+l+s,"").replace(ext,""));
-		bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * background_section_size, z: pE._z - 3 }).image(imagesPath+arr[i]);
+		bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: pE._z - 3 }).image(imagesPath+arr[i]);
 		bgs.bg2[bgIndex].playerEnt = pE,
 		bgs.bg2[bgIndex].playerInitPos = paInitPos,
 		bgs.bg2[bgIndex].placement = bgIndex,
-		bgs.bg2[bgIndex].divisor = 0.5,
-		bgs.bg2[bgIndex].startParallaxing();
+		bgs.bg2[bgIndex].divisor = 0.5;
 	    } else if (arr[i].search(bg3) !== -1) {
-		bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: pE._z - 4 , w: map_section_size * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
+		bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: pE._z - 4 , w: mapSectionSize * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
 	    }
 	}
 	return this;
@@ -134,6 +131,42 @@ function MapsManager() {
     
     this.getBackgrounds = function() {
 	return bgs;
+    },
+    
+    this.startParallax = function() {
+	var bg1 = bgs.bg1, 
+	    bg2 = bgs.bg2,
+	    i,
+	    p = 20,
+	    bgI,
+	    shown,
+	    XD,
+	    YD;
+	    console.log(bg1, bg2);
+	Crafty.bind("PlayerMoved", function (prevPos) {
+		bgI = Math.floor(paroundEnt._x / mapSectionSize);
+		for (i = 0; i < p; i++) {
+			shown = bg1[i].placement < bgI + 2 && bg1[i].placement > bgI - 2;
+			if (!bg1[i]._visible && shown) {
+				bg1[i].visible = true,
+				bg2[i].visible = true;
+			} else if (bg1[i]._visible && !shown) {
+				bg1[i].visible = false,
+				bg2[i].visible = false;
+			}
+			if (prevPos._x !== paroundEnt._x) {
+				XD = (paroundEnt._x - paInitPos.x) / bgMoveRate;
+				bg1[i].x = XD + (backgroundSectionSize * bg1[i].placement);
+				bg2[i].x = (XD / bg2[i].divisor) + (backgroundSectionSize * bg2[i].placement);
+			} else {
+				YD = (paroundEnt._y - paInitPos.y) / bgMoveRate;
+				bg1[i].y = YD;
+				bg2[i].y = YD / bg2[i].divisor;
+			}
+		}
+	});
+	return this;
+	
     }
 	
 }
