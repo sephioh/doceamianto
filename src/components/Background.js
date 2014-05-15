@@ -24,7 +24,7 @@ Crafty.c("Background", {
 					this.visible = false;
 				if (prevPos._x !== this.playerEnt._x) {
 					var XD = (this.playerEnt._x - this.playerInitPos.x) / this.bgMoveRate;
-					this.x = XD + (this.backgroundSectionSize * this.placement) / this.divisor;
+					this.x = (XD / this.divisor) + (this.backgroundSectionSize * this.placement);
 				} else {
 					var YD = (this.playerEnt._y - this.playerInitPos.y) / this.bgMoveRate;
 					this.y = YD / this.divisor;

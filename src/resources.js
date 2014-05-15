@@ -229,7 +229,7 @@ Resources = Backbone.Model.extend({
 				'bg1-level04-17.png',
 				'bg1-level04-18.png',
 				'bg1-level04-19.png',
-				/*'bg2-level04-0.png',
+				'bg2-level04-0.png',
 				'bg2-level04-1.png',
 				'bg2-level04-2.png',
 				'bg2-level04-3.png',
@@ -248,7 +248,7 @@ Resources = Backbone.Model.extend({
 				'bg2-level04-16.png',
 				'bg2-level04-17.png',
 				'bg2-level04-18.png',
-				'bg2-level04-19.png',*/
+				'bg2-level04-19.png',
 				'bg3-level04.png'],
 			'audio' : {
 				
