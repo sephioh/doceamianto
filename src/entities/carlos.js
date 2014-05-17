@@ -6,7 +6,7 @@ Carlos = BaseEntity.extend({
 	  'initial_speed' : 4,
 	  'width' : 110,
 	  'height' : 105,
-	  'health' : 3,
+	  'health' : 5,
 	  'kills': 0,
 	  'currentCheckpoint' : null
 	},
@@ -165,10 +165,8 @@ Carlos = BaseEntity.extend({
 		    })
 		    .onHit('teleporter', function() { 
 			    var cc = model.get('currentCheckpoint');
-			    this.attr({ x: cc._x, y: cc._y });
-		    })
-		    .onHit('spikes', function() { 
-			
+			    if(cc)
+				  this.attr({ x: cc._x, y: cc._y });
 		    })
 		    .onHit('bossArea', function(hit) { 
 			if(model.get('kills') > 0)
@@ -423,7 +421,7 @@ Carlos = BaseEntity.extend({
 	losingLife: function(){
 		var ent = this;
 		Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, SpriteAnimation, carlos_phantom")
-		    .attr({ x: ent._x, y: ent._y, z: ent._z, alpha: 0.7 , h: 70, w: 55 })
+		    .attr({ x: ent._x, y: ent._y, z: ent._z, alpha: 0.7 , h: 100, w: 90 })
 		    .reel("LosingLife", 1000, [[0,5],[1,5],[2,5],[3,5],[4,5],[5,5],[0,6],[1,6]])
 		    .reel("Torment", 1000, [[5,7],[0,8],[1,8],[2,8],[3,8],[4,8],[5,8]])
 		    .animate("LosingLife")

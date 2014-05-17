@@ -1,10 +1,14 @@
 Crafty.c("BadassPhantom", {
   
+	lil_phantoms: [],
+	lil_phantoms_at_place: 0,
+  
 	init: function() {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', Collision, Tween, Delay, SpriteAnimation, badass_phantom');
-		this.reel("Shaping",2000,0,0,9)
-		    .reel("Floating",2000,0,1,8)
+		this.reel("Shaping",2500,0,0,9)
+		    .reel("Floating",1000,0,1,8)
 		    .reel("Attacking",1000,0,2,9)
+		    .attr({ h: 120, w: 120 })
 		    .collision()
 		    .onHit("carlos", function(hit){
 			if(this._currentReelId == "Attacking") {
@@ -12,14 +16,59 @@ Crafty.c("BadassPhantom", {
 				this.cancelDelay(this.attack);
 			}
 		    })
-		    .alpha = 0.8;
+		    .bind("LilPhantomAtPlace", function(){
+			++this.lil_phantoms_at_place;
+			if (this.lil_phantoms_at_place == 3)
+			      this.delay(function(){
+				      this.alpha = .7,
+				      this.lil_phantoms[0].destroy(),
+				      this.lil_phantoms[1].destroy(),
+				      this.lil_phantoms[2].destroy(),
+				      this.animate("Shaping", 1)
+					  .bind("FrameChange", function gaindsubstance(o){
+						if (o.currentFrame == 5) {
+							this.unbind("FrameChange", gaindsubstance)
+							    .alpha = .8;
+						}
+					  })
+					  .one("AnimationEnd", function(){
+						this.animate("Floating", -1)
+						    .hunt();
+						Crafty.trigger("BadassPhantomFinishedTransforming");
+					  });
+			      },1000);
+		    })
+		    .alpha = 0;
 	},
 	
 	shaping: function() {
-		this.animate("Shaping", 1)
+		var that = this;
+		
+		this.lil_phantoms[0] = Crafty.e("LilPhantom")
+		    .attr({ x: this._x - 700, y: this._y - 200, z: this._z })
+		    .flip("X")
+		    .animate("Moving", -1)
+		    .tween({ x: this._x - 5, y: this._y + 38 }, 6000)
+		    .one("TweenEnd", function(){ this.unflip("X"); that.trigger("LilPhantomAtPlace"); }),
+	 
+		this.lil_phantoms[1] = Crafty.e("LilPhantom")
+		    .unflip("X")
+		    .attr({ x: this._x , y: this._y - 1000, z: this._z })
+		    .animate("Moving", -1)
+		    .tween({ x: this._x + 15, y: this._y - 5 }, 6000)
+		    .one("TweenEnd", function(){ that.trigger("LilPhantomAtPlace"); }),
+	 
+		this.lil_phantoms[2] = Crafty.e("LilPhantom")
+		    .unflip("X")
+		    .attr({ x: this._x + 1000, y: this._y + 200, z: this._z })
+		    .animate("Moving", -1)
+		    .tween({ x: this._x + 45, y: this._y + 38 }, 6000)
+		    .one("TweenEnd", function(){ that.trigger("LilPhantomAtPlace"); });
+		
+		/*this.animate("Shaping", 1)
 		    .one("AnimationEnd", function(){
 			  this.animate("Floating", -1);
-		    });
+		    });*/
 		return this;
 	},
 	 

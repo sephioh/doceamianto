@@ -2,9 +2,10 @@ Crafty.c("LilPhantom", {
   
 	init: function(){
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', Tween, SpriteAnimation, lil_phantom')
+		    .attr({ h: 80, w: 85 })
 		    .reel("Arising",1000,0,1,8)
 		    .reel("Moving",1000,0,0,8)
-		    .alpha = 0.7;
+		    .alpha = .7;
 		if (Crafty.math.randomInt(0,1) === 0)
 			this.flip("X");
 	},

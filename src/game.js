@@ -10,14 +10,6 @@ window.onload = function() {
 		version = gameContainer.gameVersion;
 	};    
 	
-	//start Crafty
-	Crafty.init(800, 600);
-	Crafty.canvas.init();
-	
-	document.getElementsByTagName("canvas")[0].id = "mainCanvas";
-	
-	//Crafty.settings.modify("autoPause",true);
-	
 	require([
 		"src/resources.js?v="+version+"",
 		"src/config.js?v="+version+"",
@@ -34,7 +26,15 @@ window.onload = function() {
 		"src/extensions/loader.js",
 		"src/extensions/sound.js",
 		"src/extensions/sprite-animation.js",
+		"src/extensions/viewport.js"
 	], function() {
+		//start Crafty
+		Crafty.init(800, 600);
+		Crafty.canvas.init();
+		
+		document.getElementsByTagName("canvas")[0].id = "mainCanvas";
+		
+		//Crafty.settings.modify("autoPause",true);
 		
 		// allow playing MP3 files
 		Crafty.support.audio = true;
@@ -166,6 +166,7 @@ window.onload = function() {
 				"src/components/Policeman.js",
 				"src/components/PoliceSpawner.js",
 				"src/components/SpriteColor.js",
+				"src/components/CarlosMock.js",
 				"src/entities/carlos.js",
 				"src/entities/mapsmanager.js",
 			      ],

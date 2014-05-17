@@ -1,7 +1,5 @@
 Crafty.scene("level04", function() {
 	
-	var functions = gameContainer.scene.functions;
-	
 	//Crafty.background("#000000");
 	Crafty.background("#FCC6AC");
 	
@@ -27,25 +25,90 @@ Crafty.scene("level04", function() {
 	sc['boss'] = {};
 	
 	var mapObj1 = JSON.parse(gameContainer.getSceneTexts()[0]), 
-	    playerEnt = sc.player.getEntity();
-	
-	/*sc['bg1'] = Crafty.e("Background")
-	    .attr({ x: 0, y: 0, z: playerEnt._z - 2 })
-	    .image("web/images/bg1-level04-0.png"),
-	sc['bg2'] = Crafty.e("Background")
-	    .attr({ x: 0, y: 0, z: playerEnt._z - 3 })
-	    .image("web/images/bg2-level04-0.png"),
-	     
-	sc['bg3'] = Crafty.e("Background")
-	    .image("web/images/bg3-level04.png","repeat")
-	    .attr({ x: 0, y: 0, z: playerEnt._z - 4, w: mapObj1.width * mapObj1.tilewidth, h: mapObj1.height * mapObj1.tileheight });*/
+	    playerEnt = sc.player.getEntity(),
+	    fig_dev_y = 30,
+	    functions = {
+	      
+		backgroundSectionSize: 964,		// original background section images size: 965px
+		mapSectionSize: 1067.2,
+		player: playerEnt,
+		playerInitPos: sc.player.get("startingPoint"),
+	  
+		callPolicemen: function() {
+			_.each(sc.pmSpawners, function(S) {
+				S.spawn();
+			});
+		},
+				
+		setBackgrounds: function(arr) {
+			var bgs = sc.bgs;
+			    bg1 = "bg1", 
+			    bg2 = "bg2", 
+			    bg3 = "bg3", 
+			    s = "-", 
+			    l = "level04", 
+			    ext = ".png", 
+			    bgIndex = 0, 
+			    imagesPath = Crafty.paths().images;
+
+			for (var i = 0, len = arr.length; i<len; i++) {
+			    if (arr[i].search(bg1) !== -1) {
+				bgIndex = parseInt(arr[i].replace(bg1+s+l+s,"").replace(ext,""));
+				bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * this.backgroundSectionSize, z: playerEnt._z - 2 }).image(imagesPath+arr[i]);
+				bgs.bg1[bgIndex].placement = bgIndex;
+			    } else if (arr[i].search(bg2) !== -1) {
+				bgIndex = parseInt(arr[i].replace(bg2+s+l+s,"").replace(ext,""));
+				bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * this.backgroundSectionSize, z: playerEnt._z - 3 }).image(imagesPath+arr[i]);
+				bgs.bg2[bgIndex].placement = bgIndex;
+			    } else if (arr[i].search(bg3) !== -1) {
+				bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: playerEnt._z - 4 , w: this.mapSectionSize * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
+			    }
+			}
+			return this;
+		},
+		
+		startParallax: function() {
+			var bg1 = sc.bgs.bg1,
+			    bg2 = sc.bgs.bg2,
+			    that = this,
+			    i,
+			    p = 20,
+			    bgMoveRate = 15,
+			    bgI, shown, XD, YD, rightMargin, leftMargin;
+			Crafty.bind("PlayerMoved", function (prevPos) {
+				bgI = Math.floor(that.player._x / that.mapSectionSize),
+				rightMargin = bgI > 14 ? 2 : 1,
+				leftMargin = bgI > 17 ? 2 : 1;
+				for (i = 0; i < p; i++) {
+					shown = bg1[i].placement >= bgI - leftMargin && bg1[i].placement <= bgI + rightMargin;
+					if (shown && !bg1[i]._visible) {
+						bg1[i].visible = true,
+						bg2[i].visible = true;
+					} else if (!shown && bg1[i]._visible) {
+						bg1[i].visible = false,
+						bg2[i].visible = false;
+					}
+					if (prevPos._x !== that.player._x) {
+						XD = (that.player._x - that.playerInitPos.x) / bgMoveRate;
+						bg1[i].x = XD + (that.backgroundSectionSize * bg1[i].placement);
+						bg2[i].x = (XD / 0.5) + (that.backgroundSectionSize * bg2[i].placement);
+					} else {
+						YD = (that.player._y - that.playerInitPos.y) / bgMoveRate;
+						bg1[i].y = YD;
+						bg2[i].y = YD / 0.5;
+					}
+				}
+			});
+			return this;
+		}
+	  
+	};
 	
 	sc.mm.prepTileset(mapObj1.tilesets[0])
-	    .setLevel("level04")
-	    .parallaxAround(playerEnt, sc.player.get('startingPoint'))
-	    .setBackgrounds(resources.get("level04").images)
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
+		functions.setBackgrounds(resources.get("level04").images).startParallax();
+		
 		Crafty.viewport.clampToEntities = false,
 		Crafty.viewport.follow(playerEnt, 0, 0),
 		
@@ -76,7 +139,6 @@ Crafty.scene("level04", function() {
 			this.collision(new Crafty.polygon([[0,8],[31,8]]))
 			    .z = playerEnt._z + 1;
 		}),
-		sc.mm.startParallax(),
 		playerEnt.gravity();
 	    })
 	    .buildTiledLevel(mapObj1, gameContainer.conf.get('renderType'), false);
@@ -98,8 +160,6 @@ Crafty.scene("level04", function() {
 		Crafty.e("Delimiter, teleporter").attr({ x: 11776, y: 2048, h: 1, w: 640 })
 	];
 	
-	var fig_dev_y = 30;
-	
 	sc.figurants = [
 		Crafty.e("Figurant").setFace(0).attr({ x: 832, y: 448+fig_dev_y, z: playerEnt._z - 1, h: playerEnt._h }).wanderLoop(),
 		Crafty.e("Figurant").setFace(1).attr({ x: 4512, y: 576+fig_dev_y, z: playerEnt._z - 1, h: playerEnt._h }).wanderLoop(),
@@ -116,27 +176,6 @@ Crafty.scene("level04", function() {
 		Crafty.e("PoliceSpawner").attr({ x: 15488, y: 1248+fig_dev_y, z: playerEnt._z - 1, h: playerEnt._h, w: playerEnt._w }).setTarget(playerEnt)
 	];
 	
-	functions.callPolicemen = function() {
-		_.each(sc.pmSpawners, function(S) {
-			S.spawn();
-		});
-	};
-	
-	// event bindings
-	
-	// background parallax
-	/*this.bind("PlayerMoved", function (prevPos){
-		if(prevPos._x !== playerEnt._x){
-			var XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
-			sc.bg1.x = XD,
-			sc.bg2.x = XD / 0.5;
-		} else {
-			var YD = (playerEnt._y - playerInitPos.y) / bgMoveRate;
-			sc.bg1.y = YD,
-			sc.bg2.y = YD / 0.5;
-		}
-	});*/
-		
 	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);
 	});
@@ -148,35 +187,44 @@ Crafty.scene("level04", function() {
 		sc.delays.delay(functions.callPolicemen, 20000, -1);
 	});
 	
-	this.one("BossFight", function() {
+	this.one("BossFight", function(){
 		
 		sc.boss = Crafty.e("BadassPhantom").attr({ x: 19712, y: 1824, z: playerEnt._z });
 		
-		sc.playerMock = Crafty.e("2D,"+gameContainer.conf.get('renderType')+", SpriteAnimation, carlos, Tween")
-			.attr({ x: playerEnt._x, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h, w: playerEnt._w })
-			.reel("Running", 500, 1, 0, 5);
-				
+		sc.playerMock = Crafty.e("CarlosMock")
+		      .attr({ x: playerEnt._x, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h, w: playerEnt._w });
+			
 		playerEnt.disableControl()
-			.alpha = 0;
-		Crafty.viewport.follow(sc.playerMock, 0, 0);
-		sc.playerMock.animate("Running", -1)
-			.tween({ x: 19426 }, 5000)
-			.one("TweenEnd", function() {
-				playerEnt.attr({ x: this._x, y: this._y })
-				    .enableControl()
-				    .alpha = 1;
-				Crafty.viewport.follow(playerEnt, 0, 0);
-				this.destroy();
-				sc.delimiters[2].addComponent("wall");
-				sc.boss.shaping()
-				    .hunt();
-			});
+		    .alpha = 0;
 		
+		Crafty.viewport.pan(1200,0,4000); 
+		if(sc.playerMock._up)
+		    sc.playerMock.animate("JumpingFalling");
+		
+		sc.boss.shaping();
+		sc.playerMock
+		    .tween({ x: 19426 }, 5000)
+		    .one("TweenEnd", function() {
+			    this.destroy();
+			    playerEnt.attr({ x: this._x, y: this._y })
+				.enableControl()
+				.alpha = 1;
+			    sc.delimiters[2].addComponent("wall");
+		    });
+		
+		sc.delays.cancelDelay(functions.callPolicemen);
+		Crafty("Figurant").each(function(){ this.destroy(); });
+		
+	});
+	
+	Crafty.one("BadassPhantomFinishedTransforming", function(){
+		Crafty.viewport.follow(playerEnt, 0, 0);
+		playerEnt.enableControl();
 	});
 	
 }, function(){ 
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
-	resources.removeAudio("level04");
+	resources.removeAssets("level04");
 });
