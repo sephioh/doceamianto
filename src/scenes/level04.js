@@ -178,7 +178,7 @@ Crafty.scene("level04", function() {
 	
 	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);
-	});
+	})
 	
 	this.one("FigurantDied", function() {
 		this.trigger("Alert", 2);    
@@ -188,16 +188,16 @@ Crafty.scene("level04", function() {
 	});
 	
 	this.one("BossFight", function(){
-		
+
 		sc.boss = Crafty.e("BadassPhantom").attr({ x: 19712, y: 1824, z: playerEnt._z });
 		
 		sc.playerMock = Crafty.e("CarlosMock")
 		      .attr({ x: playerEnt._x, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h, w: playerEnt._w });
-			
+
 		playerEnt.disableControl()
 		    .alpha = 0;
 		
-		Crafty.viewport.pan(1200,0,4000); 
+		Crafty.viewport.pan(1200,0,4000);
 		if(sc.playerMock._up)
 		    sc.playerMock.animate("JumpingFalling");
 		
@@ -214,14 +214,14 @@ Crafty.scene("level04", function() {
 		
 		sc.delays.cancelDelay(functions.callPolicemen);
 		Crafty("Figurant").each(function(){ this.destroy(); });
-		
+
 	});
-	
-	Crafty.one("BadassPhantomFinishedTransforming", function(){
+
+	this.one("BadassPhantomFinishedTransforming", function(){
 		Crafty.viewport.follow(playerEnt, 0, 0);
 		playerEnt.enableControl();
 	});
-	
+
 }, function(){ 
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
