@@ -5,7 +5,7 @@ Crafty.c("BadassPhantom", {
   
 	init: function() {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', Collision, Tween, Delay, SpriteAnimation, badass_phantom');
-		this.reel("Shaping",2500,0,0,9)
+		this.reel("Fusion",2500,0,0,9)
 		    .reel("Floating",1000,0,1,8)
 		    .reel("Attacking",1000,0,2,9)
 		    .attr({ h: 120, w: 120 })
@@ -19,24 +19,25 @@ Crafty.c("BadassPhantom", {
 		    .bind("LilPhantomAtPlace", function(){
 			++this.lil_phantoms_at_place;
 			if (this.lil_phantoms_at_place == 3)
-			      this.delay(function(){
-				      this.alpha = .7,
-				      this.lil_phantoms[0].destroy(),
-				      this.lil_phantoms[1].destroy(),
-				      this.lil_phantoms[2].destroy(),
-				      this.animate("Shaping", 1)
-					  .bind("FrameChange", function gaindsubstance(o){
-						if (o.currentFrame == 5) {
-							this.unbind("FrameChange", gaindsubstance)
-							    .alpha = .8;
-						}
-					  })
-					  .one("AnimationEnd", function(){
-						this.animate("Floating", -1)
-						    .hunt();
-						Crafty.trigger("BadassPhantomFinishedTransforming");
-					  });
-			      },1000);
+				this.delay(function(){
+					this.alpha = .7,
+					this.lil_phantoms[0].destroy(),
+					this.lil_phantoms[1].destroy(),
+					this.lil_phantoms[2].destroy(),
+					this.animate("Fusion")
+					    .bind("FrameChange", function gaindsubstance(o){
+						  if (o.currentFrame == 5)
+							  this.unbind("FrameChange", gaindsubstance)
+							      .alpha = .8;
+					    })
+					    .one("AnimationEnd", function(){
+						  this.animate("Floating", -1)
+						      .hunt();
+						  Crafty.trigger("BadassPhantomFinishedTransforming");
+					    });
+				    },1000)
+				    .unbind("LilPhantomAtPlace");
+			      
 		    })
 		    .alpha = 0;
 	},
@@ -65,10 +66,6 @@ Crafty.c("BadassPhantom", {
 		    .tween({ x: this._x + 45, y: this._y + 38 }, 6000)
 		    .one("TweenEnd", function(){ that.trigger("LilPhantomAtPlace"); });
 		
-		/*this.animate("Shaping", 1)
-		    .one("AnimationEnd", function(){
-			  this.animate("Floating", -1);
-		    });*/
 		return this;
 	},
 	 

@@ -29,7 +29,7 @@ Crafty.scene("level04", function() {
 	    fig_dev_y = 30,
 	    functions = {
 	      
-		backgroundSectionSize: 964,		// original background section images size: 965px
+		backgroundSectionSize: 964,		// original background section images' width: 965px
 		mapSectionSize: 1067.2,
 		player: playerEnt,
 		playerInitPos: sc.player.get("startingPoint"),
@@ -178,7 +178,7 @@ Crafty.scene("level04", function() {
 	
 	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);
-	})
+	});
 	
 	this.one("FigurantDied", function() {
 		this.trigger("Alert", 2);    
@@ -188,7 +188,6 @@ Crafty.scene("level04", function() {
 	});
 	
 	this.one("BossFight", function(){
-
 		sc.boss = Crafty.e("BadassPhantom").attr({ x: 19712, y: 1824, z: playerEnt._z });
 		
 		sc.playerMock = Crafty.e("CarlosMock")
@@ -197,23 +196,21 @@ Crafty.scene("level04", function() {
 		playerEnt.disableControl()
 		    .alpha = 0;
 		
-		Crafty.viewport.pan(1200,0,4000);
-		if(sc.playerMock._up)
-		    sc.playerMock.animate("JumpingFalling");
+		Crafty.viewport.pan(1200,0,3500);
+		if(sc.playerMock._falling)
+			sc.playerMock.animate("JumpingFalling");
 		
 		sc.boss.shaping();
 		sc.playerMock
 		    .tween({ x: 19426 }, 5000)
 		    .one("TweenEnd", function() {
 			    this.destroy();
-			    playerEnt.attr({ x: this._x, y: this._y })
-				.alpha = 1;
+			    playerEnt.alpha = 1;
 			    sc.delimiters[2].addComponent("wall");
 		    });
-		
+		playerEnt.tween({ x: 19426 }, 5000);
 		sc.delays.cancelDelay(functions.callPolicemen);
 		Crafty("Figurant").each(function(){ this.destroy(); });
-
 	});
 
 	this.one("BadassPhantomFinishedTransforming", function(){
