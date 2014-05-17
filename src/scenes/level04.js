@@ -207,7 +207,6 @@ Crafty.scene("level04", function() {
 		    .one("TweenEnd", function() {
 			    this.destroy();
 			    playerEnt.attr({ x: this._x, y: this._y })
-				.enableControl()
 				.alpha = 1;
 			    sc.delimiters[2].addComponent("wall");
 		    });
