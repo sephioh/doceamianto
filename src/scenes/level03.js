@@ -91,7 +91,7 @@ Crafty.scene("level03", function() {
 			glitchOptions.amount += 5;
 			glitchOptions.iterations += 2;
 			//glitchOptions.seed += 5;
-		}, 250, 5, function(){ 
+		}, 350, 5, function(){ 
 			Crafty.trigger("LevelTransition"); 
 		});
 		
