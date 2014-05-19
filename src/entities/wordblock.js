@@ -1,7 +1,6 @@
 Wordblock = BaseEntity.extend({
 	defaults: {
-		  'movable': true,
-		  'text_size' : 20,
+		  'movable': true
 	},
 	initialize: function(){
 		var model = this,
@@ -12,15 +11,13 @@ Wordblock = BaseEntity.extend({
 			  z: model.get('initialZ'),
 			  h: model.get('initialH'),
 			  w: model.get('initialW'),
-			  movable: model.get('movable'),
-			  full_text: model.get('full_text'),
-			  text_size: model.get('text_size')
+			  word_text: model.get('word_text'),
+			  movable: model.get('movable')
 			});
-		
 		entity
-			.text(model.get('full_text'))
+			.text(model.get('word_text'))
 			.textColor("#FFFFFF")
-			.textFont({ size: entity.text_size+"px", family: 'Perfect_dos_vga_437' })
+			.textFont({ size: model.get('text_size')+"px", family: 'Perfect_dos_vga_437' })
 			// Collision with corners
 			.onHit('blocker',function(hit){
 				for (var i = 0; i < hit.length; i++) {

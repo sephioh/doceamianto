@@ -10,7 +10,7 @@ Amianto03 = BaseEntity.extend({
     },
     initialize: function() {
 		var model = this,
-		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto03, SpriteAnimation, Multiway, Collision")
+		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, amianto03, Multiway, Collision")
 			// Set initial atributes
 			.attr({x: model.get('initial_x'),
 				    y: model.get('initial_y'),
@@ -29,8 +29,6 @@ Amianto03 = BaseEntity.extend({
 		    .reel("MovingRight", 500, 0, 3, 5)
 		    .reel("PushingRight", 500, 0, 4, 5)
 		    .reel("PushingLeft", 500, 0, 5, 5)
-		    // Default animation when amianto is created
-		    .animate("Standing", -1)
 		    // Controls
 		    .multiway(model.get('initial_speed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180})
 		    .bind('Moved', function(prevPos) {
@@ -116,7 +114,6 @@ Amianto03 = BaseEntity.extend({
  			    ((this._y + this._h) > Crafty.viewport.height) || this._y < 0)
 				this.destroy();
 		    })
-
 		    // Collision with wordblocks
 		    .onHit('wordblock', function(hit) {
 			for (var i = 0; i < hit.length; i++) {
@@ -177,14 +174,14 @@ Amianto03 = BaseEntity.extend({
 				}
 			}
 		    })
-
 		    .onHit('blocker', function(hit) {
 			// Stop amianto when she try to go out of scenario through corners
 			for (var i = 0; i < hit.length; i++) {
 				this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
 				this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 			}
-		    });
+		    })
+		    .animate("Standing", -1);
 		model.set({'entity' : entity});
 	},
 	/*

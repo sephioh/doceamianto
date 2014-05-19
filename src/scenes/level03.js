@@ -1,9 +1,10 @@
 Crafty.scene("level03", function() {
 	// Clear scene elements
-	sc =[];
+	//sc =[];
 
 	var scene = this;
-	// Set scene background 	
+	
+	Crafty.audio.play("theme03", -1);
 	
 	// Add initial elements to scene
 	sc['player'] = new Amianto03(),
@@ -39,26 +40,24 @@ Crafty.scene("level03", function() {
 
 	// Word blocks
 	sc.wordblocks = [
-		new Wordblock({ initialX: 400, initialY: 175, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, full_text: txts.text01, text_size: txtSize }),
-		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, full_text: txts.text02, text_size: txtSize }),
-		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text03.length*txtSize, full_text: txts.text03, text_size: txtSize }),
-		new Wordblock({ initialX:  86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, full_text: txts.text04, text_size: txtSize }),
-		new Wordblock({ initialX: 486, initialY: 424, initialZ: 0, initialH: txtSize, initialW: txts.text05.length*txtSize, full_text: txts.text05, text_size: txtSize }),
-		new Wordblock({ initialX: 100, initialY: 300, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, full_text: txts.text06, text_size: txtSize }),
-		new Wordblock({ initialX: 50, initialY: 519, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, full_text: txts.text07, text_size: txtSize })
-		//new Wordblock({ initialX: 266, initialY: 275, initialZ: 0, initialH: txtSize, initialW: txts.text08.length*txtSize, full_text: txts.text08, text_size: txtSize })
+		new Wordblock({ initialX: 400, initialY: 175, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, word_text: txts.text01, text_size: txtSize }),
+		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, word_text: txts.text02, text_size: txtSize }),
+		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text03.length*txtSize, word_text: txts.text03, text_size: txtSize }),
+		new Wordblock({ initialX:  86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, word_text: txts.text04, text_size: txtSize }),
+		new Wordblock({ initialX: 486, initialY: 424, initialZ: 0, initialH: txtSize, initialW: txts.text05.length*txtSize, word_text: txts.text05, text_size: txtSize }),
+		new Wordblock({ initialX: 100, initialY: 300, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, word_text: txts.text06, text_size: txtSize }),
+		new Wordblock({ initialX: 50, initialY: 519, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, word_text: txts.text07, text_size: txtSize })
 	];
 
 	// Wordplaceholders
 	sc.wordplaceholders = [
-		new Wordplaceholder({ initialX: 164, initialY: 153, full_text: txts.text01 }),
-		new Wordplaceholder({ initialX: 512, initialY: 153, full_text: txts.text02 }),
-		new Wordplaceholder({ initialX: 208, initialY: 202, full_text: txts.text03 }),
-		new Wordplaceholder({ initialX: 483, initialY: 202, full_text: txts.text04 }),
-		new Wordplaceholder({ initialX: 204, initialY: 293, full_text: txts.text05 }),
-		new Wordplaceholder({ initialX: 492, initialY: 293, full_text: txts.text06 }),
-		new Wordplaceholder({ initialX: 360, initialY: 400, full_text: txts.text07 })
-		//new Wordplaceholder({ initialX: 410, initialY: 447, full_text: txts.text08 })
+		new Wordplaceholder({ initialX: 164, initialY: 153, word_text: txts.text01 }),
+		new Wordplaceholder({ initialX: 512, initialY: 153, word_text: txts.text02 }),
+		new Wordplaceholder({ initialX: 208, initialY: 202, word_text: txts.text03 }),
+		new Wordplaceholder({ initialX: 483, initialY: 202, word_text: txts.text04 }),
+		new Wordplaceholder({ initialX: 204, initialY: 293, word_text: txts.text05 }),
+		new Wordplaceholder({ initialX: 492, initialY: 293, word_text: txts.text06 }),
+		new Wordplaceholder({ initialX: 360, initialY: 400, word_text: txts.text07 })
 	];
 	
 	// declaring events
@@ -83,6 +82,9 @@ Crafty.scene("level03", function() {
 			canvas1.style.position = "absolute";
 			canvas1.parentNode.appendChild(canvas2);
 		}
+		
+		Crafty.audio.stop("theme03");
+		Crafty.audio.play("tilt");
 		
 		sc.delays.delay(function(){
 			glitchEffect.glitchScreen(canvas1,canvas2,glitchOptions);

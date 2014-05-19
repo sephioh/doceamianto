@@ -44,9 +44,9 @@ Resources = Backbone.Model.extend({
 				}
 			},
 			'audio' : {
-				'theme' : 
-					['theme01.aac',
-					  'theme01.ogg' 
+				'theme01' : 
+					['theme01.ogg',
+					  'theme01.aac'
 					],
 				'hitredheart' : 
 					['hitredheart.aac',
@@ -107,14 +107,9 @@ Resources = Backbone.Model.extend({
 				}
 			},
 			'audio' : {
-				/*'blanche' :
-					['blancheflying.aac',
-					  'blancheflying.ogg',
-					  'blancheflying.mp3'
-					],*/
 				'theme02' : 
-					['theme02.aac',
-					  'theme02.ogg'
+					['theme02.ogg',
+					  'theme02.aac'
 					],
 				'diamondgrow' :
 					['diamondgrow.ogg',
@@ -131,7 +126,7 @@ Resources = Backbone.Model.extend({
 				'level03-corners.png': {
 					'tile' : 100,
 					'tileh' : 100,
-					'maps': {
+					'map': {
 						'cornerUpLeft': [1, 1],
 						'cornerUpRight': [1, 0],
 						'cornerDownLeft': [0, 1],
@@ -141,24 +136,32 @@ Resources = Backbone.Model.extend({
 				'sheet_amianto03.png': {
 					'tile' : 78,
 					'tileh' : 96,
-					'maps': {
+					'map': {
 						'amianto03' : [0, 0]
 					}
 				},
 				'level03-wordplaceholder.png': {
 					'tile' : 80,
 					'tileh' : 80,
-					'maps': {
+					'map': {
 						'wordplaceholder' : [0, 0]
 					}
 				}
 			},
 			'images' : ['level03-background.png','level03-ornament.png'],
 			'audio' : {
-				/*'theme' : 
-				      ['theme03.aac',
-					'theme03.ogg'
-				      ],*/
+				'theme03' : 
+				      ['theme03.ogg',
+					'theme03.aac'
+				      ],
+				'wordfit' : ['wordfit.ogg',
+				      'wordfit.aac',
+				      'wordfit.mp3'
+				],
+				'tilt' : ['tilt.ogg',
+				      'tilt.aac',
+				      'tilt.mp3'
+				]
 			}
 		},
 		level04: {
