@@ -76,9 +76,7 @@ Amianto03 = BaseEntity.extend({
 			var amianto = this;
 			for(var i = 0;i<hit.length;i++) {
 				var createAnew = true,
-				    nAmiantoPos = { x: amianto._x, y:amianto._y },
-				    yNormal = Math.round(hit[i].normal.y),
-				    xNormal = Math.round(hit[i].normal.x);
+				    nAmiantoPos = { x: amianto._x, y:amianto._y };
 					
 				Crafty("amianto03").each(function(){
 					if(this.newly_created)
@@ -86,9 +84,9 @@ Amianto03 = BaseEntity.extend({
 				});
 				
 				if(createAnew) {
-					if(yNormal !== 0)
+					if(hit[i].normal.y !== 0)
 						// up side
-						if(yNormal === 1) {
+						if(hit[i].normal.y === 1) {
 							nAmiantoPos.y = Crafty.viewport.height;
 						} 
 						// down side
@@ -97,7 +95,7 @@ Amianto03 = BaseEntity.extend({
 						}
 					else
 						// left side
-						if(xNormal === 1) {
+						if(hit[i].normal.x === 1) {
 							nAmiantoPos.x = Crafty.viewport.width;
 						} 
 						// right side
