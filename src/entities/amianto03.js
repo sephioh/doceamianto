@@ -84,37 +84,41 @@ Amianto03 = BaseEntity.extend({
 					if(this.newly_created)
 						createAnew = false;
 				});
-				
+				console.log(createAnew);
 				if(createAnew) {
 					if(yNormal !== 0)
 						// up side
 						if(yNormal === 1) {
-							nAmiantoPos.y = Crafty.viewport.height;
+							nAmiantoPos.y = Crafty.viewport.height - 1;
 						} 
 						// down side
 						else {
-							nAmiantoPos.y = -amianto._h;
+							nAmiantoPos.y = -amianto._h + 1;
 						}
 					else
 						// left side
 						if(xNormal === 1) {
-							nAmiantoPos.x = Crafty.viewport.width;
+							nAmiantoPos.x = Crafty.viewport.width - 1;
 						} 
 						// right side
 						else {
-							nAmiantoPos.x = -amianto._w;
+							nAmiantoPos.x = -amianto._w + 1;
 						}
 					
-					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });  
+					console.log("amianto created at "+JSON.stringify(nAmiantoPos));
+					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
 				}
 			}
 		    }, function(){
-			if(this.newly_created)
-				this.newly_created = false;
-				
-			if(((this._x + this._w) > Crafty.viewport.width) || this._x < 0 || 
- 			    ((this._y + this._h) > Crafty.viewport.height) || this._y < 0)
+			if (this._x > Crafty.viewport.width || this._x < 0 || 
+ 			    this._y > Crafty.viewport.height || this._y < 0){
 				this.destroy();
+				console.log("amianto destroyed at { \"x\":"+this._x+",\"y\":"+this._y+" }");
+			    }
+			if (this.newly_created){
+				this.newly_created = false;
+				console.log("amianto not newly_created anymore");
+			}
 		    })
 		    // Collision with wordblocks
 		    .onHit('wordblock', function(hit) {
