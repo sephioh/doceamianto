@@ -84,41 +84,37 @@ Amianto03 = BaseEntity.extend({
 					if(this.newly_created)
 						createAnew = false;
 				});
-				console.log(createAnew);
+				
 				if(createAnew) {
 					if(yNormal !== 0)
 						// up side
 						if(yNormal === 1) {
-							nAmiantoPos.y = Crafty.viewport.height - 1;
+							nAmiantoPos.y = Crafty.viewport.height;
 						} 
 						// down side
 						else {
-							nAmiantoPos.y = -amianto._h + 1;
+							nAmiantoPos.y = -amianto._h;
 						}
 					else
 						// left side
 						if(xNormal === 1) {
-							nAmiantoPos.x = Crafty.viewport.width - 1;
+							nAmiantoPos.x = Crafty.viewport.width;
 						} 
 						// right side
 						else {
-							nAmiantoPos.x = -amianto._w + 1;
+							nAmiantoPos.x = -amianto._w;
 						}
 					
-					console.log("amianto created at "+JSON.stringify(nAmiantoPos));
-					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
+					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });  
 				}
 			}
 		    }, function(){
-			if (this._x > Crafty.viewport.width || this._x < 0 || 
- 			    this._y > Crafty.viewport.height || this._y < 0){
-				this.destroy();
-				console.log("amianto destroyed at { \"x\":"+this._x+",\"y\":"+this._y+" }");
-			    }
-			if (this.newly_created){
+			if(this.newly_created)
 				this.newly_created = false;
-				console.log("amianto not newly_created anymore");
-			}
+				
+			if(((this._x + this._w) > Crafty.viewport.width) || this._x < 0 || 
+ 			    ((this._y + this._h) > Crafty.viewport.height) || this._y < 0)
+				this.destroy();
 		    })
 		    // Collision with wordblocks
 		    .onHit('wordblock', function(hit) {
