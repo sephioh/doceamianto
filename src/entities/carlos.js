@@ -34,7 +34,10 @@ Carlos = BaseEntity.extend({
 		    .reel("ShotDead", 1000, 0, 4, 6)
 		    .reel("Shock", 1200, [[2,6],[3,6],[4,6],[5,6],[0,7],[1,7],[2,7],[3,7],[4,7]])
 		    .onHit('grnd', function(hit) {
-			var justHit = false;
+			var justHit = false,
+			    startingSpeed
+			    speed = model.get("speed")
+			    startingSpeed = model.get("startingSpeed");
 			
 			if (this._currentReelId == "JumpingFalling" || 
 			    this._currentReelId == "JumpingUp" || 
@@ -60,10 +63,10 @@ Carlos = BaseEntity.extend({
 						if(this._falling) 
 							this._falling = false;
 						
-						if (hit[i].obj.__c.mud && model.get("speed") == model.get("startingSpeed"))
+						if (hit[i].obj.__c.mud && speed == startingSpeed)
 							model._setSpeed(1,true)
-						else if (model.get("speed") != model.get("startingSpeed") && !hit[i].obj.__c.mud)
-							model._setSpeed(model.get("startingSpeed"),true);
+						else if (speed != startingSpeed && !hit[i].obj.__c.mud)
+							model._setSpeed(startingSpeed,true);
 						
 						return;
 						
