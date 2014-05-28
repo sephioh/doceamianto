@@ -45,7 +45,7 @@ Crafty.c('Policeman', {
 			face = face * 4;
 			this.reel("Running", 700, [[1,face],[2,face],[3,face],[4,face],[1,face+1],[2,face+1],[3,face+1],[4,face+1]])
 			    .reel("HostileStand", 50, 0, face+2, 1)
-			    .reel("Shooting", 1000, 1, face+2, 4)
+			    .reel("Shooting", 500, 1, face+2, 4)
 			    .reel("Dying", 1000, 0, face+3, 5);
 			    
 			return this;
@@ -54,20 +54,32 @@ Crafty.c('Policeman', {
 	},
 	
 	watchOutFor: function(obj) {
-		this.bind("EnterFrame", function attention() { 
+		var aimAtTime = null,
+		    fps = Crafty.timer.FPS();
+		this.bind("EnterFrame", function attention(e) { 
 			if (this._currentReelId == "Dying" || obj._dead) {
 				this.unbind("EnterFrame", attention);
 				return;
 			}
 			
-			var diff = this._x - obj._x,
+			var that = this,
+			    diff = this._x - obj._x,
 			    canShoot = !this.isPlaying("HostileStand") && 
 				this._currentReelId != "Shooting" && 
 				obj._y < this._y + this._h && 
 				obj._y > this._y - obj._h,
 			    canRun = !this._wandering && 
 				!this.isPlaying("Running") && 
-				this._currentReelId != "Shooting";
+				this._currentReelId != "Shooting"
+			    toShootOrNotToShoot = function() {
+				var f = e.frame;
+				if(!aimAtTime) aimAtTime = f;
+			
+				if(aimAtTime && 
+				  ((f%fps == 0 && f > aimAtTime + fps) || 
+				  aimAtTime + fps == f))
+					that.pullTrigger();
+			    };
 			
 			// if player is at the left side
 			if (diff >= 0) {
@@ -75,8 +87,9 @@ Crafty.c('Policeman', {
 					this.stopWalking();
 					if(!this._flipX)
 						this.flip('X');
-					this.pullTrigger();
+					toShootOrNotToShoot();
 				} else if (diff + obj._w <= this._sightRange && diff + this._shotDeviation > this._gunRange && canRun) {
+					aimAtTime = null;
 					this.walkLeftOrRight(-1, this._sightRange - this._gunRange);
 				}
 			} 
@@ -85,8 +98,9 @@ Crafty.c('Policeman', {
 					this.stopWalking();
 					if (this._flipX)
 						this.unflip('X');
-					this.pullTrigger();
+					toShootOrNotToShoot();
 				} else if ((diff + this._w) * -1 <= this._sightRange && (diff + this._shotDeviation) * -1 > this._gunRange && canRun) {
+					aimAtTime = null;
 					this.walkLeftOrRight(1, this._sightRange - this._gunRange);
 				}
 			}
