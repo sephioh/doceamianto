@@ -84,7 +84,7 @@ Amianto03 = BaseEntity.extend({
 					if(this.newly_created)
 						createAnew = false;
 				});
-				console.log("create new amianto: " + createAnew);
+				console.log(createAnew);
 				if(createAnew) {
 					if(yNormal !== 0)
 						// up side
