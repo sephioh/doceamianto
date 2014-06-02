@@ -81,8 +81,10 @@ Amianto03 = BaseEntity.extend({
 				    xNormal = Math.round(hit[i].normal.x);
 					
 				Crafty("amianto03").each(function(){
-					if(this.newly_created)
+					if(this.newly_created){
 						createAnew = false;
+						return;
+					}
 				});
 				console.log(createAnew);
 				if(createAnew) {
@@ -93,7 +95,7 @@ Amianto03 = BaseEntity.extend({
 						} 
 						// down side
 						else {
-							nAmiantoPos.y = -amianto._h + 1;
+							nAmiantoPos.y = 1 - amianto._h;
 						}
 					else
 						// left side
@@ -102,7 +104,7 @@ Amianto03 = BaseEntity.extend({
 						} 
 						// right side
 						else {
-							nAmiantoPos.x = -amianto._w + 1;
+							nAmiantoPos.x = 1 - amianto._w;
 						}
 					
 					console.log("amianto created at "+JSON.stringify(nAmiantoPos));
