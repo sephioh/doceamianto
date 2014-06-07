@@ -83,7 +83,6 @@ Crafty.scene("level01", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function() {
-		
 		Crafty.audio.stop();
 		Crafty.audio.play("fall01", 1);
 		sc.delays.cancelDelay(heartComing);
@@ -95,7 +94,7 @@ Crafty.scene("level01", function() {
 			heart.remove();
 		});
 		sc.bckgrndFade.stopTweeningColor();					// stop tweening color
-		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, 1000); 			// tween black
+		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, 90); 			// tween black
 		sc.bckgrndGradient.tween({ alpha: 0.0 }, 1000); 			// tween black
 		
 		// events until level02
@@ -116,7 +115,7 @@ Crafty.scene("level01", function() {
 						.tween({ alpha: 1.0 }, 1000) // tween bckgrndFade making it cover everything
 						.one("TweenEnd", function() {
 							// run level02 scene
-							gameContainer.runScene("level02", { backgroundColor: "#000000", entsColor:"#FFFFFF" });
+							gameContainer.runScene("level02", { backgroundColor: "#000000", entsColor:"#C0C0C0" });
 						});
 				}, 5000, 0);
 			    });
