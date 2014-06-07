@@ -331,8 +331,8 @@ Crafty.extend({
                 if (obj) {
                     obj.onerror = err;
                 } else {
-                    err().call({})
-                    --total;
+                    err.call({ src: fileUrl });
+                    //--total;
                 }
             }
         }

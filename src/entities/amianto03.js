@@ -112,8 +112,9 @@ Amianto03 = BaseEntity.extend({
 				}
 			}
 		    }, function(){
-			if (this._x > Crafty.viewport.width || this._x < 0 || 
- 			    this._y > Crafty.viewport.height || this._y < 0 && (this._x != -1 && this._y != -1)){
+			var x = this._x, y = this._y;
+			if (x > Crafty.viewport.width || x < -1 || 
+ 			    y > Crafty.viewport.height || y < -1){
 				this.destroy();
 				console.log("amianto destroyed at {\"x\":"+this._x+",\"y\":"+this._y+"}");
 			    }

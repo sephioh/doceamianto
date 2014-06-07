@@ -4,23 +4,23 @@
 
 function GlitchEffect () {
 	
-	this.glitchScreen = function ( canvas_one, canvas_two, glitch_options )
+	this.glitchScreen = function ( canvas_in, canvas_out, glitch_options )
 	{	
-		var ctx_1 = canvas_one.getContext( '2d' );
-		this.ctx_2 = canvas_two.getContext( '2d' );
+		var ctx_1 = canvas_in.getContext( '2d' );
+		this.ctx_2 = canvas_out.getContext( '2d' );
 		
 		// storing canvas dimensions
-		var canvas_width = canvas_one.clientWidth;
-		var canvas_height = canvas_one.clientHeight;
+		var canvas_width = canvas_in.clientWidth;
+		var canvas_height = canvas_in.clientHeight;
 
-		// getting the image data from canvas one
+		// getting image data from canvas_in
 		// https://developer.mozilla.org/en/docs/Web/API/CanvasRenderingContext2D#getImageData()
 		var image_data_1 = ctx_1.getImageData( 0, 0, canvas_width, canvas_height );
 		
 		var _this = this;
 		    
 		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
-		this.glitchObj.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasTwo , _this );
+		this.glitchObj.glitchImage( image_data_1, glitch_options, _this.drawImageDataInCanvasOut , _this );
 	}
 	
 	this.glitchImageData = function ( image_data, canvas_to, glitch_options )
@@ -30,10 +30,10 @@ function GlitchEffect () {
 		var _this = this;
 		    
 		// glitch the image data ( pass drawImageDataInCanvasTwo as a callback function and its context (ie. this) )
-		this.glitchObj.glitchImage( image_data, glitch_options, _this.drawImageDataInCanvasTwo , _this );
+		this.glitchObj.glitchImage( image_data, glitch_options, _this.drawImageDataInCanvasOut , _this );
 	}
 
-	this.drawImageDataInCanvasTwo = function ( image_data )
+	this.drawImageDataInCanvasOut = function ( image_data )
 	{
 		// put the glitched image data on canvas two.
 		// https://developer.mozilla.org/en/docs/Web/API/CanvasRenderingContext2D#putImageData()

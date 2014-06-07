@@ -1,7 +1,7 @@
-	Crafty.scene("level02", function() {
+Crafty.scene("level02", function() {
 	
-	sc = [];
-	var scene = this;
+	var finalAmiantoAttr = {},
+	    screenPos = {};
 	
 	Crafty.background("#000000");
 	
@@ -12,22 +12,23 @@
 	//LZMA.decompress(MapBytesArray, function(result) {
         //console.log("Decompressed.");
 		var mapObj = JSON.parse(gameContainer.getSceneTexts()[0]);
-		sc['player'] = new Amianto02(),
-		sc['diamond'] = new Diamond(),
-		sc['mapBuilder'] = Crafty.e("TiledLevel"), // create an entity with the "TiledLevel" component.
-		sc['tiledMap'] = sc.mapBuilder.buildTiledLevel(mapObj, gameContainer.conf.get('renderType')),
-		sc['delays'] = Crafty.e("Delay"),
-		sc['delimiters'] = [],
-		sc['checkpoints'] = [],
-		sc['obstacles'] = [];
-
-		sc.tiledMap.bind("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
+		sc.player = new Amianto02(),
+		sc.diamond = new Diamond(),
+		sc.mm = new MapsManager(),
+		sc.delays = Crafty.e("Delay"),
+		sc.delimiters = [],
+		sc.checkpoints = [],
+		sc.obstacles = [];
+		
+		sc.mm.prepTileset(mapObj.tilesets[0])
+		    .addMap()
+		    .one("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
+			var playerEnt = sc.player.getEntity(),
+			    map = this;
 			
-			var playerEnt = sc.player.getEntity();
-			
-			_.each(sc.tiledMap._layerArray[1].tiles, function(obj) {
+			_.each(map._layerArray[1].tiles, function(obj) {
 			    obj.z = playerEnt._z + 1;
-			    obj.alpha = sc.tiledMap._layerArray[1].opacity;
+			    obj.alpha = map._layerArray[1].opacity;
 			});
 		  
 			// setting collision for tiles
@@ -59,7 +60,8 @@
 				new Obstacle({initialX: 25785, initialY:  960, initialZ: playerEnt._z-1})
 			];
 			
-		});
+		    })
+		    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 
 		sc.delimiters = [
 			Crafty.e("Delimiter, wall").attr({ x: 435, y: 1275, w: 2, h: 180 }), 
@@ -109,18 +111,18 @@
 				  
 					this.pauseAnimation();	
 					
-					scene.finalAmiantoAttr = { x: this._x, y: this._y, z: this._z, w: this._w, h: this._h },
-					scene.screenPos = { x:0, y:0 };
-					scene.screenPos.x = ((scene.finalAmiantoAttr.x - Crafty.viewport.width / 2) + scene.finalAmiantoAttr.w/2), 
-					scene.screenPos.y = ((scene.finalAmiantoAttr.y - Crafty.viewport.height / 2) + scene.finalAmiantoAttr.h/2);
+					finalAmiantoAttr = { x: this._x, y: this._y, z: this._z, w: this._w, h: this._h },
+					screenPos = { x:0, y:0 };
+					screenPos.x = ((finalAmiantoAttr.x - Crafty.viewport.width / 2) + finalAmiantoAttr.w/2), 
+					screenPos.y = ((finalAmiantoAttr.y - Crafty.viewport.height / 2) + finalAmiantoAttr.h/2);
 				
-					sc['explosion'] = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", colorsExplosion, SpriteAnimation")
+					sc.explosion = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", colorsExplosion, SpriteAnimation")
 							.attr({ 
-								x: scene.screenPos.x,
-								y: scene.screenPos.y,
+								x: screenPos.x,
+								y: screenPos.y,
 								w: Crafty.viewport.width,
 								h: Crafty.viewport.height,
-								z: scene.finalAmiantoAttr.z+4
+								z: finalAmiantoAttr.z+4
 							})
 							.reel("Kaboom!",4125,[
 								[0,0],[1,0],[2,0],[3,0],[4,0],
@@ -138,13 +140,13 @@
 						.bind("FrameChange", function create_white_layer(obj){ 
 							if(obj.currentFrame==5){
 								this.unbind("FrameChange", create_white_layer);
-								sc['coloredLayer'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color")
+								sc.coloredLayer = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color")
 									.attr({ 
-										x: scene.screenPos.x,
-										y: scene.screenPos.y,
+										x: screenPos.x,
+										y: screenPos.y,
 										w: Crafty.viewport.width, 
 										h: Crafty.viewport.height, 
-										z: scene.finalAmiantoAttr.z+3, 
+										z: finalAmiantoAttr.z+3, 
 										alpha: 1.0 
 									})
 									.color("#FFFFFF");
@@ -152,15 +154,15 @@
 						});
 						
 					var amiantoToBlancheOptions = { 
-						initialX: scene.finalAmiantoAttr.x-80, 
-						initialY: scene.finalAmiantoAttr.y-30, 
-						initialZ: scene.finalAmiantoAttr.z+5, 
-						finalY: scene.finalAmiantoAttr.y-300, 
-						finalX: scene.finalAmiantoAttr.x+600, 
-						//finalZ: scene.finalAmiantoAttr.z+100, 
+						initialX: finalAmiantoAttr.x-80, 
+						initialY: finalAmiantoAttr.y-30, 
+						initialZ: finalAmiantoAttr.z+5, 
+						finalY: finalAmiantoAttr.y-300, 
+						finalX: finalAmiantoAttr.x+600, 
+						//finalZ: finalAmiantoAttr.z+100, 
 						flightTime: 3000
 					};
-					sc['amiantoToBlanche'] = new AmiantoToBlanche(amiantoToBlancheOptions);
+					sc.amiantoToBlanche = new AmiantoToBlanche(amiantoToBlancheOptions);
 					sc.amiantoToBlanche.turnToBlanche();
 					this.destroy();
 					
@@ -168,7 +170,7 @@
 		});
 		
 		this.one('LevelTransition', function() {
-			gameContainer.runScene("level03", { backgroundColor:"#FFFFFF", ellipsisColor:"#000000" });
+			gameContainer.runScene("level03", { backgroundColor:"#FFFFFF", entsColor:"#000000" });
 		});
 		
     /*}, function(percent) {
@@ -180,5 +182,7 @@
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
-	resources.removeAudio("level02");
+	var l = "level02";
+	Crafty.removeAssets(resources.get(l));
+	gameContainer.removeSceneTexts(l);
 });

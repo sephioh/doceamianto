@@ -15,7 +15,7 @@ window.onload = function() {
 		"src/config.js?v="+version+"",
 		"src/utils.js?v="+version+"",
 		"src/entities/base/BaseEntity.js",
-		"src/components/Ellipsis.js",
+		"src/components/ProgressBar.js",
 		// Crafty parts to be overridden
 		"src/components/Twoway.js",
 		"src/components/Gravity.js",
@@ -34,9 +34,6 @@ window.onload = function() {
 		
 		document.getElementsByTagName("canvas")[0].id = "mainCanvas";
 		
-		//Crafty.settings.modify("autoPause",true);
-		
-		// allow playing MP3 files
 		Crafty.support.audio = true;
 		
 		resources  = new Resources(),
@@ -45,50 +42,59 @@ window.onload = function() {
 		gameContainer.conf = new Config({});
 		gameContainer.lang = utils.getLang();
 		
-		Crafty.paths({ audio: "web/audio/", images: "web/images/" });
+		Crafty.paths({ audio: resources.get("audioFolder"), images: resources.get("imagesFolder") });
 			
 		// the loading screen - will be displayed while assets are loaded
 		// callback obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor', 'image': { url, w, h } }
 		Crafty.scene("loading", function(obj) { 
 			// clear scene
-			sc = [], infc = [], sounds = {};
+			sc = {}, infc = {};
 			
-			var ellipsisColor = '#000000';
+			var entsColor = '#000000',
+			    bgColor = '#FFFFFF',
+			    t = gameContainer.lang == "pt"? "carregando..." : "loading...",
+			    tsize = 15;
 			
 			if (typeof obj !== 'undefined') {
 				if(obj.backgroundColor)
-					Crafty.background(obj.backgroundColor);
+					bgColor = obj.backgroundColor;
 				if(obj.soundToPlay)
 					Crafty.audio.play(obj.soundToPlay, -1);
-				if(obj.ellipsisColor)
-					ellipsisColor = obj.ellipsisColor;
+				if(obj.entsColor)
+					entsColor = obj.entsColor;
 				if(obj.image)
-					sc['loadingImage'] = Crafty.e("2D, DOM, Image")
+					sc.lImage = Crafty.e("2D, DOM, Image")
 					  .image(obj.image.src)
 					  .attr({ x: 0, y: 0, w: obj.image.w, h: obj.image.h });
 			}
 			
-			// set sprites for next scene
-			//resources.createSprites(gameContainer._scn());
+			Crafty.background(bgColor);
 			
-			sc['ellipsis'] = Crafty.e("Ellipsis").textColor(ellipsisColor);
+			sc.lText = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", Text")
+				.text(t)
+				.attr({ x: tsize, y: Crafty.viewport.height - tsize - 10, w: tsize*t.length, h: tsize,  z: 100 })
+				.textFont({ weight: 'bold', family: 'Arial', size : tsize.toString()+'px', family: 'Perfect_dos_vga_437' })
+				.textColor(entsColor);
+			sc.lProgBar = Crafty.e("ProgressBar")
+				.attr({ x: 0, y : Crafty.viewport.height - 3, w: Crafty.viewport.width, h: 3, z: 100 })
+				.progressBar("LOADING_PROGRESS", 20, 100, false, bgColor, entsColor, gameContainer.conf.get('renderType'));
 			
 			// load takes an object of assets and a callback when complete
 			Crafty.load(resources.get(gameContainer.$scn()), function() {
 					// use eval for executing require(), also loading possible texts/maps
 					
-					var require_str = '', text_args = '', text_args_count = 0, regElms = [], textElms = [], elements;
+					var require_str = '', text_args = '', regElms = [], textElms = [], elements;
 					// build text_args string, if there are texts to load
 					_.each(gameContainer.getSceneElements(), function(ele, i){ 
 						// if element has not already been loded 
 						if(gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
 							//search for texts, first things to load,
 							if(ele.indexOf("text!") !== -1) {
-								textElms[text_args_count] = ele;
-								text_args_count++;
+								var tl = textElms.length;
+								textElms[tl] = ele;
 								if(text_args != ''){
 									text_args += ', ';
-									text_args += 'arg' + text_args_count;
+									text_args += 'arg' + tl;
 								}
 							} else {
 								regElms[regElms.length] = ele;
@@ -100,23 +106,24 @@ window.onload = function() {
 					
 					require_str = 
 					// require elements and pass callback
-					'require(elements, function(' + text_args + ') { ' +
+					'require(elements, function(' + text_args + ') {' +
 					// if text files were loaded, push them to gameContainer.loadedStrings
-					'if (arguments.length) gameContainer.setSceneTexts(arguments); ' +
-					// push lodedElements to gameContainer.alreadyLoadedElements then destroy ellipsis
-					'gameContainer.alreadyLoadedElements.push(elements); sc.ellipsis.destroy(); sc = [];' +
+					'if (arguments.length) gameContainer.setSceneTexts(arguments);' +
+					// push lodedElements to gameContainer.alreadyLoadedElements
+					'gameContainer.alreadyLoadedElements.push(elements);' +
+					// release sc objects
+					'sc = {};' +
 					// run specified scene
-					'if (gameContainer.$scn() !== undefined) Crafty.scene(gameContainer.$scn()); })';
+					'Crafty.scene(gameContainer.$scn()); })';
 					
 					eval( '(' + require_str + ')' );
 				},
 				function(e) {
-					console.log(e);
+					sc.lProgBar.trigger("LOADING_PROGRESS", e.percent);
 				},
 				function(e) {
-					console.log("error: " + e);
-				}
-			);
+					console.log("error: ", e);
+				});
 		});
 		
 		// set scenes' loading parameters (scene name, scene elements to be loaded)
@@ -140,7 +147,8 @@ window.onload = function() {
 				"src/entities/diamond.js",
 				"src/entities/amianto02.js",
 				"src/entities/obstacle.js",
-				"src/entities/amiantoToBlanche.js"
+				"src/entities/amiantoToBlanche.js",
+				"src/entities/mapsmanager.js",
 			      ],
 		    }).setSceneInfo({
 			name: "level03",
@@ -168,7 +176,14 @@ window.onload = function() {
 				"src/components/SpriteColor.js",
 				"src/components/CarlosMock.js",
 				"src/entities/carlos.js",
+				"src/entities/mapsmanager.js"
+			      ],
+		    }).setSceneInfo({ 
+			name: "level05",
+			elements: [
+				"text!src/scenes/tilemaps/level05.json", 
 				"src/entities/mapsmanager.js",
+				//"src/entities/amianto05.js"
 			      ],
 		    });
 		
@@ -179,6 +194,7 @@ window.onload = function() {
 			"src/scenes/level02.js?v="+version+"",
 			"src/scenes/level03.js?v="+version+"",
 			"src/scenes/level04.js?v="+version+"",
+			"src/scenes/level05.js?v="+version+"",
 		];
 		
 		require(scenes, function() {
@@ -236,15 +252,15 @@ gameContainer = {
 				this.alreadyLoadedElements.splice(alreadyLdd.indexOf(ele),1);
 				delete this.loadedStrings[this.$scn(scn)];
 			}
-			break;
 		}
+		return this;
 	},
 	$scn: function(scn) {
 		return _.isUndefined(scn)?this.scene.name:scn;
 	}
 	
 },
-sc    = [], // container for scene elements
-infc  = [], // container for backbone interface elements
+sc    = {}, // container for scene elements
+infc  = {}, // container for backbone interface elements
 resources = {}, // container for Assets obj
-utils = {}; 
+utils = {};

@@ -3,7 +3,6 @@ Carlos = BaseEntity.extend({
 	  'speed' : 4,
 	  'startingSpeed': 4,
 	  'startingPoint' : { x: 500, y: 440 },
-	  'initial_speed' : 4,
 	  'width' : 110,
 	  'height' : 105,
 	  'health' : 5,
@@ -158,10 +157,10 @@ Carlos = BaseEntity.extend({
 			    this._onDownStairs = false;
 		    })
 		    .onHit('checkpoint', function(hit){
-			if (model.get("currentCheckpoint")) {
-			    if (model.get("currentCheckpoint").identifier !== hit[0].obj.identifier) {
+			var cc = model.get("currentCheckpoint");
+			if (cc) {
+			    if (cc.identifier !== hit[0].obj.identifier)
 				   model.set({ 'currentCheckpoint': hit[0].obj });
-			    }
 			} else {
 			    model.set({ 'currentCheckpoint': hit[0].obj });
 			}
@@ -185,7 +184,7 @@ Carlos = BaseEntity.extend({
 		    .bind('KeyDown', function(e){ 
 			if ((!this._blockedDoubleJump && !this._canJumpAgain) &&
 			  (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)){
-			    this._up = true,
+			    this._up = true;
 			    this._canJumpAgain = true;
 			}
 			else
@@ -437,6 +436,25 @@ Carlos = BaseEntity.extend({
 			    })
 		    });
 		    
+	},
+	
+	carlosMockAnimation: function(){
+		var ent = this.getEntity(),
+		    playerMock = Crafty.e("CarlosMock")
+		      .attr({ x: ent._x, y: ent._y, z: ent._z, h: ent._h, w: ent._w }),
+		    d = 930, 
+		    t = 5000;
+		    
+		if(playerMock._falling)
+			playerMock.animate("JumpingFalling");
+		ent.tween({ x: ent._x + d }, t)
+		    .alpha = 0;
+		playerMock
+		    .tween({ x: ent._x + d }, t)
+		    .one("TweenEnd", function(){
+			    this.destroy();
+			    ent.alpha = 1;
+		    });
 	}
 	
 });

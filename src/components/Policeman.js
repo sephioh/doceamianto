@@ -76,7 +76,7 @@ Crafty.c('Policeman', {
 				if(!aimAtTime) aimAtTime = f;
 			
 				if(aimAtTime && 
-				  ((f%fps == 0 && f > aimAtTime + fps) || 
+				  ((f%(fps/2) == 0 && f > aimAtTime + fps/2) || 
 				  aimAtTime + fps == f))
 					that.pullTrigger();
 			    };

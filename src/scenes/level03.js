@@ -1,21 +1,17 @@
 Crafty.scene("level03", function() {
-	// Clear scene elements
-	//sc =[];
-
-	var scene = this;
 	
 	Crafty.audio.play("theme03", -1);
 	
 	// Add initial elements to scene
-	sc['player'] = new Amianto03(),
-	sc['delays'] = Crafty.e("Delay"),
-	sc['background'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	sc.player = new Amianto03(),
+	sc.delays = Crafty.e("Delay"),
+	sc.background = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .image("web/images/level03-background.png"),
-	sc['ornament'] = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
+	sc.ornament = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
 	    .image("web/images/level03-ornament.png"),
-	sc['delimiters'] = [],
-	sc['corners'] = [],
-	sc['wordblocks'] = [];
+	sc.delimiters = [],
+	sc.corners = [],
+	sc.wordblocks = [];
 
 	sc.ornament.x = (Crafty.viewport.width/2) - (sc.ornament._w/2);
 	
@@ -62,7 +58,10 @@ Crafty.scene("level03", function() {
 	
 	// declaring events
 	
-	this.one("Tilt", function(){ 
+	this.one("Tilt", function(){
+	  
+		Crafty.audio.stop("theme03");
+		Crafty.audio.play("tilt");
 	
 		var glitchEffect = new GlitchEffect(),
 		    canvas1 = document.getElementById("mainCanvas"),
@@ -83,9 +82,6 @@ Crafty.scene("level03", function() {
 			canvas1.parentNode.appendChild(canvas2);
 		}
 		
-		Crafty.audio.stop("theme03");
-		Crafty.audio.play("tilt");
-		
 		sc.delays.delay(function(){
 			glitchEffect.glitchScreen(canvas1,canvas2,glitchOptions);
 			glitchOptions.amount += 5;
@@ -101,8 +97,11 @@ Crafty.scene("level03", function() {
 		gameContainer.runScene("level04");
 	});
 	
-}, function() {	
+}, function() {
 	// executed after scene() is called within the present scene
-	var glitched = document.getElementById("glitchedCanvas");
+	var glitched = document.getElementById("glitchedCanvas"),
+	    l = "level03";
 	glitched.parentNode.removeChild(glitched);
+	Crafty.removeAssets(resources.get(l));
+	gameContainer.removeSceneTexts(l);
 });

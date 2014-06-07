@@ -12,24 +12,22 @@ Crafty.scene("level04", function() {
 	//LZMA.decompress(MapBytesArray, function(result) {
         //console.log("Decompressed.");
 	
-	sc['player'] = new Carlos(),
-	sc['mm'] = new MapsManager(),
-	sc['delays'] = Crafty.e("Delay"),
-	sc['bgs'] = { bg1: [], bg2: [], bg3: {} },
-	sc['delimiters'] = [],
-	sc['checkpoints'] = [],
-	sc['figurants'] = [],
-	sc['pmSpawners'] = [],
-	sc['teleporters'] = [],
-	sc['playerMock'] = {},
-	sc['boss'] = {};
+	sc.player = new Carlos(),
+	sc.mm = new MapsManager(),
+	sc.delays = Crafty.e("Delay"),
+	sc.bgs = { bg1: [], bg2: [], bg3: {} },
+	sc.delimiters = [],
+	sc.checkpoints = [],
+	sc.figurants = [],
+	sc.pmSpawners = [],
+	sc.teleporters = [],
+	sc.boss = {};
 	
 	var mapObj = JSON.parse(gameContainer.getSceneTexts()[0]), 
 	    playerEnt = sc.player.getEntity(),
 	    fig_dev_y = 30,
 	    backgroundSectionSize = 964,		// original background section images' width: 965px
 	    mapSectionSize = 1067.2,
-	    playerEnt,
 	    playerInitPos = sc.player.get("startingPoint"),
 	    callPolicemen = function() {
 		    _.each(sc.pmSpawners, function(S) {
@@ -37,75 +35,79 @@ Crafty.scene("level04", function() {
 		    });
 	    },
 	    setBackgrounds = function(arr) {
-		    var bgs = sc.bgs;
-			bg1 = "bg1", 
-			bg2 = "bg2", 
-			bg3 = "bg3", 
-			s = "-", 
-			l = "level04", 
-			ext = ".png", 
-			bgIndex = 0, 
-			imagesPath = Crafty.paths().images,
-			i = 0, 
-			len = arr.length;
+		var bgs = sc.bgs;
+		    bg1 = "bg1", 
+		    bg2 = "bg2", 
+		    bg3 = "bg3", 
+		    s = "-", 
+		    l = "level04", 
+		    ext = ".png", 
+		    bgIndex = 0, 
+		    imagesPath = Crafty.paths().images,
+		    i = 0, 
+		    len = arr.length;
 
-		    for (; i<len; i++) {
-			if (arr[i].search(bg1) !== -1) {
-			    bgIndex = parseInt(arr[i].replace(bg1+s+l+s,"").replace(ext,""));
-			    bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: playerEnt._z - 2 }).image(imagesPath+arr[i]);
-			    bgs.bg1[bgIndex].placement = bgIndex;
-			} else if (arr[i].search(bg2) !== -1) {
-			    bgIndex = parseInt(arr[i].replace(bg2+s+l+s,"").replace(ext,""));
-			    bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: playerEnt._z - 3 }).image(imagesPath+arr[i]);
-			    bgs.bg2[bgIndex].placement = bgIndex;
-			} else if (arr[i].search(bg3) !== -1) {
-			    bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: playerEnt._z - 4 , w: mapSectionSize * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
-			}
+		for (; i<len; i++) {
+		    if (arr[i].search(bg1) !== -1) {
+			bgIndex = parseInt(arr[i].replace(bg1+s+l+s,"").replace(ext,""));
+			bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: playerEnt._z - 2 }).image(imagesPath+arr[i]);
+			bgs.bg1[bgIndex].placement = bgIndex;
+		    } else if (arr[i].search(bg2) !== -1) {
+			bgIndex = parseInt(arr[i].replace(bg2+s+l+s,"").replace(ext,""));
+			bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: playerEnt._z - 3 }).image(imagesPath+arr[i]);
+			bgs.bg2[bgIndex].placement = bgIndex;
+		    } else if (arr[i].search(bg3) !== -1) {
+			bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: playerEnt._z - 4 , w: mapSectionSize * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
 		    }
-		    return this;
+		}
+		return this;
 	    },
 	    startParallax = function() {
-		    var bg1 = sc.bgs.bg1,
-			bg2 = sc.bgs.bg2,
-			i,
-			p = 20,
-			bgMoveRate = 15,
-			bgI, shown, XD, YD, rightMargin, leftMargin;
-		    Crafty.bind("PlayerMoved", function (prevPos) {
-			    bgI = Math.floor(playerEnt._x / mapSectionSize),
-			    rightMargin = bgI > 14 ? 2 : 1,
-			    leftMargin = bgI > 17 ? 2 : 1;
-			    for (i = 0; i < p; i++) {
-				    shown = bg1[i].placement >= bgI - leftMargin && bg1[i].placement <= bgI + rightMargin;
-				    if (shown && !bg1[i]._visible) {
-					    bg1[i].visible = true,
-					    bg2[i].visible = true;
-				    } else if (!shown && bg1[i]._visible) {
-					    bg1[i].visible = false,
-					    bg2[i].visible = false;
-				    }
-				    if (prevPos._x !== playerEnt._x) {
-					    XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
-					    bg1[i].x = XD + (backgroundSectionSize * bg1[i].placement);
-					    bg2[i].x = (XD / 0.5) + (backgroundSectionSize * bg2[i].placement);
-				    } else {
-					    YD = (playerEnt._y - playerInitPos.y) / bgMoveRate;
-					    bg1[i].y = YD;
-					    bg2[i].y = YD / 0.5;
-				    }
-			    }
-		    });
-		    return this;
+		var bg1 = sc.bgs.bg1,
+		    bg2 = sc.bgs.bg2,
+		    i,
+		    p = 20,
+		    bgMoveRate = 15,
+		    bgI, shown, XD, YD, rightMargin, leftMargin;
+		Crafty.bind("PlayerMoved", function (prevPos) {
+			bgI = Math.floor(playerEnt._x / mapSectionSize),
+			rightMargin = bgI > 14 ? 2 : 1,
+			leftMargin = bgI > 17 ? 2 : 1;
+			for (i = 0; i < p; i++) {
+				shown = bg1[i].placement >= bgI - leftMargin && bg1[i].placement <= bgI + rightMargin;
+				if (shown && !bg1[i]._visible) {
+					bg1[i].visible = true,
+					bg2[i].visible = true;
+				} else if (!shown && bg1[i]._visible) {
+					bg1[i].visible = false,
+					bg2[i].visible = false;
+				}
+				if (prevPos._x !== playerEnt._x) {
+					XD = (playerEnt._x - playerInitPos.x) / bgMoveRate;
+					bg1[i].x = XD + (backgroundSectionSize * bg1[i].placement);
+					bg2[i].x = (XD / 0.5) + (backgroundSectionSize * bg2[i].placement);
+				} else {
+					YD = (playerEnt._y - playerInitPos.y) / bgMoveRate;
+					bg1[i].y = YD;
+					bg2[i].y = YD / 0.5;
+				}
+			}
+		});
+		return this;
+	    },
+	    stopParallax = function(){
+		Crafty.unbind("PlayerMoved");
 	    };
 	
 	sc.mm.prepTileset(mapObj.tilesets[0])
 	    .addMap()
 	    .one("TiledLevelLoaded", function(o) {
 		setBackgrounds(resources.get("level04").images);
-		startParallax();
 		
 		Crafty.viewport.clampToEntities = false,
 		Crafty.viewport.follow(playerEnt, 0, 0),
+		 
+		startParallax();
 		
 		_.each(this._layerArray[0].tiles, function(t){ t.z = playerEnt._z - 1 }),
 		_.each(this._layerArray[1].tiles, function(t){ t.z = playerEnt._z - 1 }),
@@ -171,6 +173,8 @@ Crafty.scene("level04", function() {
 		Crafty.e("PoliceSpawner").attr({ x: 15488, y: 1248+fig_dev_y, z: playerEnt._z - 1, h: playerEnt._h, w: playerEnt._w }).setTarget(playerEnt)
 	];
 	
+	// declaring events
+	
 	this.one("PlayerShoot", function() {
 		this.trigger("Alert", 1);
 	});
@@ -183,33 +187,22 @@ Crafty.scene("level04", function() {
 	});
 	
 	this.one("BossFight", function(){
+		stopParallax();
+		
+		playerEnt.disableControl();
+		
+		sc.player.carlosMockAnimation();
+		
 		sc.boss = Crafty.e("BadassPhantom").attr({ x: 19712, y: 1824, z: playerEnt._z });
-		
-		sc.playerMock = Crafty.e("CarlosMock")
-		      .attr({ x: playerEnt._x, y: playerEnt._y, z: playerEnt._z, h: playerEnt._h, w: playerEnt._w });
-
-		playerEnt.disableControl()
-		    .alpha = 0;
-		
 		Crafty.viewport.pan(1200,0,3500);
-		if(sc.playerMock._falling)
-			sc.playerMock.animate("JumpingFalling");
-		
 		sc.boss.shaping();
-		sc.playerMock
-		    .tween({ x: 19426 }, 5000)
-		    .one("TweenEnd", function() {
-			    this.destroy();
-			    playerEnt.alpha = 1;
-			    sc.delimiters[2].addComponent("wall");
-		    })
-		    .attach(playerEnt);
-		//playerEnt//.tween({ x: 19426 }, 5000);
+		
 		sc.delays.cancelDelay(callPolicemen);
 		Crafty("Figurant").each(function(){ this.destroy(); });
 	});
-
+	
 	this.one("BadassPhantomFinishedTransforming", function(){
+		sc.delimiters[2].addComponent("wall");
 		Crafty.viewport.follow(playerEnt, 0, 0);
 		playerEnt.enableControl();
 	});
@@ -218,5 +211,7 @@ Crafty.scene("level04", function() {
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
-	resources.removeAssets("level04");
+	var l = "level04";
+	Crafty.removeAssets(resources.get(l));
+	gameContainer.removeSceneTexts(l);
 });

@@ -106,6 +106,7 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
+			'images' : ['tileset-level02.png'],
 			'audio' : {
 				'theme02' : 
 					['theme02.ogg',
@@ -209,6 +210,20 @@ Resources = Backbone.Model.extend({
 					'map': {
 						'badass_phantom': [0,0]
 					}
+				},
+				'sheet_waterfall.png': {
+					'tile' : 52,
+					'tileh': 123,
+					'map': {
+						'waterfall': [0,0]
+					}
+				},
+				'sheet_watersplash.png': {
+					'tile' : 63,
+					'tileh': 24,
+					'map': {
+						'watersplash': [0,0]
+					}
 				}
 			},
 			'images': ['tileset-level04.png',
@@ -257,10 +272,40 @@ Resources = Backbone.Model.extend({
 				
 			}
 		},
+		level05: {
+			'sprites' : {
+				'sheet_amianto05.png': {
+					'tile' : 63,
+					'tileh': 24,
+					'map': {
+						'amianto05': [0,0]
+					}
+				}
+			},
+			'images': ["tileset-level05.png"],
+			'audio' : {
+				
+			}
+		},
+		level06: {
+			'sprites' : {
+				'sheet_amianto06.png': {
+					'tile' : 63,
+					'tileh': 24,
+					'map': {
+						'amianto06': [0,0]
+					}
+				}
+			},
+			'images': [],
+			'audio' : {
+				
+			}
+		}
 	},
 	    
 	initialize: function(){
-	    
+		
 	},
 	    
 	/**

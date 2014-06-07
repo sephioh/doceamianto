@@ -77,7 +77,7 @@ Crafty.c("ProgressBar", {
 				Crafty.e("2D, Color, " + renderMethod)
 					.attr({ _progressMin: progressMin, 
 							_emptyColor: emptyColor, _filledColor: filledColor})
-					.color(filledColor)
+					.color(emptyColor)
 					.bind(eventName, function(e) {
 						if (e >= this._progressMin)
 							this.color(this._filledColor);
