@@ -35,32 +35,30 @@ Crafty.scene("level04", function() {
 		    });
 	    },
 	    setBackgrounds = function(arr) {
-		var bgs = sc.bgs;
-		    bg1 = "bg1", 
-		    bg2 = "bg2", 
-		    bg3 = "bg3", 
-		    s = "-", 
-		    l = "level04", 
-		    ext = ".png", 
-		    bgIndex = 0, 
+		var bgs = sc.bgs,
+		    bg1 = "bg1",
+		    bg2 = "bg2",
+		    bg3 = "bg3",
+		    lv = "-level04-",
+		    ext = ".png",
+		    bgIndex = 0,
 		    imagesPath = Crafty.paths().images,
-		    i = 0, 
+		    i = 0,
 		    len = arr.length;
 
 		for (; i<len; i++) {
 		    if (arr[i].search(bg1) !== -1) {
-			bgIndex = parseInt(arr[i].replace(bg1+s+l+s,"").replace(ext,""));
+			bgIndex = parseInt(arr[i].replace(bg1+lv,"").replace(ext,""));
 			bgs.bg1[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: playerEnt._z - 2 }).image(imagesPath+arr[i]);
 			bgs.bg1[bgIndex].placement = bgIndex;
 		    } else if (arr[i].search(bg2) !== -1) {
-			bgIndex = parseInt(arr[i].replace(bg2+s+l+s,"").replace(ext,""));
+			bgIndex = parseInt(arr[i].replace(bg2+lv,"").replace(ext,""));
 			bgs.bg2[bgIndex] = Crafty.e("Background").attr({ x: bgIndex * backgroundSectionSize, z: playerEnt._z - 3 }).image(imagesPath+arr[i]);
 			bgs.bg2[bgIndex].placement = bgIndex;
 		    } else if (arr[i].search(bg3) !== -1) {
 			bgs.bg3 = Crafty.e("Background").attr({ x: 0, z: playerEnt._z - 4 , w: mapSectionSize * 20, h: 2464,  visible: true }).image(imagesPath+arr[i], "repeat");
 		    }
 		}
-		return this;
 	    },
 	    startParallax = function() {
 		var bg1 = sc.bgs.bg1,
@@ -76,10 +74,10 @@ Crafty.scene("level04", function() {
 			for (i = 0; i < p; i++) {
 				shown = bg1[i].placement >= bgI - leftMargin && bg1[i].placement <= bgI + rightMargin;
 				if (shown && !bg1[i]._visible) {
-					bg1[i].visible = true,
+					bg1[i].visible = true;
 					bg2[i].visible = true;
 				} else if (!shown && bg1[i]._visible) {
-					bg1[i].visible = false,
+					bg1[i].visible = false;
 					bg2[i].visible = false;
 				}
 				if (prevPos._x !== playerEnt._x) {
@@ -93,7 +91,6 @@ Crafty.scene("level04", function() {
 				}
 			}
 		});
-		return this;
 	    },
 	    stopParallax = function(){
 		Crafty.unbind("PlayerMoved");
@@ -104,38 +101,38 @@ Crafty.scene("level04", function() {
 	    .one("TiledLevelLoaded", function(o) {
 		setBackgrounds(resources.get("level04").images);
 		
-		Crafty.viewport.clampToEntities = false,
-		Crafty.viewport.follow(playerEnt, 0, 0),
+		Crafty.viewport.clampToEntities = false;
+		Crafty.viewport.follow(playerEnt, 0, 0);
 		 
 		startParallax();
 		
-		_.each(this._layerArray[0].tiles, function(t){ t.z = playerEnt._z - 1 }),
-		_.each(this._layerArray[1].tiles, function(t){ t.z = playerEnt._z - 1 }),
-		_.each(this._layerArray[2].tiles, function(t){ t.z = playerEnt._z + 2 }),
+		_.each(this._layerArray[0].tiles, function(t){ t.z = playerEnt._z - 1 });
+		_.each(this._layerArray[1].tiles, function(t){ t.z = playerEnt._z - 1 });
+		_.each(this._layerArray[2].tiles, function(t){ t.z = playerEnt._z + 2 });
 		
 		Crafty("upStairs").each(function() {
 			this.collision(new Crafty.polygon([[0,31],[31,0]]));
-		}),
+		});
 		Crafty("downStairs").each(function() {
 			this.collision(new Crafty.polygon([[0,0],[31,31]]));
-		}),
+		});
 		Crafty("leftWall").each(function() {
 			if(this.__c.top)
 				this.collision(new Crafty.polygon([[24,4],[24,31]]));
 			else
 				this.collision(new Crafty.polygon([[24,0],[24,31]]));
 		      
-		}),
+		});
 		Crafty("rightWall").each(function() {
 			if(this.__c.top)
 				this.collision(new Crafty.polygon([[8,4],[8,31]]));
 			else
 				this.collision(new Crafty.polygon([[8,0],[8,31]]));
-		}),
+		});
 		Crafty("grnd mud").each(function() {
 			this.collision(new Crafty.polygon([[0,8],[31,8]]))
 			    .z = playerEnt._z + 1;
-		}),
+		});
 		playerEnt.gravity();
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
@@ -211,7 +208,8 @@ Crafty.scene("level04", function() {
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
-	var l = "level04";
-	Crafty.removeAssets(resources.get(l));
-	gameContainer.removeSceneTexts(l);
+	sc.delays.destroy();// destroy delays
+	var lv = "level04";
+	Crafty.removeAssets(resources.get(lv));
+	gameContainer.removeSceneTexts(lv);
 });

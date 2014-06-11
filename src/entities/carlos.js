@@ -34,8 +34,7 @@ Carlos = BaseEntity.extend({
 		    .reel("Shock", 1200, [[2,6],[3,6],[4,6],[5,6],[0,7],[1,7],[2,7],[3,7],[4,7]])
 		    .onHit('grnd', function(hit) {
 			var justHit = false,
-			    startingSpeed
-			    speed = model.get("speed")
+			    speed = model.get("speed"),
 			    startingSpeed = model.get("startingSpeed");
 			
 			if (this._currentReelId == "JumpingFalling" || 
@@ -73,16 +72,6 @@ Carlos = BaseEntity.extend({
 				}
 			}
 		      })
-		    .onHit('ceiling', function(hit){
-			    for (var i = 0; i < hit.length; i++){
-				    var hitDirY = Math.round(hit[i].normal.y);
-				    if(hitDirY === 1){
-					    this._up = false,
-					    this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
-					    return;
-				    }   
-			    }
-		    })
 		    .onHit('wall', function(hit) {
 			    for (var i = 0; i < hit.length; i++) {
 				    this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap);
