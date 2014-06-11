@@ -37,33 +37,36 @@ Crafty.c("TiledLevel", {
       var i, lData, lHeight, lWidth, lOpacity, lX, lY, lZ, lVisible, layerDetails, tDatum, tile, _i, _len, lName, props;
       lData = layer.data, lWidth = layer.width, lHeight = layer.height, lX = layer.x, lY = layer.y, lOpacity = layer.opacity,
       lName = layer.name, props = layer.properties;
-      layerDetails = {
-        tiles: [],
-        width: lWidth,
-        height: lHeight,
-	x: lX,
-	y: lY,
-	//z: lZ,
-	visible: lVisible,
-	opacity: lOpacity,
-	properties: props
-      };
-      for (i = _i = 0, _len = lData.length; _i < _len; i = ++_i) {
-	tDatum = lData[i];
-        if (tDatum) {
-          tile = Crafty.e("tile" + tDatum);
-          tile.x = Math.ceil(lX + ((i % lWidth) * tile.w)),
-          tile.y = Math.ceil(lY + ((i / lWidth | 0) * tile.h));
-	  if (lOpacity!==1)
-	    tile.alpha = lOpacity;
-	  /*if (lZ)
-	    tile.z = lZ;*/
+      if(layer.data){
+	layerDetails = {
+	  tiles: [],
+	  width: lWidth,
+	  height: lHeight,
+	  x: lX,
+	  y: lY,
+	  //z: lZ,
+	  visible: lVisible,
+	  opacity: lOpacity,
+	  properties: props
+	};
+	for (i = _i = 0, _len = lData.length; _i < _len; i = ++_i) {
+	  tDatum = lData[i];
+	  if (tDatum) {
+	    tile = Crafty.e("tile" + tDatum);
+	    tile.x = Math.ceil(lX + ((i % lWidth) * tile.w)),
+	    tile.y = Math.ceil(lY + ((i / lWidth | 0) * tile.h));
+	    if (lOpacity!==1)
+	      tile.alpha = lOpacity;
+	    /*if (lZ)
+	      tile.z = lZ;*/
+	    
+	    layerDetails.tiles[i] = tile;
+	  }
+	}
+	this._layerArray.push(layerDetails);
+	return null;
 	  
-          layerDetails.tiles[i] = tile;
-        }
       }
-      this._layerArray.push(layerDetails);
-      return null;
     },
 	tiledLevel: function(levelURL, drawType) {
       var _this = this;
