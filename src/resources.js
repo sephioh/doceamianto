@@ -276,7 +276,7 @@ Resources = Backbone.Model.extend({
 			'sprites' : {
 				'sheet_amianto05.png': {
 					'tile' : 63,
-					'tileh': 24,
+					'tileh': 122,
 					'map': {
 						'amianto05': [0,0]
 					}
@@ -291,7 +291,7 @@ Resources = Backbone.Model.extend({
 			'sprites' : {
 				'sheet_amianto06.png': {
 					'tile' : 63,
-					'tileh': 24,
+					'tileh': 122,
 					'map': {
 						'amianto06': [0,0]
 					}
@@ -307,99 +307,16 @@ Resources = Backbone.Model.extend({
 	initialize: function(){
 		
 	},
+	
+	/*getSceneAssets: function(scene) {
+	    var a = this.get(scene),
+		obj = {};
+		
+	    obj.sprites = a.sprites,
+	    obj.images = a.images,
+	    obj.sound = a.sound;
 	    
-	/**
-	* Create Crafty sprites from images object
-	* Pass key if You want create only one choosen sprite.
-	* 
-	* @param  string key - sprite definition key
-	*/
-	createSprites: function(scene,key){
-	    if(key != undefined){
-		element = this.get(scene)['images'][key];
-		if(element['tileh'] == undefined && element['elements'])
-		    Crafty.sprite(element['tile'], this.get('imagesFolder')+element['file'], element['elements']);
-		else
-		if(element['elements'])
-		    Crafty.sprite(element['tile'], element['tileh'], this.get('imagesFolder')+element['file'], element['elements']);
-		else 
-		    return false;
-		    
-		return true;
-	    };
-	    var _this = this;	
-	    _.each(this.get(scene)['images'], function(element, k){ 
-		if(element['tileh'] == undefined && element['elements'])
-		    Crafty.sprite(element['tile'], _this.get('imagesFolder')+element['file'], element['elements']);
-		else
-		if(element['elements'])
-		    Crafty.sprite(element['tile'], element['tileh'], _this.get('imagesFolder')+element['file'], element['elements']);
-	    });
-	    return true;
-	},
-	
-	formatJSON: function(scene) {
-	    var json = "{",
-		audio = JSON.stringify(this.get(scene)['audio']),
-		images = JSON.stringify(this.get(scene)['images']),
-		sprites = JSON.stringify(this.get(scene)['sprites']);
-	    json += "\"audio\": " + audio + ",";
-	    json += "\"images\": " + images + ",";
-	    json += "\"sprites\": " + sprites ;
-	    json += "}";
-	    /*var json = this.get(scene);*/
-	    return json;
-	},
-	
-	getAssetUrl: function(scene,type,asset) {
-		var type = this.get(scene)[type][asset];
-                return f.search("://") === -1? (type=="audio"? paths.audio + f : paths.images + f) : f;
-	},
-	
-	getSpriteData: function(scene,key){
-	    return this.get(scene)['images'][key];
-	},
-	
-	/**
-	* Get path for assets files - for loading
-	* 
-	* @return array array of files paths
-	*/
-	getPaths: function(scene) {
-		var array = [], i=0, _this = this;
-		_.each(this.get(scene)['images'], function(imgElement){ 
-			array[i] = _this.get('imagesFolder')+imgElement['file'];
-			i++;
-		});
-		
-		_.each(this.get(scene)['audio'], function(audElement){ 
-			for (var j = 0; j < audElement.length; j++) {
-				var ext = audElement[j].substr(audElement[j].lastIndexOf('.') + 1, 3).toLowerCase();
-				if(Crafty.audio.supports(ext)) {
-					array[array.length] = _this.get('audioFolder')+audElement[j];
-					break;
-				}
-			}
-		});
-		
-		return array;
-	},
-	
-	removeAudio: function(scene,key){
-		if(key != undefined) {
-			return Crafty.audio.remove(key);
-		};
-			
-		var _this = this;
-		_.each(this.get(scene)['audio'], function(audElement) {
-			Crafty.audio.remove(_this._getAudioCmd(audElement));
-		});
-	},
-	
-	_getAudioCmd: function(audElement){
-		var n = audElement[0].substr(audElement[0].lastIndexOf('/') + 1);
-		n = n.substring(0, n.lastIndexOf('.'));
-		return n;
-	},
+	    return obj;
+	},*/
       
 });

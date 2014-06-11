@@ -56,7 +56,7 @@ Crafty.c('Policeman', {
 	watchOutFor: function(obj) {
 		var aimAtTime = null,
 		    fps = Crafty.timer.FPS();
-		this.bind("EnterFrame", function attention(e) { 
+		this.bind("EnterFrame", function attention(e) {
 			if (this._currentReelId == "Dying" || obj._dead) {
 				this.unbind("EnterFrame", attention);
 				return;
@@ -70,10 +70,16 @@ Crafty.c('Policeman', {
 				obj._y > this._y - obj._h,
 			    canRun = !this._wandering && 
 				!this.isPlaying("Running") && 
-				this._currentReelId != "Shooting"
+				this._currentReelId != "Shooting",
 			    toShootOrNotToShoot = function() {
+				that.stopWalking();
+				
 				var f = e.frame;
+				
 				if(!aimAtTime) aimAtTime = f;
+			  
+				if(that.isPlaying("Running")) 
+					that.pauseAnimation("Running");
 			
 				if(aimAtTime && 
 				  ((f%(fps/2) == 0 && f > aimAtTime + fps/2) || 
@@ -84,7 +90,6 @@ Crafty.c('Policeman', {
 			// if player is at the left side
 			if (diff >= 0) {
 				if (diff + this._shotDeviation <= this._gunRange && canShoot) {
-					this.stopWalking();
 					if(!this._flipX)
 						this.flip('X');
 					toShootOrNotToShoot();
@@ -95,7 +100,6 @@ Crafty.c('Policeman', {
 			} 
 			else { 
 				if ((diff + this._shotDeviation) * -1 <= this._gunRange && canShoot) {
-					this.stopWalking();
 					if (this._flipX)
 						this.unflip('X');
 					toShootOrNotToShoot();

@@ -35,15 +35,15 @@ Crafty.scene("level01", function() {
 	    },
 	    createParticles = function() { 						// each half sec,
 		var partAmount = 6,						// create 6 particles 
-		    i=0,
+		    j=0,
 		    particle;
-		while(i<partAmount) {
+		while(j<partAmount) {
+			++j;
 			particle = Crafty.e("Particle");
 			particle.attr({ x: Crafty.math.randomInt(1,795), y: Crafty.viewport.height, 
 			    h: Crafty.math.randomInt(1,5)+3, w: Crafty.math.randomInt(1,5)+3, alpha: 1.0, z: 1 })
 			  .color("rgb(80,80,80)")		// dark grey
-			  .interpolation({ y:0, alpha:0.0 }, 2000); 
-			i++;
+			  .interpolation({ y:0, alpha:0.0 }, 2000);
 			sc.spcParticles.push(particle);
 		}
 	    };
@@ -84,7 +84,7 @@ Crafty.scene("level01", function() {
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function() {
 		Crafty.audio.stop();
-		Crafty.audio.play("fall01", 1);
+		Crafty.audio.play("fall", 1);
 		sc.delays.cancelDelay(heartComing);
 		Crafty.unbind('EnterFrame', backgroundChange); 			// stop backgroundChange loop
 		
@@ -101,7 +101,7 @@ Crafty.scene("level01", function() {
 		sc.delays.delay(function() {						// after half sec,
 			sc.player.stumble(); 						// make amianto stumble, and then fall
 		}, 500, 0, function(){
-		  	sc['spcParticles'] = []; 						// space particles' container
+		  	sc.spcParticles = []; 						// space particles' container
 			this.delay(createParticles, 500, -1)
 			    .delay(function() {
 				sc.player.getEntity().animate("AmiantoHittingTheGround", 1);	// Amianto hits the ground
@@ -123,7 +123,6 @@ Crafty.scene("level01", function() {
 	});
 	
 }, function() { 											// executed after scene() is called within the present scene
-	resources.removeAudio("level01");
 	sc.delays.destroy();// destroy delays
 	var l = "level01";
 	Crafty.removeAssets(resources.get(l));

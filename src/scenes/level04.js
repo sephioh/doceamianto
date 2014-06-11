@@ -209,7 +209,7 @@ Crafty.scene("level04", function() {
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
 	sc.delays.destroy();// destroy delays
-	var lv = "level04";
-	Crafty.removeAssets(resources.get(lv));
-	gameContainer.removeSceneTexts(lv);
+	var l = "level04";
+	Crafty.removeAssets(resources.get(l));
+	gameContainer.removeSceneTexts(l);
 });
