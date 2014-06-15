@@ -174,7 +174,6 @@ window.onload = function() {
 				"src/components/BadassPhantom.js",
 				"src/components/Policeman.js",
 				"src/components/PoliceSpawner.js",
-				"src/components/SpriteColor.js",
 				"src/components/CarlosMock.js",
 				"src/entities/carlos.js",
 				"src/entities/mapsmanager.js"
@@ -182,9 +181,13 @@ window.onload = function() {
 		    }).setSceneInfo({ 
 			name: "level05",
 			elements: [
-				"text!src/scenes/tilemaps/level05.json", 
+				"text!src/scenes/tilemaps/level05-2.json", 
 				"src/components/TiledLevelImporter.js",
 				"src/components/DanceFloor.js",
+				"src/components/FloorSet.js",
+				"src/components/SpriteColor.js",
+				"src/components/TweenSpriteColor.js",
+				"src/components/Shine.js",
 				"src/entities/mapsmanager.js",
 				"src/entities/amianto05.js"
 			      ]

@@ -1,27 +1,20 @@
-Crafty.c("DanceFloor", {
+Crafty.c("Shine", {
   
-	tileSize: 64,
-	 
 	init: function(){
-		this.attr({ alpha: 0, floorIndex: null });
+		this.alpha = 0;
+	},
+
+	reveal: function(){
+		this.alpha = 0.5;
 	},
 	 
-	setIndex: function(i){
-		this.floorIndex = i;
-	},
-	 
-	steppedOver: function(){
-		this.addComponent("Delay, Tween, TweenSpriteColor, grnd");
+	fullShine: function(){
+		this.addComponent("Delay, Tween, TweenSpriteColor");
 		this.alpha = 1;
 		this.sprgba(182,239,251,0.5);
 		this.fadeOff();
 	},
 	 
-	reveal: function(){
-		this.addComponent("grnd");
-		this.alpha = 0.5;
-	},
-	
 	fadeOff: function(){
 		var colors = [],
 		    h = 0,
@@ -41,7 +34,6 @@ Crafty.c("DanceFloor", {
 				    .tweenSpriteColor(colors[4], fps)
 				    .one("TweenSpriteColorEnd", function(){
 					this.removeComponent("Tween")
-					    .removeComponent("grnd")
 					    .alpha = 0;
 				    });
 				    
@@ -50,4 +42,4 @@ Crafty.c("DanceFloor", {
 		    
 	}
 	
-});
+})

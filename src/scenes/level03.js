@@ -99,6 +99,7 @@ Crafty.scene("level03", function() {
 	
 }, function() {
 	// executed after scene() is called within the present scene
+	sc.delays.destroy();// destroy delays
 	var glitched = document.getElementById("glitchedCanvas"),
 	    l = "level03";
 	glitched.parentNode.removeChild(glitched);

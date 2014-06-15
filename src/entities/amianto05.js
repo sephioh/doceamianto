@@ -1,10 +1,10 @@
 Amianto05 = BaseEntity.extend({
 	defaults: {
-	  'speed' : 4,
-	  'startingSpeed': 4,
-	  'startingPoint' : { x: 0, y: 0 },
-	  'width' : 110,
-	  'height' : 105,
+	  'speed' : 3,
+	  'startingSpeed': 3,
+	  'startingPoint' : { x: 40, y: 0 },
+	  'width' : 70,
+	  'height' : 135,
 	  'health' : 5,
 	  'currentCheckpoint' : null
 	},
@@ -20,53 +20,48 @@ Amianto05 = BaseEntity.extend({
 			});
 		
 		entity
-		    .twoway(model.get('speed'),model.get('speed')+(model.get('speed')/2))
+		    .twoway(model.get('speed'), model.get('speed')*2)
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 0, 0, 8)
-		    .reel("Shooting", 500, 0, 1, 6)
-		    .reel("WasHit", 500, 4, 2, 2)
-		    .reel("JumpingUp", 500, [[0,2],[0,2],[1,2]])
-		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
+		    .reel("JumpingUp", 500, [[0,1],[0,1],[1,1]])
+		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
+		    .reel("Landing", 500, [[4,1],[5,1]])
 		    .onHit('grnd', function(hit) {
 			var justHit = false,
-			    speed = model.get("speed")
+			    speed = model.get("speed"),
 			    startingSpeed = model.get("startingSpeed");
 			
-			if (this._currentReelId == "JumpingFalling" || 
-			    this._currentReelId == "JumpingUp" || 
+			if (this._currentReelId == "JumpingFalling" ||
+			    this._currentReelId == "JumpingUp" ||
 			    (this._falling && this._up) &&
 			    !this._currentReelId == "Running") {
-			    justHit = true;  
+			    justHit = true;
 			    this._blockedDoubleJump = false;
-			    if (!this._dead)
-				this.animate("StandingStill", -1);
+			    this.animate("StandingStill", -1);
 			}
 			for (var i = 0; i < hit.length; i++) {
 				var hitDirY = Math.round(hit[i].normal.y);
 				if (hitDirY !== 0) { // hit bottom or top
 					if (hitDirY === -1) { // hit the top, stop falling
-						
-						if((!this.isDown("UP_ARROW") && !this.isDown("W")) || 
-						  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
+						if((!this.isDown("UP_ARROW") && !this.isDown("W")) ||
+						  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling))
 							this._up = false;
 						
 						//if((justHit && (!this._up || this._falling)) || this._onStairs)
-							this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 						
-						if(this._falling) 
+						if(this._falling)
 							this._falling = false;
 						
-						if (hit[i].obj.__c.mud && speed == startingSpeed)
-							model._setSpeed(1,true)
-						else if (speed != startingSpeed && !hit[i].obj.__c.mud)
-							model._setSpeed(startingSpeed,true);
+						if (hit[i].obj.__c.DanceFloor)
+							Crafty.trigger("DanceFloorSteppedOver", hit[i].obj.floorIndex);
 						
 						return;
-						
 					}
 				}
 			}
 		      })
+		      .addComponent("WiredHitBox")
 		    /*.onHit('checkpoint', function(hit){
 			var cc = model.get("currentCheckpoint");
 			if (cc) {
@@ -158,56 +153,10 @@ Amianto05 = BaseEntity.extend({
 				break;
 			  }
 			Crafty.trigger("PlayerMoved", prevPos);
-		      })
-		    .collision(new Crafty.polygon([[38,15],[70,15],[70,95],[38,95]]));*/
+		      })*/
+		    .collision(new Crafty.polygon([[32,45],[70,45],[70,124],[32,124]]))
 		model.set({'entity' : entity});
 		    
-	},	
-	
-	/* _setDir : set speed and keys' directions
-	 @speed Integer; @jump Boolean */
-	
-	_setSpeed: function (speed,jump){
-		if(typeof speed === "number") {
-			var ent = this.getEntity(),
-			    keys;
-			speed = Math.floor(speed);
-			this.set({'speed' : speed});
-			if(jump)
-			    ent._jumpSpeed = speed + speed/2;
-			if(ent._onUpStairs)
-			    speed = speed/2,
-			    keys = {
-				LEFT_ARROW: 135,
-				RIGHT_ARROW: 0,
-				A: 135,
-				D: 0,
-				Q: 135
-			    };
-			else 
-			if(ent._onDownStairs)
-			    speed = speed/2,
-			    keys = {
-				LEFT_ARROW: 180,
-				RIGHT_ARROW: 45,
-				A: 180,
-				D: 45,
-				Q: 180
-			    };
-			else
-			    keys = {
-				LEFT_ARROW: 180,
-				RIGHT_ARROW: 0,
-				A: 180,
-				D: 0,
-				Q: 180
-			    };
-			
-			ent.multiway(speed, keys);
-			
-		} else { 
-			return false;
-		}
 	}
 	
 });

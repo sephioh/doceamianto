@@ -203,6 +203,10 @@ Crafty.scene("level04", function() {
 		Crafty.viewport.follow(playerEnt, 0, 0);
 		playerEnt.enableControl();
 	});
+	
+	this.one("LevelTransition", function(){
+		gameContainer.runScene("level05");
+	});
 
 }, function(){ 
 	//get rid of unwanted bindings, functions and files

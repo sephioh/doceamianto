@@ -6,12 +6,23 @@
 * *Note: Only works for Canvas*
 */
 ;(function() {
-	var sc_canvas = document.createElement('canvas'), // create an hidden canvas
-		sc_ctx = sc_canvas.getContext('2d'),
+	var sc_canvas,
+		sc_ctx,
 		sc_drawFunc;
+	
+	sc_setTmpCtx = function(){
+		sc_canvas = document.createElement('canvas'), // create an hidden canvas
+		sc_ctx = sc_canvas.getContext('2d');
+	};
+	
+	sc_destroyTmpCtx = function(){
+		sc_canvas = null,
+		sc_ctx = null;
+	};
 	
 	// draw callback
 	sc_drawFunc = function(){
+		sc_setTmpCtx();
 		// sprite coordinates
 		var co = this.__coord,
 		// context 2d of hidden canvas
@@ -36,13 +47,13 @@
 		ctx.restore();
 		// draw the hidden canvas on Crafty canvas
 		Crafty.canvas.context.drawImage(sc_canvas, this._x, this._y);
+		sc_destroyTmpCtx();
 	};
 
 	// the component
 	Crafty.c("SpriteColor", {
-		_color: 'rgba(255,255,255,1)',
-
 		init: function(){
+			this._color = 'rgba(255,255,255,1)';
 			this.bind("Draw", sc_drawFunc)
 				.bind("RemoveComponent", function(c) {
 					if (c === "SpriteColor") this.unbind("Draw", sc_drawFunc);
@@ -68,8 +79,9 @@
 		* 	.spriteColor("#FF0000",0.5); // red with 50% transparency
 		* ~~~
 		*/
-		spriteColor: function(hexcolor, strength){
-			this._color = Crafty.toRGB(hexcolor, strength);
+		spriteColor: function(rgbaColor){
+			//this._color = Crafty.toRGB(hexcolor, strength);
+			this._color = rgbaColor;
 			this.trigger("Change");
 			return this;
 		}

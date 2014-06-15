@@ -22,13 +22,12 @@ Crafty.scene("level02", function() {
 		
 		sc.mm.prepTileset(mapObj.tilesets[0])
 		    .addMap()
-		    .one("TiledLevelLoaded", function() { // upon loading and creating the tilemap,
-			var playerEnt = sc.player.getEntity(),
-			    map = this;
+		    .one("TiledLevelLoaded", function(o) { // upon loading and creating the tilemap,
+			var playerEnt = sc.player.getEntity();
 			
-			_.each(map._layerArray[1].tiles, function(obj) {
+			_.each(o._layerArray[1].tiles, function(obj) {
 			    obj.z = playerEnt._z + 1;
-			    obj.alpha = map._layerArray[1].opacity;
+			    obj.alpha = o._layerArray[1].opacity;
 			});
 		  
 			// setting collision for tiles
@@ -86,7 +85,7 @@ Crafty.scene("level02", function() {
 		_.each(checkPointsMap, function(obj) {
 			var checkpoint = Crafty.e("2D, Collision, checkpoint")
 				.attr({x: obj.x, y: obj.y, w: obj.w, h: obj.h});
-			checkpoint['value'] = obj.value;
+			checkpoint.value = obj.value;
 			sc.checkpoints.push(checkpoint);
 		});
 		//</checkpoints>
@@ -182,6 +181,7 @@ Crafty.scene("level02", function() {
 	//get rid of unwanted bindings, functions and files
 	Crafty.viewport.x = 0,
 	Crafty.viewport.y = 0;
+	sc.delays.destroy();
 	var l = "level02";
 	Crafty.removeAssets(resources.get(l));
 	gameContainer.removeSceneTexts(l);
