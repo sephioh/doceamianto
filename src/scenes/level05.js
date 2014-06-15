@@ -52,7 +52,6 @@ Crafty.scene("level05",function(){
 		Crafty.viewport.clampToEntities = false,
 		Crafty.viewport.follow(playerEnt, 0, 0);
 		
-		Crafty("dance_floor").each(function(){ this.addComponent("DanceFloor"); });
 		Crafty("shine").each(function(){ this.addComponent("Shine"); this.z = playerEnt._z + 1; });
 		
 		sc.floorSet.setFloorsSeries(mapObj.layers[4].objects[0], o, mapObj.tilewidth)

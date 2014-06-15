@@ -94,9 +94,8 @@ Crafty.c("FloorSet", {
 
 		    var t = tiled.getTile(tY,tX,layer);
 		    if (t && t.__c.dance_floor) {
-			    if (i==0) {
-			      
-			    }
+			    t.removeComponent("grnd")
+				.addComponent("DanceFloor");
 			    this.addTile(t, tX, tY, layer, i);    
 		    }
 		    if(layer == 0)

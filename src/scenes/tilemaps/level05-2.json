@@ -533,7 +533,7 @@
                 },
              "4":
                 {
-                 "components":"Collision, dance_floor"
+                 "components":"Collision, dance_floor, grnd"
                 },
              "5":
                 {
