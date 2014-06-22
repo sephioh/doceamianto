@@ -109,7 +109,7 @@ Crafty.scene("level01", function() {
 				Crafty("Particle").each(function(){ this.destroy(); }); 	// destroy all particles
 				Crafty.background("#000000"); 					// set background to black
 				sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
-			    }, 10500, 0, function() { 
+			    }, 10700, 0, function() { 
 				this.delay(function() { 
 					sc.bckgrndFade
 						.tween({ alpha: 1.0 }, 1000) // tween bckgrndFade making it cover everything

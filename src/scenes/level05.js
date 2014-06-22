@@ -1,5 +1,4 @@
 Crafty.scene("level05",function(){
-
 		
 	Crafty.background("#16377A");
 	
@@ -52,50 +51,17 @@ Crafty.scene("level05",function(){
 		Crafty.viewport.clampToEntities = false,
 		Crafty.viewport.follow(playerEnt, 0, 0);
 		
-		Crafty("shine").each(function(){ this.addComponent("Shine"); this.z = playerEnt._z + 1; });
+		Crafty("shine").each(function(){ this.z = playerEnt._z + 1; });
 		
-		sc.floorSet.setFloorsSeries(mapObj.layers[4].objects[0], o, mapObj.tilewidth)
-		    .revealNextFloor();
-		
-		
-		// code for setting tiles properties
-		/*var i = 0,
-		    polylineObj = mapObj.layers[4].objects[0],
-		    pl = polylineObj.polyline.length,
-		    pX = polylineObj.x,
-		    pY = polylineObj.y,
-		    layer = 2, 
-		    tX, tY;
-		for (; i < pl; i++) {
-			tX = Math.floor((pX + polylineObj.polyline[i].x)/mapObj.tilewidth),
-			tY = Math.floor((pY + polylineObj.polyline[i].y)/mapObj.tileheight);
-
-			var t = o.getTile(tY,tX,layer);
-			if (t && t.__c.dance_floor) {
-				if(i){
-				  
-				}
-				sc.floorSet
-				    .setPolylineObj(polylineObj)
-				    .setTiledObj(o)
-				    .addTile(t, tX, tY, layer);
-				console.log("is DanceFloor",t);
-			}else{
-			  	console.log("not DanceFloor",t);
-			}
-			if(layer == 0)
-				layer = 2;
-			else
-				layer--;
-		}*/
-		/*Crafty("DanceFloor").each(function(){ 
-			var floorsIndex = polyline;
-			//this.setIndex(i); 
-		  
-		});*/
+		sc.floorSet
+		    .setFloorsSeries(mapObj.layers[4].objects[0], o, mapObj.tilewidth)
+		    .revealFloor();
 		
 		playerEnt.gravity();
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 	
+	sc.teleporters = [
+		Crafty.e("Delimiter, teleporter").attr({ x: -500, y: mapObj.height * mapObj.tileheight * 1.5, h: 1, w: (mapObj.width * mapObj.tilewidth) + 1000 }),
+	]
 });

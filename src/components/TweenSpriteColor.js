@@ -4,7 +4,7 @@
 * Tweens color of the sprite, respecting its format.
 * 
 * Adapted from TweenColor component, by @bisrael: https://github.com/bisrael/LD26/blob/master/scripts/components/TweenColor.js
-* Uses modified SpriteColor component, original by @luizbills: https://github.com/luizbills/CraftySpriteColor/blob/master/src/SpriteColor.js
+* Uses modified (so that rgba color can be passed to spriteColor function) SpriteColor component, original by @luizbills: https://github.com/luizbills/CraftySpriteColor/blob/master/src/SpriteColor.js
 *
 * *Note: Canvas only*
 */

@@ -53,7 +53,7 @@ Resources = Backbone.Model.extend({
 					  'hitredheart.ogg',
 					  'hitredheart.mp3' 
 					],
-			      'hitdarkheart' : 
+				'hitdarkheart' : 
 					['hitdarkheart.aac',
 					  'hitdarkheart.ogg',
 					  'hitdarkheart.mp3'
@@ -95,7 +95,7 @@ Resources = Backbone.Model.extend({
 					'tile' : 240,
 					'tileh' : 180,
 					'map': {
-						'colorsExplosion' : [0, 0]
+						'colorExplosion' : [0, 0]
 					}
 				},
 				'amiantotoblanche.png' : {
@@ -275,7 +275,7 @@ Resources = Backbone.Model.extend({
 		level05: {
 			'sprites' : {
 				'sheet_amianto05.png': {
-					'tile' : 63,
+					'tile' : 90,
 					'tileh': 122,
 					'map': {
 						'amianto05': [0,0]

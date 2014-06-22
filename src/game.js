@@ -183,6 +183,7 @@ window.onload = function() {
 			elements: [
 				"text!src/scenes/tilemaps/level05-2.json", 
 				"src/components/TiledLevelImporter.js",
+				"src/components/Delimiter.js",
 				"src/components/DanceFloor.js",
 				"src/components/FloorSet.js",
 				"src/components/SpriteColor.js",

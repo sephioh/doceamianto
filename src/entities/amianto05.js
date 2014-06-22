@@ -3,8 +3,8 @@ Amianto05 = BaseEntity.extend({
 	  'speed' : 3,
 	  'startingSpeed': 3,
 	  'startingPoint' : { x: 40, y: 0 },
-	  'width' : 70,
-	  'height' : 135,
+	  'width' : 90,
+	  'height' : 122,
 	  'health' : 5,
 	  'currentCheckpoint' : null
 	},
@@ -27,9 +27,7 @@ Amianto05 = BaseEntity.extend({
 		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
 		    .reel("Landing", 500, [[4,1],[5,1]])
 		    .onHit('grnd', function(hit) {
-			var justHit = false,
-			    speed = model.get("speed"),
-			    startingSpeed = model.get("startingSpeed");
+			var justHit = false;
 			
 			if (this._currentReelId == "JumpingFalling" ||
 			    this._currentReelId == "JumpingUp" ||
@@ -37,7 +35,10 @@ Amianto05 = BaseEntity.extend({
 			    !this._currentReelId == "Running") {
 			    justHit = true;
 			    this._blockedDoubleJump = false;
-			    this.animate("StandingStill", -1);
+			    this.animate("StandingStill", 1)
+				.one("AnimationEnd", function(){
+					//this.animate("LosingMyTime",-1);
+				});
 			}
 			for (var i = 0; i < hit.length; i++) {
 				var hitDirY = Math.round(hit[i].normal.y);
@@ -47,35 +48,35 @@ Amianto05 = BaseEntity.extend({
 						  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling))
 							this._up = false;
 						
-						//if((justHit && (!this._up || this._falling)) || this._onStairs)
+						if((justHit && (!this._up || this._falling)) || this._onStairs)
+							
+						  
 						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 						
 						if(this._falling)
 							this._falling = false;
 						
-						if (hit[i].obj.__c.DanceFloor)
+						if (hit[i].obj.__c.DanceFloor){
+							var cc = model.get('currentCheckpoint');
+							if(cc === null || hit[i].obj.floorIndex !== cc.floorIndex || Crafty("FloorSet").teleporting){
+								model.set({ 'currentCheckpoint': hit[i].obj });
+							}
 							Crafty.trigger("DanceFloorSteppedOver", hit[i].obj.floorIndex);
-						
+						}
 						return;
 					}
 				}
 			}
 		      })
 		      .addComponent("WiredHitBox")
-		    /*.onHit('checkpoint', function(hit){
-			var cc = model.get("currentCheckpoint");
-			if (cc) {
-			    if (cc.identifier !== hit[0].obj.identifier)
-				   model.set({ 'currentCheckpoint': hit[0].obj });
-			} else {
-			    model.set({ 'currentCheckpoint': hit[0].obj });
-			}
-		    })
 		    .onHit('teleporter', function() { 
 			    var cc = model.get('currentCheckpoint');
-			    if(cc)
-				  this.attr({ x: cc._x, y: cc._y });
-		    })
+			    Crafty("FloorSet").teleporting = true;
+			    if(cc){
+				  Crafty.trigger("PlayerWasTeleported");
+				  this.attr({ x: cc._x - 25 , y: cc._y - 220 });
+			    }
+		    })/*
 		    .bind('KeyDown', function(e){ 
 			if ((!this._blockedDoubleJump && !this._canJumpAgain) &&
 			  (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)){
@@ -89,12 +90,12 @@ Amianto05 = BaseEntity.extend({
 			    this._canJumpAgain = false;
 			    this._blockedDoubleJump = true;
 			}
-		      })
+		      })*/
 		    .bind('KeyUp', function(e) {
 			var k = e.key;
 			if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 			  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
-				if(this.isPlaying("Running") && !this._transiting && !this._dead){ 
+				if(this.isPlaying("Running")){ 
 					this.animate("StandingStill"); 
 				}
 		    })
@@ -152,8 +153,7 @@ Amianto05 = BaseEntity.extend({
 				}
 				break;
 			  }
-			Crafty.trigger("PlayerMoved", prevPos);
-		      })*/
+		      })
 		    .collision(new Crafty.polygon([[32,45],[70,45],[70,124],[32,124]]))
 		model.set({'entity' : entity});
 		    

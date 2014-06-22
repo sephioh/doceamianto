@@ -79,10 +79,10 @@ Utils = Backbone.Model.extend({
 			down;
 		for(var i = 0; i < Crafty.audio.channels.length; i++){
 			var c = Crafty.audio.channels[i];
-			if(c._is(soundId))
+			if(c._is(soundId)){
 				C = c;
-			if(typeof C !== "undefined")
 				break;
+			}
 		}
 		      
 		if(C){
@@ -101,17 +101,15 @@ Utils = Backbone.Model.extend({
 				}
 			else 
 				return false;
-			this.bind("EnterFrame", function gradually_change_volume() {
-				
+			Crafty.bind("EnterFrame", function gradually_change_volume() {
 				if(eFrames === rate){
 					eFrames = 0;
 					
 					if(down){
 						var nVol = C.obj.volume - 0.1;      
 						nVol = Number(nVol.toFixed(1));
-						
 						if(nVol === to){
-							this.unbind("EnterFrame", gradually_change_volume);
+							Crafty.unbind("EnterFrame", gradually_change_volume);
 							if(!nVol)
 								Crafty.audio.stop(soundId);
 						} else {
@@ -121,11 +119,12 @@ Utils = Backbone.Model.extend({
 					else{
 						var nVol = C.obj.volume + 0.1;
 						nVol = Number(nVol.toFixed(1));
-						
-						if(nVol === to)
-							this.unbind("EnterFrame", gradually_change_volume);
-						if(nVol <= 1)
+						if(nVol === to){
+							Crafty.unbind("EnterFrame", gradually_change_volume);
+						}
+						if(nVol <= 1){
 							C.obj.volume = nVol;
+						}
 					}
 				  
 				}

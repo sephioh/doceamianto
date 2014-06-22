@@ -4,15 +4,21 @@ Crafty.c("FloorSet", {
 	_polylineObj: null,
 	_tiledObj: null,
 	_currentTile: null,
+	teleporting: false,
 	 
 	init: function(){
-		this.bind("DanceFloorSteppedOver", function(tI){ 
-			if(!this._currentTile || this._currentTile.obj.floorIndex != tI){
+		this.bind("DanceFloorSteppedOver", function(tI){
+			if(!this._currentTile || this._currentTile.obj.floorIndex != tI || this.teleporting){
 				if(!this._currentTile)
 					this.currentFloor(0);  
 				this.activateFloor(tI)
-				    .revealNextFloor();
+				    .revealFloor();
+				if(this.teleporting)
+					this.teleporting = false;
 			}
+		    })
+		    .bind("PlayerWasTeleported", function(){
+			this.revealFloor(this._currentTile.obj.floorIndex);
 		    });
 		return this;
 	},
@@ -36,19 +42,15 @@ Crafty.c("FloorSet", {
 		return this;
 	},
 	 
-	revealNextFloor: function(){
-		var next = this.nextFloor(),
+	revealFloor: function(tIndex){
+		var floor = tIndex !== undefined ? this._tileSet["t" + tIndex] : this.nextFloor(),
 		    tiled = this._tiledObj,
-		    ntShine = [];
-		ntShine[0] = tiled.getTile(next.tY, next.tX - 1, next.tL),
-		ntShine[1] = tiled.getTile(next.tY - 1, next.tX - 1, next.tL),
-		ntShine[2] = tiled.getTile(next.tY - 1, next.tX, next.tL),
-		ntShine[3] = tiled.getTile(next.tY - 1, next.tX + 1, next.tL),
-		ntShine[4] = tiled.getTile(next.tY, next.tX + 1, next.tL);
-
-		for(var i = 0, l = ntShine.length; i < l; i++)
-			ntShine[i].reveal();
-		next.obj.reveal();
+		    s = this.getFloorShine(floor.tY, floor.tX, floor.tL),
+		    i = 0, 
+		    l = s.length;
+		for(; i < l; i++)
+			s[i].reveal();
+		floor.obj.reveal();
 		return this;
 	},
 	
@@ -64,46 +66,58 @@ Crafty.c("FloorSet", {
 	activateFloor: function(tIndex){
 		var curr = this.currentFloor(tIndex),
 		    tiled = this._tiledObj,
-		    ctShine = [];
-
-		ctShine[0] = tiled.getTile(curr.tY, curr.tX - 1, curr.tL),
-		ctShine[1] = tiled.getTile(curr.tY - 1, curr.tX - 1, curr.tL),
-		ctShine[2] = tiled.getTile(curr.tY - 1, curr.tX, curr.tL),
-		ctShine[3] = tiled.getTile(curr.tY - 1, curr.tX + 1, curr.tL),
-		ctShine[4] = tiled.getTile(curr.tY, curr.tX + 1, curr.tL);
-		
-		for(var i = 0, l = ctShine.length; i < l; i++)
-			ctShine[i].fullShine();
+		    s = this.getFloorShine(curr.tY, curr.tX, curr.tL),
+		    i = 0,
+		    l = s.length;
+		for(; i < l; i++)
+			s[i].fullShine();
 		curr.obj.steppedOver();
 		return this;
 	},
 	 
-	setFloorsSeries: function(poly,tiled,tileSize) {
-	    this.setPolylineObj(poly)
-		.setTiledObj(tiled);
-	    
-	    var i = 0,
-		pl = poly.polyline.length,
-		pX = poly.x,
-		pY = poly.y,
-		layer = 2, 
-		tX, tY;
-	    for (; i < pl; i++) {
-		    tX = Math.floor((pX + poly.polyline[i].x)/tileSize),
-		    tY = Math.floor((pY + poly.polyline[i].y)/tileSize);
+	setFloorsSeries: function(poly, tiled, tileSize) {
+		this.setPolylineObj(poly)
+		    .setTiledObj(tiled);
+		
+		var i = 0,
+		    pl = poly.polyline.length,
+		    pX = poly.x,
+		    pY = poly.y,
+		    layer = 2, 
+		    tX, tY;
+		for (; i < pl; i++) {
+			tX = Math.floor((pX + poly.polyline[i].x)/tileSize),
+			tY = Math.floor((pY + poly.polyline[i].y)/tileSize);
 
-		    var t = tiled.getTile(tY,tX,layer);
-		    if (t && t.__c.dance_floor) {
-			    t.removeComponent("grnd")
-				.addComponent("DanceFloor");
-			    this.addTile(t, tX, tY, layer, i);    
-		    }
-		    if(layer == 0)
-			    layer = 2;
-		    else
-			    layer--;
-	    }
-	    return this;
+			var t = tiled.getTile(tY,tX,layer),
+			    s = this.getFloorShine(tY,tX,layer);
+			if (t && t.__c.dance_floor) {
+				t.removeComponent("grnd")
+				    .addComponent("DanceFloor");
+				for(var h = 0, l = s.length; h < l; h++){
+					if(s[h]) s[h].addComponent("Shine");
+				}
+				this.addTile(t, tX, tY, layer, i);    
+			} else {
+				console.error("FloorSet: Problem in tile sequence.");
+			}
+			if(layer == 0)
+				layer = 2;
+			else
+				layer--;
+		}
+		return this;
+	},
+	 
+	getFloorShine: function(tY, tX, tL){
+		var s = [], tiled = this._tiledObj;
+		s[0] = tiled.getTile(tY, tX - 1, tL),
+		s[1] = tiled.getTile(tY - 1, tX - 1, tL),
+		s[2] = tiled.getTile(tY - 1, tX, tL),
+		s[3] = tiled.getTile(tY - 1, tX + 1, tL),
+		s[4] = tiled.getTile(tY, tX + 1, tL);
+		return s;
 	}
+	
 	
 });

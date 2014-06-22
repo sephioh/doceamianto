@@ -95,8 +95,8 @@ Crafty.scene("level02", function() {
 		this.one('AmiantoReachedLightArea', function() {
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
-			utils.fadeSound("theme02", 0, 45);
-			utils.fadeSound("ohthelight", 1, 45);
+			utils.fadeSound("theme02", 0, 35);
+			utils.fadeSound("ohthelight", 1, 35);
 			
 			//Crafty.audio.stop();
 			
@@ -104,7 +104,7 @@ Crafty.scene("level02", function() {
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.unbind("KeyUp")
-				.tween({ x: playerEnt._x + 800 }, 5000)
+				.tween({ x: playerEnt._x + 800 }, 16000)
 				.animate("AmiantoRunning9", -1)
 				.one("TweenEnd", function() {
 				  
@@ -115,7 +115,7 @@ Crafty.scene("level02", function() {
 					screenPos.x = ((finalAmiantoAttr.x - Crafty.viewport.width / 2) + finalAmiantoAttr.w/2), 
 					screenPos.y = ((finalAmiantoAttr.y - Crafty.viewport.height / 2) + finalAmiantoAttr.h/2);
 				
-					sc.explosion = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", colorsExplosion, SpriteAnimation")
+					sc.explosion = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", colorExplosion, SpriteAnimation")
 							.attr({ 
 								x: screenPos.x,
 								y: screenPos.y,
@@ -123,7 +123,7 @@ Crafty.scene("level02", function() {
 								h: Crafty.viewport.height,
 								z: finalAmiantoAttr.z+4
 							})
-							.reel("Kaboom!",4125,[
+							.reel("colorxplosion",4125,[
 								[0,0],[1,0],[2,0],[3,0],[4,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
@@ -132,15 +132,15 @@ Crafty.scene("level02", function() {
 							]);
 					
 					sc.explosion
-						.animate("Kaboom!")
-						.bind("AnimationEnd", function(){ 
+						.animate("colorxplosion")
+						.bind("AnimationEnd", function(){
 							this.destroy();
 						})
-						.bind("FrameChange", function create_white_layer(obj){ 
+						.bind("FrameChange", function create_white_layer(obj){
 							if(obj.currentFrame==5){
 								this.unbind("FrameChange", create_white_layer);
 								sc.coloredLayer = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color")
-									.attr({ 
+									.attr({
 										x: screenPos.x,
 										y: screenPos.y,
 										w: Crafty.viewport.width, 
@@ -152,13 +152,13 @@ Crafty.scene("level02", function() {
 							}
 						});
 						
-					var amiantoToBlancheOptions = { 
-						initialX: finalAmiantoAttr.x-80, 
-						initialY: finalAmiantoAttr.y-30, 
-						initialZ: finalAmiantoAttr.z+5, 
-						finalY: finalAmiantoAttr.y-300, 
-						finalX: finalAmiantoAttr.x+600, 
-						//finalZ: finalAmiantoAttr.z+100, 
+					var amiantoToBlancheOptions = {
+						initialX: finalAmiantoAttr.x-80,
+						initialY: finalAmiantoAttr.y-30,
+						initialZ: finalAmiantoAttr.z+5,
+						finalY: finalAmiantoAttr.y-300,
+						finalX: finalAmiantoAttr.x+600,
+						//finalZ: finalAmiantoAttr.z+100,
 						flightTime: 3000
 					};
 					sc.amiantoToBlanche = new AmiantoToBlanche(amiantoToBlancheOptions);

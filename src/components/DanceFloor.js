@@ -3,7 +3,9 @@ Crafty.c("DanceFloor", {
 	tileSize: 64,
 	 
 	init: function(){
-		this.attr({ alpha: 0, floorIndex: null });
+		this.attr({ alpha: 0, floorIndex: null })
+		    .addComponent("TweenSpriteColor")
+		    .sprgba(182,239,251,0);
 	},
 	 
 	setIndex: function(i){
@@ -11,7 +13,7 @@ Crafty.c("DanceFloor", {
 	},
 	 
 	steppedOver: function(){
-		this.addComponent("Delay, Tween, TweenSpriteColor, grnd");
+		this.addComponent("Delay");
 		this.alpha = 1;
 		this.sprgba(182,239,251,0.5);
 		this.fadeOff();
@@ -30,24 +32,24 @@ Crafty.c("DanceFloor", {
 		colors[1] = { r: 141, g: 66, b: 135, a: .7 },	// dark magenta
 		colors[2] = { r: 94, g: 1, b: 86, a: .7 },	// darker magenta
 		colors[3] = { r: 22, g: 55, b: 122, a: .7 },	// dark blue
-		colors[4] = { r: 22, g: 55, b: 122, a: 1 };	// transparent
+		colors[4] = { r: 22, g: 55, b: 122, a: 1 };	// opaque dark blue
 		
 		this.delay(function(){
 			this.tweenSpriteColor(colors[h], fps/2);
 			++h;
 		    }, 1000, 3, function(){
 			this.one("TweenSpriteColorEnd", function(){
-				this.removeComponent("Delay")
-				    .tweenSpriteColor(colors[4], fps)
-				    .one("TweenSpriteColorEnd", function(){
-					this.removeComponent("Tween")
-					    .removeComponent("grnd")
-					    .alpha = 0;
-				    });
-				    
+				this.delay(function(){
+				    this.removeComponent("Delay")
+					.tweenSpriteColor(colors[4], fps)
+					.one("TweenSpriteColorEnd", function(){
+					    this//.removeComponent("TweenSpriteColor")
+						.removeComponent("grnd")
+						.alpha = 0;
+					});
+				},500);
 			});
 		    });
-		    
 	}
 	
 });
