@@ -58,7 +58,7 @@ Amianto05 = BaseEntity.extend({
 						
 						if (hit[i].obj.__c.DanceFloor){
 							var cc = model.get('currentCheckpoint');
-							if(cc === null || hit[i].obj.floorIndex !== cc.floorIndex || Crafty("FloorSet").teleporting){
+							if(cc === null || hit[i].obj.floorIndex !== cc.floorIndex || Crafty("FloorSet")._teleporting){
 								model.set({ 'currentCheckpoint': hit[i].obj });
 							}
 							Crafty.trigger("DanceFloorSteppedOver", hit[i].obj.floorIndex);
@@ -71,9 +71,8 @@ Amianto05 = BaseEntity.extend({
 		      .addComponent("WiredHitBox")
 		    .onHit('teleporter', function() { 
 			    var cc = model.get('currentCheckpoint');
-			    Crafty("FloorSet").teleporting = true;
 			    if(cc){
-				  Crafty.trigger("PlayerWasTeleported");
+				  Crafty.trigger("TeleportingPlayer");
 				  this.attr({ x: cc._x - 25 , y: cc._y - 220 });
 			    }
 		    })/*

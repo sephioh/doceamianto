@@ -181,7 +181,7 @@ window.onload = function() {
 		    }).setSceneInfo({ 
 			name: "level05",
 			elements: [
-				"text!src/scenes/tilemaps/level05-2.json", 
+				"text!src/scenes/tilemaps/level05-2.json",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Delimiter.js",
 				"src/components/DanceFloor.js",

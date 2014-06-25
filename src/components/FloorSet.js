@@ -4,20 +4,21 @@ Crafty.c("FloorSet", {
 	_polylineObj: null,
 	_tiledObj: null,
 	_currentTile: null,
-	teleporting: false,
+	_teleporting: false,
 	 
 	init: function(){
 		this.bind("DanceFloorSteppedOver", function(tI){
-			if(!this._currentTile || this._currentTile.obj.floorIndex != tI || this.teleporting){
+			if(!this._currentTile || this._currentTile.obj.floorIndex != tI || this._teleporting){
 				if(!this._currentTile)
 					this.currentFloor(0);  
 				this.activateFloor(tI)
 				    .revealFloor();
-				if(this.teleporting)
-					this.teleporting = false;
+				if(this._teleporting)
+					this._teleporting = false;
 			}
 		    })
-		    .bind("PlayerWasTeleported", function(){
+		    .bind("TeleportingPlayer", function(){
+			this._teleporting = true;
 			this.revealFloor(this._currentTile.obj.floorIndex);
 		    });
 		return this;
@@ -95,11 +96,12 @@ Crafty.c("FloorSet", {
 				t.removeComponent("grnd")
 				    .addComponent("DanceFloor");
 				for(var h = 0, l = s.length; h < l; h++){
-					if(s[h]) s[h].addComponent("Shine");
+					s[h].addComponent("Shine");
+					s[h].setShineAnimations(h);
 				}
 				this.addTile(t, tX, tY, layer, i);    
 			} else {
-				console.error("FloorSet: Problem in tile sequence.");
+				throw "FloorSet: Problem in tile sequence";
 			}
 			if(layer == 0)
 				layer = 2;

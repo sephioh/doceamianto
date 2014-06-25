@@ -3,9 +3,13 @@ Crafty.c("DanceFloor", {
 	tileSize: 64,
 	 
 	init: function(){
-		this.attr({ alpha: 0, floorIndex: null })
-		    .addComponent("TweenSpriteColor")
-		    .sprgba(182,239,251,0);
+		this.requires("SpriteAnimation")
+		    .attr({ alpha: 0, floorIndex: null })
+		this._fading = false;
+		this.reel("transformation1",500,[[1,1],[4,1],[7,1],[10,1]])
+		    .reel("transformation2",500,[[1,3],[4,3],[7,3],[10,3]])
+		    .reel("transformation3",500,[[1,5],[4,5],[7,5],[10,5]])
+		    .reel("transformation4",500,[[1,7],[4,7],[7,7],[10,7]]);
 	},
 	 
 	setIndex: function(i){
@@ -13,40 +17,34 @@ Crafty.c("DanceFloor", {
 	},
 	 
 	steppedOver: function(){
-		this.addComponent("Delay");
-		this.alpha = 1;
-		this.sprgba(182,239,251,0.5);
-		this.fadeOff();
+		if(!this._fading){
+			this.addComponent("Delay");
+			this.alpha = 1;
+			this.fadeOff();
+		}
 	},
 	 
 	reveal: function(){
+		this._fading = false;
+		this._delays = [];
+		this.reel("transformation1");
 		this.addComponent("grnd");
 		this.alpha = 0.5;
 	},
 	
 	fadeOff: function(){
-		var colors = [],
-		    h = 0,
-		    fps = Crafty.timer.FPS();
-		colors[0] = { r: 151, g: 151, b: 151, a: .7 },	// gray
-		colors[1] = { r: 141, g: 66, b: 135, a: .7 },	// dark magenta
-		colors[2] = { r: 94, g: 1, b: 86, a: .7 },	// darker magenta
-		colors[3] = { r: 22, g: 55, b: 122, a: .7 },	// dark blue
-		colors[4] = { r: 22, g: 55, b: 122, a: 1 };	// opaque dark blue
-		
+		this._fading = true;
+		var h = 0;
 		this.delay(function(){
-			this.tweenSpriteColor(colors[h], fps/2);
-			++h;
-		    }, 1000, 3, function(){
-			this.one("TweenSpriteColorEnd", function(){
+			this.animate("transformation"+(++h));
+		    }, 1000, 2, function(){
+			this.one("AnimationEnd", function(){
 				this.delay(function(){
-				    this.removeComponent("Delay")
-					.tweenSpriteColor(colors[4], fps)
-					.one("TweenSpriteColorEnd", function(){
-					    this//.removeComponent("TweenSpriteColor")
-						.removeComponent("grnd")
-						.alpha = 0;
-					});
+				      this.animate("transformation4")
+					  .one("AnimationEnd", function(){
+						this.removeComponent("grnd")
+						    .alpha = 0;
+					  });
 				},500);
 			});
 		    });
