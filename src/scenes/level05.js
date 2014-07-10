@@ -46,7 +46,6 @@ Crafty.scene("level05",function(){
 		this.attr({ x: Crafty.viewport._x * -1, y: Crafty.viewport._y * -1 });
 	    }),
 	sc.gradient = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 1000, alpha: 0.7 })
 	    .image("web/images/gradient-level05.png")
 	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 1000, alpha: 0.7 })
 	    .bind("EnterFrame",function(){
@@ -56,7 +55,7 @@ Crafty.scene("level05",function(){
 	var mapObj = JSON.parse(gameContainer.getSceneTexts()[0]), 
 	    playerEnt = sc.player.getEntity(),
 	    haunt = function(){
-		var nPhantoms = Crafty.math.randomInt(2,4),
+		var nPhantoms = Crafty.math.randomInt(1,3),
 		    time = Crafty.math.randomInt(100,400);
 		sc.delays.delay(function(){
 			Crafty.e("NightclubPhantom")
@@ -82,11 +81,8 @@ Crafty.scene("level05",function(){
 		    .revealFloor();
 		
 		playerEnt.gravity();
-		
-		Crafty.bind("EnterFrame",function(o){ 
-			if(o.frame%75 === 0)
-				haunt();
-		});
+
+		sc.delays.delay(haunt, 7500, -1);
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 

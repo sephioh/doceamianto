@@ -20,7 +20,7 @@ Amianto05 = BaseEntity.extend({
 		
 		entity
 		    .twoway(model.get('speed'), model.get('speed')*2)
-		    .reel("StandingStill", 50, [[5,2],[5,2]])
+		    .reel("StandingStill", 50, [[0,3],[0,3]])
 		    .reel("Running", 500, 0, 0, 8)
 		    .reel("JumpingUp", 500, [[0,1],[0,1],[1,1]])
 		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
