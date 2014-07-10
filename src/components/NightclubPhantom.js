@@ -41,14 +41,14 @@ Crafty.c("NightclubPhantom", {
 		ac = B.y - A.y;
 		
 		// a soma dos quadrados dos catetos é igual ao quadrado da porra da hipotenusa
-		hip1 = Math.sqrt( Math.pow(ac, 2) + Math.pow(oc, 2) );
+		hyp1 = Math.sqrt( Math.pow(ac, 2) + Math.pow(oc, 2) );
 		// ângulos agudos
 		angleBAC = Math.round( Math.atan( oc / ac ) * 180 / Math.PI * 10000 ) / 10000;
 		angleACB = Math.round( Math.atan( ac / oc ) * 180 / Math.PI * 10000 ) / 10000;
 		// hipotenusa do triângulo maior
-		hip2 = hip1 + 150;
-		D = { x: A.x, y: A.y + ((Math.round( Math.cos(angleBAC * Math.PI / 180) * hip2 * 10000 ) / 10000) * dirY) };
-		E = { x: D.x + ((Math.round( Math.cos(angleACB * Math.PI / 180) * hip2 * 10000 ) / 10000) * dirX), y: D.y };
+		hyp2 = hyp1 + 150;
+		D = { x: A.x, y: A.y + ((Math.round( Math.cos(angleBAC * Math.PI / 180) * hyp2 * 10000 ) / 10000) * dirY) };
+		E = { x: D.x + ((Math.round( Math.cos(angleACB * Math.PI / 180) * hyp2 * 10000 ) / 10000) * dirX), y: D.y };
 		
 		if (dirX===1)
 			this.flip("X");
@@ -57,7 +57,7 @@ Crafty.c("NightclubPhantom", {
 		this.tween(props, dur)
 		    .one("TweenEnd", function(){
 			this.delay(function(){
-				this.tween({ alpha: 0 },500)
+				this.tween({ alpha: 0 },450)
 				    .one("TweenEnd", function(){
 					this.destroy();
 				    });

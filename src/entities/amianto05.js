@@ -25,7 +25,7 @@ Amianto05 = BaseEntity.extend({
 		    .reel("JumpingUp", 500, [[0,1],[0,1],[1,1]])
 		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
 		    .reel("Landing", 250, [[4,1],[5,1]])
-		    .reel("WasPushed", 500, [[1,1],[1,1]])
+		    .reel("WasPushed", 500, [[1,1],[6,1],[1,1],[6,1],[1,1],[6,1],[1,1],[6,1]])
 		    .onHit('grnd', function(hit) {
 			var justHit = false;
 			
