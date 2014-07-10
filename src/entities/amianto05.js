@@ -5,7 +5,6 @@ Amianto05 = BaseEntity.extend({
 	  'startingPoint' : { x: 40, y: 0 },
 	  'width' : 90,
 	  'height' : 122,
-	  'health' : 5,
 	  'currentCheckpoint' : null
 	},
 	initialize: function() {
@@ -39,7 +38,6 @@ Amianto05 = BaseEntity.extend({
 			    this.animate("Landing", 1)
 				.one("AnimationEnd", function(){
 					this.animate("StandingStill", 1);
-					//this.animate("LosingMyTime",-1);
 				});
 			}
 			for (var i = 0; i < hit.length; i++) {
@@ -76,21 +74,7 @@ Amianto05 = BaseEntity.extend({
 				  Crafty.trigger("TeleportingPlayer");
 				  this.attr({ x: cc._x - 25 , y: cc._y - 220 });
 			    }
-		    })/*
-		    .bind('KeyDown', function(e){ 
-			if ((!this._blockedDoubleJump && !this._canJumpAgain) &&
-			  (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)){
-			    this._up = true;
-			    this._canJumpAgain = true;
-			}
-			else
-			if (this._canJumpAgain && !this._blockedDoubleJump && (e.key === Crafty.keys.UP_ARROW || e.key === Crafty.keys.W || e.key === Crafty.keys.Z)) {
-			    this._up = true;
-			    this._gy = 0;
-			    this._canJumpAgain = false;
-			    this._blockedDoubleJump = true;
-			}
-		      })*/
+		    })
 		    .bind('KeyUp', function(e) {
 			var k = e.key;
 			if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||

@@ -1,7 +1,7 @@
 Crafty.c("NightclubPhantom", {
   
 	init: function(){
-		this.requires('2D, '+gameContainer.conf.get('renderType')+', Tween, Collision, SpriteAnimation, nightclub_phantom')
+		this.requires('2D, '+gameContainer.conf.get('renderType')+', Tween, Delay, Collision, SpriteAnimation, nightclub_phantom')
 		    .attr({ h: 80, w: 85 })
 		    .reel("Moving",500,0,0,5)
 		    .animate("Moving",-1)
@@ -31,7 +31,7 @@ Crafty.c("NightclubPhantom", {
 		// directions
 		dirX = obj._x > this._x ? 1 : -1,
 		dirY = obj._y > this._y ? 1 : -1,
-		// para encontrar linha a percorrer, faz-se uso de semelhança de triângulos
+		// para encontrar linha a percorrer, faz-se semelhança de triângulos
 		A = {x: this._x, y: this._y},
 		B = {x: this._x, y: obj._y},
 		C = {x: obj._x, y: obj._y},
@@ -56,10 +56,12 @@ Crafty.c("NightclubPhantom", {
 		props.alpha = 1;
 		this.tween(props, dur)
 		    .one("TweenEnd", function(){
-			this.tween({ alpha: 0 },1000)
-			    .one("TweenEnd", function(){
-				this.destroy();
-			    });
+			this.delay(function(){
+				this.tween({ alpha: 0 },500)
+				    .one("TweenEnd", function(){
+					this.destroy();
+				    });
+			},50);
 		    });
 	}
 	
