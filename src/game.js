@@ -189,6 +189,7 @@ window.onload = function() {
 				"src/components/SpriteColor.js",
 				"src/components/TweenSpriteColor.js",
 				"src/components/Shine.js",
+				"src/components/NightclubPhantom.js",
 				"src/entities/mapsmanager.js",
 				"src/entities/amianto05.js"
 			      ]

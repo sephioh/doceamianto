@@ -95,10 +95,9 @@ Crafty.c("FloorSet", {
 			if (t && t.__c.dance_floor) {
 				t.removeComponent("grnd")
 				    .addComponent("DanceFloor");
-				for(var h = 0, l = s.length; h < l; h++){
-					s[h].addComponent("Shine");
-					s[h].setShineAnimations(h);
-				}
+				for(var h = 0, l = s.length; h < l; h++)
+					s[h].addComponent("Shine")
+					    .setShineAnimations(h);
 				this.addTile(t, tX, tY, layer, i);    
 			} else {
 				throw "FloorSet: Problem in tile sequence";

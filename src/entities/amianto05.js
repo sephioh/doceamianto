@@ -21,11 +21,12 @@ Amianto05 = BaseEntity.extend({
 		
 		entity
 		    .twoway(model.get('speed'), model.get('speed')*2)
-		    .reel("StandingStill", 50, [[0,0],[0,0]])
+		    .reel("StandingStill", 50, [[5,2],[5,2]])
 		    .reel("Running", 500, 0, 0, 8)
 		    .reel("JumpingUp", 500, [[0,1],[0,1],[1,1]])
 		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
-		    .reel("Landing", 500, [[4,1],[5,1]])
+		    .reel("Landing", 250, [[4,1],[5,1]])
+		    .reel("WasPushed", 500, [[1,1],[1,1]])
 		    .onHit('grnd', function(hit) {
 			var justHit = false;
 			
@@ -35,8 +36,9 @@ Amianto05 = BaseEntity.extend({
 			    !this._currentReelId == "Running") {
 			    justHit = true;
 			    this._blockedDoubleJump = false;
-			    this.animate("StandingStill", 1)
+			    this.animate("Landing", 1)
 				.one("AnimationEnd", function(){
+					this.animate("StandingStill", 1);
 					//this.animate("LosingMyTime",-1);
 				});
 			}
@@ -49,13 +51,12 @@ Amianto05 = BaseEntity.extend({
 							this._up = false;
 						
 						if((justHit && (!this._up || this._falling)) || this._onStairs)
-							
-						  
-						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+							this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 						
 						if(this._falling)
 							this._falling = false;
-						
+						if(!this.isPlaying("WasPushed") && !this.isPlaying("Running") )
+							this.animate("StandingStill", 1);
 						if (hit[i].obj.__c.DanceFloor){
 							var cc = model.get('currentCheckpoint');
 							if(cc === null || hit[i].obj.floorIndex !== cc.floorIndex || Crafty("FloorSet")._teleporting){
@@ -132,7 +133,7 @@ Amianto05 = BaseEntity.extend({
 			    case "down" : 
 				if(this._currentReelId != "JumpingFalling" && this._currentReelId != "WasHit" &&
 				  ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
-				  (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill"))))
+				  (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill" || this._currentReelId == "WasPushed"))))
 					this.animate("JumpingFalling");
 				break;
 			    case "left":

@@ -41,7 +41,7 @@ Crafty.c("Shine", {
 			.reel("transformation4",500,[[2,7],[5,7],[8,7],[11,7]]);
 		    break;
 		  default: 
-		    throw "Tile shine animation could not be defined. Is .shineIndex correctly set?";
+		    throw "Tile shine animations could not be defined. Is .shineIndex correctly set?";
 		}
 		return this;
 	},

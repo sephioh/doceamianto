@@ -280,9 +280,16 @@ Resources = Backbone.Model.extend({
 					'map': {
 						'amianto05': [0,0]
 					}
+				},
+				'sheet_nightclub_phantom.png': {
+					'tile' : 38,
+					'tileh': 40,
+					'map': {
+						'nightclub_phantom': [0,0]
+					}
 				}
 			},
-			'images': ["tileset-level05.png"],
+			'images': ["tileset-level05.png","gradient-level05.png"],
 			'audio' : {
 				
 			}

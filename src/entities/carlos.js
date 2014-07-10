@@ -421,7 +421,7 @@ Carlos = BaseEntity.extend({
 			    .tween({ y: this._y - 1000 }, 7500)
 			    .one("TweenEnd", function() {
 				this.destroy();
-				// !TODO finish scene
+				Crafty.trigger("LevelTransition");
 			    })
 		    });
 		    
