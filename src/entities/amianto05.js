@@ -34,7 +34,6 @@ Amianto05 = BaseEntity.extend({
 			    (this._falling && this._up) &&
 			    !this._currentReelId == "Running") {
 			    justHit = true;
-			    this._blockedDoubleJump = false;
 			    this.animate("Landing", 1)
 				.one("AnimationEnd", function(){
 					this.animate("StandingStill", 1);

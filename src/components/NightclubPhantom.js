@@ -27,7 +27,7 @@ Crafty.c("NightclubPhantom", {
 	attack: function(obj){
 		var props,
 		// time
-		dur = Crafty.math.randomInt(0,500) + 500,
+		dur = Crafty.math.randomInt(0,500) + 1000,
 		// directions
 		dirX = obj._x > this._x ? 1 : -1,
 		dirY = obj._y > this._y ? 1 : -1,
