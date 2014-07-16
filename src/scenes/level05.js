@@ -45,9 +45,8 @@ Crafty.scene("level05",function(){
 	    .bind("EnterFrame",function(){
 		this.attr({ x: Crafty.viewport._x * -1, y: Crafty.viewport._y * -1 });
 	    }),
-	sc.gradient = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Image")
-	    .image("web/images/gradient-level05.png")
-	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 1000, alpha: 0.7 })
+	sc.gradient = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", gradient05")
+	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 1000})
 	    .bind("EnterFrame",function(){
 		this.attr({ x: Crafty.viewport._x * -1, y: Crafty.viewport._y * -1 });
 	    });
@@ -88,5 +87,14 @@ Crafty.scene("level05",function(){
 
 	sc.teleporters = [
 		Crafty.e("Delimiter, teleporter").attr({ x: -500, y: mapObj.height * mapObj.tileheight * 1.5, h: 1, w: (mapObj.width * mapObj.tilewidth) + 1000 })
-	]
+	];
+	
+	this.one("LevelTransition", function(){ gameContainer.runScene("level06"); });
+	
+}, function(){
+  	this.viewport.x = 0,
+	this.viewport.y = 0;
+	var l = "level05";
+	this.removeAssets(resources.get(l));
+	gameContainer.removeSceneTexts(l);
 });

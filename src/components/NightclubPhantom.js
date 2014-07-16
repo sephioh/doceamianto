@@ -27,7 +27,7 @@ Crafty.c("NightclubPhantom", {
 	attack: function(obj){
 		var props,
 		// time
-		dur = Crafty.math.randomInt(0,500) + 1000,
+		dur = Crafty.math.randomInt(0,750) + 750,
 		// directions
 		dirX = obj._x > this._x ? 1 : -1,
 		dirY = obj._y > this._y ? 1 : -1,
@@ -40,7 +40,7 @@ Crafty.c("NightclubPhantom", {
 		oc = C.x - B.x,
 		ac = B.y - A.y;
 		
-		// a soma dos quadrados dos catetos é igual ao quadrado da porra da hipotenusa
+		// a soma dos quadrados dos catetos é igual a[o quadrado da] porra da hipotenusa
 		hyp1 = Math.sqrt( Math.pow(ac, 2) + Math.pow(oc, 2) );
 		// ângulos agudos
 		angleBAC = Math.round( Math.atan( oc / ac ) * 180 / Math.PI * 10000 ) / 10000;

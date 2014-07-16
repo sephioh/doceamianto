@@ -28,11 +28,11 @@ Resources = Backbone.Model.extend({
 						'darkHeart' : [0, 0]
 					}
 				},
-				'degrade.png' : {
+				'gradient-level01.png' : {
 					'tile' : 400,
 					'tileh' : 300,
 					'map': {
-						'gradient' : [0, 0]
+						'gradient01' : [0, 0]
 					}
 				},
 				'amiantoShadow01.png' : {
@@ -287,9 +287,16 @@ Resources = Backbone.Model.extend({
 					'map': {
 						'nightclub_phantom': [0,0]
 					}
+				},
+				'gradient-level05.png': {
+					'tile' : 600,
+					'tileh': 450,
+					'map': {
+						'gradient05': [0,0]
+					}
 				}
 			},
-			'images': ["tileset-level05.png","gradient-level05.png"],
+			'images': ["tileset-level05.png",],
 			'audio' : {
 				
 			}
