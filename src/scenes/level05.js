@@ -46,7 +46,7 @@ Crafty.scene("level05",function(){
 		this.attr({ x: Crafty.viewport._x * -1, y: Crafty.viewport._y * -1 });
 	    }),
 	sc.gradient = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", gradient05")
-	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 1000})
+	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 1000, alpha: 0.7 })
 	    .bind("EnterFrame",function(){
 		this.attr({ x: Crafty.viewport._x * -1, y: Crafty.viewport._y * -1 });
 	    });
