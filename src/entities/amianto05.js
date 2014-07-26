@@ -26,17 +26,21 @@ Amianto05 = BaseEntity.extend({
 		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
 		    .reel("Landing", 250, [[4,1],[5,1]])
 		    .reel("WasPushed", 500, [[1,1],[6,1],[1,1],[6,1],[1,1],[6,1],[1,1],[6,1]])
+		    .reel("InDespair", 1500, [[5,2],[4,2],[3,2],[2,2],[1,2],[0,2],
+			[0,2],[1,2],[2,2],[3,2],[4,2],[5,2],
+			[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],
+			[5,3],[4,3],[3,3],[2,3],[1,3],[0,3]])
 		    .onHit('grnd', function(hit) {
 			var justHit = false;
 			
 			if (this._currentReelId == "JumpingFalling" ||
 			    this._currentReelId == "JumpingUp" ||
 			    (this._falling && this._up) &&
-			    !this._currentReelId == "Running") {
+			    this._currentReelId != "Running") {
 			    justHit = true;
 			    this.animate("Landing", 1)
 				.one("AnimationEnd", function(){
-					this.animate("StandingStill", 1);
+					this.animate("InDespair", -1);
 				});
 			}
 			for (var i = 0; i < hit.length; i++) {
@@ -52,8 +56,6 @@ Amianto05 = BaseEntity.extend({
 						
 						if(this._falling)
 							this._falling = false;
-						if(!this.isPlaying("WasPushed") && !this.isPlaying("Running") )
-							this.animate("StandingStill", 1);
 						if (hit[i].obj.__c.DanceFloor){
 							var cc = model.get('currentCheckpoint');
 							if(cc === null || hit[i].obj.floorIndex !== cc.floorIndex || Crafty("FloorSet")._teleporting){
@@ -79,14 +81,14 @@ Amianto05 = BaseEntity.extend({
 			if((k == Crafty.keys['LEFT_ARROW'] || k == Crafty.keys['A']) ||
 			  (k == Crafty.keys['RIGHT_ARROW'] || k == Crafty.keys['D'])) 
 				if(this.isPlaying("Running")){ 
-					this.animate("StandingStill"); 
+					this.animate("InDespair", -1); 
 				}
 		    })
 		    .bind('Moved', function(prevPos) {
 		    
 			// controlling animations
 				
-			if(this.isPlaying("StandingStill")) this.pauseAnimation();
+			if(this.isPlaying("Landing") || this.isPlaying("InDespair")) this.pauseAnimation();
 				
 			var moved = "";
 			
@@ -114,9 +116,9 @@ Amianto05 = BaseEntity.extend({
 					this.animate("JumpingUp");
 				break;
 			    case "down" : 
-				if(this._currentReelId != "JumpingFalling" && this._currentReelId != "WasHit" &&
-				  ((this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp")) ||
-				  (!this._onStairs && (this._currentReelId == "Running" || this._currentReelId == "StandingStill" || this._currentReelId == "WasPushed"))))
+				if(this._currentReelId != "JumpingFalling" &&
+				  (this._currentReelId == "JumpingUp" && !this.isPlaying("JumpingUp") ||
+				  (this._currentReelId == "Running" || this._currentReelId == "Landing" || this._currentReelId == "InDespair" || this._currentReelId == "WasPushed")))
 					this.animate("JumpingFalling");
 				break;
 			    case "left":
@@ -137,7 +139,7 @@ Amianto05 = BaseEntity.extend({
 				break;
 			  }
 		      })
-		    .collision(new Crafty.polygon([[32,45],[70,45],[70,124],[32,124]]))
+		    .collision(new Crafty.polygon([[32,45],[55,45],[55,124],[32,124]]))
 		model.set({'entity' : entity});
 		    
 	}

@@ -76,7 +76,7 @@ Crafty.scene("level04", function() {
 				if (shown && !bg1[i]._visible) {
 					bg1[i].visible = true;
 					bg2[i].visible = true;
-				} else if (!shown && bg1[i]._visible) {
+				} else if (bg1[i]._visible && !shown) {
 					bg1[i].visible = false;
 					bg2[i].visible = false;
 				}

@@ -1,3 +1,3 @@
 Crafty.c("CustomControls", function(){
-  
+      
 });
