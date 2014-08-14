@@ -86,7 +86,7 @@ Crafty.c('TweenSpriteColor', {
         from.b += step.b;
 	from.a += step.a;
         this.sprgba(from);
-	Crafty.trigger("InvalidateViewport");
+        Crafty.trigger("Invalidate");
 	return this;
       };
       this.bind('EnterFrame', this._tswc_frameListener);
