@@ -58,7 +58,7 @@ Crafty.scene("level01", function() {
 	sc.delays = Crafty.e("Delay"),
 	sc.bckgrndFade = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, TweenColor")
 	    .attr({ x: 0, y: 0, w: 800, h: 600, z: 1000, alpha: 1.0 }),
-	sc.bckgrndGradient = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, gradient")
+	sc.bckgrndGradient = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, Tween, gradient01")
 	    .attr({ x: 0, y: 0, w: 800, h: 600, z: 1, alpha: 1.0 });
 	
 	sc.player.startMoving();

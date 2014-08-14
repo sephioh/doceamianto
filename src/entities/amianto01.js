@@ -12,11 +12,11 @@ Amianto01 = BaseEntity.extend({
 			POSZ = 300,			// Initial z coordinate
 			SPEED = 3,			// Amianto speed when move horizontally
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, Collision, Multiway"),
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, Collision, CustomControls"),
 			shadow = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, amianto01Shadow");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
-			.multiway(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180})
+			.multiwayer(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180}, ['RIGHT_ARROW','LEFT_ARROW'])
 			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
 			.onHit('Delimiter', function(hit) {
 				for (var i = 0; i < hit.length; i++) {

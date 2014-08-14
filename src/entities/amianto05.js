@@ -9,7 +9,7 @@ Amianto05 = BaseEntity.extend({
 	},
 	initialize: function() {
 		var model = this,
-		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Twoway, Gravity, Collision, SpriteAnimation, Tween, amianto05")
+		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, Collision, SpriteAnimation, Tween, amianto05")
 			.attr({ 
 				x: model.get('startingPoint').x, 
 				y: model.get('startingPoint').y, 
@@ -19,13 +19,13 @@ Amianto05 = BaseEntity.extend({
 			});
 		
 		entity
-		    .twoway(model.get('speed'), model.get('speed')*2)
+		    .twowayer(model.get('speed'), model.get('speed')*2, ['LEFT_ARROW','UP_ARROW','RIGHT_ARROW'])
 		    .reel("StandingStill", 50, [[0,3],[0,3]])
 		    .reel("Running", 500, 0, 0, 8)
 		    .reel("JumpingUp", 500, [[0,1],[0,1],[1,1]])
 		    .reel("JumpingFalling", 500, [[2,1],[3,1],[3,1]])
 		    .reel("Landing", 250, [[4,1],[5,1]])
-		    .reel("WasPushed", 500, [[1,1],[6,1],[1,1],[6,1],[1,1],[6,1],[1,1],[6,1]])
+		    .reel("WasPushed", 500, [[1,1],[6,1],[1,1],[6,1],[1,1],[6,1],[1,1],[6,1],[1,1]])
 		    .reel("InDespair", 1500, [[5,2],[4,2],[3,2],[2,2],[1,2],[0,2],
 			[0,2],[1,2],[2,2],[3,2],[4,2],[5,2],
 			[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],

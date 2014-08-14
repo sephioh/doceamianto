@@ -39,7 +39,7 @@ Crafty.scene("level03", function() {
 		new Wordblock({ initialX: 400, initialY: 175, initialZ: 0, initialH: txtSize, initialW: txts.text01.length*txtSize, word_text: txts.text01, text_size: txtSize }),
 		new Wordblock({ initialX: 180, initialY: 355, initialZ: 0, initialH: txtSize, initialW: txts.text02.length*txtSize, word_text: txts.text02, text_size: txtSize }),
 		new Wordblock({ initialX: 466, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text03.length*txtSize, word_text: txts.text03, text_size: txtSize }),
-		new Wordblock({ initialX:  86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, word_text: txts.text04, text_size: txtSize }),
+		new Wordblock({ initialX: 86, initialY: 117, initialZ: 0, initialH: txtSize, initialW: txts.text04.length*txtSize, word_text: txts.text04, text_size: txtSize }),
 		new Wordblock({ initialX: 486, initialY: 424, initialZ: 0, initialH: txtSize, initialW: txts.text05.length*txtSize, word_text: txts.text05, text_size: txtSize }),
 		new Wordblock({ initialX: 100, initialY: 300, initialZ: 0, initialH: txtSize, initialW: txts.text06.length*txtSize, word_text: txts.text06, text_size: txtSize }),
 		new Wordblock({ initialX: 50, initialY: 519, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, word_text: txts.text07, text_size: txtSize })
@@ -100,9 +100,9 @@ Crafty.scene("level03", function() {
 }, function() {
 	// executed after scene() is called within the present scene
 	sc.delays.destroy();// destroy delays
-	var glitched = document.getElementById("glitchedCanvas"),
+	var g = document.getElementById("glitchedCanvas"),
 	    l = "level03";
-	glitched.parentNode.removeChild(glitched);
+	g.parentNode.removeChild(g);
 	Crafty.removeAssets(resources.get(l));
 	gameContainer.removeSceneTexts(l);
 });

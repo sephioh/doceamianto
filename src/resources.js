@@ -4,6 +4,28 @@ Resources = Backbone.Model.extend({
 		imagesFolder: "web/images/",
 		audioFolder: "web/audio/",
 		
+		// interface elements
+		interfc_keys: {
+			'sprites' : {
+				'interface_keys.png': {
+					'tile' : 40,
+					'tileh' : 32,
+					'map': {
+						'LEFT_ARROW_sprite': [0,0],
+						'UP_ARROW_sprite': [1,0],
+						'RIGHT_ARROW_sprite': [2,0],
+						'SPACE_sprite': [3,0]
+					}
+				}
+			}
+		},
+		interfc_keys_options: {
+		  	'SPACE' : { x: 0, y: 32 },
+			'LEFT_ARROW' : { x: 40, y: 32 },
+			'UP_ARROW' : { x: 80, y: 64 },
+			'RIGHT_ARROW' : { x: 120, y: 32 }
+		},
+		
 		// declaration of scenes' elements
 		level01: {
 			'sprites' : {
@@ -63,8 +85,7 @@ Resources = Backbone.Model.extend({
 					  'fall01.ogg',
 					  'fall01.mp3'
 					]
-			},
-			'images': ['obstacle.png']
+			}
 		},
 		level02: {
 			'sprites' : {

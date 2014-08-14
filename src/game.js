@@ -1,3 +1,56 @@
+gameContainer = {
+  
+	env : 'dev',
+	gameVersion : '0.0.1',
+	conf: {},
+	lang: '',
+	scene : {},
+	scenes : [],
+	alreadyLoadedElements : [],
+	loadedStrings : {},
+	
+	setSceneInfo : function(scnInfo) {
+		this.scenes[scnInfo.name] =  scnInfo.elements;
+		
+		return this;
+	},
+	runScene: function(scn, options) {
+		this.scene = scn;
+		Crafty.scene("loading", options);
+	},
+	getSceneElements: function(scn) {
+		return this.scenes[this.$scn(scn)];
+	},
+	setSceneTexts: function(texts,scn) {
+		this.loadedStrings[this.$scn(scn)] = texts;
+		return this;
+	},
+	getSceneTexts: function(scn) {
+		return this.loadedStrings[this.$scn(scn)];
+	},
+	removeSceneTexts: function(scn) {
+		var alreadyLdd = this.alreadyLoadedElements,
+		    scnElements = this.getSceneElements(scn);
+		for(var ele in scnElements){
+			if(ele.indexOf("text!") === -1){
+				continue;
+			} else {
+				this.alreadyLoadedElements.splice(alreadyLdd.indexOf(ele),1);
+				delete this.loadedStrings[this.$scn(scn)];
+			}
+		}
+		return this;
+	},
+	$scn: function(scn) {
+		return _.isUndefined(scn)?this.scene:scn;
+	}
+	
+},
+sc    = {}, // container for scene elements
+infc  = {}, // container for backbone interface elements
+resources = {}, // container for Assets obj
+utils = {};
+
 window.onload = function() {
   
 	var version = null,
@@ -17,33 +70,41 @@ window.onload = function() {
 		"src/entities/base/BaseEntity.js",
 		"src/components/ProgressBar.js",
 		// Crafty parts to be overridden
+		"src/override/controls.js",
 		"src/components/Twoway.js",
 		"src/components/Gravity.js",
 		"src/components/Delay.js",
-		"src/extensions/scene.js",
-		//"src/extensions/assets.js"
-		//"src/extensions/sprite.js",
-		"src/extensions/loader.js",
-		"src/extensions/sound.js",
-		"src/extensions/sprite-animation.js",
-		"src/extensions/viewport.js"
+		"src/components/CustomControls.js",
+		"src/override/scene.js",
+		"src/override/loader.js",
+		"src/override/sound.js",
+		"src/override/sprite-animation.js",
+		"src/override/viewport.js"
 	], function() {
 		//start Crafty
-		Crafty.init(800, 600);
-		Crafty.canvas.init();
-		
-		document.getElementsByTagName("canvas")[0].id = "mainCanvas";
-		
-		Crafty.support.audio = true;
-		
+		gameContainer.conf = new Config({ 
+		  touch: Modernizr.touch,
+		  screenRes: { w: window.screen.availWidth, h: window.screen.availHeight }
+		}),
 		resources  = new Resources(),
 		utils = new Utils();
 		
-		gameContainer.conf = new Config({});
+		var res;
+		if(!gameContainer.conf.get('touch'))
+			res = gameContainer.conf.get('standardRes');
+		else
+			res = gameContainer.conf.get('screenRes');
+		Crafty.init(res.w, res.h);
+		Crafty.canvas.init();
+		
+		document.getElementsByTagName("canvas")[0].id = "mainCanvas";
+		Crafty.support.audio = true;
 		gameContainer.lang = utils.getLang();
 		
 		Crafty.paths({ audio: resources.get("audioFolder"), images: resources.get("imagesFolder") });
-			
+		
+		if(gameContainer.conf.get('touch'))
+			Crafty.load(resources.get("interfc_keys"));
 		// the loading screen - will be displayed while assets are loaded
 		// callback obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor', 'image': { url, w, h } }
 		Crafty.scene("loading", function(obj) { 
@@ -224,56 +285,3 @@ window.onload = function() {
 	});
 
 };
-
-gameContainer = {
-  
-	env : 'dev',
-	gameVersion : '0.0.1',
-	conf: {},
-	lang: '',
-	scene : {},
-	scenes : [],
-	alreadyLoadedElements : [],
-	loadedStrings : {},
-	
-	setSceneInfo : function(scnInfo) {
-		this.scenes[scnInfo.name] =  scnInfo.elements;
-		
-		return this;
-	},
-	runScene: function(scn, options) {
-		this.scene = { name: scn, functions: {} };
-		Crafty.scene("loading", options);
-	},
-	getSceneElements: function(scn) {
-		return this.scenes[this.$scn(scn)];
-	},
-	setSceneTexts: function(texts,scn) {
-		this.loadedStrings[this.$scn(scn)] = texts;
-		return this;
-	},
-	getSceneTexts: function(scn) {
-		return this.loadedStrings[this.$scn(scn)];
-	},
-	removeSceneTexts: function(scn) {
-		var alreadyLdd = this.alreadyLoadedElements,
-		    scnElements = this.getSceneElements(scn);
-		for(var ele in scnElements){
-			if(ele.indexOf("text!") === -1){
-				continue;
-			} else {
-				this.alreadyLoadedElements.splice(alreadyLdd.indexOf(ele),1);
-				delete this.loadedStrings[this.$scn(scn)];
-			}
-		}
-		return this;
-	},
-	$scn: function(scn) {
-		return _.isUndefined(scn)?this.scene.name:scn;
-	}
-	
-},
-sc    = {}, // container for scene elements
-infc  = {}, // container for backbone interface elements
-resources = {}, // container for Assets obj
-utils = {};

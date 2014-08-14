@@ -7,7 +7,9 @@ Crafty.c("BadassPhantom", {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', Collision, Tween, Delay, SpriteAnimation, badass_phantom');
 		this.reel("Fusion",2500,0,0,9)
 		    .reel("Floating",1000,0,1,8)
-		    .reel("Attacking",1000,0,2,9)
+		    .reel("Attacking1",1250,0,2,9)
+		    .reel("Attacking2",1000,0,2,9)
+		    .reel("Attacking3",750,0,2,9)
 		    .attr({ h: 120, w: 120 })
 		    .collision()
 		    .onHit("carlos", function(hit){
@@ -39,7 +41,11 @@ Crafty.c("BadassPhantom", {
 				    .unbind("LilPhantomAtPlace");
 			      
 		    })
-		    .alpha = 0;
+		    .attr({ 
+		      alpha: 0,
+		      speedIncrRate: .05,
+		      attacks: 1
+		    });
 	},
 	
 	shaping: function() {
@@ -75,14 +81,15 @@ Crafty.c("BadassPhantom", {
 	},
 	
 	attack: function() {
-		var C = Crafty("carlos");
+		var C = Crafty("carlos"),
+		    T = Math.round((Math.abs(C._x - this._x) + 1 * 20000) / this.attacks * this.speedIncrRate);
 		if (!C._dead) {
 			if (C._x > this._x && !this._flipX)
 				this.flip("X");
 			else if (C._x < this._x && this._flipX)
 				this.unflip("X");
-			this.animate("Attacking")
-			    .tween({ x: C._x, y: C._y - 40 }, 1000)
+			this.animate("Attacking" + this.attacks.toString())
+			    .tween({ x: C._x, y: C._y - 40 }, T)
 			    .one("TweenEnd", function() {
 				var delta;
 				if (!this._flipX)
@@ -92,6 +99,8 @@ Crafty.c("BadassPhantom", {
 				this.animate("Floating", -1)
 				    .tween(delta, 1000);
 			    });
+			if(this.attacks < 3)
+				++this.attacks;
 		}
 	}
 	
