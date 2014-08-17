@@ -19,7 +19,7 @@ Resources = Backbone.Model.extend({
 				}
 			}
 		},
-		interfc_keys_options: {
+		interfc_keys_coordinates: {
 		  	'SPACE' : { x: 0, y: 32 },
 			'LEFT_ARROW' : { x: 40, y: 32 },
 			'UP_ARROW' : { x: 80, y: 0 },
