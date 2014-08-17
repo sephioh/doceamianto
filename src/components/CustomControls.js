@@ -22,16 +22,15 @@ Crafty.c("CustomControls", {
 	 
 	initInfcKeys: function(keys) {
 		infc.keys = {};
-		var keyOpts = resources.get("interfc_keys_options"),
+		var keysOpts = resources.get("interfc_keys_options"),
 		    that = this,
 		    screenRes = gameContainer.conf.get('screenRes');
 		for (var k in keys) {
 			var b = Crafty.e("2D, Canvas, Mouse, key_button"),
 			    key = keys[k],
-			    sprName = key + "_sprite",
-			    pos = { x: keyOpts[key].x, y: screenRes.h - keyOpts[key].y };
+			    sprName = key + "_sprite";
 			    
-			b.relativePos = keyOpts[key];
+			b.relativePos = keysOpts[key];
 			b.key = key;
 			b.requires(sprName);
 			b.bind("MouseDown", function(){

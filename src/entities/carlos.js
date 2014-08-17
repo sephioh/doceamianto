@@ -11,7 +11,7 @@ Carlos = BaseEntity.extend({
 	},
 	initialize: function() {
 		var model = this,
-		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Twoway, Gravity, Collision, SpriteAnimation, Tween, carlos")
+		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, Collision, SpriteAnimation, Tween, carlos")
 			.attr({ 
 				x: model.get('startingPoint').x, 
 				y: model.get('startingPoint').y, 
@@ -22,7 +22,7 @@ Carlos = BaseEntity.extend({
 			});
 		
 		entity
-		    .twoway(model.get('speed'),model.get('speed')+(model.get('speed')/2))
+		    .twowayer(model.get('speed'),model.get('speed')+(model.get('speed')/2), ['LEFT_ARROW','UP_ARROW','RIGHT_ARROW','SPACE'])
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 1, 0, 5)
 		    .reel("Shooting", 500, 0, 1, 6)
