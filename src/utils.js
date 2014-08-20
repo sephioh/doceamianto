@@ -137,6 +137,32 @@ Utils = Backbone.Model.extend({
 		}
  	},
 	
+	toggleFullScreen: function(ele){
+		var cor = Crafty.stage.elem.style.background;
+		if (!document.fullscreenElement &&
+		!document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+			var element = document.getElementById(ele);
+			if(element.requestFullScreen)
+			    element.requestFullScreen();
+			else if(element.msRequestFullScreen)
+			    element.msRequestFullScreen();
+			else if(element.webkitRequestFullScreen)
+			    element.webkitRequestFullScreen();
+			else if(element.mozRequestFullScreen)
+			    element.mozRequestFullScreen();
+		} else {
+			if (document.exitFullscreen)
+			    document.exitFullscreen();
+			else if (document.msExitFullscreen)
+			    document.msExitFullscreen();
+			else if (document.webkitExitFullscreen)
+			    document.webkitExitFullscreen();
+			else if (document.mozCancelFullScreen)
+			    document.mozCancelFullScreen();
+		}
+		Crafty.stage.elem.style.background = cor;
+	}
+	
 	/*getImageDataURL: function (img) {
 	    // Create an empty canvas element
 	    var canvas = document.createElement("canvas");

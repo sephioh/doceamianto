@@ -19,12 +19,13 @@ Resources = Backbone.Model.extend({
 				}
 			}
 		},
-		interfc_keys_coordinates: {
-		  	'SPACE' : { x: 0, y: 32 },
-			'LEFT_ARROW' : { x: 40, y: 32 },
-			'UP_ARROW' : { x: 80, y: 0 },
-			'RIGHT_ARROW' : { x: 120, y: 32 },
-			'DOWN_ARROW' : { x: 80, y: 64 }
+		interfc_keys_relative_coordinates: {
+		  	'SPACE' : { x: 160, y: 32 },
+			'LEFT_ARROW' : { x: 120, y: 32 },
+			'UP_ARROW' : { x: 80, y: 64 },
+			'RIGHT_ARROW' : { x: 40, y: 32 },
+			'DOWN_ARROW' : { x: 80, y: 32 },
+			'FULL_SCREEN' : { x: 40, y: 192 }
 		},
 		
 		// declaration of scenes' elements

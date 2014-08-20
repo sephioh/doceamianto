@@ -3710,11 +3710,9 @@ Crafty.extend({
 
         if (e.type === "keydown") {
             if (Crafty.keydown[e.key] !== true) {
-                Crafty.keydown[e.key] = true;
                 Crafty.trigger("KeyDown", e);
             }
         } else if (e.type === "keyup") {
-            delete Crafty.keydown[e.key];
             Crafty.trigger("KeyUp", e);
         }
 

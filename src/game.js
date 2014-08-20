@@ -71,8 +71,6 @@ window.onload = function() {
 		"src/components/ProgressBar.js",
 		// Crafty parts to be overridden
 		"src/override/controls.js",
-		"src/components/Twoway.js",
-		"src/components/Gravity.js",
 		"src/components/Delay.js",
 		"src/components/CustomControls.js",
 		"src/override/scene.js",
@@ -81,33 +79,65 @@ window.onload = function() {
 		"src/override/sprite-animation.js",
 		"src/override/viewport.js"
 	], function() {
-		//start Crafty
-		gameContainer.conf = new Config({ 
-		  touch: Modernizr.touch,
-		  screenRes: { w: window.screen.availWidth, h: window.screen.availHeight }
+		// !! remover quando der conta da gambiarra
+		require(["src/components/Twoway.js","src/components/Gravity.js"]);
+
+		// initializing
+		gameContainer.conf = new Config({
+			screenRes: { w: window.screen.availWidth, h: window.screen.availHeight }
 		}),
 		resources  = new Resources(),
 		utils = new Utils();
 		
-		var res;
-		if(!gameContainer.conf.get('touch'))
-			res = gameContainer.conf.get('standardRes');
-		else
+		var res = gameContainer.conf.get('maxRes');
+		if(Crafty.mobile){
+			var max = gameContainer.conf.get('maxRes');
 			res = gameContainer.conf.get('screenRes');
+			// invert screen resolution values
+			if (res.h > res.w)
+				res = { w: res.h, h: res.w };
+			if (res.h > max.h)
+				res.h = max.h;
+			if (res.w > max.w)
+				res.w = max.w;
+		}
+	      
 		Crafty.init(res.w, res.h);
 		Crafty.canvas.init();
 		
 		document.getElementsByTagName("canvas")[0].id = "mainCanvas";
 		Crafty.support.audio = true;
+		//gameContainer.conf.set({ 'renderType': (Crafty.support.webgl? "WebGL" : "Canvas") });
 		gameContainer.lang = utils.getLang();
 		
 		Crafty.paths({ audio: resources.get("audioFolder"), images: resources.get("imagesFolder") });
 		
-		if(gameContainer.conf.get('touch'))
-			Crafty.load(resources.get("interfc_keys"));
+		// stuff for mobile
+		if(Crafty.mobile){
+			var warn = gameContainer.lang == "pt"? 
+			  "Este jogo foi feito para o modo paisagem." : "This game is meant to be played in landscape mode.";
+			document.getElementById("warning").innerHTML = warn;
+			
+			Crafty.load(resources.get("interfc_keys"), function(){
+				if(Crafty.viewport.height < gameContainer.conf.get('maxRes').h)
+					Crafty.e('2D, ' + gameContainer.conf.get('renderType') + ', Mouse, Persist, fullscreen_button')
+					    .attr({ w: 40, h: 32 })
+					    .bind('EnterFrame', function(){
+						this.attr({
+						  x: Crafty.viewport.x * -1,
+						  y: Crafty.viewport.y * -1
+						});
+					    })
+					    .bind('MouseDown', function(){ utils.toggleFullScreen('cr-stage'); })
+					    .addComponent('Color')
+					    .color('green');
+			    });
+		}
+		// initialized
+		//
 		// the loading screen - will be displayed while assets are loaded
-		// callback obj -> { backgroundColor: 'color', soundToPlay: 'sound', ellipsisColor: 'hexcolor', 'image': { url, w, h } }
-		Crafty.scene("loading", function(obj) { 
+		// callback obj -> { backgroundColor: 'hexcolor', soundToPlay: 'sound', entitiesColor: 'hexcolor', image: { url, w, h } }
+		Crafty.scene("loading", function(obj) {
 			// clear scene
 			sc = {}, infc = {};
 			
@@ -133,14 +163,14 @@ window.onload = function() {
 			
 			// loading text
 			sc.lText = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", Text")
-				.text(t)
-				.attr({ x: tsize, y: Crafty.viewport.height - tsize - 10, w: tsize*t.length, h: tsize,  z: 100 })
-				.textFont({ family: 'Arial', size : tsize.toString()+'px', family: 'Perfect_dos_vga_437' })
-				.textColor(entsColor);
+			    .text(t)
+			    .attr({ x: tsize, y: Crafty.viewport.height - tsize - 10, w: tsize*t.length, h: tsize,  z: 100 })
+			    .textFont({ family: 'Arial', size : tsize.toString()+'px', family: 'Perfect_dos_vga_437' })
+			    .textColor(entsColor);
 			// progress bar
 			sc.lProgBar = Crafty.e("ProgressBar")
-				.attr({ x: 0, y : Crafty.viewport.height - 3, w: Crafty.viewport.width, h: 3, z: 100 })
-				.progressBar("LOADING_PROGRESS", 20, 100, false, bgColor, entsColor, gameContainer.conf.get('renderType'));
+			    .attr({ x: 0, y : Crafty.viewport.height - 3, w: Crafty.viewport.width, h: 3, z: 100 })
+			    .progressBar("LOADING_PROGRESS", 20, 100, false, bgColor, entsColor, gameContainer.conf.get('renderType'));
 			
 			// load takes an object of assets and a callback when complete
 			Crafty.load(resources.get(gameContainer.$scn()), function() {
@@ -254,12 +284,12 @@ window.onload = function() {
 				"src/entities/mapsmanager.js",
 				"src/entities/amianto05.js"
 			      ]
-		    })/*.setSceneInfo({ 
+		    }).setSceneInfo({ 
 			name: "level06",
 			elements: [
 				"src/entities/amianto06.js"
 			      ]
-		    })*/;
+		    });
 		
 		// declare all scenes
 		

@@ -13,7 +13,7 @@ Crafty.c("BadassPhantom", {
 		    .attr({ h: 120, w: 120 })
 		    .collision()
 		    .onHit("carlos", function(hit){
-			if(this._currentReelId == "Attacking" + this.attacks.toString()) {
+			if(this._currentReelId.search("Attacking") != -1) {
 				hit[0].obj.trigger("LifeDrained");
 				this.cancelDelay(this.attack);
 			}

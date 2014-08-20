@@ -100,7 +100,7 @@ Crafty.scene("level01", function() {
 		// events until level02
 		sc.delays.delay(function() {						// after half sec,
 			sc.player.stumble(); 						// make amianto stumble, and then fall
-		}, 500, 0, function(){
+		}, 500, 0, function() {
 		  	sc.spcParticles = []; 						// space particles' container
 			this.delay(createParticles, 500, -1)
 			    .delay(function() {

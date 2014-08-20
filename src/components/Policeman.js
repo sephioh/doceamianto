@@ -125,7 +125,7 @@ Crafty.c('Policeman', {
 	
 	_fire: function(bullet) {
 		var reach = this._gunRange;
-		bullet.attr({ x: this._x, y: this._y + this._heightDeviation, w: 2, h: 2, z: this._z });
+		bullet.attr({ x: this._x, y: this._y + this._heightDeviation, w: 5, h: 3, z: this._z });
 		if(this._flipX) {
 			bullet.x += this._shotDeviation;
 			reach *= -1;
