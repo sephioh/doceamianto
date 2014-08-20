@@ -10,7 +10,7 @@ Amianto02 = BaseEntity.extend({
 	},
 	initialize: function() {
 		var model = this,
-		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Twoway, Gravity, Collision, SpriteAnimation, Tween, amianto02")
+		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, Collision, SpriteAnimation, Tween, amianto02")
 			.attr({ 
 				x: model.get('startingPoint').x, 
 				y: model.get('startingPoint').y, 
@@ -21,7 +21,7 @@ Amianto02 = BaseEntity.extend({
 			});
 		entity['poly'] = new Crafty.polygon([[17,60],[47,38],[77,60],[55,116],[39,116]]);
 		entity
-			.twoway(model.get('speed'), model.get('speed'))
+			.twowayer(model.get('speed'), model.get('speed'), ['LEFT_ARROW','UP_ARROW','RIGHT_ARROW','SPACE'])
 			.onHit('grnd', function(hit) {
 				var justHit = false,
 					diamondInt = model.get('withDiamond'),

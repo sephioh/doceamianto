@@ -10,7 +10,7 @@ Amianto03 = BaseEntity.extend({
     },
     initialize: function() {
 		var model = this,
-		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, amianto03, Multiway, Collision")
+		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, SpriteAnimation, Collision, amianto03")
 			// Set initial atributes
 			.attr({x: model.get('initial_x'),
 				    y: model.get('initial_y'),
@@ -30,7 +30,8 @@ Amianto03 = BaseEntity.extend({
 		    .reel("PushingRight", 500, 0, 4, 5)
 		    .reel("PushingLeft", 500, 0, 5, 5)
 		    // Controls
-		    .multiway(model.get('initial_speed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180})
+		    .multiwayer(model.get('initial_speed'), {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}, 
+			['UP_ARROW', 'DOWN_ARROW', 'RIGHT_ARROW', 'LEFT_ARROW'])
 		    .bind('Moved', function(prevPos) {
 			// if amianto move to right
 			if(this._x > prevPos.x)
