@@ -29,6 +29,26 @@ Resources = Backbone.Model.extend({
 		},
 		
 		// declaration of scenes' elements
+		
+		start_screen: {
+			'sprites': {
+				'sheet_start_diamond.png': {
+					'tile' : 77,
+					'tileh' : 77,
+					'map': {
+						'start_diamond' : [0, 0]
+					}
+				}
+			},
+			
+			'audio': {
+				'diamondshine' : [
+				      'startdiamondshine.ogg',
+				      'startdiamondshine.aac'
+				]
+			}
+		},
+		
 		level01: {
 			'sprites' : {
 				'sheet_amianto01.png' : {
@@ -319,7 +339,7 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			'images': ["tileset-level05.png",],
+			'images': ["tileset-level05.png"],
 			'audio' : {
 				
 			}
@@ -327,8 +347,8 @@ Resources = Backbone.Model.extend({
 		level06: {
 			'sprites' : {
 				'sheet_amianto06.png': {
-					'tile' : 63,
-					'tileh': 122,
+					'tile' : 50,
+					'tileh': 68,
 					'map': {
 						'amianto06': [0,0]
 					}

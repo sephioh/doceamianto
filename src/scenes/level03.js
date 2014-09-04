@@ -56,6 +56,8 @@ Crafty.scene("level03", function() {
 		new Wordplaceholder({ initialX: 360, initialY: 400, word_text: txts.text07 })
 	];
 	
+	utils.setViewportBounds({ x:0, y:0 }, { x:800, y:600 }, sc.player.getEntity());
+	
 	// declaring events
 	
 	this.one("Tilt", function(){
@@ -88,7 +90,7 @@ Crafty.scene("level03", function() {
 			glitchOptions.iterations += 2;
 			//glitchOptions.seed += 5;
 		}, 350, 5, function(){
-			Crafty.trigger("LevelTransition"); 
+			this.delay(function(){ Crafty.trigger("LevelTransition") }, 300)
 		});
 		
 	});
@@ -97,9 +99,9 @@ Crafty.scene("level03", function() {
 		gameContainer.runScene("level04");
 	});
 	
-}, function() {
-	// executed after scene() is called within the present scene
-	sc.delays.destroy();// destroy delays
+}, function() {					// executed after scene() is called within the present scene
+  	utils.resetViewportBounds();
+	sc.delays.destroy();	// destroy delays
 	var g = document.getElementById("glitchedCanvas"),
 	    l = "level03";
 	g.parentNode.removeChild(g);

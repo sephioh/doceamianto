@@ -47,8 +47,8 @@ gameContainer = {
 	
 },
 sc    = {}, // container for scene elements
-infc  = {}, // container for backbone interface elements
-resources = {}, // container for Assets obj
+infc  = {}, // container for interface elements
+resources = {}, // container for scenes' resources
 utils = {};
 
 window.onload = function() {
@@ -114,9 +114,9 @@ window.onload = function() {
 		
 		// stuff for mobile
 		if(Crafty.mobile){
-			var warn = gameContainer.lang == "pt"? 
+			var warning = gameContainer.lang == "pt"? 
 			  "Este jogo foi feito para o modo paisagem." : "This game is meant to be played in landscape mode.";
-			document.getElementById("warning").innerHTML = warn;
+			document.getElementById("warning").innerHTML = warning;
 			
 			Crafty.load(resources.get("interfc_keys"), function(){
 				if(Crafty.viewport.height < gameContainer.conf.get('maxRes').h)
@@ -136,7 +136,7 @@ window.onload = function() {
 		// initialized
 		//
 		// the loading screen - will be displayed while assets are loaded
-		// callback obj -> { backgroundColor: 'hexcolor', soundToPlay: 'sound', entitiesColor: 'hexcolor', image: { url, w, h } }
+		// callback obj argument -> { backgroundColor: 'hexcolor', soundToPlay: 'sound', entitiesColor: 'hexcolor', image: { url, w, h } }
 		Crafty.scene("loading", function(obj) {
 			// clear scene
 			sc = {}, infc = {};
@@ -182,7 +182,7 @@ window.onload = function() {
 					// if element has not already been loded 
 					if(gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
 						//search for texts, first things to load,
-						if(ele.indexOf("text!") !== -1) {
+						if (ele.indexOf("text!") !== -1) {
 							var tl = textElms.length;
 							textElms[tl] = ele;
 							if(text_args != ''){
@@ -221,6 +221,10 @@ window.onload = function() {
 		
 		// set scenes' loading parameters (scene name, scene elements to be loaded)
 		gameContainer
+		    .setSceneInfo({
+			name: "start_screen",
+			elements: []
+		    })
 		    .setSceneInfo({ 
 			name: "level01",
 			elements: [
@@ -228,7 +232,7 @@ window.onload = function() {
 				"src/components/Delimiter.js",
 				"src/components/Particle.js",
 				"src/entities/amianto01.js",
-				"src/entities/heart.js"
+				"src/entities/heart01.js"
 				]
 		    }).setSceneInfo({ 
 			name: "level02",
@@ -287,29 +291,34 @@ window.onload = function() {
 		    }).setSceneInfo({ 
 			name: "level06",
 			elements: [
-				"src/entities/amianto06.js"
+				"src/entities/amianto06.js",
+				"src/entities/heart06.js",
 			      ]
 		    });
 		
 		// declare all scenes
 		
 		var scenes = [
+			"src/scenes/start_screen.js?v="+version+"",
 			"src/scenes/level01.js?v="+version+"",
 			"src/scenes/level02.js?v="+version+"",
 			"src/scenes/level03.js?v="+version+"",
 			"src/scenes/level04.js?v="+version+"",
-			"src/scenes/level05.js?v="+version+"",
+			"src/scenes/level05.js?v="+version+""
 		];
 		
 		require(scenes, function() {
-			var sceneArg;
+			var sceneArg, options;
 			if(gameContainer.env == "dev"){ 
 				sceneArg = utils.getUrlVars()['scene'];
-				sceneArg = sceneArg?sceneArg:"level01";
+				sceneArg = sceneArg?sceneArg:"start_screen";
 			}else{
-				sceneArg = "level01";
+				sceneArg = "start_screen";
 			}
-			gameContainer.runScene(sceneArg);
+			if (sceneArg == "start_screen") {
+				options = { backgroundColor: "#000000" };
+			}
+			gameContainer.runScene(sceneArg, options);
 		});
 	
 	});

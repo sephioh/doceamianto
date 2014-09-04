@@ -138,7 +138,6 @@ Utils = Backbone.Model.extend({
  	},
 	
 	toggleFullScreen: function(ele){
-		var cor = Crafty.stage.elem.style.background;
 		if (!document.fullscreenElement &&
 		!document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
 			var element = document.getElementById(ele);
@@ -160,25 +159,19 @@ Utils = Backbone.Model.extend({
 			else if (document.mozCancelFullScreen)
 			    document.mozCancelFullScreen();
 		}
-		Crafty.stage.elem.style.background = cor;
-	}
+	},
 	
-	/*getImageDataURL: function (img) {
-	    // Create an empty canvas element
-	    var canvas = document.createElement("canvas");
-	    canvas.width = img.width;
-	    canvas.height = img.height;
-
-	    // Copy the image contents to the canvas
-	    var ctx = canvas.getContext("2d");
-	    ctx.drawImage(img, 0, 0);
-
-	    // Get the data-URL formatted image
-	    // Firefox supports PNG and JPEG. You could check img.src to
-	    // guess the original format, but be aware the using "image/jpg"
-	    // will re-encode the image.
-	    
-	    return canvas.toDataURL("image/png");
-	}*/
+	setViewportBounds: function(obj){
+		if(Crafty.mobile) {
+			Crafty.viewport.bounds = { min: { x:0, y:0 }, max: gameContainer.conf.get('maxRes') };
+			if(obj)
+				Crafty.viewport.follow(obj,0,0);
+		}
+	},
+	
+	resetViewportBounds: function(){
+	        Crafty.viewport.bounds = null;
+		//Crafty.viewport.clampToEnities = false;
+	}
 	
 });

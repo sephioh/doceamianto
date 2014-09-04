@@ -48,7 +48,6 @@ Crafty.scene("level01", function() {
 		}
 	    };
 	
-	Crafty.background("#FFFFFF");
 	// Play theme
 	Crafty.audio.play("theme01", -1, 0.3);
 			
@@ -78,6 +77,9 @@ Crafty.scene("level01", function() {
 	    ];
     
 	sc.delays.delay(heartComing,750,-1);
+	
+	Crafty.background("#FFFFFF");
+	utils.setViewportBounds(sc.player.getEntity());
 
 	// Event declarations
 
@@ -122,8 +124,9 @@ Crafty.scene("level01", function() {
 		});
 	});
 	
-}, function() { 											// executed after scene() is called within the present scene
-	sc.delays.destroy();// destroy delays
+}, function() { 				// executed after scene() is called within the present scene
+	utils.resetViewportBounds();
+	sc.delays.destroy();	// destroy delays
 	var l = "level01";
 	Crafty.removeAssets(resources.get(l));
 	gameContainer.removeSceneTexts(l);

@@ -51,7 +51,7 @@ function MapsManager() {
 	for (i = _i = 0, _ref = yCount * xCount; _i < _ref; i = _i += 1) {
 	  posx = i % xCount;
 	  posy = i / xCount | 0;
-	  sName = "tileSprite" + tsHash + "_" + tNum;
+	  sName = "tileSprite" + tNum;
 	  tName = "tile" + tNum;
 	  sMap[sName] = [posx, posy];
 	  components = "2D, " + drawType + ", " + sName + ", MapTile";
