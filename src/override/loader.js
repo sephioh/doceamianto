@@ -135,7 +135,7 @@ Crafty.extend({
      * @sign public void Crafty.load(Object assets, Function onLoad[, Function onProgress[, Function onError]])
      * @param assets - Object JSON formatted (or JSON string), with assets to load (accepts sounds, images and sprites)
      * @param onLoad - Callback when the assets are loaded
-     * @param onProgress - Callback when an asset is loaded. Contains information about assets loaded
+     * @param onProgress - Callback when an asset is loaded. Contains information about assets loaded.
      * @param onError - Callback when an asset fails to load
      *
      * Preloader for all assets. Takes a JSON formatted object (or JSON string) of files and adds them to the 

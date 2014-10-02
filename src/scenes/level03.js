@@ -56,7 +56,7 @@ Crafty.scene("level03", function() {
 		new Wordplaceholder({ initialX: 360, initialY: 400, word_text: txts.text07 })
 	];
 	
-	utils.setViewportBounds({ x:0, y:0 }, { x:800, y:600 }, sc.player.getEntity());
+	utils.setViewportBounds(sc.player.getEntity());
 	
 	// declaring events
 	
@@ -90,7 +90,7 @@ Crafty.scene("level03", function() {
 			glitchOptions.iterations += 2;
 			//glitchOptions.seed += 5;
 		}, 350, 5, function(){
-			this.delay(function(){ Crafty.trigger("LevelTransition") }, 300)
+			this.delay(function(){ Crafty.trigger("LevelTransition"); }, 1000);
 		});
 		
 	});

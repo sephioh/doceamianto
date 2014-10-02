@@ -133,6 +133,18 @@ Crafty.scene("level04", function() {
 			this.collision(new Crafty.polygon([[0,8],[31,8]]))
 			    .z = playerEnt._z + 1;
 		});
+		Crafty("watersplash").each(function(){ 
+			Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", SpriteAnimation, water_splash")
+			      .attr({ x: this._x, y: this._y, z: this._z + 1 })
+			      .reel("Splash", 1000, 0, 0, 5)
+			      .animate("Splash", -1);
+		});
+		Crafty("waterfall").each(function(){ 
+			Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", SpriteAnimation, water_fall")
+			      .attr({ x: this._x - 1, y: this._y, z: this._z + 2, w: 61, h: 128 })
+			      .reel("Fall", 1000, [[0,0],[1,0],[2,0],[1,0]])
+			      .animate("Fall", -1);
+		});
 		playerEnt.gravity();
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);

@@ -49,7 +49,7 @@ Crafty.scene("level01", function() {
 	    };
 	
 	// Play theme
-	Crafty.audio.play("theme01", -1, 0.3);
+	Crafty.audio.play("theme01", -1, 0.1, 63);
 			
 	sc.player = new Amianto01(),
 	sc.hearts = [],
@@ -111,7 +111,7 @@ Crafty.scene("level01", function() {
 				Crafty("Particle").each(function(){ this.destroy(); }); 	// destroy all particles
 				Crafty.background("#000000"); 					// set background to black
 				sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
-			    }, 10700, 0, function() { 
+			    }, 10700, 0, function() {
 				this.delay(function() { 
 					sc.bckgrndFade
 						.tween({ alpha: 1.0 }, 1000) // tween bckgrndFade making it cover everything

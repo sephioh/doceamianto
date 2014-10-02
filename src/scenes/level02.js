@@ -104,7 +104,7 @@ Crafty.scene("level02", function() {
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.unbind("KeyUp")
-				.tween({ x: playerEnt._x + 800 }, 16000)
+				.tween({ x: playerEnt._x + 800 }, 14500)
 				.animate("AmiantoRunning9", -1)
 				.one("TweenEnd", function() {
 				  

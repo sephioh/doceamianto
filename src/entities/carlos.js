@@ -248,7 +248,6 @@ Carlos = BaseEntity.extend({
 			  }
 			Crafty.trigger("PlayerMoved", prevPos);
 		      })
-		    .collision(new Crafty.polygon([[38,15],[70,15],[70,95],[38,95]]))
 		    .bind("GotShot", function() {
 			var H = model.get('health');
 			if (H > 1) {
@@ -291,7 +290,8 @@ Carlos = BaseEntity.extend({
 			    })
 			    ._dead = true;
 			model.set({ 'health': 0 });
-		    });
+		    })
+		    .collision(new Crafty.polygon([[38,15],[70,15],[70,75],[60,95],[55,95],[38,75]]));
 		model.set({'entity' : entity});
 		    
 	},	

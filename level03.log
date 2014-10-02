@@ -1,0 +1,946 @@
+bject {loaded: 1, total: 8, percent: 12.5, src: "http://testgame.doceamianto.com.br/web/images/level03-wordplaceholder.png"} game.js:114
+Object {loaded: 2, total: 8, percent: 25, src: "http://testgame.doceamianto.com.br/web/images/level03-ornament.png"} game.js:114
+Object {loaded: 3, total: 8, percent: 37.5, src: "http://testgame.doceamianto.com.br/web/images/sheet_amianto03.png"} game.js:114
+Object {loaded: 4, total: 8, percent: 50, src: "http://testgame.doceamianto.com.br/web/images/level03-corners.png"} game.js:114
+Object {loaded: 5, total: 8, percent: 62.5, src: "http://testgame.doceamianto.com.br/web/images/level03-background.png"} game.js:114
+Object {loaded: 6, total: 8, percent: 75, src: "http://testgame.doceamianto.com.br/web/audio/wordfit.ogg"} game.js:114
+Object {loaded: 7, total: 8, percent: 87.5, src: "http://testgame.doceamianto.com.br/web/audio/tilt.ogg"} game.js:114
+Object {loaded: 8, total: 8, percent: 100, src: "http://testgame.doceamianto.com.br/web/audio/theme03.ogg"} game.js:114
+true amianto03.js:87
+amianto created at {"x":799,"y":142} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":142} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":190} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":190} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":205} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":223} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":223} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":223} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":190} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":190} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":664,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":664,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":664,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":664,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":67} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":67} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":139} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":139} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":199} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":199} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":67,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":67,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":482} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":482} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":670,"y":-95} amianto03.js:108
+134
+false amianto03.js:87
+amianto destroyed at {"x":685,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":58} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":58} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":58} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":58} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":703,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":703,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":482} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":476} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":55,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":55,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":40} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":40} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":685,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":685,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":476} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":476} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":43,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":43,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":217} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":274} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":274} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":274} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":274} amianto03.js:108
+248
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":394} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":175,"y":-95} amianto03.js:108
+80
+false amianto03.js:87
+amianto destroyed at {"x":175,"y":601} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":187,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":187,"y":601} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":211} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":211} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":127} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":127} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":76,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":76,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":446} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":446} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":365} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":365} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":299} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":287} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":676,"y":599} amianto03.js:108
+60
+false amianto03.js:87
+amianto destroyed at {"x":676,"y":-97} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":401} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":323} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":212} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":137} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":691,"y":599} amianto03.js:108
+60
+false amianto03.js:87
+amianto destroyed at {"x":691,"y":-97} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":452} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":452} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":371} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":371} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":185} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":176} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":104} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":104} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":673,"y":599} amianto03.js:108
+60
+false amianto03.js:87
+amianto destroyed at {"x":673,"y":-97} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":428} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":428} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":31,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":31,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":82} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":82} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":652,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":652,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":458} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":458} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":40,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":40,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":61} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":61} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":670,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":670,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":440} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":440} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":73,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":73,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":58} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":58} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":685,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":685,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":443} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":443} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":34,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":34,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":73} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":73} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":685,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":685,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":434} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":434} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":46,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":46,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":61} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":61} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":676,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":676,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":440} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":440} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":55,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":85,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":55} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":55} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":673,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":673,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":446} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":446} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":64,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":64,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":55} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":55} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":670,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":670,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":419} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":446} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":79,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":46,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":82} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":82} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":655,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":652,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":416} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":449} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":25,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":61,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":55} amianto03.js:108
+33568
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":55} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":52,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":52,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":46,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":58,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":232,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":232,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":232,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":244,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":361,"y":599} amianto03.js:108
+240
+false amianto03.js:87
+amianto destroyed at {"x":676,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":676,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":676,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":70} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":70} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":97,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":97,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":31,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":46,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":178,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":274,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":367,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":343,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":406,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":406,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":310,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":382,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":433,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":433,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":382,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":382,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":448,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":448,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":523,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":589,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":475,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":421,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":349,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":349,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":430,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":430,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":520,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":520,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":604,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":604,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":529,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":460,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":361,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":361,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":295,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":295,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":193,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":193,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":136,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":136,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":235,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":235,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":319,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":319,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":400,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":400,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":475,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":475,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":577,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":577,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":646,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":646,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":709,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":709,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":485} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":464} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":410} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":410} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":353} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":353} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":299} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":299} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":254} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":254} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":206} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":206} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":155} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":155} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":125} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":125} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":83} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":83} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":80} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":29} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":661,"y":599} amianto03.js:108
+60
+false amianto03.js:87
+amianto destroyed at {"x":712,"y":-97} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":688,"y":-95} amianto03.js:108
+150
+false amianto03.js:87
+amianto destroyed at {"x":553,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":649,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":646,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":589,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":589,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":535,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":535,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":466,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":466,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":415,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":415,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":370,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":370,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":313,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":313,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":259,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":259,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":202,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":202,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":157,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":157,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":121,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":121,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":79,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":79,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":31,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":31,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":103,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":103,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":193,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":229,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":280,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":283,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":361,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":373,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":427,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":436,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":505,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":505,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":577,"y":-95} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":577,"y":602} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":658,"y":599} amianto03.js:108
+62
+false amianto03.js:87
+amianto destroyed at {"x":658,"y":-98} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":452} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":452} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":356} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":356} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":245} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":245} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":143} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":143} amianto03.js:116
+false amianto03.js:87
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":-77,"y":71} amianto03.js:108
+50
+false amianto03.js:87
+amianto destroyed at {"x":802,"y":71} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+true amianto03.js:87
+amianto created at {"x":799,"y":-1} amianto03.js:108
+48
+false amianto03.js:87
+amianto destroyed at {"x":-77,"y":-1} amianto03.js:116
+false amianto03.js:87
+amianto destroyed at {"x":721,"y":-1} amianto03.js:116
+amianto not newly_created anymore amianto03.js:120
+
+
+

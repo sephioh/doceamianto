@@ -34,14 +34,20 @@ Crafty.c("CustomControls", {
 			b.key = key;
 			b.requires(sprName);
 			b.bind("MouseDown", function(){
-				if(!that.isDown(this.key))
+				if(!that.isDown(this.key)){
 					Crafty.trigger("KeyDown", { key: Crafty.keys[this.key] });
+					Crafty.keydown[Crafty.keys[this.key]] = true;
+				}
 			}).bind("MouseUp", function(){
-				if(that.isDown(this.key))
+				if(that.isDown(this.key)){
 					Crafty.trigger("KeyUp", { key: Crafty.keys[this.key] });
+					delete Crafty.keydown[Crafty.keys[this.key]];
+				}
 			}).bind("MouseOut", function(){
-				if(that.isDown(this.key))
+				if(that.isDown(this.key)){
 					Crafty.trigger("KeyUp", { key: Crafty.keys[this.key] });
+					delete Crafty.keydown[Crafty.keys[this.key]];
+				}
 			}).bind("EnterFrame", function(){
 				this.attr({
 				  x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,

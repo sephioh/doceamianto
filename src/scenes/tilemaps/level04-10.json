@@ -223,6 +223,10 @@
                 {
                  "components":"grnd, Collision"
                 },
+             "149":
+                {
+                 "components":"waterfall"
+                },
              "1492":
                 {
                  "components":"grnd, Collision"
@@ -358,6 +362,10 @@
              "308":
                 {
                  "components":"Collision, wall"
+                },
+             "309":
+                {
+                 "components":"watersplash"
                 },
              "311":
                 {

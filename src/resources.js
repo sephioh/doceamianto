@@ -14,7 +14,9 @@ Resources = Backbone.Model.extend({
 						'LEFT_ARROW_sprite': [0,0],
 						'UP_ARROW_sprite': [1,0],
 						'RIGHT_ARROW_sprite': [2,0],
-						'SPACE_sprite': [3,0]
+						'DOWN_ARROW_sprite' : [3,0],
+						'SPACE_sprite': [3,0],
+						'FULL_SCREEN_sprite' : [3,0]
 					}
 				}
 			}
@@ -29,19 +31,18 @@ Resources = Backbone.Model.extend({
 		},
 		
 		// declaration of scenes' elements
-		
 		start_screen: {
-			'sprites': {
+			'sprites' : {
 				'sheet_start_diamond.png': {
-					'tile' : 77,
-					'tileh' : 77,
+					'tile' : 64,
+					'tileh' : 85,
 					'map': {
 						'start_diamond' : [0, 0]
 					}
 				}
 			},
 			
-			'audio': {
+			'audio' : {
 				'diamondshine' : [
 				      'startdiamondshine.ogg',
 				      'startdiamondshine.aac'
@@ -258,14 +259,14 @@ Resources = Backbone.Model.extend({
 					'tile' : 52,
 					'tileh': 123,
 					'map': {
-						'waterfall': [0,0]
+						'water_fall': [0,0]
 					}
 				},
 				'sheet_watersplash.png': {
-					'tile' : 63,
-					'tileh': 24,
+					'tile' : 64,
+					'tileh': 40,
 					'map': {
-						'watersplash': [0,0]
+						'water_splash': [0,0]
 					}
 				}
 			},
@@ -351,6 +352,13 @@ Resources = Backbone.Model.extend({
 					'tileh': 68,
 					'map': {
 						'amianto06': [0,0]
+					}
+				},
+				'sheet_stairway.png': {
+					'tile' : 332,
+					'tileh': 306,
+					'map': {
+						'stairway': [0,0]
 					}
 				}
 			},

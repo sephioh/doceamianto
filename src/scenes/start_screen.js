@@ -1,34 +1,29 @@
 Crafty.scene('start_screen', function(){
-	Crafty.c('StartDiamond', {
-		init: function(){
-			this.requires('2D, ' + gameContainer.conf.get('renderType') + ', SpriteAnimation, start_diamond, Tween, Delay');
-			this.attr({ x: Crafty.viewport.width/2 - this._w/2, y: Crafty.viewport.height/2 - this._h/2 })
-			    .reel('Shine', 1500, 0, 0, 8);
-		},
-		
-		startGame: function(){
-			Crafty.audio.play('diamondshine');
-			this.animate('Shine')
-			    .tween({ alpha: 0 }, 1500)
-			    .delay(function(){
-				if(Crafty.mobile)
-					utils.toggleFullScreen();
-				gameContainer.runScene("level01", { backgroundColor: '#000000', entsColor: '#C0C0C0' });
-			    }, 1500);
-		}
-	});
+	var startGame = function(){
+		Crafty.audio.play('diamondshine');
+		sc.startDiamond
+		    .one('TweenEnd',function(){
+			if(Crafty.mobile)
+				utils.toggleFullScreen();
+			gameContainer.runScene("level01", { backgroundColor: '#000000', entsColor: '#C0C0C0' });
+		    })
+		    .tween({ alpha: 0 }, 1500);
+	};
 	Crafty.background('#000000');
-	sc.startDiamond = Crafty.e('StartDiamond');
-	sc.invisibleLayer = Crafty.e('2D, ' + gameContainer.conf.get('renderType')+ ', Mouse')
+	sc.startDiamond = Crafty.e('2D, ' + gameContainer.conf.get('renderType') + ', SpriteAnimation, start_diamond, Tween, Delay');
+	sc.startDiamond.attr({ x: Crafty.viewport.width/2 - sc.startDiamond._w/2, y: Crafty.viewport.height/2 - sc.startDiamond._h/2, z: 1 })
+	    .reel('Shine', 1500, 0, 0, 8)
+	    .animate('Shine', -1);
+	sc.invisibleLayer = Crafty.e('2D, ' + gameContainer.conf.get('renderType') + ', Mouse')
 	    .one('KeyDown', function(){
-		    this.unbind('Click');
-		    sc.startDiamond.startGame();
+		this.unbind('Click');
+		startGame();
 	    })
 	    .one('Click', function(){
-		    this.unbind('KeyDown');
-		    sc.startDiamond.startGame();
+		this.unbind('KeyDown');
+		startGame();
 	    })
-	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height });
+	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 2 });
 	
 }, function() {					// executed after scene() is called within the present scene
 	Crafty.removeAssets(resources.get('start_screen'));
