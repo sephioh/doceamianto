@@ -360,6 +360,20 @@ Resources = Backbone.Model.extend({
 					'map': {
 						'stairway': [0,0]
 					}
+				},
+				'redheart.png' : {
+					'tile' : 144,
+					'tileh' : 128,
+					'map': {
+						'redHeart' : [0, 0]
+					}
+				},
+				'darkheart.png' : {
+					'tile' : 144,
+					'tileh' : 128,
+					'map': {
+						'darkHeart' : [0, 0]
+					}
 				}
 			},
 			'images': [],

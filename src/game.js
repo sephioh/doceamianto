@@ -209,7 +209,7 @@ window.onload = function() {
 			elements: [
 				"src/components/Delimiter.js",
 				//"src/entities/amianto06.js",
-				//"src/entities/heart06.js",
+				"src/entities/heart06.js",
 			      ]
 		    });
 		

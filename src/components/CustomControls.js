@@ -8,7 +8,7 @@ Crafty.c("CustomControls", {
 		this.requires("Twoway");
 		this.twoway(speed, jumpspeed);
 		if (Crafty.mobile)
-			this.initInfcKeys(keys);
+			this._initInfcKeys(keys);
 		return this;
 	},
 	 
@@ -16,11 +16,11 @@ Crafty.c("CustomControls", {
 		this.requires("Multiway, Keyboard");
 		this.multiway(speed, dirs);
 		if (Crafty.mobile)
-			this.initInfcKeys(keys);
+			this._initInfcKeys(keys);
 		return this;
 	},
 	 
-	initInfcKeys: function(keys) {
+	_initInfcKeys: function(keys, follow) {
 		infc.keys = {};
 		var keysCoords = resources.get("interfc_keys_relative_coordinates"),
 		    that = this,
@@ -48,12 +48,18 @@ Crafty.c("CustomControls", {
 					Crafty.trigger("KeyUp", { key: Crafty.keys[this.key] });
 					delete Crafty.keydown[Crafty.keys[this.key]];
 				}
-			}).bind("EnterFrame", function(){
-				this.attr({
-				  x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,
-				  y: (Crafty.viewport.y * -1) + Crafty.viewport.height - this.relativePos.y
+			}).attr({  
+			    x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,
+			    y: (Crafty.viewport.y * -1) + Crafty.viewport.height - this.relativePos.y,
+			    z: 2000
+			});
+			if(follow)
+				b.bind("EnterFrame", function(){
+					this.attr({
+					  x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,
+					  y: (Crafty.viewport.y * -1) + Crafty.viewport.height - this.relativePos.y
+					});
 				});
-			}).z = 2000;
 			infc.keys[key] = b;
 		}
 	}
