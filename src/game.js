@@ -120,17 +120,27 @@ window.onload = function() {
 			
 			Crafty.load(resources.get("interfc_keys"), function(){
 				if(Crafty.viewport.height < gameContainer.conf.get('maxRes').h)
-					Crafty.e('2D, ' + gameContainer.conf.get('renderType') + ', Mouse, Persist, fullscreen_button')
-					    .attr({ w: 40, h: 32 })
+					Crafty.e('2D, ' + gameContainer.conf.get('renderType') + 
+					    ', Mouse, Persist, interface_button, FULL_SCREEN_up_sprite')
 					    .bind('EnterFrame', function(){
 						this.attr({
 						  x: Crafty.viewport.x * -1,
 						  y: Crafty.viewport.y * -1
 						});
 					    })
-					    .bind('MouseDown', function(){ utils.toggleFullScreen('cr-stage'); })
-					    .addComponent('Color')
-					    .color('green');
+					    .bind('MouseDown', function(){
+						utils.toggleFullScreen('cr-stage');
+						var rc, ac;
+						if(this.__c.FULL_SCREEN_up_sprite)
+							rc = "FULL_SCREEN_up_sprite",
+							ac = "FULL_SCREEN_down_sprite";
+						else
+							rc = "FULL_SCREEN_down_sprite",
+							ac = "FULL_SCREEN_up_sprite";
+						this.removeComponent(rc)
+						    .addComponent(ac);
+					    })
+					    .addComponent('Color');
 			    });
 		}
 		// initialized
@@ -208,7 +218,8 @@ window.onload = function() {
 			name: "level06",
 			elements: [
 				"src/components/Delimiter.js",
-				//"src/entities/amianto06.js",
+				"src/components/SpriteText.js",
+				"src/entities/amianto06.js",
 				"src/entities/heart06.js",
 			      ]
 		    });

@@ -7,7 +7,7 @@ Crafty.c("CustomControls", {
 	twowayer: function(speed, jumpspeed, keys) {
 		this.requires("Twoway");
 		this.twoway(speed, jumpspeed);
-		if (Crafty.mobile)
+		if (!Crafty.mobile)
 			this._initInfcKeys(keys);
 		return this;
 	},
@@ -20,46 +20,58 @@ Crafty.c("CustomControls", {
 		return this;
 	},
 	 
-	_initInfcKeys: function(keys, follow) {
+	_initInfcKeys: function(keys) {
 		infc.keys = {};
 		var keysCoords = resources.get("interfc_keys_relative_coordinates"),
 		    that = this,
-		    screenRes = gameContainer.conf.get('screenRes');
+		    screenRes = gameContainer.conf.get('screenRes'),
+		    upSpr = "_up_sprite",
+		    downSpr = "_down_sprite";
 		for (var k in keys) {
 			var b = Crafty.e('2D, ' + gameContainer.conf.get('renderType') + ', Mouse, interfc_button'),
 			    key = keys[k],
-			    sprName = key + "_sprite";
-			    
+			    sprName = key + upSpr;
 			b.relativePos = keysCoords[key];
 			b.key = key;
 			b.requires(sprName);
 			b.bind("MouseDown", function(){
 				if(!that.isDown(this.key)){
+					var upSprName = this.key + upSpr,
+					    downSprName = this.key + downSpr;
+					this.removeComponent(upSprName)
+					    .addComponent(downSprName);
 					Crafty.trigger("KeyDown", { key: Crafty.keys[this.key] });
 					Crafty.keydown[Crafty.keys[this.key]] = true;
 				}
 			}).bind("MouseUp", function(){
 				if(that.isDown(this.key)){
+					var upSprName = this.key + upSpr,
+					    downSprName = this.key + downSpr;
+					this.removeComponent(downSprName)
+					    .addComponent(upSprName);
 					Crafty.trigger("KeyUp", { key: Crafty.keys[this.key] });
 					delete Crafty.keydown[Crafty.keys[this.key]];
 				}
 			}).bind("MouseOut", function(){
 				if(that.isDown(this.key)){
+					var upSprName = this.key + upSpr,
+					    downSprName = this.key + downSpr;
+					this.removeComponent(downSprName)
+					    .addComponent(upSprName);
 					Crafty.trigger("KeyUp", { key: Crafty.keys[this.key] });
 					delete Crafty.keydown[Crafty.keys[this.key]];
 				}
-			}).attr({  
-			    x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,
-			    y: (Crafty.viewport.y * -1) + Crafty.viewport.height - this.relativePos.y,
-			    z: 2000
+			}).attr({
+			    x: (Crafty.viewport.x * -1) + Crafty.viewport.width - b.relativePos.x,
+			    y: (Crafty.viewport.y * -1) + Crafty.viewport.height - b.relativePos.y,
+			    z: 2000,
 			});
-			if(follow)
-				b.bind("EnterFrame", function(){
-					this.attr({
-					  x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,
-					  y: (Crafty.viewport.y * -1) + Crafty.viewport.height - this.relativePos.y
-					});
+			b.bind("EnterFrame", function(){
+				this.attr({
+				  x: (Crafty.viewport.x * -1) + Crafty.viewport.width - this.relativePos.x,
+				  y: (Crafty.viewport.y * -1) + Crafty.viewport.height - this.relativePos.y
 				});
+			});
 			infc.keys[key] = b;
 		}
 	}

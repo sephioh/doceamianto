@@ -6,8 +6,8 @@ Heart = BaseEntity.extend({
 	},
 	initialize: function(){
 		var model = this,
-		    entity = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", heart, " + 
-			model.get("heartColor") + "Heart, Tween, Collision, Delay");
+		    entity = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", heart, " + model.get("heartColor") + "Heart, Tween, Collision, Delay")
+			    .collision();
 		if(model.get("initAttr"))
 		    entity.attr(model.get("initAttr"));
 		entity._nextStep = function(){
