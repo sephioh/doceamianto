@@ -380,7 +380,14 @@ Resources = Backbone.Model.extend({
 					'map' : {
 						'darkHeart' : [0, 0]
 					}
-				}
+				},
+				'sheet_stair_mask.png' : {
+					'tile' : 79,
+					'tileh' : 190,
+					'map' : {
+						'stairColumnMask' : [0, 0]
+					}
+				},
 			},
 			'images': ["bg_sky_level06.png","bg_skyline_level06.png","sheet_blue_numbers.png","sheet_red_numbers.png"],
 			'audio' : {

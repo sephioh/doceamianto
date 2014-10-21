@@ -241,10 +241,8 @@ window.onload = function() {
 			var sceneArg, options;
 			if(gameContainer.env == "dev"){ 
 				sceneArg = utils.getUrlVars()['scene'];
-				sceneArg = sceneArg?sceneArg:"start_screen";
-			}else{
-				sceneArg = "start_screen";
 			}
+			sceneArg = sceneArg?sceneArg:"start_screen";
 			if (sceneArg == "start_screen") {
 				options = { backgroundColor: "#000000" };
 			}

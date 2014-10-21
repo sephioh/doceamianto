@@ -3,12 +3,6 @@ Crafty.scene("level06", function() {
 	Crafty.background("#000000");
 	
 	var i = 0,
-	    yellow = { r: 255, g: 226, b: 78 },
-	    pink = { r: 255, g: 77, b: 153 },
-	    violet = { r: 128, g: 16, b: 216 },
-	    green = { r: 117, g: 232, b: 7 },
-	    blue = "rgba(0,0,255,1)",//"#0000FF"
-	    red = "rgba(255,0,0,1)",//"#FF0000"
 	    rails = [
 	      [
 		{x:700,y:86},{x:620,y:102},{x:545,y:118},{x:475,y:136},{x:420,y:152},
@@ -55,9 +49,9 @@ Crafty.scene("level06", function() {
 		    rand = Crafty.math.randomInt(1,100);
 		// 80% chance of creating a dark heart
 		if(rand<=80) {
-			sc.hearts.push(new Heart({ heartColor: "dark", initAttr: { z: 301, w: 50, h: 50 } }));
+			sc.hearts.push(new Heart({ heartColor: "dark", initAttr: { z: 300, w: 50, h: 50 } }));
 		} else {
-			sc.hearts.push(new Heart({ heartColor: "red", initAttr: { z: 301, w: 50, h: 50 } }));
+			sc.hearts.push(new Heart({ heartColor: "red", initAttr: { z: 300, w: 50, h: 50 } }));
 		}
 		
 		sc.hearts[sc.hearts.length - 1].followSteps(r);
@@ -67,13 +61,12 @@ Crafty.scene("level06", function() {
 		      sc.delays.cancelDelay(moveSkyline);
 		      return;
 		}
-		sc.bckgrndSkyline.tween({x: sc.bckgrndSkyline._x - 25, y: sc.bckgrndSkyline._y + 1}, 1450);
+		sc.bckgrndSkyline.tween({x: sc.bckgrndSkyline._x - 25, y: sc.bckgrndSkyline._y + 2}, 700);
 	    },
 	    moveSky = function() {
-		sc.bckgrndSky.tween({x: sc.bckgrndSky._x - 50}, 1450);
+		sc.bckgrndSky.tween({x: sc.bckgrndSky._x - 50, y: sc.bckgrndSky._y + 1}, 700);
 	    }, 
 	    initial_negative_score = 20;
-	
 	
 	// Play theme
 	//Crafty.audio.play("theme06", -1, 0.3);
@@ -97,28 +90,31 @@ Crafty.scene("level06", function() {
 	    .text(initial_negative_score),
 	sc.bckgrndSky = Crafty.e("2D, Canvas, Image, Tween")
 	    .image("web/images/bg_sky_level06.png", "repeat")
-	    .attr({ x: -600, y: 0, w: 35000, h: 1200, z: 1, alpha: 1.0 }),
+	    .attr({ x: 0, y: -600, w: 35000, h: 1200, z: 1, alpha: 1.0 }),
 	sc.bckgrndSkyline = Crafty.e("2D, Canvas, Image, Tween")
 	    .image("web/images/bg_skyline_level06.png", "repeat-x")
 	    .attr({ x: 0, y: 330, w: 7000, h: 600, z: 2, alpha: 1.0 }),
 	sc.stairway = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, stairway")
 	    .attr({ x:156, w: 850, h: 870, y: -270, z: 300 })
 	    .reel("stairwayAnimation", 400, 0, 0, 3)
-	    .animate("stairwayAnimation", -1);
-	sc.positiveScore.attr({w: 60, h: 30}).attr({x: Crafty.viewport.width - sc.positiveScore._w, y: 0, z:1000}),
-	sc.negativeScore.attr({w: 60, h: 30}).attr({x: 0, y:0, z: 1000}),
-	sc.player.startMoving();
-
+	    .animate("stairwayAnimation", -1),
+	sc.columnLayer = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, stairColumnMask")
+	    .attr({ x: 600, y: -263, w: 200, h: 530, z: 309 })
+	    .reel("stairwayAnimation", 400, 0, 0, 3)
+	    .animate("stairwayAnimation", -1),
 	sc.delimiters = [
 		Crafty.e("Delimiter").attr({ x: 280, y: 242, w: 1, h: 400 }), 
-		Crafty.e("Delimiter").attr({ x: 715, y: 242, w: 1, h: 400 })
+		Crafty.e("Delimiter").attr({ x: 715, y: 242, w: 1, h: 400 }),
+		Crafty.e("Delimiter, grnd").attr({ x: 0, y: 435, w: 800, h: 1 })
 	    ];
-	
-	moveSkyline();
-	moveSky();
+	sc.positiveScore.attr({w: 60, h: 30}).attr({x: Crafty.viewport.width - sc.positiveScore._w - 20, y: 20, z:1000}),
+	sc.negativeScore.attr({w: 60, h: 30}).attr({x: 20, y:20, z: 1000}),
+	sc.player.startMoving(),
+	moveSkyline(),
+	moveSky(),
 	sc.delays.delay(heartComing,1000,-1)
-	    .delay(moveSkyline,1500,-1)
-	    .delay(moveSky,1500,-1);
+	    .delay(moveSkyline,750,-1)
+	    .delay(moveSky,750,-1);
 	
 	//utils.setViewportBounds(sc.player.getEntity());
 	

@@ -18,8 +18,9 @@ Heart = BaseEntity.extend({
 			  return;
 		      }
 		      var next = { x: this._steps[n].x - this._w - this._w/2, y: this._steps[n].y - this._h };
-		      this.tween(next, 400);
-		      this.delay(function(){ this.one("TweenEnd", this._nextStep) }, 175);
+		      this.tween(next, 400)
+			  .delay(function(){ this.one("TweenEnd", this._nextStep) }, 175)
+			  .z += 1;
 		};
 		entity._step = 0;
 		model.set({'entity' : entity });
