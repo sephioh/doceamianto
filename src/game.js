@@ -121,7 +121,7 @@ window.onload = function() {
 			Crafty.load(resources.get("interfc_keys"), function(){
 				if(Crafty.viewport.height < gameContainer.conf.get('maxRes').h)
 					Crafty.e('2D, ' + gameContainer.conf.get('renderType') + 
-					    ', Mouse, Persist, interface_button, FULL_SCREEN_up_sprite')
+					    ', Mouse, Persist, FULL_SCREEN_button, interface_button, FULL_SCREEN_up_sprite')
 					    .bind('EnterFrame', function(){
 						this.attr({
 						  x: Crafty.viewport.x * -1,
@@ -129,6 +129,9 @@ window.onload = function() {
 						});
 					    })
 					    .bind('MouseDown', function(){
+						this.trigger("ToogleFullScreen");
+					    })
+					    .bind("ToogleFullscreen", function(){
 						utils.toggleFullScreen('cr-stage');
 						var rc, ac;
 						if(this.__c.FULL_SCREEN_up_sprite)

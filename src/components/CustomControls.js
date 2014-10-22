@@ -64,7 +64,7 @@ Crafty.c("CustomControls", {
 			}).attr({
 			    x: (Crafty.viewport.x * -1) + Crafty.viewport.width - b.relativePos.x,
 			    y: (Crafty.viewport.y * -1) + Crafty.viewport.height - b.relativePos.y,
-			    z: 2000,
+			    z: 2000
 			});
 			b.bind("EnterFrame", function(){
 				this.attr({

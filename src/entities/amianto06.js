@@ -5,8 +5,8 @@ Amianto06 = BaseEntity.extend({
 		    'minLove' : 0
 	},
 	initialize: function() {
-		var WIDTH = 125,		// Initial width
-		    HEIGHT = 168,		// Initial height
+		var WIDTH = 145,		// Initial width
+		    HEIGHT = 185,		// Initial height
 		    POSX = 350, 		// Initial x coordinate
 		    POSY = 276,  		// Initial y coordinate
 		    POSZ = 322,			// Initial z coordinate
@@ -37,8 +37,10 @@ Amianto06 = BaseEntity.extend({
 						var luv = model.get('love');
 						if(hit[i].obj.__c.darkHeart) {
 							Crafty.audio.play("hitdarkheart");
-							if(luv>model.get('minLove'))
-								model.set({ 'love' : luv-1 });
+							if(luv > model.get('minLove')){
+								luv--;
+								model.set({ 'love' : luv });
+							}
 							hit[i].obj.destroy();
 							model._stopMoving();
 							entity
@@ -51,9 +53,10 @@ Amianto06 = BaseEntity.extend({
 						} else 
 						if(hit[i].obj.__c.redHeart) {
 							Crafty.audio.play("hitredheart");
-							model.set({ 'love' : luv+1 });
+							luv++;
+							model.set({ 'love' : luv });
 							hit[i].obj.destroy();
-							if(model.get('love') < model.get('maxLove')) {
+							if(luv < model.get('maxLove')) {
 							      model.startMoving();
 							}
 							model._fellInLove();

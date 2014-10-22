@@ -388,6 +388,13 @@ Resources = Backbone.Model.extend({
 						'stairColumnMask' : [0, 0]
 					}
 				},
+				'sheet_couple_kissing.png' : {
+					'tile' : 60,
+					'tileh' : 56,
+					'map' : {
+						'coupleKissing' : [0, 0]
+					}
+				}
 			},
 			'images': ["bg_sky_level06.png","bg_skyline_level06.png","sheet_blue_numbers.png","sheet_red_numbers.png"],
 			'audio' : {

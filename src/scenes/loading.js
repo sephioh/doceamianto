@@ -76,6 +76,6 @@ Crafty.scene("loading", function(obj) {
 		  lProgBar.trigger("LOADING_PROGRESS", e.percent);
 	  },
 	  function(e) {
-		  console.log("error: ", e);
+		  console.log("Error loading file: " + e.src);
 	  });
 });

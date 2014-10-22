@@ -1,10 +1,10 @@
 Crafty.scene('start_screen', function(){
 	var startGame = function(){
+		if(Crafty.mobile)
+			Crafty.trigger("ToggleFullscreen");
 		Crafty.audio.play('diamondshine');
 		sc.startDiamond
 		    .one('TweenEnd',function(){
-			if(Crafty.mobile)
-				utils.toggleFullScreen();
 			gameContainer.runScene("level01", { backgroundColor: '#000000', entsColor: '#C0C0C0' });
 		    })
 		    .tween({ alpha: 0 }, 1500);

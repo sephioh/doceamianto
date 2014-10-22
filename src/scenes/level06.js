@@ -44,17 +44,27 @@ Crafty.scene("level06", function() {
 		{x:728,y:431},{x:756,y:448},{x:790,y:464},{x:830,y:480},{x:876,y:496}
 	      ]
 	    ],
-	    heartComing = function() {
-		var r = rails[Crafty.math.randomInt(0,rails.length - 1)],
-		    rand = Crafty.math.randomInt(1,100);
+	    stuffComing = function() {
+		var rail = rails[Crafty.math.randomInt(0,rails.length - 1)],
+		    rand = Crafty.math.randomInt(1,100),
+		    o;
 		// 80% chance of creating a dark heart
-		if(rand<=80) {
-			sc.hearts.push(new Heart({ heartColor: "dark", initAttr: { z: 300, w: 50, h: 50 } }));
-		} else {
-			sc.hearts.push(new Heart({ heartColor: "red", initAttr: { z: 300, w: 50, h: 50 } }));
+		if(rand <= 50) {
+			o = new Heart({ heartColor: "dark", initAttr: { z: 300, w: 50, h: 50 } });
+		} else if (rand <= 65) {
+			o = new Heart({ heartColor: "red", initAttr: { z: 300, w: 50, h: 50 } });
+		} else if (rand <= 75) {
+			// TODO phantom appears
+			
 		}
-		
-		sc.hearts[sc.hearts.length - 1].followSteps(r);
+		if(o)
+			if(o.getEntity().__c.heart){
+				o.followSteps(rail);
+				sc.hearts.push(o);
+			}/*else{ // if phantom
+				TODO
+				
+			}*/
 	    },
 	    moveSkyline = function() {
 		if(sc.bckgrndSkyline._x < sc.bckgrndSkyline._w * -1){
@@ -112,7 +122,7 @@ Crafty.scene("level06", function() {
 	sc.player.startMoving(),
 	moveSkyline(),
 	moveSky(),
-	sc.delays.delay(heartComing,1000,-1)
+	sc.delays.delay(stuffComing,1000,-1)
 	    .delay(moveSkyline,750,-1)
 	    .delay(moveSky,750,-1);
 	
@@ -121,8 +131,29 @@ Crafty.scene("level06", function() {
 	// Event declarations
 
 	// Amianto get max number of RedHearts
-	this.one('TooMuchLove', function() {
-		
+	this.one('TooMuchLove', function(){
+		sc.kissAnimation = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleKissing")
+			.reel("Kiss", 5000, [
+			  [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],
+			  [0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[9,1],
+			  [0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[7,2]
+			])
+			.attr({ x:710, y:-356, h: 145, w:155, z: 316 });
+		sc.stairway.pauseAnimation();
+		sc.delays.cancelDelay(stuffComing)
+		    .cancelDelay(moveSkyline)
+		    .cancelDelay(moveSky);
+		this.viewport.clampToEntities = false;
+		this.one("CameraAnimationDone", function(){
+			this.one("CameraAnimationDone", function(){
+				sc.delays.delay(function(){
+					sc.kissAnimation.animate("Kiss");
+				},4000);
+			});
+			//this.viewport.pan(300,0,700);
+			this.viewport.zoom(1.5,800,-358,1500);
+		});
+		this.viewport.pan(0,-500,1500);
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene
