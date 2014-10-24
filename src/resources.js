@@ -394,6 +394,13 @@ Resources = Backbone.Model.extend({
 					'map' : {
 						'coupleKissing' : [0, 0]
 					}
+				},
+				'sheet_nightclub_phantom.png': {
+					'tile' : 38,
+					'tileh': 40,
+					'map': {
+						'nightclub_phantom': [0,0]
+					}
 				}
 			},
 			'images': ["bg_sky_level06.png","bg_skyline_level06.png","sheet_blue_numbers.png","sheet_red_numbers.png"],

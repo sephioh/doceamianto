@@ -221,6 +221,7 @@ window.onload = function() {
 			name: "level06",
 			elements: [
 				"src/components/Delimiter.js",
+				"src/components/StepsPhantom.js",
 				"src/components/SpriteText.js",
 				"src/entities/amianto06.js",
 				"src/entities/heart06.js",

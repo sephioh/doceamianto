@@ -18,7 +18,7 @@ Heart = BaseEntity.extend({
 			  this.destroy();
 			  return;
 		      }
-		      var next = { x: this._steps[n].x - this._w - this._w/2, y: this._steps[n].y - this._h };
+		      var next = { x: this._steps[n].x, y: this._steps[n].y - this._h };
 		      this.tween(next, 400)
 			  .delay(function(){ this.one("TweenEnd", this._nextStep) }, 175)
 			  .z += 1;
@@ -28,7 +28,7 @@ Heart = BaseEntity.extend({
 	},
 	followSteps: function(rail){
 	      var ent = this.getEntity(),
-		  next = { x: rail[0].x - ent._w, y: rail[0].y - ent._h };
+		  next = { x: rail[0].x, y: rail[0].y - ent._h };
 	      ent.attr(next);
 	      ent._steps = rail;
 	      ent._nextStep();

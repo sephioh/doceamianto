@@ -16,7 +16,7 @@ Amianto06 = BaseEntity.extend({
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.twowayer(SPEED, SPEED + SPEED/2, ['RIGHT_ARROW','LEFT_ARROW','UP_ARROW'])
-			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
+			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-72,HEIGHT-25], [33, (HEIGHT-25)/2]]))
 			.onHit('Delimiter', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					var hitDirX = Math.round(hit[i].normal.x);
