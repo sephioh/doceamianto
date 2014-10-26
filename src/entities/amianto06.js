@@ -15,7 +15,7 @@ Amianto06 = BaseEntity.extend({
 		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto06, SpriteAnimation, Collision, CustomControls, WiredHitBox");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
-			.twowayer(SPEED, SPEED + SPEED/2, ['RIGHT_ARROW','LEFT_ARROW','UP_ARROW'])
+			.twowayer(SPEED, SPEED*2, ['RIGHT_ARROW','LEFT_ARROW','UP_ARROW'])
 			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-72,HEIGHT-25], [33, (HEIGHT-25)/2]]))
 			.onHit('Delimiter', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
@@ -45,7 +45,7 @@ Amianto06 = BaseEntity.extend({
 							model._stopMoving();
 							entity
 								.disableControl()
-								.animate("AmiantoHittingDarkHeart")
+								.animate("AmiantoWasHit")
 								.one('AnimationEnd', function() { 
 									entity.enableControl();
 									model.startMoving();
@@ -65,8 +65,34 @@ Amianto06 = BaseEntity.extend({
 					}
 				}
 			  })
+			.onHit('StepsPhantom',function(hit) {
+				for (var i = 0; i < hit.length; i++) {
+					if(!this._up && hit[i].obj._y > this._y + this._h/2 && 
+					  hit[i].obj._y < this._y + this._h - this._h/4 &&
+					  this._currentReelId != "AmiantoWasHit") {
+						var luv = model.get('love');
+						//Crafty.audio.play("hitdarkheart");
+						if(luv > model.get('minLove')){
+							luv--;
+							model.set({ 'love' : luv });
+						}
+						//hit[i].obj.destroy();
+						model._stopMoving();
+						entity
+							.disableControl()
+							.animate("AmiantoWasHit")
+							.one('AnimationEnd', function() { 
+								entity.enableControl();
+								model.startMoving();
+							});
+						Crafty.trigger("HitHeart", model.get('love'));
+					}else if(this._up && hit[i].normal.y === -1 && hit[i].overlap < 5){
+					       hit[i].obj.destroy();
+					}
+				}
+			  })
 			.reel("AmiantoMovingTowards", 1200, 0, 0, 10)
-			.reel("AmiantoHittingDarkHeart", 1200, 0, 1, 10)
+			.reel("AmiantoWasHit", 1200, 0, 1, 10)
 			.reel("AmiantoJumping", 600, 0, 2, 6)
 			.bind('Moved', function(prevPos) {
 				var moved = "";
