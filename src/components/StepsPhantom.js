@@ -4,7 +4,7 @@ Crafty.c("StepsPhantom", {
 		    .attr({ h: 80, w: 85 })
 		    .reel("Moving",500,0,0,5)
 		    .animate("Moving",-1)
-		    .collision()
+		    .collision(new Crafty.polygon([[this.w/4,0],[3*this._w/4,0],[3*this._w/4,this._h],[this._w/4,this._h]]))
 		    /*.onHit("amianto05", function(hit){
 			if(hit[0].obj._x > this._x && !hit[0].obj.tweens.length){
 				hit[0].obj.disableControl()
