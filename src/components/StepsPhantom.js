@@ -96,7 +96,7 @@ Crafty.c("StepsPhantom", {
 		this._steps = newRail;
 		if (dirX===1)
 			this.flip("X");
-		this.tween(goTo, 300)
+		this.tween(goTo, 420)
 		    .delay(function(){ this._z += plusSteps; this.one("TweenEnd", this._nextStep); }, 175);
 	}
 });
