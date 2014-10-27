@@ -3,6 +3,7 @@ Crafty.c("StepsPhantom", {
 		this.requires('2D, '+gameContainer.conf.get('renderType')+', Tween, Delay, Collision, SpriteAnimation, nightclub_phantom')
 		    .attr({ h: 80, w: 85 })
 		    .reel("Moving",500,0,0,5)
+		    .reel("Puft",500,[[0,0],[0,0],[6,0],[6,0],[0,0],[0,0],[6,0],[6,0],[0,0],[0,0],[6,0],[6,0]])
 		    .animate("Moving",-1)
 		    .collision(new Crafty.polygon([[this.w/4,0],[3*this._w/4,0],[3*this._w/4,this._h],[this._w/4,this._h]]))
 		    /*.onHit("amianto05", function(hit){
@@ -98,5 +99,12 @@ Crafty.c("StepsPhantom", {
 			this.flip("X");
 		this.tween(goTo, 420)
 		    .delay(function(){ this._z += plusSteps; this.one("TweenEnd", this._nextStep); }, 175);
+	},
+	beDestroyed: function(){
+		this.cancelTween('x')
+		    .cancelTween('y')
+		    .animate("Puft")
+		    .one("AnimationEnd", function(){ this.destroy() })
+		    ._delays = [];
 	}
 });

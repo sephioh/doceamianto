@@ -87,7 +87,7 @@ Amianto06 = BaseEntity.extend({
 							});
 						Crafty.trigger("HitHeart", model.get('love'));
 					}else if(this._up && hit[i].normal.y === -1 && hit[i].overlap < 5){
-					       hit[i].obj.destroy();
+					       hit[i].obj.beDestroyed();
 					}
 				}
 			  })
