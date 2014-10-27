@@ -32,23 +32,30 @@ Crafty.c("StepsPhantom", {
 		this._nextStep();
 	},
 	_nextStep: function(){
-		++this._step;
-		var n = this._step;
+		var n = ++this._step,
+		    dev = 0,
+		    obj = this._attackObj;;
 		if (n > 13)
 			this.flip("X");
 		if(n + 1 > this._steps.length){
 			  this.destroy();
 			  return;
 		}
-		var next = { x: this._steps[n].x, y: this._steps[n].y - this._h };
-		this.tween(next, 400)
-		    .delay(function(){ this.one("TweenEnd", this._nextStep) }, 175)
-		    .z += 1;
+		if(n<=12 || n>13 || !obj){
+			if(obj && this._attackDir)
+				dev = obj._w/2 * this._attackDir; 
+			var next = { x: this._steps[n].x + dev, y: this._steps[n].y - this._h };
+			this.tween(next, 400)
+			    .delay(function(){ this.one("TweenEnd", this._nextStep) }, 175)
+			    .z += 1;
+		}else{
+			this._attack();
+		}   
 	/*	++this._step;
 		var n = this._step;
 		if (n > 13)
 			this.flip("X");
-		if(n<=12 || n>13){
+		if(n<=12 || n>13 || !this._attackObj){
 			var obj = this._attackObj,
 			    jack = 0;
 			if(n + 1 > this._steps.length){
@@ -66,7 +73,7 @@ Crafty.c("StepsPhantom", {
 			this._attack();
 		}*/
 	},
-	/*_attack: function(){
+	_attack: function(){
 		var obj = this._attackObj,
 		    dirX = obj._x > this._x ? 1 : -1,
 		    plusSteps = 7,
@@ -91,5 +98,5 @@ Crafty.c("StepsPhantom", {
 			this.flip("X");
 		this.tween(goTo, 300)
 		    .delay(function(){ this._z += plusSteps; this.one("TweenEnd", this._nextStep); }, 175);
-	}*/
+	}
 });
