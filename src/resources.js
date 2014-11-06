@@ -47,7 +47,6 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			
 			'audio' : {
 				'diamondshine' : [
 				      'startdiamondshine.ogg',
@@ -199,7 +198,8 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			'images' : ['level03-background.png','level03-ornament.png'],
+			'images' : ['level03-background.png',
+				'level03-ornament.png'],
 			'audio' : {
 				'theme03' : 
 				      ['theme03.ogg',
@@ -395,15 +395,32 @@ Resources = Backbone.Model.extend({
 						'coupleKissing' : [0, 0]
 					}
 				},
-				'sheet_nightclub_phantom.png': {
+				'sheet_nightclub_phantom.png' : {
 					'tile' : 38,
 					'tileh': 40,
 					'map': {
 						'nightclub_phantom': [0,0]
 					}
-				}
+				},
+				'sheet_credits.png' : {
+					'tile' : 112,
+					'tileh': 104,
+					'map': {
+						'coupleCredits': [0,0]
+					}
+				},
+				'moon.png' : {
+					'tile' : 1121,
+					'tileh': 1200,
+					'map': {
+						'moon': [0,0]
+					}
+				},
 			},
-			'images': ["bg_sky_level06.png","bg_skyline_level06.png","sheet_blue_numbers.png","sheet_red_numbers.png"],
+			'images': ["bg_sky_level06.png",
+				"bg_skyline_level06.png",
+				"sheet_blue_numbers.png",
+				"sheet_red_numbers.png"],
 			'audio' : {
 				
 			}

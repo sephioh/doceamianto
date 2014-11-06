@@ -7,7 +7,7 @@ Crafty.c("CustomControls", {
 	twowayer: function(speed, jumpspeed, keys) {
 		this.requires("Twoway");
 		this.twoway(speed, jumpspeed);
-		if (!Crafty.mobile)
+		if (Crafty.mobile)
 			this._initInfcKeys(keys);
 		return this;
 	},

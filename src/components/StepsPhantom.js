@@ -6,22 +6,6 @@ Crafty.c("StepsPhantom", {
 		    .reel("Puft",500,[[0,0],[0,0],[6,0],[6,0],[0,0],[0,0],[6,0],[6,0],[0,0],[0,0],[6,0],[6,0]])
 		    .animate("Moving",-1)
 		    .collision(new Crafty.polygon([[this.w/4,0],[3*this._w/4,0],[3*this._w/4,this._h],[this._w/4,this._h]]))
-		    /*.onHit("amianto05", function(hit){
-			if(hit[0].obj._x > this._x && !hit[0].obj.tweens.length){
-				hit[0].obj.disableControl()
-					.animate("WasPushed",1)
-					.unflip("X")
-					.tween({ x: hit[0].obj._x + 150 }, 500)
-					.one("TweenEnd", function(){ this.enableControl(); });
-			}else if(!hit[0].obj.tweens.length){
-				hit[0].obj.disableControl()
-					.animate("WasPushed",1)
-					.flip("X")
-					.tween({ x: hit[0].obj._x - 150 }, 500)
-					.one("TweenEnd", function(){ this.enableControl(); });
-			}
-			
-		    })*/
 		    .attr({alpha: .5, z: 300});
 		this._step = 0;
 	},
@@ -35,12 +19,12 @@ Crafty.c("StepsPhantom", {
 	_nextStep: function(){
 		var n = ++this._step,
 		    dev = 0,
-		    obj = this._attackObj;;
+		    obj = this._attackObj;
 		if (n > 13)
 			this.flip("X");
 		if(n + 1 > this._steps.length){
-			  this.destroy();
-			  return;
+			this.destroy();
+			return;
 		}
 		if(n<=12 || n>13 || !obj){
 			if(obj && this._attackDir)
@@ -51,28 +35,7 @@ Crafty.c("StepsPhantom", {
 			    .z += 1;
 		}else{
 			this._attack();
-		}   
-	/*	++this._step;
-		var n = this._step;
-		if (n > 13)
-			this.flip("X");
-		if(n<=12 || n>13 || !this._attackObj){
-			var obj = this._attackObj,
-			    jack = 0;
-			if(n + 1 > this._steps.length){
-			    this.destroy();
-			    return;
-			}
-			if(this._attackDir)
-				jack = obj._w/2 * this._attackDir; 
-			var next = { x: this._steps[n].x + jack, y: this._steps[n].y - this._h };
-			this.tween(next, 300)
-			    .delay(function(){ this.one("TweenEnd", this._nextStep) }, 175)
-			    .z += 1;
-		}else{
-			
-			this._attack();
-		}*/
+		}
 	},
 	_attack: function(){
 		var obj = this._attackObj,
@@ -101,10 +64,13 @@ Crafty.c("StepsPhantom", {
 		    .delay(function(){ this._z += plusSteps; this.one("TweenEnd", this._nextStep); }, 175);
 	},
 	beDestroyed: function(){
-		this.cancelTween('x')
-		    .cancelTween('y')
-		    .animate("Puft")
-		    .one("AnimationEnd", function(){ this.destroy() })
-		    ._delays = [];
+		this.stopMovement();
+		this.animate("Puft")
+		    .one("AnimationEnd", function(){ this.destroy() });
+	},
+	stopMovement: function(){
+	      this.stopTween('x')
+		  .stopTween('y')
+		  ._delays = [];
 	}
 });

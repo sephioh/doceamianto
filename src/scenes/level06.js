@@ -134,6 +134,8 @@ Crafty.scene("level06", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function(){
+		_.each(sc.hearts,function(o){ try{ o.stopMovement(); } catch(e){ console.log("what"); } });
+		_.each(sc.phantoms, function(o){ try{ o.stopMovement(); } catch(e){ console.log("que"); } });
 		sc.kissAnimation = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleKissing")
 			.reel("Kiss", 5000, [
 			  [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],
@@ -141,7 +143,10 @@ Crafty.scene("level06", function() {
 			  [0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[7,2]
 			])
 			.attr({ x:710, y:-356, h: 145, w:155, z: 331 });
+		sc.moon = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", moon")
+			.attr({ x: 476, y: -696, w: 650, h:650, z: 250 });
 		sc.stairway.pauseAnimation();
+		sc.columnLayer.pauseAnimation();
 		sc.delays.cancelDelay(stuffComing)
 		    .cancelDelay(moveSkyline)
 		    .cancelDelay(moveSky);

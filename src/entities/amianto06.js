@@ -122,8 +122,9 @@ Amianto06 = BaseEntity.extend({
 	},
 	_fellInLove: function() {
 		if(this.get('love') >= this.get('maxLove')) {
-			this.getEntity()
-				.disableControl();
+			var ent = this.getEntity()
+			ent.disableControl()
+				.tween({ y: ent._y - 50}, 500);
 			Crafty.trigger("TooMuchLove");
 		}
 	}

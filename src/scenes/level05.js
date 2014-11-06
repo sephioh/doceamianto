@@ -89,10 +89,19 @@ Crafty.scene("level05",function(){
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 
 	sc.teleporters = [
-		Crafty.e("Delimiter, teleporter").attr({ x: -500, y: mapObj.height * mapObj.tileheight * 1.5, h: 1, w: (mapObj.width * mapObj.tilewidth) + 1000 })
+		Crafty.e("Delimiter, teleporter").attr({ x: -500, y: mapObj.height * mapObj.tileheight * 1.5, h: 1, w: (mapObj.width * mapObj.tilewidth) + 1000 }),
+		//Crafty.e("Delimiter, level_transition, WiredHitBox").attr({ x: , y: , h: , w: )
 	];
 	
-	this.one("LevelTransition", function(){ gameContainer.runScene("level06"); });
+	this.one("LevelTransition", function(){
+		playerEnt.disableControl();
+		    //.antigravity();
+		var res = gameContainer.conf.get('screenRes');
+		sc.bckgrndFade = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween")
+			.attr({ x: Crafty.viewport.x, y: Crafty.viewport.y, w: res.w, h: res.h, z: 1000, alpha: 0 });
+		sc.bckgrndFade.tween({ alpha: 1 }, 2000)
+			.one("TweenEnd", function(){ gameContainer.runScene("level06") });
+	});
 	
 }, function(){
   	this.viewport.x = 0,

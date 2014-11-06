@@ -67,14 +67,18 @@ Amianto05 = BaseEntity.extend({
 					}
 				}
 			}
-		      })
-		      .addComponent("WiredHitBox")
+		    })
 		    .onHit('teleporter', function() { 
 			    var cc = model.get('currentCheckpoint');
 			    if(cc){
 				  Crafty.trigger("TeleportingPlayer");
 				  this.attr({ x: cc._x - 25 , y: cc._y - 220 });
 			    }
+		    })
+		    .onHit('level_transition', function() {
+			/*    this.disableControl()
+				.antigravity(); */
+			    Crafty.trigger("LevelTransition");
 		    })
 		    .bind('KeyUp', function(e) {
 			var k = e.key;
