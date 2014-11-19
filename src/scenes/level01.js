@@ -85,8 +85,7 @@ Crafty.scene("level01", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function() {
-		 Crafty.audio.stop();// breaks this
-		//Crafty.audio.stop("theme01");
+		Crafty.audio.stop("theme01");
 		sc.delays.cancelDelay(heartComing);
 		_.each(sc.hearts, function(heart){					// destroy all hearts
 			heart.remove();
