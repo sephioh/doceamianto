@@ -2,7 +2,7 @@ Crafty.scene("level05",function(){
 
 	//Crafty.canvas._canvas.style.background = "#16377A";
 	Crafty.background("#16377A");
-	Crafty.audio.play("theme05", -1, 40.4);
+	Crafty.audio.play("theme05", -1, 1, 40.4);
 	
 	//Crafty.audio.play("theme04", -1);
 	

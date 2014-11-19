@@ -347,6 +347,7 @@ Carlos = BaseEntity.extend({
 		if(ent.canShoot) {
 			var bullet = Crafty.e("Bullet");
 			if(!ent._up){
+				Crafty.audio.play("rifleshot");
 				ent.disableControl()
 				  .animate("Shooting",1)
 				  .bind("FrameChange", function(o){
@@ -361,6 +362,7 @@ Carlos = BaseEntity.extend({
 						.enableControl();
 				  });
 			} else {
+				Crafty.audio.play("rifleshot");
 				ent.animate("JumpingShooting",1)
 				  .bind("FrameChange", function(o){
 				      if(o.currentFrame == 3) {
@@ -387,7 +389,6 @@ Carlos = BaseEntity.extend({
 		} else {
 			bullet.x += 100;
 		}
-		Crafty.audio.play("rifleshot");
 		bullet.onHit("Collision", function(hit) {
 			for(var i=0, len = hit.length; i<len; i++) {
 				if (hit[i].obj.__c.Figurant) {

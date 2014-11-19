@@ -5,7 +5,7 @@ Crafty.scene("level02", function() {
 	
 	Crafty.background("#000000");
 	
-	Crafty.audio.play("theme02", -1, 47.7);
+	Crafty.audio.play("theme02", -1, 0.8, 47.7);
 	
 	//var MapBytesArray = stringOfByteArrayToArrayOfBytes(gameContainer.loadedStrings[0]);
 	

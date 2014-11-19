@@ -127,7 +127,7 @@ Crafty.scene("level06", function() {
 	    .delay(moveSkyline,750,-1)
 	    .delay(moveSky,750,-1);
 	
-	Crafty.audio.play("theme06", -1, 63.585);
+	Crafty.audio.play("theme06", -1, 1, 63.585);
 	//utils.setViewportBounds(sc.player.getEntity());
 	
 	// Event declarations
@@ -148,7 +148,7 @@ Crafty.scene("level06", function() {
 			.bind("FrameChange", function erection(o){
 				if(o.currentFrame==15)
 					Crafty.audio.play("kiss2");
-			};
+			});
 		sc.moon = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, moon")
 			.attr({ x: 376, y: -596, w: 650, h:650, z: 250 });
 		sc.stairway.pauseAnimation();

@@ -1,6 +1,6 @@
 Crafty.scene("level03", function() {
 	
-	Crafty.audio.play("theme03", -1, 46.5);
+	Crafty.audio.play("theme03", -1, 1, 46.5);
 	
 	// Add initial elements to scene
 	sc.player = new Amianto03(),

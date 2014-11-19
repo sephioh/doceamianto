@@ -146,7 +146,7 @@ Crafty.scene("level04", function() {
 			      .animate("Fall", -1);
 		});
 		playerEnt.gravity();
-		Crafty.audio.play("theme04", -1, 68.8);
+		Crafty.audio.play("theme04", -1, 1, 68.8);
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 	
