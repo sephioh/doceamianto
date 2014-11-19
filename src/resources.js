@@ -317,9 +317,32 @@ Resources = Backbone.Model.extend({
 				'bg2-level04-17.png',
 				'bg2-level04-18.png',
 				'bg2-level04-19.png',
-				'bg3-level04.png'],
+				'bg3-level04.png'
+			],
 			'audio' : {
-				
+				'theme04' : 
+				      ['theme04.1.ogg',
+					'theme04.1.aac'
+				      ],
+				'rifleshot' : 
+				      ['riflelshot.ogg',
+					'rifleshot.aac',
+					'rifleshot.mp3',
+				      ],
+				'pistolshot' : 
+				      ['pistolshot.ogg',
+					'pistolshot.aac',
+					'pistolshot.mp3',
+				      ],
+				'phantomboss':
+				      ['phantomboss.ogg',
+					'phantomboss.aac'
+				      ],
+				'phantomrag':
+				      ['phantomrag.ogg',
+					'phantomrag.aac',
+					'phantomrag.mp3',
+				      ]
 			}
 		},
 		level05: {
@@ -348,7 +371,20 @@ Resources = Backbone.Model.extend({
 			},
 			'images': ["tileset-level05.png"],
 			'audio' : {
-				
+				'theme05': [
+					'theme05.ogg',
+					'theme05.aac'
+				],
+				'shiwsish': [
+					'shiwsish.ogg',
+					'shiwsish.aac',
+					'shiwsish.mp3'
+				],
+				'phantomrag': [
+					'phantomrag.ogg',
+					'phantomrag.aac',
+					'phantomrag.mp3',
+				]
 			}
 		},
 		level06: {
@@ -420,26 +456,49 @@ Resources = Backbone.Model.extend({
 			'images': ["bg_sky_level06.png",
 				"bg_skyline_level06.png",
 				"sheet_blue_numbers.png",
-				"sheet_red_numbers.png"],
+				"sheet_red_numbers.png"
+			],
 			'audio' : {
-				
+				'theme06': [
+					'theme06.ogg',
+					'theme06.aac'
+				],
+				'hitredheart': [
+					'hitredheart.ogg',
+					'hitredheart.aac',
+					'hitredheart.mp3'
+				],
+				'hitdarkheart': [
+					'hitdarkheart.ogg',
+					'hitdarkheart.aac',
+					'hitdarkheart.mp3'
+				],
+				'phantomrag': [
+					'phantomrag.ogg',
+					'phantomrag.aac',
+					'phantomrag.mp3',
+				],
+				'kiss0': [
+					'kiss0.ogg',
+					'kiss0.aac',
+					'kiss0.mp3',
+				],
+				'kiss1': [
+					'kiss1.ogg',
+					'kiss1.aac',
+					'kiss1.mp3',
+				],
+				'kiss2': [
+					'kiss2.ogg',
+					'kiss2.aac',
+					'kiss2.mp3',
+				]
 			}
 		}
 	},
 	    
 	initialize: function(){
 		
-	},
-	
-	/*getSceneAssets: function(scene) {
-	    var a = this.get(scene),
-		obj = {};
-		
-	    obj.sprites = a.sprites,
-	    obj.images = a.images,
-	    obj.sound = a.sound;
-	    
-	    return obj;
-	},*/
+	}
       
 });

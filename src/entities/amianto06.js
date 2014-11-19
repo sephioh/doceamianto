@@ -38,8 +38,7 @@ Amianto06 = BaseEntity.extend({
 						if(hit[i].obj.__c.darkHeart) {
 							Crafty.audio.play("hitdarkheart");
 							if(luv > model.get('minLove')){
-								luv--;
-								model.set({ 'love' : luv });
+								model.set({ 'love' : --luv });
 							}
 							hit[i].obj.destroy();
 							model._stopMoving();
@@ -61,7 +60,7 @@ Amianto06 = BaseEntity.extend({
 							}
 							model._fellInLove();
 						}
-						Crafty.trigger("HitHeart", model.get('love'));
+						Crafty.trigger("HitHeart", luv);
 					}
 				}
 			  })
@@ -69,12 +68,12 @@ Amianto06 = BaseEntity.extend({
 				for (var i = 0; i < hit.length; i++) {
 					if(!this._up && hit[i].obj._y > this._y + this._h/2 && 
 					  hit[i].obj._y < this._y + this._h - this._h/4 &&
-					  this._currentReelId != "AmiantoWasHit") {
+					  this._currentReelId != "AmiantoWasHit" || 
+					  (hit[i].obj.attackDir && this._currentReelId != "AmiantoWasHit")) {
 						var luv = model.get('love');
 						//Crafty.audio.play("hitdarkheart");
 						if(luv > model.get('minLove')){
-							luv--;
-							model.set({ 'love' : luv });
+							model.set({ 'love' : --luv });
 						}
 						//hit[i].obj.destroy();
 						model._stopMoving();
@@ -85,9 +84,9 @@ Amianto06 = BaseEntity.extend({
 								entity.enableControl();
 								model.startMoving();
 							});
-						Crafty.trigger("HitHeart", model.get('love'));
+						Crafty.trigger("HitHeart", luv);
 					}else if(this._up && hit[i].normal.y === -1 && hit[i].overlap < 5){
-					       hit[i].obj.beDestroyed();
+						hit[i].obj.beDestroyed();
 					}
 				}
 			  })
@@ -122,9 +121,9 @@ Amianto06 = BaseEntity.extend({
 	},
 	_fellInLove: function() {
 		if(this.get('love') >= this.get('maxLove')) {
-			var ent = this.getEntity()
+			var ent = this.getEntity();
 			ent.disableControl()
-				.tween({ y: ent._y - 50}, 500);
+				.tween({ y: ent._y - 80}, 1000);
 			Crafty.trigger("TooMuchLove");
 		}
 	}

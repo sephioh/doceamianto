@@ -387,6 +387,7 @@ Carlos = BaseEntity.extend({
 		} else {
 			bullet.x += 100;
 		}
+		Crafty.audio.play("rifleshot");
 		bullet.onHit("Collision", function(hit) {
 			for(var i=0, len = hit.length; i<len; i++) {
 				if (hit[i].obj.__c.Figurant) {

@@ -79,22 +79,22 @@ Crafty.scene("level01", function() {
 	sc.delays.delay(heartComing,750,-1);
 	
 	Crafty.background("#FFFFFF");
-	utils.setViewportBounds(sc.player.getEntity());
+	//utils.setViewportBounds(sc.player.getEntity());
 
 	// Event declarations
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function() {
-		Crafty.audio.stop();
-		Crafty.audio.play("fall", 1);
+		 Crafty.audio.stop();// breaks this
+		//Crafty.audio.stop("theme01");
 		sc.delays.cancelDelay(heartComing);
-		Crafty.unbind('EnterFrame', backgroundChange); 			// stop backgroundChange loop
-		
-		sc.delimiters[0].destroy();						// destroy delimiter
-		sc.delimiters[1].destroy();						// destroy delimiter
 		_.each(sc.hearts, function(heart){					// destroy all hearts
 			heart.remove();
 		});
+		Crafty.audio.play("fall", 1);
+		Crafty.unbind('EnterFrame', backgroundChange); 			// stop backgroundChange loop
+		sc.delimiters[0].destroy();						// destroy delimiter
+		sc.delimiters[1].destroy();						// destroy delimiter
 		sc.bckgrndFade.stopTweeningColor();					// stop tweening color
 		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, 90); 			// tween black
 		sc.bckgrndGradient.tween({ alpha: 0.0 }, 1000); 			// tween black

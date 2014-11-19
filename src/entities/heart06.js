@@ -35,8 +35,9 @@ Heart = BaseEntity.extend({
 	},
 	stopMovement: function(){
 	      this.getEntity()
-		  .stopTween('x')
-		  .stopTween('y')
+		  .cancelTween('x')
+		  .cancelTween('y')
+		  .unbind('TweenEnd')
 		  ._delays = [];
 	}
 });

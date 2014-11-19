@@ -2,8 +2,7 @@ Crafty.scene("level06", function() {
   
 	Crafty.background("#000000");
 	
-	var i = 0,
-	    rails = [
+	var rails = [
 		[
 		  {x:625,y:86},{x:545,y:102},{x:470,y:118},{x:400,y:136},{x:345,y:152},
 		  {x:305,y:170},{x:265,y:188},{x:240,y:204},{x:223,y:221},{x:201,y:239},
@@ -128,38 +127,49 @@ Crafty.scene("level06", function() {
 	    .delay(moveSkyline,750,-1)
 	    .delay(moveSky,750,-1);
 	
+	Crafty.audio.play("theme06", -1, 63.585);
 	//utils.setViewportBounds(sc.player.getEntity());
 	
 	// Event declarations
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function(){
+		Crafty.audio.stop("theme06");
+		Crafty.audio.play("kiss0");
 		_.each(sc.hearts,function(o){ try{ o.stopMovement(); } catch(e){ console.log("what"); } });
-		_.each(sc.phantoms, function(o){ try{ o.stopMovement(); } catch(e){ console.log("que"); } });
+		_.each(sc.phantoms, function(o){ try{ o.stopMovement(); } catch(e){ console.log("é o que"); } });
 		sc.kissAnimation = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleKissing")
 			.reel("Kiss", 5000, [
 			  [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],
 			  [0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[9,1],
 			  [0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[7,2]
 			])
-			.attr({ x:710, y:-356, h: 145, w:155, z: 331 });
-		sc.moon = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", moon")
-			.attr({ x: 476, y: -696, w: 650, h:650, z: 250 });
+			.attr({ x:710, y:-356, h: 145, w:155, z: 331 })
+			.bind("FrameChange", function erection(o){
+				if(o.currentFrame==15)
+					Crafty.audio.play("kiss2");
+			};
+		sc.moon = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, moon")
+			.attr({ x: 376, y: -596, w: 650, h:650, z: 250 });
 		sc.stairway.pauseAnimation();
 		sc.columnLayer.pauseAnimation();
 		sc.delays.cancelDelay(stuffComing)
 		    .cancelDelay(moveSkyline)
 		    .cancelDelay(moveSky);
+		var t = 1500;
 		this.viewport.clampToEntities = false;
 		this.one("CameraAnimationDone", function(){
 			this.one("CameraAnimationDone", function(){
 				sc.delays.delay(function(){
+					Crafty.audio.play("kiss1");
 					sc.kissAnimation.animate("Kiss");
 				},4000);
 			});
-			this.viewport.zoom(1.5,800,-358,1500);
+			this.viewport.zoom(1.5,800,-358, t);
+			sc.moon.tween({ x: sc.moon._x + 100 }, t);
 		});
-		this.viewport.pan(0,-500,1500);
+		sc.moon.tween({ y: sc.moon._y - 100 }, t);
+		this.viewport.pan(0,-500, t);
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene

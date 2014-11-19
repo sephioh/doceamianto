@@ -71,13 +71,13 @@ window.onload = function() {
 		"src/components/ProgressBar.js",
 		// Crafty parts to be overridden
 		"src/override/controls.js",
-		"src/components/Delay.js",
+		//"src/components/Delay.js",
 		"src/components/CustomControls.js",
-		"src/override/scene.js",
+		//"src/override/scene.js",
 		"src/override/loader.js",
 		"src/override/sound.js",
-		"src/override/sprite-animation.js",
-		"src/override/viewport.js"
+		//"src/override/sprite-animation.js",
+		//"src/override/viewport.js"
 	], function() {
 		// !! remover quando der conta da gambiarra
 		require(["src/components/Twoway.js","src/components/Gravity.js"]);
@@ -146,6 +146,7 @@ window.onload = function() {
 					    .addComponent('Color');
 			    });
 		}
+		Crafty.pixelart(true);
 		// initialized
 		
 		// set scenes' loading parameters (scene name, scene elements to be loaded)

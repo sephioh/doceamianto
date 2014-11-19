@@ -146,6 +146,7 @@ Crafty.scene("level04", function() {
 			      .animate("Fall", -1);
 		});
 		playerEnt.gravity();
+		Crafty.audio.play("theme04", -1, 68.8);
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 	
@@ -198,6 +199,10 @@ Crafty.scene("level04", function() {
 	this.one("BossFight", function(){
 		stopParallax();
 		
+		Crafty.audio.play("phantomboss", -1, 0.1);
+		utils.fadeSound("theme04", 0, Crafty.FPS());
+		utils.fadeSound("phantomboss", 1, Crafty.FPS());
+		
 		playerEnt.disableControl();
 		
 		sc.player.carlosMockAnimation();
@@ -220,6 +225,7 @@ Crafty.scene("level04", function() {
 	});
 	
 	this.one("LevelTransition", function(){
+		Crafty.audio.stop("phantomboss");
 		gameContainer.runScene("level05");
 	});
 

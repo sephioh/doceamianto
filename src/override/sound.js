@@ -255,7 +255,7 @@ Crafty.extend({
             a.addEventListener("ended", c.onEnd, true);
             if (c.repeatAt) {
                 c.atTime = function() {
-                    if (this.currentTime && this.currentTime > c.repeatAt) {
+                    if (this.currentTime && this.currentTime >= c.repeatAt) {
                         this.currentTime = 0;
                         c.played++;
                     }
@@ -383,16 +383,30 @@ Crafty.extend({
             var c;
             for (var i in this.channels) {
                 c = this.channels[i];
-                if ( (!id && c.active) || c._is(id) ) {
-                    this._removeAudioEventListeners(c);
+		console.log(i, this.channels, c);
+                if ( (!id && c.active) || (id && c._is(id)) ) {
+		    this._removeAudioEventListeners(c);
                     this._stop(c);
+                }
+                console.log("what happened here?!");
+            }
+            return;
+        },/*
+	stop: function (id) {
+            if (!Crafty.support.audio)
+                return;
+            for (var i in this.channels) {
+                c = this.channels[i];
+                if ( (!id && c.active) || c._is(id) ) {
+                    c.active = false;
+                    c.obj.pause();
                 }
             }
             return;
-        },
+        },*/
         _removeAudioEventListeners: function(c) {
-            c.obj.removeEventListener("ended", c.onEnd, true);
-            c.obj.removeEventListener("timeupdate", c.atTime, true);
+		c.obj.removeEventListener("ended", c.onEnd, true);
+		c.obj.removeEventListener("timeupdate", c.atTime, true);
         },
         _stop: function(c) {
             var a = c.obj;

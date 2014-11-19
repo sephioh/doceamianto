@@ -8,6 +8,7 @@ Crafty.c("StepsPhantom", {
 		    .collision(new Crafty.polygon([[this.w/4,0],[3*this._w/4,0],[3*this._w/4,this._h],[this._w/4,this._h]]))
 		    .attr({alpha: .5, z: 300});
 		this._step = 0;
+		this._turnAt = 13;
 	},
 	followSteps: function(rails, steps, attack){
 		this.attr(steps[0]);
@@ -20,13 +21,13 @@ Crafty.c("StepsPhantom", {
 		var n = ++this._step,
 		    dev = 0,
 		    obj = this._attackObj;
-		if (n > 13)
+		if (n > this._turnAt)
 			this.flip("X");
 		if(n + 1 > this._steps.length){
 			this.destroy();
 			return;
 		}
-		if(n<=12 || n>13 || !obj){
+		if(n!=this._turnAt || !obj){
 			if(obj && this._attackDir)
 				dev = obj._w/2 * this._attackDir; 
 			var next = { x: this._steps[n].x + dev, y: this._steps[n].y - this._h };
@@ -69,8 +70,9 @@ Crafty.c("StepsPhantom", {
 		    .one("AnimationEnd", function(){ this.destroy() });
 	},
 	stopMovement: function(){
-	      this.stopTween('x')
-		  .stopTween('y')
-		  ._delays = [];
+		this.cancelTween('x')
+		    .cancelTween('y')
+		    .unbind('TweenEnd')
+		    ._delays = [];
 	}
 });
