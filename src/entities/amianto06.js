@@ -12,7 +12,7 @@ Amianto06 = BaseEntity.extend({
 		    POSZ = 322,			// Initial z coordinate
 		    SPEED = 3,			// Amianto speed when move horizontally
 		    model = this,
-		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto06, SpriteAnimation, Collision, CustomControls, WiredHitBox");
+		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto06, SpriteAnimation, Collision, CustomControls");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.twowayer(SPEED, SPEED*2, ['RIGHT_ARROW','LEFT_ARROW','UP_ARROW'])
