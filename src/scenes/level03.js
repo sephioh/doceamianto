@@ -84,14 +84,17 @@ Crafty.scene("level03", function() {
 		}
 		
 		sc.delays.delay(function(){
-			glitchEffect.glitchScreen(canvas1,canvas2,glitchOptions);
-			glitchOptions.amount += 5;
-			glitchOptions.iterations += 2;
+			try {
+				glitchEffect.glitchScreen(canvas1,canvas2,glitchOptions);
+				glitchOptions.amount += 5;
+				glitchOptions.iterations += 2;
+			} catch(e) {
+				console.log("Efeito de glicth não pode ser executado entre domínios");
+			}
 			//glitchOptions.seed += 5;
 		}, 350, 5, function(){
 			this.delay(function(){ Crafty.trigger("LevelTransition"); }, 3000);
 		});
-		
 	});
 	
 	this.one("LevelTransition", function(){
