@@ -98,6 +98,11 @@ Crafty.scene("level05",function(){
 	this.one("LevelTransition", function(){
 		Crafty.audio.stop("theme05");
 		Crafty.audio.play("shiwsish");
+		Crafty("DanceFloor, Shine").each(function(){
+			if (this._alpha != 0)
+				this.addComponent("Tween")
+				    .tween({ alpha: 0 }, 2000);
+		});
 		playerEnt.disableControl()
 		    .tween({ alpha:0 }, 2500)
 		    .one('TweenEnd', function(){ gameContainer.runScene('level06', { backgroundColor: '#000066', entsColor: '#C0C0C0' }) });
