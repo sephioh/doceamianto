@@ -138,14 +138,17 @@ Crafty.scene("level06", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function(){
-		console.log("inside TooMuchLove 1");
 		Crafty.audio.stop("theme06");
-		console.log("inside TooMuchLove 2");
 		Crafty.audio.play("kiss0");
-		console.log("inside TooMuchLove 3");
+		sc.stairway.pauseAnimation();
+		sc.columnLayer.pauseAnimation();
+		sc.delays.cancelDelay(stuffComing)
+		    .cancelDelay(moveSkyline)
+		    .cancelDelay(moveSky);
+		sc.bckgrndSky.cancelTween('x').cancelTween('y');
+		sc.bckgrndSkyline.cancelTween('x').cancelTween('y');
 		_.each(sc.hearts, function(o){ try{ o.stopMovement(); } catch(e){ console.log("what"); } });
 		_.each(sc.phantoms, function(o){ try{ o.stopMovement(); } catch(e){ console.log("é o que"); } });
-		console.log("inside TooMuchLove 4");
 		sc.kissAnimation = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleKissing")
 			.reel("Kiss", 5000, [
 			  [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],
@@ -158,12 +161,7 @@ Crafty.scene("level06", function() {
 					Crafty.audio.play("kiss2");
 			});
 		sc.moon = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Tween, moon")
-			.attr({ x: 376, y: -596, w: 650, h:650, z: 250 });
-		sc.stairway.pauseAnimation();
-		sc.columnLayer.pauseAnimation();
-		sc.delays.cancelDelay(stuffComing)
-		    .cancelDelay(moveSkyline)
-		    .cancelDelay(moveSky);
+			.attr({ x: 376, y: domeY + 200, w: 650, h:650, z: 250 });
 		var t = 1500;
 		this.viewport.clampToEntities = false;
 		this.one("CameraAnimationDone", function(){
@@ -171,6 +169,8 @@ Crafty.scene("level06", function() {
 				sc.delays.delay(function(){
 					Crafty.audio.play("kiss1");
 					sc.kissAnimation.animate("Kiss");
+					utils.fadeSound("kiss0", 0, Crafty.timer.FPS());
+					utils.fadeSound("kiss1", 0, Crafty.timer.FPS());
 				},4000);
 			});
 			this.viewport.zoom(1.5,800,-358, t);

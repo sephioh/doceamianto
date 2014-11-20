@@ -124,9 +124,7 @@ Amianto06 = BaseEntity.extend({
 			var ent = this.getEntity();
 			ent.disableControl();
 			//ent.tween({ y: ent._y - 80}, 1000);
-			console.log("fire TooMuchLove");
 			Crafty.trigger("TooMuchLove");
-			console.log("TooMuchLove fired");
 		}
 	}
 });

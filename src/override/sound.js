@@ -383,12 +383,10 @@ Crafty.extend({
             var c;
             for (var i in this.channels) {
                 c = this.channels[i];
-		console.log(i, this.channels, c);
                 if ( (!id && c.active) || (id && c._is(id)) ) {
 		    this._removeAudioEventListeners(c);
                     this._stop(c);
                 }
-                console.log("what happened here?!");
             }
             return;
         },/*
