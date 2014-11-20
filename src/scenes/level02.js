@@ -104,10 +104,9 @@ Crafty.scene("level02", function() {
 			playerEnt.disableControl()
 				.unbind("Moved")
 				.unbind("KeyUp")
-				.tween({ x: playerEnt._x + 800 }, 14500)
+				.tween({ x: playerEnt._x + 870 }, 16000)
 				.animate("AmiantoRunning9", -1)
 				.one("TweenEnd", function() {
-				  
 					this.pauseAnimation();	
 					
 					finalAmiantoAttr = { x: this._x, y: this._y, z: this._z, w: this._w, h: this._h },
@@ -123,7 +122,7 @@ Crafty.scene("level02", function() {
 								h: Crafty.viewport.height,
 								z: finalAmiantoAttr.z+4
 							})
-							.reel("colorxplosion",4125,[
+							.reel("colorxplosion",5000,[
 								[0,0],[1,0],[2,0],[3,0],[4,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
 								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],

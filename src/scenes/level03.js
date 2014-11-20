@@ -61,7 +61,6 @@ Crafty.scene("level03", function() {
 	// declaring events
 	
 	this.one("Tilt", function(){
-	  
 		Crafty.audio.stop("theme03");
 		Crafty.audio.play("tilt");
 	

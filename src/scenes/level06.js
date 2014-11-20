@@ -1,6 +1,6 @@
 Crafty.scene("level06", function() {
   
-	Crafty.background("#000000");
+	Crafty.background("#FABCD7");
 	
 	var rails = [
 		[
@@ -43,6 +43,7 @@ Crafty.scene("level06", function() {
 		  {x:653,y:431},{x:681,y:448},{x:715,y:464},{x:755,y:480},{x:801,y:496}
 		]
 	    ],
+	    domeY = -796,
 	    stuffComing = function() {
 		var rail = rails[Crafty.math.randomInt(0,rails.length - 1)],
 		    rand = Crafty.math.randomInt(1,100),
@@ -73,7 +74,10 @@ Crafty.scene("level06", function() {
 		sc.bckgrndSkyline.tween({x: sc.bckgrndSkyline._x - 25, y: sc.bckgrndSkyline._y + 2}, 700);
 	    },
 	    moveSky = function() {
-		sc.bckgrndSky.tween({x: sc.bckgrndSky._x - 50, y: sc.bckgrndSky._y + 1}, 700);
+		var props = {x: sc.bckgrndSky._x - 50};
+		if(sc.bckgrndSky._y < domeY)
+			prop.y = sc.bckgrndSky._y + 1
+		sc.bckgrndSky.tween(props, 700);
 	    }, 
 	    initial_negative_score = 20,
 	    fontSize = 30;
@@ -127,17 +131,21 @@ Crafty.scene("level06", function() {
 	    .delay(moveSkyline,750,-1)
 	    .delay(moveSky,750,-1);
 	
-	Crafty.audio.play("theme06", -1, 1, 63.585);
+	Crafty.audio.play("theme06", -1, 1, 63.3);
 	//utils.setViewportBounds(sc.player.getEntity());
 	
 	// Event declarations
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function(){
+		console.log("inside TooMuchLove 1");
 		Crafty.audio.stop("theme06");
+		console.log("inside TooMuchLove 2");
 		Crafty.audio.play("kiss0");
-		_.each(sc.hearts,function(o){ try{ o.stopMovement(); } catch(e){ console.log("what"); } });
+		console.log("inside TooMuchLove 3");
+		_.each(sc.hearts, function(o){ try{ o.stopMovement(); } catch(e){ console.log("what"); } });
 		_.each(sc.phantoms, function(o){ try{ o.stopMovement(); } catch(e){ console.log("é o que"); } });
+		console.log("inside TooMuchLove 4");
 		sc.kissAnimation = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleKissing")
 			.reel("Kiss", 5000, [
 			  [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],

@@ -163,8 +163,8 @@ Crafty.scene("level04", function() {
 	];
 	
 	sc.teleporters = [
-		Crafty.e("Delimiter, teleporter").attr({ x: 10240, y: 2144, h: 1, w: 192 }),
-		Crafty.e("Delimiter, teleporter").attr({ x: 11776, y: 2048, h: 1, w: 640 })
+		Crafty.e("Delimiter, teleporter").attr({ x: 10240, y: 2144, h: 60, w: 192 }),
+		Crafty.e("Delimiter, teleporter").attr({ x: 11776, y: 2048, h: 60, w: 640 })
 	];
 	
 	sc.figurants = [
@@ -199,9 +199,9 @@ Crafty.scene("level04", function() {
 	this.one("BossFight", function(){
 		stopParallax();
 		
-		Crafty.audio.play("phantomboss", -1, 0.1);
-		utils.fadeSound("theme04", 0, Crafty.FPS());
-		utils.fadeSound("phantomboss", 1, Crafty.FPS());
+		Crafty.audio.play("phantomboss", -1, 0.1, 10.35);
+		utils.fadeSound("theme04", 0, Crafty.timer.FPS());
+		utils.fadeSound("phantomboss", 1, Crafty.timer.FPS());
 		
 		playerEnt.disableControl();
 		
