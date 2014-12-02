@@ -250,10 +250,9 @@ Carlos = BaseEntity.extend({
 		      })
 		    .bind("GotShot", function() {
 			var H = model.get('health');
-			if (H > 1) {
-				--H;
-				this.disableControl()
-				    .animate("WasHit")
+			this.disableControl();	
+			if (H-- > 1) {
+				this.animate("WasHit")
 				    .one("AnimationEnd", function() {
 					if (this._up) 
 						this.animate("JumpingFalling");
@@ -262,9 +261,7 @@ Carlos = BaseEntity.extend({
 					this.enableControl();
 				    });
 			} else {
-				--H;
-				this.disableControl()
-				    .addComponent("Delay")
+				this.addComponent("Delay")
 				    .unbind("Moved")
 				    .unbind("KeyUp")
 				    .unbind("KeyDown")

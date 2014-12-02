@@ -138,6 +138,7 @@ Crafty.scene("level06", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function(){
+		this('interfc_button').each(function(){ this.destroy(); });
 		Crafty.audio.stop("theme06");
 		Crafty.audio.play("kiss0");
 		sc.stairway.pauseAnimation();
@@ -178,6 +179,10 @@ Crafty.scene("level06", function() {
 		});
 		sc.moon.tween({ y: sc.moon._y - 100 }, t);
 		this.viewport.pan(0,-500, t);
+	});
+	
+	this.one('Credits', function(){
+		
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene

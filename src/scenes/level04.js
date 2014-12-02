@@ -205,6 +205,8 @@ Crafty.scene("level04", function() {
 		
 		playerEnt.disableControl();
 		
+		this("Figurant").each(function(){ this.cancelTimer().destroy(); });
+		
 		sc.player.carlosMockAnimation();
 		
 		sc.boss = this.e("BadassPhantom").attr({ x: 19712, y: 1824, z: playerEnt._z });
@@ -212,8 +214,7 @@ Crafty.scene("level04", function() {
 		sc.boss.shaping();
 		
 		sc.delays.cancelDelay(callPolicemen);
-		this("Figurant").each(function(){ this.destroy(); });
-
+		
 		this.one("BadassPhantomFinishedTransforming", function(){
 			this.one("CameraAnimationDone", function(){
 				this.viewport.follow(playerEnt, 0, 0);
@@ -225,6 +226,7 @@ Crafty.scene("level04", function() {
 	});
 	
 	this.one("LevelTransition", function(){
+		Crafty("Figurant").each(function(){ this.cancelTimer(); });
 		Crafty.audio.stop("phantomboss");
 		gameContainer.runScene("level05");
 	});

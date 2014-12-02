@@ -10,8 +10,7 @@ gameContainer = {
 	loadedStrings : {},
 	
 	setSceneInfo : function(scnInfo) {
-		this.scenes[scnInfo.name] =  scnInfo.elements;
-		
+		this.scenes[scnInfo.name] = scnInfo.elements;
 		return this;
 	},
 	runScene: function(scn, options) {
@@ -190,6 +189,7 @@ window.onload = function() {
 			name: "level04",
 			elements: [
 				"text!src/scenes/tilemaps/level04-10.json",
+				"src/components/VanillaTimer.js",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Background.js",
 				"src/components/Delimiter.js",
@@ -221,6 +221,7 @@ window.onload = function() {
 		    }).setSceneInfo({ 
 			name: "level06",
 			elements: [
+				//"text!src/lang/credits-"+gameContainer.lang+".json",
 				"src/components/Delimiter.js",
 				"src/components/StepsPhantom.js",
 				"src/components/SpriteText.js",
