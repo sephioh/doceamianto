@@ -1,18 +1,8 @@
 Crafty.scene("level05",function(){
 
-	//Crafty.canvas._canvas.style.background = "#16377A";
 	Crafty.background("#16377A");
-	Crafty.audio.play("theme05", -1, 1, 40.4);
-	
-	//Crafty.audio.play("theme04", -1);
-	
-	//gameContainer.conf.set({'renderType': 'DOM'});
-	
-	//var MapBytesArray = stringOfByteArrayToArrayOfBytes(gameContainer.loadedStrings[0]);
-	
-	//LZMA.decompress(MapBytesArray, function(result) {
-        //console.log("Decompressed.");
-	
+	Crafty.audio.play("theme05", -1, 1, 40.1);
+		
 	var particlesOptions = {
 	    maxParticles: 200,
 	    size: 5,
@@ -103,11 +93,14 @@ Crafty.scene("level05",function(){
 				this.addComponent("Tween")
 				    .tween({ alpha: 0 }, 2000);
 		});
+		sc.delays.cancelDelay(haunt)
+		    .delay(function(){
+			playerEnt.pauseAnimation()
+			    .antigravity();
+		    }, 500);
 		playerEnt.disableControl()
 		    .tween({ alpha:0 }, 2500)
 		    .one('TweenEnd', function(){ gameContainer.runScene('level06', { backgroundColor: '#000066', entsColor: '#C0C0C0' }) });
-		sc.delays.cancelDelay(haunt)
-		    .delay(function(){ playerEnt.antigravity() }, 1000);
 		Crafty("NightclubPhantom").each(function(){ this.destroy() });
 	});
 	

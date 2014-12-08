@@ -70,16 +70,15 @@ window.onload = function() {
 		"src/components/ProgressBar.js",
 		// Crafty parts to be overridden
 		"src/override/controls.js",
-		"src/components/Delay.js",
-		"src/components/CustomControls.js",
+		"src/override/Delay.js",
+		"src/override/CustomControls.js",
 		"src/override/scene.js",
 		"src/override/loader.js",
 		"src/override/sound.js",
 		"src/override/sprite-animation.js",
 		"src/override/viewport.js"
 	], function() {
-		// !! remover quando der conta da gambiarra
-		require(["src/components/Twoway.js","src/components/Gravity.js"]);
+		require(["src/override/Twoway.js","src/override/Gravity.js"]);
 
 		// initializing
 		gameContainer.conf = new Config({
@@ -114,7 +113,7 @@ window.onload = function() {
 		// stuff for mobile
 		if(Crafty.mobile){
 			var warning = gameContainer.lang == "pt"? 
-			  "Este jogo foi feito para o modo paisagem." : "This game is meant to be played in landscape mode.";
+			  "Este jogo foi feito para o modo paisagem." : "This game was made for landscape mode.";
 			document.getElementById("warning").innerHTML = warning;
 			
 			Crafty.load(resources.get("interfc_keys"), function(){
@@ -124,13 +123,14 @@ window.onload = function() {
 					    .bind('EnterFrame', function(){
 						this.attr({
 						  x: Crafty.viewport.x * -1,
-						  y: Crafty.viewport.y * -1
+						  y: Crafty.viewport.y * -1,
+						  z: 2000
 						});
 					    })
 					    .bind('MouseDown', function(){
-						this.trigger("ToogleFullScreen");
+						this.trigger("ToogleFullscreen");
 					    })
-					    .bind("ToogleFullscreen", function(){
+					    .bind('ToogleFullscreen', function(){
 						utils.toggleFullScreen('cr-stage');
 						var rc, ac;
 						if(this.__c.FULL_SCREEN_up_sprite)
@@ -141,8 +141,7 @@ window.onload = function() {
 							ac = "FULL_SCREEN_up_sprite";
 						this.removeComponent(rc)
 						    .addComponent(ac);
-					    })
-					    .addComponent('Color');
+					    });
 			    });
 		}
 		Crafty.pixelart(true);
@@ -221,7 +220,7 @@ window.onload = function() {
 		    }).setSceneInfo({ 
 			name: "level06",
 			elements: [
-				//"text!src/lang/credits-"+gameContainer.lang+".json",
+				"text!src/lang/credits-"+gameContainer.lang+".json",
 				"src/components/Delimiter.js",
 				"src/components/StepsPhantom.js",
 				"src/components/SpriteText.js",
@@ -230,7 +229,7 @@ window.onload = function() {
 			      ]
 		    });
 		
-		// declare all scenes
+		// load all scenes files
 		
 		var scenes = [
 			"src/scenes/loading.js",

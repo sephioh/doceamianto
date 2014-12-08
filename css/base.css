@@ -1,10 +1,10 @@
 body {
     -webkit-tap-highlight-color:rgba(255,255,255,0);overflow-x:hidden;margin:0px;background-color:#000;
 }
+#wrapper, #cr-stage { margin-top: auto;margin-bottom: auto;margin-left: auto;margin-right: auto;top: 0;left: 0;bottom: 0;right: 0;padding:0; }
 #wrapper {
-    margin-top: auto;margin-bottom: auto;margin-left: auto;margin-right: auto;position: relative;max-width: 800px;max-height: 600px;
+    position: relative;max-width: 800px;max-height: 600px;
 }
-#cr-stage * {margin-top: auto;margin-bottom: auto;margin-left: auto;margin-right: auto;position: absolute;}
 #warning {
     background: #000;
     font-style: oblique;
@@ -42,4 +42,11 @@ body {
 	     url('../web/fonts/perfect_dos_vga_437-webfont.woff') format('woff'), /* Modern Browsers */
 	     url('../web/fonts/perfect_dos_vga_437-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
 	     url('../web/fonts/perfect_dos_vga_437-webfont.svg#svgPerfect_dos_vga_437') format('svg'); /* Legacy iOS */  
+}
+@font-face { font-family: Amiga4ever_pro2;
+	src: url('../web/fonts/amiga4ever_pro2-webfont.eot'); /* IE9 Compat Modes */
+	src: url('../web/fonts/amiga4ever_pro2-webfont?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	     url('../web/fonts/amiga4ever_pro2-webfont.woff') format('woff'), /* Modern Browsers */
+	     url('../web/fonts/amiga4ever_pro2-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+	     url('../web/fonts/amiga4ever_pro2-webfont.svg#svgAmiga4ever_pro2') format('svg'); /* Legacy iOS */  
 }

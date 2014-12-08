@@ -1,6 +1,7 @@
 Crafty.scene("level03", function() {
 	
 	Crafty.audio.play("theme03", -1, 1, 46.5);
+	Crafty.background("#000000");
 	
 	// Add initial elements to scene
 	sc.player = new Amianto03(),
@@ -31,8 +32,16 @@ Crafty.scene("level03", function() {
 		Crafty.e("Delimiter, Canvas, blocker, cornerDownRight").attr({ x: 790, y: 590, w: 20, h: 20 })
 	];
 	
+	// "limits" used to cover the character when using mobiles - actually 'tis a workaround to bad design
+	sc.emptyLimits = [
+		Crafty.e("2D, Canvas, Color").color("black").attr({ x: -80, y: 0, w: 80, h: 600, z: 400 }),
+		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 0, y: -100, w: 800, h: 100, z: 400 }),
+		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 800, y: -80, w: 80, h: 600, z: 400 }),
+		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 0, y: 600, w: 800, h: 100, z: 400 })
+	];
+	
 	var txts = JSON.parse(gameContainer.getSceneTexts()[0]),
-	    txtSize = 55;
+	    txtSize = 35;
 
 	// Word blocks
 	sc.wordblocks = [
@@ -45,6 +54,17 @@ Crafty.scene("level03", function() {
 		new Wordblock({ initialX: 50, initialY: 519, initialZ: 0, initialH: txtSize, initialW: txts.text07.length*txtSize, word_text: txts.text07, text_size: txtSize })
 	];
 
+	// Wordplaceholders
+	sc.wordplaceholders = [
+		new Wordplaceholder({ initialX: 164, initialY: 153, word_text: txts.text01 }),
+		new Wordplaceholder({ initialX: 512, initialY: 153, word_text: txts.text02 }),
+		new Wordplaceholder({ initialX: 208, initialY: 202, word_text: txts.text03 }),
+		new Wordplaceholder({ initialX: 483, initialY: 202, word_text: txts.text04 }),
+		new Wordplaceholder({ initialX: 204, initialY: 293, word_text: txts.text05 }),
+		new Wordplaceholder({ initialX: 492, initialY: 293, word_text: txts.text06 }),
+		new Wordplaceholder({ initialX: 360, initialY: 400, word_text: txts.text07 })
+	];
+	
 	// Wordplaceholders
 	sc.wordplaceholders = [
 		new Wordplaceholder({ initialX: 164, initialY: 153, word_text: txts.text01 }),
@@ -89,7 +109,7 @@ Crafty.scene("level03", function() {
 				glitchOptions.amount += 5;
 				glitchOptions.iterations += 2;
 			} catch(e) {
-				console.log("Efeito de glicth não pode ser executado entre domínios");
+				console.log(e);
 			}
 			//glitchOptions.seed += 5;
 		}, 350, 5, function(){
@@ -98,15 +118,21 @@ Crafty.scene("level03", function() {
 	});
 	
 	this.one("LevelTransition", function(){
-		gameContainer.runScene("level04");
+		var g = document.getElementById("glitchedCanvas");
+		gameContainer.runScene("level04", {
+		    image: {
+			src: g.toDataURL("image/png"),
+			w: g.width,
+			h: g.height
+		    }
+		});
 	});
 	
 }, function() {					// executed after scene() is called within the present scene
-  	utils.resetViewportBounds();
-	sc.delays.destroy();	// destroy delays
-	var g = document.getElementById("glitchedCanvas"),
+  	sc.delays.destroy();	// destroy delays
+	var glitched = document.getElementById("glitchedCanvas"),
 	    l = "level03";
-	g.parentNode.removeChild(g);
 	Crafty.removeAssets(resources.get(l));
 	gameContainer.removeSceneTexts(l);
+	glitched.parentNode.removeChild(glitched);
 });

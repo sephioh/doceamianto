@@ -1,5 +1,5 @@
 Crafty.scene("level06", function() {
-  
+	
 	Crafty.background("#FABCD7");
 	
 	var rails = [
@@ -181,8 +181,74 @@ Crafty.scene("level06", function() {
 		this.viewport.pan(0,-500, t);
 	});
 	
+	// final credits
 	this.one('Credits', function(){
+		sc.displayedCredits = [],
+		sc.creditsPic;
+		var colors = [ '#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF' ], 
+		    c = 0,
+		    fireworks = function(){
+			Crafty.background(colors[c++]);
+			if (c == colors.length)
+				c = 0;
+		    };
+		this.background(colors[c++]);
+		sc.bckgrndSkyline.destroy();
+		sc.bckgrndSky.destroy();
+		fireworks();
+		sc.delays.delay(fireworks, 200, -1);
 		
+		this.one("CameraAnimationDone", function(){
+			var credTxts = JSON.parse(gameContainer.getSceneTexts()[0]),
+			    card = "text0",
+			    t = 0,
+			    textsize = 15,
+			    nextText = function(){
+				for(var d in sc.displayedCredits)
+					sc.displayedCredits[d].destroy();
+				sc.displayedCredits = [];
+				if(t == Object.keys(credTxts).length){
+					sc.delays.cancelDelay(nextText);
+					sc.creditsPic.destroy();
+					return;
+				}
+				sc.creditsPic.animate("part" + t, -1);
+				var text = credTxts[card + t++].split("|");
+				for(var l in text)
+					sc.displayedCredits[l] = Crafty.e("2D, Canvas, Text")
+					    .attr({
+						x: (Crafty.viewport._x * -1) + Crafty.viewport._width/3 - ((textsize * text[l].length)/2) + 25, 
+						y: (Crafty.viewport._y * -1) + Crafty.viewport._height/3 + (textsize * l), 
+						w: textsize * text[l].length, 
+						h: textsize,
+						z: 400
+					    })
+					    .text(text[l])
+					    .textColor("#FFFFFF")
+					    .textFont({ size: textsize + 'px', family: 'Amiga4ever_pro2' });
+			    };
+			sc.creditsPic = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleCredits");
+			sc.creditsPic
+			    .reel("part0", 1000, 0, 0, 2)
+			    .reel("part1", 1000, 0, 1, 2)
+			    .reel("part2", 1000, 0, 2, 2)
+			    .reel("part3", 1000, 0, 3, 2)
+			    .reel("part4", 1000, 0, 4, 2)
+			    .reel("part5", 1000, 0, 5, 2)
+			    .reel("part6", 1000, 0, 6, 2)
+			    .reel("part7", 1000, 0, 7, 2)
+			    .reel("part8", 1000, 0, 8, 2)
+			    .attr({
+				x: (Crafty.viewport._x * -1) + Crafty.viewport._width/3 - sc.creditsPic._w/2 + 20,
+				y: (Crafty.viewport._y * -1) + Crafty.viewport._height/3 - sc.creditsPic._h - textsize,
+				z: 400
+			    });
+			
+			nextText();
+			
+			sc.delays.delay(nextText, 5000, -1);
+		});
+		this.viewport.zoom(1,800,-958, 1000);
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene

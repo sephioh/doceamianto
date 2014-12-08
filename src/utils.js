@@ -163,15 +163,10 @@ Utils = Backbone.Model.extend({
 	
 	setViewportBounds: function(obj){
 		if(Crafty.mobile) {
-			Crafty.viewport.bounds = { min: { x:0, y:0 }, max: gameContainer.conf.get('maxRes') };
+			//Crafty.viewport.bounds = { min: { x:0, y:0 }, max: gameContainer.conf.get('maxRes') };
 			if(obj)
 				Crafty.viewport.follow(obj,0,0);
 		}
-	},
-	
-	resetViewportBounds: function(){
-	        Crafty.viewport.bounds = null;
-		//Crafty.viewport.clampToEnities = false;
 	}
 	
 });

@@ -163,7 +163,7 @@ Crafty.scene("level04", function() {
 	];
 	
 	sc.teleporters = [
-		Crafty.e("Delimiter, teleporter").attr({ x: 10240, y: 2144, h: 60, w: 192 }),
+		Crafty.e("Delimiter, teleporter").attr({ x: 10240, y: 2144, h: 60, w: 256 }),
 		Crafty.e("Delimiter, teleporter").attr({ x: 11776, y: 2048, h: 60, w: 640 })
 	];
 	

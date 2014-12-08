@@ -321,8 +321,8 @@ Resources = Backbone.Model.extend({
 			],
 			'audio' : {
 				'theme04' : 
-				      ['theme04.1.ogg',
-					'theme04.1.aac'
+				      ['theme04.ogg',
+					'theme04.aac'
 				      ],
 				'rifleshot' : 
 				      ['rifleshot.ogg',

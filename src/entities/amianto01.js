@@ -12,8 +12,8 @@ Amianto01 = BaseEntity.extend({
 			POSZ = 300,			// Initial z coordinate
 			SPEED = 3,			// Amianto speed when move horizontally
 			model = this,
-			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, Collision, CustomControls"),
-			shadow = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, amianto01Shadow");
+			entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", amianto01, SpriteAnimation, Collision, CustomControls");
+			//shadow = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Sprite, amianto01Shadow");
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.multiwayer(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180}, ['RIGHT_ARROW','LEFT_ARROW'])
@@ -92,12 +92,12 @@ Amianto01 = BaseEntity.extend({
 					}
 				}
 			  });
-		shadow
+		/*shadow
 			.attr({ x: entity._x+14, y: entity._y+12, w: 164, h: entity._h, z: entity._z })
 			.bind('EnterFrame', function(){ 
 				shadow.x = entity._x+14;
-			});
-		model.set({'entity' : entity, 'shadow' : shadow });
+			});*/
+		model.set({'entity' : entity });/*, 'shadow' : shadow });*/
 	},
 	startMoving: function() {
 		this.getEntity()
@@ -116,8 +116,8 @@ Amianto01 = BaseEntity.extend({
 		if(this.get('love') >= this.get('maxLove')) {
 			this.getEntity()
 				.disableControl();
-			this.get('shadow')
-				.destroy();
+			/*this.get('shadow')
+				.destroy();*/
 			Crafty.trigger("TooMuchLove");
 		}
 	},

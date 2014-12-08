@@ -1,7 +1,7 @@
 Crafty.scene('start_screen', function(){
 	var startGame = function(){
 		if(Crafty.mobile)
-			Crafty.trigger("ToggleFullscreen");
+			Crafty.trigger("ToogleFullscreen");
 		Crafty.audio.play('diamondshine');
 		sc.startDiamond
 		    .one('TweenEnd',function(){
@@ -23,8 +23,7 @@ Crafty.scene('start_screen', function(){
 		this.unbind('KeyDown');
 		startGame();
 	    })
-	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 2 });
-	
+	    .attr({ w: Crafty.viewport.width, h: Crafty.viewport.height, z: 5000 });
 }, function() {					// executed after scene() is called within the present scene
 	Crafty.removeAssets(resources.get('start_screen'));
 });

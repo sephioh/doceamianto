@@ -52,8 +52,7 @@ Amianto06 = BaseEntity.extend({
 						} else 
 						if(hit[i].obj.__c.redHeart) {
 							Crafty.audio.play("hitredheart");
-							luv++;
-							model.set({ 'love' : luv });
+							model.set({ 'love' : ++luv });
 							hit[i].obj.destroy();
 							if(luv < model.get('maxLove')) {
 							      model.startMoving();

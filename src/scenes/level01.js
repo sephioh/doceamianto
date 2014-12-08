@@ -49,7 +49,7 @@ Crafty.scene("level01", function() {
 	    };
 	
 	// Play theme
-	Crafty.audio.play("theme01", -1, 0.1, 63);
+	Crafty.audio.play("theme01", -1, 0.1, 63.2);
 			
 	sc.player = new Amianto01(),
 	sc.hearts = [],
@@ -72,14 +72,14 @@ Crafty.scene("level01", function() {
 		});
 
 	sc.delimiters = [
-		Crafty.e("Delimiter").attr({ x: 0, y: 242, w: 1, h: 400 }), 
-		Crafty.e("Delimiter").attr({ x: 800, y: 242, w: 1, h: 400 })
+		Crafty.e("Delimiter").attr({ x: 50, y: 242, w: 1, h: 400 }), 
+		Crafty.e("Delimiter").attr({ x: 750, y: 242, w: 1, h: 400 })
 	    ];
     
 	sc.delays.delay(heartComing,750,-1);
 	
 	Crafty.background("#FFFFFF");
-	//utils.setViewportBounds(sc.player.getEntity());
+	utils.setViewportBounds(sc.player.getEntity());
 
 	// Event declarations
 
@@ -91,7 +91,7 @@ Crafty.scene("level01", function() {
 			heart.remove();
 		});
 		Crafty.audio.play("fall", 1);
-		Crafty.unbind('EnterFrame', backgroundChange); 			// stop backgroundChange loop
+		Crafty.unbind('EnterFrame', backgroundChange); 				// stop backgroundChange loop
 		sc.delimiters[0].destroy();						// destroy delimiter
 		sc.delimiters[1].destroy();						// destroy delimiter
 		sc.bckgrndFade.stopTweeningColor();					// stop tweening color
@@ -124,7 +124,6 @@ Crafty.scene("level01", function() {
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene
-	utils.resetViewportBounds();
 	sc.delays.destroy();	// destroy delays
 	var l = "level01";
 	Crafty.removeAssets(resources.get(l));

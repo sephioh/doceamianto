@@ -21,6 +21,9 @@ Crafty.c("CustomControls", {
 	},
 	 
 	_initInfcKeys: function(keys) {
+		if(infc.keys)
+			for(var k in infc.keys)
+				infc.keys[k].destroy();
 		infc.keys = {};
 		var keysCoords = resources.get("interfc_keys_relative_coordinates"),
 		    that = this,

@@ -17,7 +17,7 @@ Wordblock = BaseEntity.extend({
 		entity
 			.text(model.get('word_text'))
 			.textColor("#FFFFFF")
-			.textFont({ size: model.get('text_size')+"px", family: 'Perfect_dos_vga_437' })
+			.textFont({ size: model.get('text_size')+"px", family: 'Amiga4ever_pro2' })
 			// Collision with corners
 			.onHit('blocker',function(hit){
 				for (var i = 0; i < hit.length; i++) {
