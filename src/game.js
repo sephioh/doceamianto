@@ -68,10 +68,10 @@ window.onload = function() {
 		"src/utils.js?v="+version+"",
 		"src/entities/base/BaseEntity.js",
 		"src/components/ProgressBar.js",
+		"src/components/CustomControls.js",
 		// Crafty parts to be overridden
 		"src/override/controls.js",
-		"src/override/Delay.js",
-		"src/override/CustomControls.js",
+		"src/override/time.js",
 		"src/override/scene.js",
 		"src/override/loader.js",
 		"src/override/sound.js",
