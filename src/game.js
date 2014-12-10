@@ -1,7 +1,7 @@
 gameContainer = {
   
 	env : 'dev',
-	gameVersion : '0.0.1',
+	gameVersion : '1.0-beta-2',
 	conf: {},
 	lang: '',
 	scene : {},
@@ -63,9 +63,9 @@ window.onload = function() {
 	};    
 	
 	require([
-		"src/resources.js?v="+version+"",
-		"src/config.js?v="+version+"",
-		"src/utils.js?v="+version+"",
+		"src/resources.js",
+		"src/config.js",
+		"src/utils.js",
 		"src/entities/base/BaseEntity.js",
 		"src/components/ProgressBar.js",
 		"src/components/CustomControls.js",
@@ -152,8 +152,7 @@ window.onload = function() {
 		    .setSceneInfo({
 			name: "start_screen",
 			elements: []
-		    })
-		    .setSceneInfo({ 
+		    }).setSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
@@ -222,6 +221,7 @@ window.onload = function() {
 			elements: [
 				"text!src/lang/credits-"+gameContainer.lang+".json",
 				"src/components/Delimiter.js",
+				"src/components/Fireworks.js",
 				"src/components/StepsPhantom.js",
 				"src/components/SpriteText.js",
 				"src/entities/amianto06.js",
@@ -233,13 +233,13 @@ window.onload = function() {
 		
 		var scenes = [
 			"src/scenes/loading.js",
-			"src/scenes/start_screen.js?v="+version+"",
-			"src/scenes/level01.js?v="+version+"",
-			"src/scenes/level02.js?v="+version+"",
-			"src/scenes/level03.js?v="+version+"",
-			"src/scenes/level04.js?v="+version+"",
-			"src/scenes/level05.js?v="+version+"",
-			"src/scenes/level06.js?v="+version+"",
+			"src/scenes/start_screen.js",
+			"src/scenes/level01.js",
+			"src/scenes/level02.js",
+			"src/scenes/level03.js",
+			"src/scenes/level04.js",
+			"src/scenes/level05.js",
+			"src/scenes/level06.js",
 		];
 		
 		require(scenes, function() {

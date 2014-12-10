@@ -1,6 +1,8 @@
 // the loading screen - will be displayed while assets are loaded
 // callback obj argument -> { backgroundColor: '#hexcolor', entsColor: '#hexcolor', soundToPlay: 'sound', image: { src: url, w: w, h: h } }
 Crafty.scene("loading", function(obj) {
+	Crafty.viewport.x = 0,
+	Crafty.viewport.y = 0;
 	// clear scene
 	sc = {}, infc = {};
 	

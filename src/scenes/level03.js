@@ -34,7 +34,7 @@ Crafty.scene("level03", function() {
 	
 	// "limits" used to cover the character when using mobiles - actually 'tis a workaround to bad design
 	sc.emptyLimits = [
-		Crafty.e("2D, Canvas, Color").color("black").attr({ x: -80, y: 0, w: 80, h: 600, z: 400 }),
+		Crafty.e("2D, Canvas, Color").color("black").attr({ x: -80, y: -10, w: 80, h: 620, z: 400 }),
 		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 0, y: -100, w: 800, h: 100, z: 400 }),
 		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 800, y: -80, w: 80, h: 600, z: 400 }),
 		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 0, y: 600, w: 800, h: 100, z: 400 })

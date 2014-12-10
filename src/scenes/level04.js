@@ -233,8 +233,6 @@ Crafty.scene("level04", function() {
 
 }, function(){ 
 	//get rid of unwanted bindings, functions and files
-	this.viewport.x = 0,
-	this.viewport.y = 0;
 	sc.delays.destroy();// destroy delays
 	var l = "level04";
 	this.removeAssets(resources.get(l));

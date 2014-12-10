@@ -80,10 +80,9 @@ Amianto03 = BaseEntity.extend({
 				    nAmiantoPos = { x: amianto._x, y:amianto._y },
 				    yNormal = Math.round(hit[i].normal.y),
 				    xNormal = Math.round(hit[i].normal.x),
-				    maxRes = gameContainer.conf.get('maxRes'),
-				    amiantos = Crafty("amianto03");
+				    maxRes = gameContainer.conf.get('maxRes');
 					
-				amiantos.each(function(){
+				Crafty("amianto03").each(function(){
 					if(this.newly_created){
 						createAnew = false;
 						return;
@@ -114,18 +113,10 @@ Amianto03 = BaseEntity.extend({
 					console.log("amianto created at "+JSON.stringify(nAmiantoPos));
 					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
 				}
-				/* ~working
-				if(Crafty.mobile && //this.newly_created &&
-				  ((yNormal === -1 && this._y < hit[i].obj._y) ||
-				  (yNormal === 1 && this._y > hit[i].obj._y ) ||
-				  (xNormal === -1 && this._x < hit[i].obj._x) ||
-				  (xNormal === 1 && this._x > hit[i].obj._x))){
-					Crafty.viewport.follow(this, 0, 0);
-				  }*/
-				
-				if(Crafty.mobile && //this.newly_created &&
-				  ((yNormal === -1 && this._y < hit[i].obj._y + this._h/2 ) ||
-				  (yNormal === 1 && this._y - this._h/2 > hit[i].obj._y ) ||
+								
+				if(Crafty.mobile && 
+				  ((yNormal === -1 && this._y < hit[i].obj._y + this._h/2) ||
+				  (yNormal === 1 && this._y - this._h/2 > hit[i].obj._y) ||
 				  (xNormal === -1 && this._x < hit[i].obj._x + this._w/2) ||
 				  (xNormal === 1 && this._x - this._w/2 > hit[i].obj._x))){
 					Crafty.viewport.follow(this, 0, 0);

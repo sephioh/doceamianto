@@ -445,6 +445,13 @@ Resources = Backbone.Model.extend({
 						'coupleCredits': [0,0]
 					}
 				},
+				'sheet_fireworks.png' : {
+					'tile' : 397,
+					'tileh': 600,
+					'map': {
+						'fireworks': [0,0]
+					}
+				},
 				'moon.png' : {
 					'tile' : 1121,
 					'tileh': 1200,

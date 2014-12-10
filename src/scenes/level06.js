@@ -1,7 +1,5 @@
 Crafty.scene("level06", function() {
-	
-	Crafty.background("#FABCD7");
-	
+	Crafty.background("#000000");
 	var rails = [
 		[
 		  {x:625,y:86},{x:545,y:102},{x:470,y:118},{x:400,y:136},{x:345,y:152},
@@ -66,21 +64,51 @@ Crafty.scene("level06", function() {
 				sc.hearts.push(o);
 			}
 	    },
-	    moveSkyline = function() {
-		if(sc.bckgrndSkyline._x < sc.bckgrndSkyline._w * -1){
-		      sc.delays.cancelDelay(moveSkyline);
-		      return;
-		}
-		sc.bckgrndSkyline.tween({x: sc.bckgrndSkyline._x - 25, y: sc.bckgrndSkyline._y + 2}, 700);
+	    skySection = function(x, y){
+		return Crafty.e("2D, Canvas, Image, Tween, backgroundSection")
+		  .image("web/images/bg_sky_level06.png", "repeat")
+		  .attr({ x: x, y: y, w: 800, h: 3000, z: 1, alpha: 1.0 });
 	    },
-	    moveSky = function() {
-		var props = {x: sc.bckgrndSky._x - 50};
-		if(sc.bckgrndSky._y < domeY)
-			prop.y = sc.bckgrndSky._y + 1
-		sc.bckgrndSky.tween(props, 700);
-	    }, 
+	    citySection = function(x, y){
+		return Crafty.e("2D, Canvas, Image, Tween, backgroundSection")
+		  .image("web/images/bg_skyline_level06.png", "repeat-x")
+		  .attr({ x: x, y: y, w: 462, h: 600, z: 2, alpha: 1.0 });
+	    }
+	    rotation_time = 700,
+	    dist = 25,
+	    rotatingBackground = function(){
+		  for(var layer in sc.bckgrnd){
+			if(layer == 0){
+				for(var pos in sc.bckgrnd[layer]){
+					var city = sc.bckgrnd[layer][pos];
+					if(!Object.keys(city).length)
+						city = sc.bckgrnd[layer][pos] = pos == 0 ? citySection(0,330) : citySection(461,330);
+					if(pos == 0 && 
+					  (city._x + city._w < (Crafty.viewport._x * -1))){
+						city.destroy();
+						city = sc.bckgrnd[layer][pos] = sc.bckgrnd[layer][parseInt(pos) + 1];
+						sc.bckgrnd[layer][parseInt(pos) + 1] = citySection(461 - dist, city._y);
+					}
+					city.tween({ x: city._x - dist, y: city._y + 2}, rotation_time);
+				}
+			}else{
+				for(var pos in sc.bckgrnd[layer]){
+					var sky = sc.bckgrnd[layer][pos];
+					if(!Object.keys(sky).length)
+						sky = sc.bckgrnd[layer][pos] = pos == 0 ? skySection(0,0) : skySection(799,-2400);
+					if(pos == 0 && 
+					  (sky._x < (Crafty.viewport._x * -1) - sky._w)){
+						sky.destroy();
+						sky = sc.bckgrnd[layer][pos] = sc.bckgrnd[layer][parseInt(pos) + 1];
+						sc.bckgrnd[layer][parseInt(pos) + 1] = skySection(799 - dist * 2, sky._y);
+					}
+					sky.tween({ x: sky._x - dist * 2 }, rotation_time);
+				}
+			}
+		  }
+	    },
 	    initial_negative_score = 20,
-	    fontSize = 30;
+	    font_size = 30;
 	
 	// Play theme
 	//Crafty.audio.play("theme06", -1, 0.3);
@@ -90,7 +118,7 @@ Crafty.scene("level06", function() {
 	sc.phantoms = [],
 	sc.delays = Crafty.e("Delay"),
 	sc.positiveScore = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteText")
-	    .registerFont("red_electronic",fontSize,"web/images/sheet_red_numbers.png","0123456789")
+	    .registerFont("red_electronic",font_size,"web/images/sheet_red_numbers.png","0123456789")
 	    .text("00")
 	    .bind("HitHeart", function(s){
 		var posiScore = s,
@@ -101,14 +129,8 @@ Crafty.scene("level06", function() {
 		sc.negativeScore.text(newNegativeScore);
 	    }),
 	sc.negativeScore = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteText")
-	    .registerFont("blue_electronic",fontSize,"web/images/sheet_blue_numbers.png","0123456789")
+	    .registerFont("blue_electronic",font_size,"web/images/sheet_blue_numbers.png","0123456789")
 	    .text(initial_negative_score),
-	sc.bckgrndSky = Crafty.e("2D, Canvas, Image, Tween")
-	    .image("web/images/bg_sky_level06.png", "repeat")
-	    .attr({ x: 0, y: -600, w: 35000, h: 1200, z: 1, alpha: 1.0 }),
-	sc.bckgrndSkyline = Crafty.e("2D, Canvas, Image, Tween")
-	    .image("web/images/bg_skyline_level06.png", "repeat-x")
-	    .attr({ x: 0, y: 330, w: 7000, h: 600, z: 2, alpha: 1.0 }),
 	sc.stairway = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, stairway")
 	    .attr({ x:156, w: 850, h: 870, y: -270, z: 300 })
 	    .reel("stairwayAnimation", 400, 0, 0, 3)
@@ -121,16 +143,19 @@ Crafty.scene("level06", function() {
 		Crafty.e("Delimiter").attr({ x: 265, y: 242, w: 1, h: 400 }), 
 		Crafty.e("Delimiter").attr({ x: 715, y: 242, w: 1, h: 400 }),
 		Crafty.e("Delimiter, grnd").attr({ x: 0, y: 440, w: 800, h: 1 })
+	    ],
+	sc.bckgrnd = [
+		// primeira camada - cidade
+		[{},{}],
+		// segunda camada - ceu
+		[{},{}]
 	    ];
-	sc.positiveScore.attr({w: fontSize*2, h: fontSize}).attr({x: Crafty.viewport.width - sc.positiveScore._w - 20, y: 20, z:1000}),
-	sc.negativeScore.attr({w: fontSize*2, h: fontSize}).attr({x: 20, y:20, z: 1000}),
+	sc.positiveScore.attr({w: font_size*2, h: font_size}).attr({x: Crafty.viewport.width - sc.positiveScore._w - 20, y: 20, z:1000}),
+	sc.negativeScore.attr({w: font_size*2, h: font_size}).attr({x: 20, y:20, z: 1000}),
 	sc.player.startMoving(),
-	moveSkyline(),
-	moveSky(),
+	rotatingBackground(),
 	sc.delays.delay(stuffComing,1000,-1)
-	    .delay(moveSkyline,750,-1)
-	    .delay(moveSky,750,-1);
-	
+	    .delay(rotatingBackground, rotation_time + 50, -1),
 	Crafty.audio.play("theme06", -1, 1, 63.3);
 	//utils.setViewportBounds(sc.player.getEntity());
 	
@@ -138,16 +163,18 @@ Crafty.scene("level06", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function(){
+	  	Crafty.background("#000000");
 		this('interfc_button').each(function(){ this.destroy(); });
 		Crafty.audio.stop("theme06");
 		Crafty.audio.play("kiss0");
 		sc.stairway.pauseAnimation();
 		sc.columnLayer.pauseAnimation();
 		sc.delays.cancelDelay(stuffComing)
-		    .cancelDelay(moveSkyline)
-		    .cancelDelay(moveSky);
-		sc.bckgrndSky.cancelTween('x').cancelTween('y');
-		sc.bckgrndSkyline.cancelTween('x').cancelTween('y');
+		    .cancelDelay(rotatingBackground);
+		Crafty("backgroundSection").each(function(){
+			this.cancelTween('x')
+			    .cancelTween('y');
+		});
 		_.each(sc.hearts, function(o){ try{ o.stopMovement(); } catch(e){ console.log("what"); } });
 		_.each(sc.phantoms, function(o){ try{ o.stopMovement(); } catch(e){ console.log("é o que"); } });
 		sc.kissAnimation = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleKissing")
@@ -169,7 +196,10 @@ Crafty.scene("level06", function() {
 			this.one("CameraAnimationDone", function(){
 				sc.delays.delay(function(){
 					Crafty.audio.play("kiss1");
-					sc.kissAnimation.animate("Kiss");
+					sc.kissAnimation.animate("Kiss")
+					    .one("AnimationEnd", function(){
+						sc.delays.delay(function(){ Crafty.trigger('Credits'); },2000);
+					    });
 					utils.fadeSound("kiss0", 0, Crafty.timer.FPS());
 					utils.fadeSound("kiss1", 0, Crafty.timer.FPS());
 				},4000);
@@ -183,6 +213,7 @@ Crafty.scene("level06", function() {
 	
 	// final credits
 	this.one('Credits', function(){
+		sc.fireworks = [],
 		sc.displayedCredits = [],
 		sc.creditsPic;
 		var colors = [ '#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF' ], 
@@ -192,63 +223,89 @@ Crafty.scene("level06", function() {
 			if (c == colors.length)
 				c = 0;
 		    };
-		this.background(colors[c++]);
-		sc.bckgrndSkyline.destroy();
-		sc.bckgrndSky.destroy();
-		fireworks();
-		sc.delays.delay(fireworks, 200, -1);
 		
-		this.one("CameraAnimationDone", function(){
-			var credTxts = JSON.parse(gameContainer.getSceneTexts()[0]),
-			    card = "text0",
-			    t = 0,
-			    textsize = 15,
-			    nextText = function(){
-				for(var d in sc.displayedCredits)
-					sc.displayedCredits[d].destroy();
-				sc.displayedCredits = [];
-				if(t == Object.keys(credTxts).length){
-					sc.delays.cancelDelay(nextText);
-					sc.creditsPic.destroy();
-					return;
-				}
-				sc.creditsPic.animate("part" + t, -1);
-				var text = credTxts[card + t++].split("|");
-				for(var l in text)
-					sc.displayedCredits[l] = Crafty.e("2D, Canvas, Text")
+		sc.fireworks[0] = Crafty.e("Fireworks")
+		    .attr({ 
+			x: (Crafty.viewport._x * -1), 
+			y: (Crafty.viewport._y * -1), 
+			w: Crafty.viewport._width/4, 
+			h: 2*(Crafty.viewport._height/3),
+			z: 299 
+		    })
+		    .animate("explosion")
+		    .bind("FrameChange", function(o){
+			if(o.currentFrame == 16){
+				Crafty("backgroundSection").each(function(){
+					this.destroy();
+				});
+				fireworks();
+				sc.delays.delay(fireworks, 200, -1);
+			}
+		    });
+		sc.delays.delay(function(){
+			sc.fireworks[1] = Crafty.e("Fireworks")
+			    .attr({ 
+				x: (Crafty.viewport._x * -1) + Crafty.viewport.width/3 + 50, 
+				y: (Crafty.viewport._y * -1), 
+				w: Crafty.viewport._width/4, 
+				h: 2*(Crafty.viewport._height/3),
+				z: 299 
+			    })
+			    .flip("X")
+			    .animate("explosion")
+			    .one("AnimationEnd", function(){
+				Crafty.one("CameraAnimationDone", function(){
+					var credTxts = JSON.parse(gameContainer.getSceneTexts()[0]),
+					    card = "text0",
+					    t = 0,
+					    textsize = 15,
+					    nextText = function(){
+						for(var d in sc.displayedCredits)
+							sc.displayedCredits[d].destroy();
+						sc.displayedCredits = [];
+						if(t == Object.keys(credTxts).length){
+							sc.delays.cancelDelay(nextText);
+							sc.creditsPic.destroy();
+							return;
+						}
+						sc.creditsPic.animate("part" + t, -1);
+						var text = credTxts[card + t++].split("|");
+						for(var l in text)
+							sc.displayedCredits[l] = Crafty.e("2D, Canvas, Text")
+							    .attr({
+								x: (Crafty.viewport._x * -1) + Crafty.viewport._width/3 - ((textsize * text[l].length)/2) + 15, 
+								y: (Crafty.viewport._y * -1) + Crafty.viewport._height/3 + (textsize * l), 
+								w: textsize * text[l].length, 
+								h: textsize,
+								z: 400
+							    })
+							    .text(text[l])
+							    .textColor("#FFFFFF")
+							    .textFont({ size: textsize + 'px', family: 'Amiga4ever_pro2' });
+					    };
+					sc.creditsPic = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleCredits");
+					sc.creditsPic
+					    .reel("part0", 1000, 0, 0, 2)
+					    .reel("part1", 1000, 0, 1, 2)
+					    .reel("part2", 1000, 0, 2, 2)
+					    .reel("part3", 1000, 0, 3, 2)
+					    .reel("part4", 1000, 0, 4, 2)
+					    .reel("part5", 1000, 0, 5, 2)
+					    .reel("part6", 1000, 0, 6, 2)
+					    .reel("part7", 1000, 0, 7, 2)
+					    .reel("part8", 1000, 0, 8, 2)
 					    .attr({
-						x: (Crafty.viewport._x * -1) + Crafty.viewport._width/3 - ((textsize * text[l].length)/2) + 25, 
-						y: (Crafty.viewport._y * -1) + Crafty.viewport._height/3 + (textsize * l), 
-						w: textsize * text[l].length, 
-						h: textsize,
+						x: (Crafty.viewport._x * -1) + Crafty.viewport._width/3 - sc.creditsPic._w/2 + 20,
+						y: (Crafty.viewport._y * -1) + Crafty.viewport._height/3 - sc.creditsPic._h - textsize,
 						z: 400
-					    })
-					    .text(text[l])
-					    .textColor("#FFFFFF")
-					    .textFont({ size: textsize + 'px', family: 'Amiga4ever_pro2' });
-			    };
-			sc.creditsPic = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", SpriteAnimation, coupleCredits");
-			sc.creditsPic
-			    .reel("part0", 1000, 0, 0, 2)
-			    .reel("part1", 1000, 0, 1, 2)
-			    .reel("part2", 1000, 0, 2, 2)
-			    .reel("part3", 1000, 0, 3, 2)
-			    .reel("part4", 1000, 0, 4, 2)
-			    .reel("part5", 1000, 0, 5, 2)
-			    .reel("part6", 1000, 0, 6, 2)
-			    .reel("part7", 1000, 0, 7, 2)
-			    .reel("part8", 1000, 0, 8, 2)
-			    .attr({
-				x: (Crafty.viewport._x * -1) + Crafty.viewport._width/3 - sc.creditsPic._w/2 + 20,
-				y: (Crafty.viewport._y * -1) + Crafty.viewport._height/3 - sc.creditsPic._h - textsize,
-				z: 400
+					    });
+					
+					nextText();
+					sc.delays.delay(nextText, 5000, -1);
+				});
+				Crafty.viewport.zoom(1,800,-958, 1500);
 			    });
-			
-			nextText();
-			
-			sc.delays.delay(nextText, 5000, -1);
-		});
-		this.viewport.zoom(1,800,-958, 1000);
+		},1000);
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene
