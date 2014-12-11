@@ -66,14 +66,14 @@ Crafty.scene("level06", function() {
 	    },
 	    skySection = function(x, y){
 		return Crafty.e("2D, Canvas, Image, Tween, backgroundSection")
-		  .image("web/images/bg_sky_level06.png", "repeat")
+		  .image("web/images/bg_sky_level06.png", "repeat-y")
 		  .attr({ x: x, y: y, w: 800, h: 3000, z: 1, alpha: 1.0 });
 	    },
 	    citySection = function(x, y){
 		return Crafty.e("2D, Canvas, Image, Tween, backgroundSection")
 		  .image("web/images/bg_skyline_level06.png", "repeat-x")
 		  .attr({ x: x, y: y, w: 462, h: 600, z: 2, alpha: 1.0 });
-	    }
+	    },
 	    rotation_time = 700,
 	    dist = 25,
 	    rotatingBackground = function(){

@@ -1,6 +1,4 @@
 Crafty.scene("level04", function() {
-	
-	//Crafty.background("#000000");
 	Crafty.background("#FCC6AC");
 	
 	//Crafty.audio.play("theme04", -1);

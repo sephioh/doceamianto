@@ -219,13 +219,13 @@ window.onload = function() {
 		    }).setSceneInfo({ 
 			name: "level06",
 			elements: [
-				"text!src/lang/credits-"+gameContainer.lang+".json",
 				"src/components/Delimiter.js",
 				"src/components/Fireworks.js",
 				"src/components/StepsPhantom.js",
 				"src/components/SpriteText.js",
 				"src/entities/amianto06.js",
 				"src/entities/heart06.js",
+				"text!src/lang/credits-"+gameContainer.lang+".json",
 			      ]
 		    });
 		

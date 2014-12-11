@@ -1,5 +1,4 @@
 Crafty.scene("level02", function() {
-	
 	var finalAmiantoAttr = {},
 	    screenPos = {};
 	

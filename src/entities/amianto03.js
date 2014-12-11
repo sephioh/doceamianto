@@ -13,14 +13,13 @@ Amianto03 = BaseEntity.extend({
 		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, SpriteAnimation, Collision, amianto03")
 			// Set initial atributes
 			.attr({x: model.get('initial_x'),
-				    y: model.get('initial_y'),
-				    z: model.get('initial_z'),
-				    w: model.get('initial_w'),
-				    h: model.get('initial_h'),
-				    newly_created: model.get('newly_created')
+			    y: model.get('initial_y'),
+			    z: model.get('initial_z'),
+			    w: model.get('initial_w'),
+			    h: model.get('initial_h'),
+			    newly_created: model.get('newly_created')
 			});
 		entity
-			
 		    //.collision(new Crafty.polygon([[22,10],[59,10],[57,88],[24,88]]))
 		    // Animation definitions
 		    .reel("Standing", 500, 0, 0, 5)
@@ -89,7 +88,7 @@ Amianto03 = BaseEntity.extend({
 					}
 				});
 				
-				console.log(createAnew);
+				//console.log(createAnew);
 				if(createAnew) {
 					if(yNormal !== 0)
 						// up side
@@ -110,7 +109,7 @@ Amianto03 = BaseEntity.extend({
 							nAmiantoPos.x = 1 - amianto._w;
 						}
 					
-					console.log("amianto created at "+JSON.stringify(nAmiantoPos));
+					//console.log("amianto created at "+JSON.stringify(nAmiantoPos));
 					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
 				}
 								
@@ -127,11 +126,10 @@ Amianto03 = BaseEntity.extend({
 			if (x > maxRes.w || x < -1 || 
  			    y > maxRes.h || y < -1){
 				this.destroy();
-				Crafty.viewport.follow(Crafty("amianto03"), 0, 0);//console.log("amianto destroyed at {\"x\":"+this._x+",\"y\":"+this._y+"}");
+				Crafty.viewport.follow(Crafty("amianto03"), 0, 0);
 			    }
 			if (this.newly_created){
-				this.newly_created = false;
-				console.log("amianto not newly_created anymore");
+				this.newly_created = false;				
 			}
 		    })
 		    // Collision with wordblocks

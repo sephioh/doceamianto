@@ -1,5 +1,4 @@
 Crafty.scene("level01", function() {
-	
 	var i = 0,
 	    yellow = { r: 255, g: 226, b: 78 },
 	    pink = { r: 255, g: 77, b: 153 },
