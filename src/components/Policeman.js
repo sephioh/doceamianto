@@ -132,6 +132,7 @@ Crafty.c('Policeman', {
 		} else {
 			bullet.x += this._w - this._shotDeviation;
 		}
+		Crafty.audio.play("pistolshot");
 		bullet.onHit("carlos", function(hit) {
 			if (hit[0].obj._currentReelId != "ShotDead") {
 				hit[0].obj.trigger("GotShot");

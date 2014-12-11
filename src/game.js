@@ -1,7 +1,7 @@
 gameContainer = {
   
 	env : 'dev',
-	gameVersion : '0.0.1',
+	gameVersion : '1.0-beta-2',
 	conf: {},
 	lang: '',
 	scene : {},
@@ -10,8 +10,7 @@ gameContainer = {
 	loadedStrings : {},
 	
 	setSceneInfo : function(scnInfo) {
-		this.scenes[scnInfo.name] =  scnInfo.elements;
-		
+		this.scenes[scnInfo.name] = scnInfo.elements;
 		return this;
 	},
 	runScene: function(scn, options) {
@@ -64,23 +63,22 @@ window.onload = function() {
 	};    
 	
 	require([
-		"src/resources.js?v="+version+"",
-		"src/config.js?v="+version+"",
-		"src/utils.js?v="+version+"",
+		"src/resources.js",
+		"src/config.js",
+		"src/utils.js",
 		"src/entities/base/BaseEntity.js",
 		"src/components/ProgressBar.js",
+		"src/components/CustomControls.js",
 		// Crafty parts to be overridden
 		"src/override/controls.js",
-		"src/components/Delay.js",
-		"src/components/CustomControls.js",
+		"src/override/time.js",
 		"src/override/scene.js",
 		"src/override/loader.js",
 		"src/override/sound.js",
 		"src/override/sprite-animation.js",
 		"src/override/viewport.js"
 	], function() {
-		// !! remover quando der conta da gambiarra
-		require(["src/components/Twoway.js","src/components/Gravity.js"]);
+		require(["src/override/Twoway.js","src/override/Gravity.js"]);
 
 		// initializing
 		gameContainer.conf = new Config({
@@ -115,24 +113,38 @@ window.onload = function() {
 		// stuff for mobile
 		if(Crafty.mobile){
 			var warning = gameContainer.lang == "pt"? 
-			  "Este jogo foi feito para o modo paisagem." : "This game is meant to be played in landscape mode.";
+			  "Este jogo foi feito para o modo paisagem." : "This game was made for landscape mode.";
 			document.getElementById("warning").innerHTML = warning;
 			
 			Crafty.load(resources.get("interfc_keys"), function(){
 				if(Crafty.viewport.height < gameContainer.conf.get('maxRes').h)
-					Crafty.e('2D, ' + gameContainer.conf.get('renderType') + ', Mouse, Persist, fullscreen_button')
-					    .attr({ w: 40, h: 32 })
+					Crafty.e('2D, ' + gameContainer.conf.get('renderType') + 
+					    ', Mouse, Persist, FULL_SCREEN_button, interface_button, FULL_SCREEN_up_sprite')
 					    .bind('EnterFrame', function(){
 						this.attr({
 						  x: Crafty.viewport.x * -1,
-						  y: Crafty.viewport.y * -1
+						  y: Crafty.viewport.y * -1,
+						  z: 2000
 						});
 					    })
-					    .bind('MouseDown', function(){ utils.toggleFullScreen('cr-stage'); })
-					    .addComponent('Color')
-					    .color('green');
+					    .bind('MouseDown', function(){
+						this.trigger("ToogleFullscreen");
+					    })
+					    .bind('ToogleFullscreen', function(){
+						utils.toggleFullScreen('cr-stage');
+						var rc, ac;
+						if(this.__c.FULL_SCREEN_up_sprite)
+							rc = "FULL_SCREEN_up_sprite",
+							ac = "FULL_SCREEN_down_sprite";
+						else
+							rc = "FULL_SCREEN_down_sprite",
+							ac = "FULL_SCREEN_up_sprite";
+						this.removeComponent(rc)
+						    .addComponent(ac);
+					    });
 			    });
 		}
+		Crafty.pixelart(true);
 		// initialized
 		
 		// set scenes' loading parameters (scene name, scene elements to be loaded)
@@ -140,8 +152,7 @@ window.onload = function() {
 		    .setSceneInfo({
 			name: "start_screen",
 			elements: []
-		    })
-		    .setSceneInfo({ 
+		    }).setSceneInfo({ 
 			name: "level01",
 			elements: [
 				"src/components/TweenColor.js",
@@ -176,6 +187,7 @@ window.onload = function() {
 			name: "level04",
 			elements: [
 				"text!src/scenes/tilemaps/level04-10.json",
+				"src/components/VanillaTimer.js",
 				"src/components/TiledLevelImporter.js",
 				"src/components/Background.js",
 				"src/components/Delimiter.js",
@@ -208,32 +220,34 @@ window.onload = function() {
 			name: "level06",
 			elements: [
 				"src/components/Delimiter.js",
-				//"src/entities/amianto06.js",
+				"src/components/Fireworks.js",
+				"src/components/StepsPhantom.js",
+				"src/components/SpriteText.js",
+				"src/entities/amianto06.js",
 				"src/entities/heart06.js",
+				"text!src/lang/credits-"+gameContainer.lang+".json",
 			      ]
 		    });
 		
-		// declare all scenes
+		// load all scenes files
 		
 		var scenes = [
 			"src/scenes/loading.js",
-			"src/scenes/start_screen.js?v="+version+"",
-			"src/scenes/level01.js?v="+version+"",
-			"src/scenes/level02.js?v="+version+"",
-			"src/scenes/level03.js?v="+version+"",
-			"src/scenes/level04.js?v="+version+"",
-			"src/scenes/level05.js?v="+version+"",
-			"src/scenes/level06.js?v="+version+"",
+			"src/scenes/start_screen.js",
+			"src/scenes/level01.js",
+			"src/scenes/level02.js",
+			"src/scenes/level03.js",
+			"src/scenes/level04.js",
+			"src/scenes/level05.js",
+			"src/scenes/level06.js",
 		];
 		
 		require(scenes, function() {
 			var sceneArg, options;
 			if(gameContainer.env == "dev"){ 
 				sceneArg = utils.getUrlVars()['scene'];
-				sceneArg = sceneArg?sceneArg:"start_screen";
-			}else{
-				sceneArg = "start_screen";
 			}
+			sceneArg = sceneArg?sceneArg:"start_screen";
 			if (sceneArg == "start_screen") {
 				options = { backgroundColor: "#000000" };
 			}

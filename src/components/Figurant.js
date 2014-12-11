@@ -3,11 +3,9 @@ Crafty.c('Figurant', {
 	_startingSpeed: 0.3,
 	_speed: 0.3,
 	_alert: 0,
-	_wandering: false,
-	_wanderingLoop: false,
 	
 	init: function() {
-		this.requires('2D, '+gameContainer.conf.get('renderType')+', SpriteAnimation, Tween, Collision, Delay');
+		this.requires('2D, '+gameContainer.conf.get('renderType')+', SpriteAnimation, Tween, Collision, VanillaTimer');
 		this.onHit('wall', function(hit) {
 			var hitDirX = hit[0].normal.x;
 			if (!this._wasHit)
@@ -33,6 +31,8 @@ Crafty.c('Figurant', {
 				this.setAlert(int)
 				    .walkLeftOrRight();
 		    });
+		this._wandering = false,
+		this._wanderingLoop = false;
 		return this;
 	},
 		
@@ -95,21 +95,24 @@ Crafty.c('Figurant', {
 		return this;
 	},
 	
-	_walk: function () {
+	_walk: function() {
 		if(!this._wandering && this._wanderingLoop)
 			this.walkLeftOrRight();
 	},
 	
 	wanderLoop: function() {
-		var time = Math.ceil(Math.random() * 5000);
+		var time = Math.ceil(Math.random() * 5000),
+		    _this = this;
 		this._wanderingLoop = true;
-		this.delay(this._walk,time,0);
+		this.setTimer(function(){
+			_this._walk();
+		}, time);
 		return this;
 	},
 	
 	stopWalking: function() {
-		this.cancelTween('x')
-		    .cancelDelay(this._walk)
+		this.cancelTimer()
+		    .cancelTween('x')
 		    ._wandering = false;
 		return this;
 	},
@@ -123,14 +126,15 @@ Crafty.c('Figurant', {
 	
 	shot: function() {
 		this._wasHit = true;
+		var _this = this;
 		Crafty.trigger("FigurantDied");
 		this.stopWanderLoop()
 		    .animate("Dying", 1)
-		    .delay(function() {
-			Crafty.e("LilPhantom").attr({ x: this._x, y: this._y, z: this._z }).arise();
-			this.delay(function(){
-				this.destroy();
-			}, 5000);
+		    .setTimer(function() {
+			Crafty.e("LilPhantom")
+			    .attr({ x: _this._x, y: _this._y, z: _this._z })
+			    .arise()
+			    .one("TweenEnd", function(){ _this.destroy(); });
 		    }, 3500);
 		return this;
 	}

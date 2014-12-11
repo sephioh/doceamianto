@@ -11,8 +11,10 @@ Crafty.c("LilPhantom", {
 	},
 	 
 	arise: function(){
+		Crafty.audio.play("phantomrag");
 		this.animate("Arising")
 		    .one("AnimationEnd", function(){ this.wend({ y: this._y - 1000 }); });
+		return this;
 	},
 	 
 	wend: function(to){
@@ -21,6 +23,7 @@ Crafty.c("LilPhantom", {
 		    .one("TweenEnd", function(){
 			this.destroy();
 		    });
+		return this;
 	},
 	
 });

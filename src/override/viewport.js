@@ -620,16 +620,13 @@ Crafty.extend({
                 Crafty.addEvent(this, Crafty.stage.elem, "touchmove", function (e) {
                     e.preventDefault();
                 });
+	  }
 
-
-            } else {
-                elem.position = "relative";
-                //find out the offset position of the stage
-                offset = Crafty.DOM.inner(Crafty.stage.elem);
-                Crafty.stage.x = offset.x;
-                Crafty.stage.y = offset.y;
-            }
-
+	  elem.position = "relative";
+	  //find out the offset position of the stage
+	  offset = Crafty.DOM.inner(Crafty.stage.elem);
+	  Crafty.stage.x = offset.x;
+	  Crafty.stage.y = offset.y;
             
         },
 

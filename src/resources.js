@@ -1,32 +1,38 @@
 Resources = Backbone.Model.extend({
 	
 	defaults: {
-		imagesFolder: "web/images/",
-		audioFolder: "web/audio/",
+		imagesFolder : "web/images/",
+		audioFolder : "web/audio/",
 		
 		// interface elements
-		interfc_keys: {
+		interfc_keys : {
 			'sprites' : {
-				'interface_keys.png': {
-					'tile' : 40,
-					'tileh' : 32,
+				'interface_keys.png' : {
+					'tile' : 54,
+					'tileh' : 43,
 					'map': {
-						'LEFT_ARROW_sprite': [0,0],
-						'UP_ARROW_sprite': [1,0],
-						'RIGHT_ARROW_sprite': [2,0],
-						'DOWN_ARROW_sprite' : [3,0],
-						'SPACE_sprite': [3,0],
-						'FULL_SCREEN_sprite' : [3,0]
+						'LEFT_ARROW_up_sprite' : [0,0],
+						'UP_ARROW_up_sprite' : [1,0],
+						'RIGHT_ARROW_up_sprite' : [2,0],
+						'DOWN_ARROW_up_sprite' : [3,0],
+						'SPACE_up_sprite' : [4,0],
+						'FULL_SCREEN_up_sprite' : [5,0],
+						'LEFT_ARROW_down_sprite' : [0,1],
+						'UP_ARROW_down_sprite' : [1,1],
+						'RIGHT_ARROW_down_sprite' : [2,1],
+						'DOWN_ARROW_down_sprite' : [3,1],
+						'SPACE_down_sprite' : [4,1],
+						'FULL_SCREEN_down_sprite' : [5,1]
 					}
 				}
 			}
 		},
-		interfc_keys_relative_coordinates: {
-		  	'SPACE' : { x: 160, y: 32 },
-			'LEFT_ARROW' : { x: 120, y: 32 },
-			'UP_ARROW' : { x: 80, y: 64 },
-			'RIGHT_ARROW' : { x: 40, y: 32 },
-			'DOWN_ARROW' : { x: 80, y: 32 },
+		interfc_keys_relative_coordinates : {
+		  	'SPACE' : { x: 216, y: 43 },
+			'LEFT_ARROW' : { x: 162, y: 43 },
+			'UP_ARROW' : { x: 108, y: 86 },
+			'RIGHT_ARROW' : { x: 54, y: 43 },
+			'DOWN_ARROW' : { x: 108, y: 43 },
 			'FULL_SCREEN' : { x: 40, y: 192 }
 		},
 		
@@ -41,7 +47,6 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			
 			'audio' : {
 				'diamondshine' : [
 				      'startdiamondshine.ogg',
@@ -193,7 +198,8 @@ Resources = Backbone.Model.extend({
 					}
 				}
 			},
-			'images' : ['level03-background.png','level03-ornament.png'],
+			'images' : ['level03-background.png',
+				'level03-ornament.png'],
 			'audio' : {
 				'theme03' : 
 				      ['theme03.ogg',
@@ -311,9 +317,32 @@ Resources = Backbone.Model.extend({
 				'bg2-level04-17.png',
 				'bg2-level04-18.png',
 				'bg2-level04-19.png',
-				'bg3-level04.png'],
+				'bg3-level04.png'
+			],
 			'audio' : {
-				
+				'theme04' : 
+				      ['theme04.ogg',
+					'theme04.aac'
+				      ],
+				'rifleshot' : 
+				      ['rifleshot.ogg',
+					'rifleshot.aac',
+					'rifleshot.mp3',
+				      ],
+				'pistolshot' : 
+				      ['pistolshot.ogg',
+					'pistolshot.aac',
+					'pistolshot.mp3',
+				      ],
+				'phantomboss':
+				      ['phantomboss.ogg',
+					'phantomboss.aac'
+				      ],
+				'phantomrag':
+				      ['phantomrag.ogg',
+					'phantomrag.aac',
+					'phantomrag.mp3',
+				      ]
 			}
 		},
 		level05: {
@@ -342,60 +371,141 @@ Resources = Backbone.Model.extend({
 			},
 			'images': ["tileset-level05.png"],
 			'audio' : {
-				
+				'theme05': [
+					'theme05.ogg',
+					'theme05.aac'
+				],
+				'shiwsish': [
+					'shiwsish.ogg',
+					'shiwsish.aac',
+					'shiwsish.mp3'
+				],
+				'phantomrag': [
+					'phantomrag.ogg',
+					'phantomrag.aac',
+					'phantomrag.mp3',
+				]
 			}
 		},
 		level06: {
 			'sprites' : {
-				'sheet_amianto06.png': {
+				'sheet_amianto06.png' : {
 					'tile' : 50,
-					'tileh': 68,
-					'map': {
+					'tileh' : 68,
+					'map' : {
 						'amianto06': [0,0]
 					}
 				},
-				'sheet_stairway.png': {
+				'sheet_stairway.png' : {
 					'tile' : 332,
-					'tileh': 306,
-					'map': {
+					'tileh' : 306,
+					'map' : {
 						'stairway': [0,0]
 					}
 				},
 				'redheart.png' : {
 					'tile' : 144,
 					'tileh' : 128,
-					'map': {
+					'map' : {
 						'redHeart' : [0, 0]
 					}
 				},
 				'darkheart.png' : {
 					'tile' : 144,
 					'tileh' : 128,
-					'map': {
+					'map' : {
 						'darkHeart' : [0, 0]
 					}
-				}
+				},
+				'sheet_stair_mask.png' : {
+					'tile' : 79,
+					'tileh' : 190,
+					'map' : {
+						'stairColumnMask' : [0, 0]
+					}
+				},
+				'sheet_couple_kissing.png' : {
+					'tile' : 60,
+					'tileh' : 56,
+					'map' : {
+						'coupleKissing' : [0, 0]
+					}
+				},
+				'sheet_nightclub_phantom.png' : {
+					'tile' : 38,
+					'tileh': 40,
+					'map': {
+						'nightclub_phantom': [0,0]
+					}
+				},
+				'sheet_credits.png' : {
+					'tile' : 112,
+					'tileh': 104,
+					'map': {
+						'coupleCredits': [0,0]
+					}
+				},
+				'sheet_fireworks.png' : {
+					'tile' : 397,
+					'tileh': 600,
+					'map': {
+						'fireworks': [0,0]
+					}
+				},
+				'moon.png' : {
+					'tile' : 1121,
+					'tileh': 1200,
+					'map': {
+						'moon': [0,0]
+					}
+				},
 			},
-			'images': [],
+			'images': ["bg_sky_level06.png",
+				"bg_skyline_level06.png",
+				"sheet_blue_numbers.png",
+				"sheet_red_numbers.png"
+			],
 			'audio' : {
-				
+				'theme06': [
+					'theme06.ogg',
+					'theme06.aac'
+				],
+				'hitredheart': [
+					'hitredheart.ogg',
+					'hitredheart.aac',
+					'hitredheart.mp3'
+				],
+				'hitdarkheart': [
+					'hitdarkheart.ogg',
+					'hitdarkheart.aac',
+					'hitdarkheart.mp3'
+				],
+				'phantomrag': [
+					'phantomrag.ogg',
+					'phantomrag.aac',
+					'phantomrag.mp3',
+				],
+				'kiss0': [
+					'kiss0.ogg',
+					'kiss0.aac',
+					'kiss0.mp3',
+				],
+				'kiss1': [
+					'kiss1.ogg',
+					'kiss1.aac',
+					'kiss1.mp3',
+				],
+				'kiss2': [
+					'kiss2.ogg',
+					'kiss2.aac',
+					'kiss2.mp3',
+				]
 			}
 		}
 	},
 	    
 	initialize: function(){
 		
-	},
-	
-	/*getSceneAssets: function(scene) {
-	    var a = this.get(scene),
-		obj = {};
-		
-	    obj.sprites = a.sprites,
-	    obj.images = a.images,
-	    obj.sound = a.sound;
-	    
-	    return obj;
-	},*/
+	}
       
 });

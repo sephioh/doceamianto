@@ -1,5 +1,4 @@
 Crafty.scene("level01", function() {
-	
 	var i = 0,
 	    yellow = { r: 255, g: 226, b: 78 },
 	    pink = { r: 255, g: 77, b: 153 },
@@ -49,7 +48,7 @@ Crafty.scene("level01", function() {
 	    };
 	
 	// Play theme
-	Crafty.audio.play("theme01", -1, 0.1, 63);
+	Crafty.audio.play("theme01", -1, 0.1, 63.2);
 			
 	sc.player = new Amianto01(),
 	sc.hearts = [],
@@ -72,8 +71,8 @@ Crafty.scene("level01", function() {
 		});
 
 	sc.delimiters = [
-		Crafty.e("Delimiter").attr({ x: 0, y: 242, w: 1, h: 400 }), 
-		Crafty.e("Delimiter").attr({ x: 800, y: 242, w: 1, h: 400 })
+		Crafty.e("Delimiter").attr({ x: 50, y: 242, w: 1, h: 400 }), 
+		Crafty.e("Delimiter").attr({ x: 750, y: 242, w: 1, h: 400 })
 	    ];
     
 	sc.delays.delay(heartComing,750,-1);
@@ -85,16 +84,15 @@ Crafty.scene("level01", function() {
 
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function() {
-		Crafty.audio.stop();
-		Crafty.audio.play("fall", 1);
+		Crafty.audio.stop("theme01");
 		sc.delays.cancelDelay(heartComing);
-		Crafty.unbind('EnterFrame', backgroundChange); 			// stop backgroundChange loop
-		
-		sc.delimiters[0].destroy();						// destroy delimiter
-		sc.delimiters[1].destroy();						// destroy delimiter
 		_.each(sc.hearts, function(heart){					// destroy all hearts
 			heart.remove();
 		});
+		Crafty.audio.play("fall", 1);
+		Crafty.unbind('EnterFrame', backgroundChange); 				// stop backgroundChange loop
+		sc.delimiters[0].destroy();						// destroy delimiter
+		sc.delimiters[1].destroy();						// destroy delimiter
 		sc.bckgrndFade.stopTweeningColor();					// stop tweening color
 		sc.bckgrndFade.tweenColor({ r: 0, g: 0, b: 0 }, 90); 			// tween black
 		sc.bckgrndGradient.tween({ alpha: 0.0 }, 1000); 			// tween black
@@ -125,7 +123,6 @@ Crafty.scene("level01", function() {
 	});
 	
 }, function() { 				// executed after scene() is called within the present scene
-	utils.resetViewportBounds();
 	sc.delays.destroy();	// destroy delays
 	var l = "level01";
 	Crafty.removeAssets(resources.get(l));

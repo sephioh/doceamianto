@@ -1,6 +1,4 @@
 Crafty.scene("level04", function() {
-	
-	//Crafty.background("#000000");
 	Crafty.background("#FCC6AC");
 	
 	//Crafty.audio.play("theme04", -1);
@@ -146,6 +144,7 @@ Crafty.scene("level04", function() {
 			      .animate("Fall", -1);
 		});
 		playerEnt.gravity();
+		Crafty.audio.play("theme04", -1, 1, 68.8);
 	    })
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 	
@@ -162,8 +161,8 @@ Crafty.scene("level04", function() {
 	];
 	
 	sc.teleporters = [
-		Crafty.e("Delimiter, teleporter").attr({ x: 10240, y: 2144, h: 1, w: 192 }),
-		Crafty.e("Delimiter, teleporter").attr({ x: 11776, y: 2048, h: 1, w: 640 })
+		Crafty.e("Delimiter, teleporter").attr({ x: 10240, y: 2144, h: 60, w: 256 }),
+		Crafty.e("Delimiter, teleporter").attr({ x: 11776, y: 2048, h: 60, w: 640 })
 	];
 	
 	sc.figurants = [
@@ -198,7 +197,13 @@ Crafty.scene("level04", function() {
 	this.one("BossFight", function(){
 		stopParallax();
 		
+		Crafty.audio.play("phantomboss", -1, 0.1, 10.35);
+		utils.fadeSound("theme04", 0, Crafty.timer.FPS());
+		utils.fadeSound("phantomboss", 1, Crafty.timer.FPS());
+		
 		playerEnt.disableControl();
+		
+		this("Figurant").each(function(){ this.cancelTimer().destroy(); });
 		
 		sc.player.carlosMockAnimation();
 		
@@ -207,8 +212,7 @@ Crafty.scene("level04", function() {
 		sc.boss.shaping();
 		
 		sc.delays.cancelDelay(callPolicemen);
-		this("Figurant").each(function(){ this.destroy(); });
-
+		
 		this.one("BadassPhantomFinishedTransforming", function(){
 			this.one("CameraAnimationDone", function(){
 				this.viewport.follow(playerEnt, 0, 0);
@@ -220,13 +224,13 @@ Crafty.scene("level04", function() {
 	});
 	
 	this.one("LevelTransition", function(){
+		Crafty("Figurant").each(function(){ this.cancelTimer(); });
+		Crafty.audio.stop("phantomboss");
 		gameContainer.runScene("level05");
 	});
 
 }, function(){ 
 	//get rid of unwanted bindings, functions and files
-	this.viewport.x = 0,
-	this.viewport.y = 0;
 	sc.delays.destroy();// destroy delays
 	var l = "level04";
 	this.removeAssets(resources.get(l));

@@ -13,14 +13,13 @@ Amianto03 = BaseEntity.extend({
 		    entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, SpriteAnimation, Collision, amianto03")
 			// Set initial atributes
 			.attr({x: model.get('initial_x'),
-				    y: model.get('initial_y'),
-				    z: model.get('initial_z'),
-				    w: model.get('initial_w'),
-				    h: model.get('initial_h'),
-				    newly_created: model.get('newly_created')
+			    y: model.get('initial_y'),
+			    z: model.get('initial_z'),
+			    w: model.get('initial_w'),
+			    h: model.get('initial_h'),
+			    newly_created: model.get('newly_created')
 			});
 		entity
-			
 		    //.collision(new Crafty.polygon([[22,10],[59,10],[57,88],[24,88]]))
 		    // Animation definitions
 		    .reel("Standing", 500, 0, 0, 5)
@@ -79,7 +78,8 @@ Amianto03 = BaseEntity.extend({
 				var createAnew = true,
 				    nAmiantoPos = { x: amianto._x, y:amianto._y },
 				    yNormal = Math.round(hit[i].normal.y),
-				    xNormal = Math.round(hit[i].normal.x);
+				    xNormal = Math.round(hit[i].normal.x),
+				    maxRes = gameContainer.conf.get('maxRes');
 					
 				Crafty("amianto03").each(function(){
 					if(this.newly_created){
@@ -87,12 +87,13 @@ Amianto03 = BaseEntity.extend({
 						return;
 					}
 				});
-				console.log(createAnew);
+				
+				//console.log(createAnew);
 				if(createAnew) {
 					if(yNormal !== 0)
 						// up side
 						if(yNormal === 1) {
-							nAmiantoPos.y = Crafty.viewport.height - 1;
+							nAmiantoPos.y = maxRes.h - 1;
 						} 
 						// down side
 						else {
@@ -101,27 +102,34 @@ Amianto03 = BaseEntity.extend({
 					else
 						// left side
 						if(xNormal === 1) {
-							nAmiantoPos.x = Crafty.viewport.width - 1;
+							nAmiantoPos.x = maxRes.w - 1;
 						} 
 						// right side
 						else {
 							nAmiantoPos.x = 1 - amianto._w;
 						}
 					
-					console.log("amianto created at "+JSON.stringify(nAmiantoPos));
+					//console.log("amianto created at "+JSON.stringify(nAmiantoPos));
 					sc.player = new Amianto03({ initial_x: nAmiantoPos.x, initial_y: nAmiantoPos.y, newly_created: true });
 				}
+								
+				if(Crafty.mobile && 
+				  ((yNormal === -1 && this._y < hit[i].obj._y + this._h/2) ||
+				  (yNormal === 1 && this._y - this._h/2 > hit[i].obj._y) ||
+				  (xNormal === -1 && this._x < hit[i].obj._x + this._w/2) ||
+				  (xNormal === 1 && this._x - this._w/2 > hit[i].obj._x))){
+					Crafty.viewport.follow(this, 0, 0);
+				  }
 			}
 		    }, function(){
-			var x = this._x, y = this._y;
-			if (x > Crafty.viewport.width || x < -1 || 
- 			    y > Crafty.viewport.height || y < -1){
+			var x = this._x, y = this._y, maxRes = gameContainer.conf.get('maxRes');
+			if (x > maxRes.w || x < -1 || 
+ 			    y > maxRes.h || y < -1){
 				this.destroy();
-				console.log("amianto destroyed at {\"x\":"+this._x+",\"y\":"+this._y+"}");
+				Crafty.viewport.follow(Crafty("amianto03"), 0, 0);
 			    }
 			if (this.newly_created){
-				this.newly_created = false;
-				console.log("amianto not newly_created anymore");
+				this.newly_created = false;				
 			}
 		    })
 		    // Collision with wordblocks

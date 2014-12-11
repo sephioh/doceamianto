@@ -1,16 +1,7 @@
 Crafty.scene("level05",function(){
-
-	//Crafty.canvas._canvas.style.background = "#16377A";
 	Crafty.background("#16377A");
-	
-	//Crafty.audio.play("theme04", -1);
-	
-	//gameContainer.conf.set({'renderType': 'DOM'});
-	
-	//var MapBytesArray = stringOfByteArrayToArrayOfBytes(gameContainer.loadedStrings[0]);
-	
-	//LZMA.decompress(MapBytesArray, function(result) {
-        //console.log("Decompressed.");
+	Crafty.audio.play("theme05", -1, 1, 40.1);
+		
 	var particlesOptions = {
 	    maxParticles: 200,
 	    size: 5,
@@ -89,10 +80,28 @@ Crafty.scene("level05",function(){
 	    .buildTiledLevel(mapObj, gameContainer.conf.get('renderType'), false);
 
 	sc.teleporters = [
-		Crafty.e("Delimiter, teleporter").attr({ x: -500, y: mapObj.height * mapObj.tileheight * 1.5, h: 1, w: (mapObj.width * mapObj.tilewidth) + 1000 })
+		Crafty.e("Delimiter, teleporter").attr({ x: -500, y: mapObj.height * mapObj.tileheight * 1.5, h: 1, w: (mapObj.width * mapObj.tilewidth) + 1000 }),
+		Crafty.e("Delimiter, level_transition").attr({ x: 7728, y: 700, h: 214, w: 1 })
 	];
 	
-	this.one("LevelTransition", function(){ gameContainer.runScene("level06"); });
+	this.one("LevelTransition", function(){
+		Crafty.audio.stop("theme05");
+		Crafty.audio.play("shiwsish");
+		Crafty("DanceFloor, Shine").each(function(){
+			if (this._alpha != 0)
+				this.addComponent("Tween")
+				    .tween({ alpha: 0 }, 2000);
+		});
+		sc.delays.cancelDelay(haunt)
+		    .delay(function(){
+			playerEnt.pauseAnimation()
+			    .antigravity();
+		    }, 500);
+		playerEnt.disableControl()
+		    .tween({ alpha:0 }, 2500)
+		    .one('TweenEnd', function(){ gameContainer.runScene('level06', { backgroundColor: '#000066', entsColor: '#C0C0C0' }) });
+		Crafty("NightclubPhantom").each(function(){ this.destroy() });
+	});
 	
 }, function(){
   	this.viewport.x = 0,

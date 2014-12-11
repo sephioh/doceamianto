@@ -250,10 +250,9 @@ Carlos = BaseEntity.extend({
 		      })
 		    .bind("GotShot", function() {
 			var H = model.get('health');
-			if (H > 1) {
-				--H;
-				this.disableControl()
-				    .animate("WasHit")
+			this.disableControl();	
+			if (H-- > 1) {
+				this.animate("WasHit")
 				    .one("AnimationEnd", function() {
 					if (this._up) 
 						this.animate("JumpingFalling");
@@ -262,9 +261,7 @@ Carlos = BaseEntity.extend({
 					this.enableControl();
 				    });
 			} else {
-				--H;
-				this.disableControl()
-				    .addComponent("Delay")
+				this.addComponent("Delay")
 				    .unbind("Moved")
 				    .unbind("KeyUp")
 				    .unbind("KeyDown")
@@ -347,6 +344,7 @@ Carlos = BaseEntity.extend({
 		if(ent.canShoot) {
 			var bullet = Crafty.e("Bullet");
 			if(!ent._up){
+				Crafty.audio.play("rifleshot");
 				ent.disableControl()
 				  .animate("Shooting",1)
 				  .bind("FrameChange", function(o){
@@ -361,6 +359,7 @@ Carlos = BaseEntity.extend({
 						.enableControl();
 				  });
 			} else {
+				Crafty.audio.play("rifleshot");
 				ent.animate("JumpingShooting",1)
 				  .bind("FrameChange", function(o){
 				      if(o.currentFrame == 3) {
